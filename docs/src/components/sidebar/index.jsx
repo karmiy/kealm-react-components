@@ -14,7 +14,7 @@ function Sidebar() {
                     </li>
                 </ul>
                 <li>
-                    <h2 className='sidebar-title'>表单</h2>
+                    <h2 className='sidebar-title'>基础</h2>
                 </li>
                 <ul className="sidebar-group">
                     <li>
