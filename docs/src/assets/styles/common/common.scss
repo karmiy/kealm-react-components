@@ -1,0 +1,34 @@
+/* 滚动条 */
+.scroll-bar, .scroll-bar * {
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        background-color: #ffffff;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
+        background: #b3b3b0;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #ffffff;
+    }
+}
+/* 隐藏式滚动条 */
+.scroll-hidden, .scroll-hidden * {
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 10px;
+        background-color: #ffffff;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
+        background: #b3b3b0;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #ffffff;
+    }
+}

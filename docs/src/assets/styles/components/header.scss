@@ -1,0 +1,16 @@
+.header {
+    position: relative;
+    display: flex;
+    height: 64px;
+    padding: 0 40px;
+    box-shadow: 0 2px 8px #f0f1f2;
+    z-index: 100;
+    a.logo {
+        display: flex;
+        width: 200px;
+        align-items: center;
+        img {
+            height: 100%;
+        }
+    }
+}
