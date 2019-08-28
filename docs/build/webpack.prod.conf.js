@@ -27,7 +27,7 @@ module.exports = merge(baseConfig, {
                     },
                     'postcss-loader',
                     'resolve-url-loader',
-                    'sass-loader' // 使用 sass-loader 将 scss 转为 css
+                    'sass-loader?sourceMap=true' // 使用 sass-loader 将 scss 转为 css
                 ]
             },
             {
