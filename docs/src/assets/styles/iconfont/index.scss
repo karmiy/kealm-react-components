@@ -4,11 +4,11 @@
 //kealm-icon-leftside-expend-o:带有两条路径，因此有beforre和after两个伪类
 @font-face {
     font-family: 'kealm icon';
-    src:  url('fonts/kealm-icon.eot?njldcd');
-    src:  url('fonts/kealm-icon.eot?njldcd#iefix') format('embedded-opentype'),
-    url('fonts/kealm-icon.ttf?njldcd') format('truetype'),
-    url('fonts/kealm-icon.woff?njldcd') format('woff'),
-    url('fonts/kealm-icon.svg?njldcd#icomoon') format('svg');
+    src:  url('./fonts/kealm-icon.eot?njldcd');
+    src:  url('./fonts/kealm-icon.eot?njldcd#iefix') format('embedded-opentype'),
+    url('./fonts/kealm-icon.ttf?njldcd') format('truetype'),
+    url('./fonts/kealm-icon.woff?njldcd') format('woff'),
+    url('./fonts/kealm-icon.svg?njldcd#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }

@@ -50,7 +50,8 @@ module.exports = merge(baseConfig, {
                         }
                     },
                     'postcss-loader',
-                    'sass-loader',
+                    'resolve-url-loader',
+                    'sass-loader?sourceMap=true',
                 ]
             },
         ]

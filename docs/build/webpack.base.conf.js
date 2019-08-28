@@ -55,6 +55,8 @@ module.exports = {
                         options: {
                             name: '[name]-[hash:5].min.[ext]',
                             limit: 5000,
+                            // publicPath: 'fonts/',
+                            outputPath: 'fonts/'
                         }
                     }
                 ]
