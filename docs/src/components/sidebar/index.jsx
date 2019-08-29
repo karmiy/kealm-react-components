@@ -14,7 +14,7 @@ function Sidebar() {
                     </li>
                 </ul>
                 <li>
-                    <h2 className='sidebar-title'>Basic</h2>
+                    <h2 className='sidebar-title'>General</h2>
                 </li>
                 <ul className="sidebar-group">
                     <li>
