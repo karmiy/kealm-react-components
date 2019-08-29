@@ -7,7 +7,7 @@ function ButtonDoc() {
             <div className="detail-box">
                 <h1>Button 按钮</h1>
                 <p>按钮用于开始一个即时操作。</p>
-                <i className="km-file-excel"></i>
+                <i className="km-icon-image"></i>
                 <Button>按钮组件</Button>
             </div>
         </div>
