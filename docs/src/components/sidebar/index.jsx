@@ -14,11 +14,12 @@ function Sidebar() {
                     </li>
                 </ul>
                 <li>
-                    <h2 className='sidebar-title'>基础</h2>
+                    <h2 className='sidebar-title'>Basic</h2>
                 </li>
                 <ul className="sidebar-group">
                     <li>
-                        <NavLink to={'/component/button'} className='sidebar-item'>按钮</NavLink>
+                        <NavLink to={'/component/icon'} className='sidebar-item'>Icon 图标</NavLink>
+                        <NavLink to={'/component/button'} className='sidebar-item'>Button 按钮</NavLink>
                     </li>
                 </ul>
             </ul>
