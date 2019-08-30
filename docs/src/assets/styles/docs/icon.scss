@@ -21,7 +21,7 @@ ul.icon-list {
         color: #666;
         cursor: pointer;
         &:hover {
-            color: #1394ff;
+            color: $theme-color;
         }
         i {
             margin-bottom: 15px;
