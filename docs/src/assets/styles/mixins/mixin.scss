@@ -1,3 +1,6 @@
+@import './function';
+
+/* 滚动条 */
 @mixin scroll-bar($width) {
     &::-webkit-scrollbar {
         width: $width;
@@ -12,5 +15,13 @@
 
     &::-webkit-scrollbar-track {
         background: #ffffff;
+    }
+}
+
+/* 组件根样式 */
+@mixin rootCls($name) {
+    $rootClsName: classRootName($name);
+    .#{$rootClsName} {
+        @content;
     }
 }
