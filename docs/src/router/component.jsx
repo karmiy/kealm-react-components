@@ -1,6 +1,6 @@
 import React from 'react'
 import { Bundle } from "@/components";
-import ComponentsRoute from './components/index';
+import ComponentsRoute from './components';
 
 const routes = [
     {

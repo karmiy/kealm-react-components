@@ -1,0 +1,78 @@
+/* 组件文档页面独立样式 */
+@import './icon';
+
+/* 通用排版样式 */
+.page-box {
+    padding: 28px 20px;
+    font-size: 14px;
+    color: #404040;
+    & > :first-child {
+        margin-top: 0;
+    }
+    h1, h2 {
+        margin-top: 36px;
+        margin-bottom: 16px;
+        line-height: 1.25;
+        font-weight: 600;
+    }
+    h1 {
+        padding-bottom: 9.6px;
+        font-size: 32px;
+    }
+    h2 {
+        padding-bottom: 7.2px;
+        font-size: 24px;
+    }
+    p {
+        margin-bottom: 16px;
+    }
+
+    /* 参考链接 */
+    /*a.reference-link {
+        color: #1394ff;
+    }
+
+    !* 文档块 *!
+    .detail-box {
+        margin-bottom: 40px;
+
+        & > h2 {
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        & > p {
+            margin: 16px 0;
+        }
+
+        & > textarea {
+            margin-bottom: 16px;
+        }
+
+
+        !* 引用 *!
+        .code-left-line {
+            border-left: 3px solid #1394ff;
+            padding-left: 4px;
+        }
+
+        !* 文档按钮 *!
+        .detail-box-button {
+            margin-bottom: 16px;
+        }
+
+        !* API圆点 *!
+        .row-in-round {
+            margin: 16px 0;
+            &:before {
+                content: " ";
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                margin-right: 8px;
+                border: 1px solid #1394ff;
+                border-radius: 50%;
+            }
+        }
+    }*/
+}
