@@ -5,7 +5,7 @@
     display: inline-block;
     line-height: $line-height-small;
     margin: 0;
-    padding: 12px 20px;
+    padding: $button-padding-vertical $button-padding-horizontal;
     border-radius: $border-radius-base;
     outline: none;
     transition: .1s;
@@ -16,6 +16,11 @@
     cursor: pointer;
     -webkit-appearance: none;
     user-select: none;
+
+    [class*=km-icon-] + span {
+        margin-left: 5px;
+    }
+
     &-default {
         @include button-variant($button-border-color-default, $button-background-color-default, $button-color-default);
     }

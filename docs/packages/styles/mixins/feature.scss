@@ -1,13 +1,15 @@
 @import "../themes/index";
 
-/* button-borer/background/text-color */
+/* button -------------------------------- */
+
+// button-borer/background/text-color
 @mixin button-color($border-color, $background-color, $text-color) {
     border: $border-width-base $border-style-base $border-color;
     background-color: $background-color;
     color: $text-color;
 }
 
-/* button: hover/focus/is-plain/is-round */
+// button: hover/focus/is-plain/is-round
 @mixin button-variant($border-color, $background-color, $text-color, $type: default) {
     @include button-color($border-color, $background-color, $text-color);
     // default特殊处理
@@ -38,9 +40,12 @@
     &.is-round {
         @include button-round;
     }
+    &.is-circle {
+        @include button-circle;
+    }
 }
 
-/* button-plain */
+// button-plain
 @mixin button-plain($color) {
     @include button-color(
         mix($color-white, $color, 60%),
@@ -53,7 +58,13 @@
     }
 }
 
-/* button-round */
+// button-round
 @mixin button-round() {
     border-radius: $button-round-radius;
+}
+
+// button-circle
+@mixin button-circle() {
+    padding: $button-padding-vertical;
+    border-radius: $button-circle-radius;
 }

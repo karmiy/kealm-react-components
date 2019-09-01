@@ -6,8 +6,10 @@ function ButtonDoc() {
         <div className='page-box'>
             <h1>Button 按钮</h1>
             <p>按钮用于开始一个即时操作。</p>
+            <h2>基本用法</h2>
+            <p>基础的按钮用法。</p>
             <div className="detail-box">
-                <Button>按钮组件</Button>
+                <Button>默认按钮</Button>
                 <Button type='primary'>基本按钮</Button>
                 <Button type='success'>成功按钮</Button>
                 <Button type='info'>信息按钮</Button>
@@ -15,7 +17,7 @@ function ButtonDoc() {
                 <Button type='danger'>危险按钮</Button>
             </div>
             <div className="detail-box">
-                <Button plain>按钮组件</Button>
+                <Button plain>默认按钮</Button>
                 <Button type='primary' plain>基本按钮</Button>
                 <Button type='success' plain>成功按钮</Button>
                 <Button type='info' plain>信息按钮</Button>
@@ -23,12 +25,28 @@ function ButtonDoc() {
                 <Button type='danger' plain>危险按钮</Button>
             </div>
             <div className="detail-box">
-                <Button round>按钮组件</Button>
+                <Button round>默认按钮</Button>
                 <Button type='primary' round>基本按钮</Button>
                 <Button type='success' round>成功按钮</Button>
                 <Button type='info' round>信息按钮</Button>
                 <Button type='warning' round>警告按钮</Button>
                 <Button type='danger' round>危险按钮</Button>
+            </div>
+            <div className="detail-box">
+                <Button icon='star-full'>默认按钮</Button>
+                <Button type='primary' icon='droplet'>基本按钮</Button>
+                <Button type='success' icon='phone'>成功按钮</Button>
+                <Button type='info' icon='alarm'>信息按钮</Button>
+                <Button type='warning' icon='power'>警告按钮</Button>
+                <Button type='danger' icon='heart'>危险按钮</Button>
+            </div>
+            <div className="detail-box">
+                <Button circle icon='star-full' />
+                <Button type='primary' circle icon='droplet' />
+                <Button type='success' circle icon='phone' />
+                <Button type='info' circle icon='alarm' />
+                <Button type='warning' circle icon='power' />
+                <Button type='danger' circle icon='heart' />
             </div>
         </div>
     )

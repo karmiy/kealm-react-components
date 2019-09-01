@@ -1,7 +1,7 @@
 @import "base";
 @import "color";
 
-/* button按钮 */
+/* button --------------------------- */
 // button-border
 $button-border-color-default: $border-color-default;
 $button-border-color-primary: $border-color-primary;
@@ -26,6 +26,10 @@ $button-color-info: $text-color-white;
 $button-color-warning: $text-color-white;
 $button-color-danger: $text-color-white;
 
+// button-padding
+$button-padding-vertical: 12px;
+$button-padding-horizontal: 20px;
+
 // button-hover
 $button-hover-percent: 20% !default;
 
@@ -35,3 +39,6 @@ $button-disabled-text-color: $color-regular;
 
 // button-round
 $button-round-radius: $border-radius-extra-larger;
+
+// button-circle
+$button-circle-radius: $border-radius-round;
