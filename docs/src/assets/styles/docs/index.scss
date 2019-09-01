@@ -1,5 +1,6 @@
 /* 组件文档页面独立样式 */
 @import './icon';
+@import './button';
 
 /* 通用排版样式 */
 .page-box {
@@ -25,6 +26,10 @@
     }
     p {
         margin-bottom: 16px;
+    }
+
+    .detail-box {
+        margin: 16px 0;
     }
 
     /* 参考链接 */

@@ -1,0 +1,51 @@
+/* 颜色 */
+$color-primary: #1394ff !default;
+$color-success: #67c23a !default;
+$color-info: #909399 !default;
+$color-warning: #e6a23c !default;
+$color-danger: #f56c6c !default;
+$color-base: #dcdfe6 !default;
+$color-white: #fff !default;
+$color-light: #e4e7ed !default;
+$color-lighter: #ebeef5 !default;
+$color-extra-light: #f2f6fc !default;
+$color-blank: #000 !default;
+$color-regular: #606266 !default;
+
+$color-primary-light-1: mix($color-white, $color-primary, 10%) !default; /* #2b9fff */
+$color-primary-light-2: mix($color-white, $color-primary, 20%) !default; /* #42a9ff */
+$color-primary-light-3: mix($color-white, $color-primary, 30%) !default; /* #5ab4ff */
+$color-primary-light-4: mix($color-white, $color-primary, 40%) !default; /* #71bfff */
+$color-primary-light-5: mix($color-white, $color-primary, 50%) !default; /* #89caff */
+$color-primary-light-6: mix($color-white, $color-primary, 60%) !default; /* #a1d4ff */
+$color-primary-light-7: mix($color-white, $color-primary, 70%) !default; /* #b8dfff */
+$color-primary-light-8: mix($color-white, $color-primary, 80%) !default; /* #d0eaff */
+$color-primary-light-9: mix($color-white, $color-primary, 90%) !default; /* #e7f4ff */
+
+/* 边框 */
+$border-color-default: $color-base;
+$border-color-primary: $color-primary;
+$border-color-success: $color-success;
+$border-color-info: $color-info;
+$border-color-warning: $color-warning;
+$border-color-danger: $color-danger;
+$border-color-light: $color-light;
+$border-color-lighter: $color-lighter;
+$border-color-extra-light: $color-extra-light;
+
+/* 背景色 */
+$background-color-default: $color-white;
+$background-color-primary: $color-primary;
+$background-color-success: $color-success;
+$background-color-info: $color-info;
+$background-color-warning: $color-warning;
+$background-color-danger: $color-danger;
+
+/* 字体色 */
+$text-color-default: $color-regular;
+$text-color-white: $color-white;
+$text-color-primary: $color-primary;
+$text-color-success: $color-success;
+$text-color-info: $color-info;
+$text-color-warning: $color-warning;
+$text-color-danger: $color-danger;

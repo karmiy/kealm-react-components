@@ -1,0 +1,38 @@
+@import "../mixins/index";
+
+@include rootCls(button) {
+    box-sizing: border-box;
+    display: inline-block;
+    line-height: $line-height-small;
+    margin: 0;
+    padding: 12px 20px;
+    border-radius: $border-radius-base;
+    outline: none;
+    transition: .1s;
+    font-size: $font-size-base;
+    font-weight: $font-weight-base;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    user-select: none;
+    &-default {
+        @include button-variant($button-border-color-default, $button-background-color-default, $button-color-default);
+    }
+    &-primary {
+        @include button-variant($button-border-color-primary, $button-background-color-primary, $button-color-primary, primary);
+    }
+    &-success {
+        @include button-variant($button-border-color-success, $button-background-color-success, $button-color-success, success);
+    }
+    &-info {
+        @include button-variant($button-border-color-info, $button-background-color-info, $button-color-info, info);
+    }
+    &-warning {
+        @include button-variant($button-border-color-warning, $button-background-color-warning, $button-color-warning, warning);
+    }
+    &-danger {
+        @include button-variant($button-border-color-danger, $button-background-color-danger, $button-color-danger, danger);
+    }
+}
+

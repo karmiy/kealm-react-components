@@ -1,3 +1,5 @@
+@import "../mixins/index";
+
 /* 滚动条 */
 .scroll-bar, .scroll-bar * {
     @include scroll-bar(10px);

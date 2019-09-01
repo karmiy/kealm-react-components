@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-/* Icon-props */
+/* icon-props */
 export const IconProps = {
     type: PropTypes.string,
 }

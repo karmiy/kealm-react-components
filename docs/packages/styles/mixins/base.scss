@@ -1,0 +1,9 @@
+@import "../funcs/index";
+
+/* 组件根样式 */
+@mixin rootCls($name) {
+    $rootClsName: classRootName($name);
+    .#{$rootClsName} {
+        @content;
+    }
+}

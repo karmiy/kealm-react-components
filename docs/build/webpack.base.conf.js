@@ -17,8 +17,9 @@ module.exports = {
         alias: {
             '@': path.join(__dirname, '..', 'src'),
             'styles': path.join(__dirname, '..', 'src/assets/styles/index.scss'),
-            // '@kealm/react-components': path.join(__dirname, '../../packages/src/index.jsx'),
-            '@kealm/react-components': path.join(__dirname, '../src/core/index.jsx'),
+            '@kealm/react-components': path.join(__dirname, '../packages/components/cores/index.jsx'),
+            '@kealm/react-components-style': path.join(__dirname, '../packages/styles/index.scss'),
+            'hooks': path.join(__dirname, '../packages/hooks'),
         },
     },
     module: {

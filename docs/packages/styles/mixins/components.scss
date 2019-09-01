@@ -1,0 +1,59 @@
+@import "../themes/index";
+
+/* button-borer/background/text-color */
+@mixin button-color($border-color, $background-color, $text-color) {
+    border: $border-width-base $border-style-base $border-color;
+    background-color: $background-color;
+    color: $text-color;
+}
+
+/* button: hover/focus/is-plain/is-round */
+@mixin button-variant($border-color, $background-color, $text-color, $type: default) {
+    @include button-color($border-color, $background-color, $text-color);
+    // default特殊处理
+    @if $type == default {
+        &:hover,
+        &:focus {
+            @include button-color($color-primary-light-7, $color-primary-light-9, $color-primary);
+        }
+        &.is-plain {
+            &:hover,
+            &:focus {
+                @include button-color($color-primary, $color-white, $color-primary);
+            }
+        }
+    } @else {
+        &:hover,
+        &:focus {
+            @include button-color(
+                mix($color-white, $border-color, $button-hover-percent),
+                mix($color-white, $background-color, $button-hover-percent),
+                $text-color
+            );
+        }
+        &.is-plain {
+            @include button-plain($background-color);
+        }
+    }
+    &.is-round {
+        @include button-round;
+    }
+}
+
+/* button-plain */
+@mixin button-plain($color) {
+    @include button-color(
+        mix($color-white, $color, 60%),
+        mix($color-white, $color, 90%),
+        $color
+    );
+    &:hover,
+    &:focus {
+        @include button-color($color, $color, $color-white);
+    }
+}
+
+/* button-round */
+@mixin button-round() {
+    border-radius: $button-round-radius;
+}

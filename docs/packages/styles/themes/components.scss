@@ -1,0 +1,37 @@
+@import "base";
+@import "color";
+
+/* button按钮 */
+// button-border
+$button-border-color-default: $border-color-default;
+$button-border-color-primary: $border-color-primary;
+$button-border-color-success: $border-color-success;
+$button-border-color-info: $border-color-info;
+$button-border-color-warning: $border-color-warning;
+$button-border-color-danger: $border-color-danger;
+
+// button-background-color
+$button-background-color-default: $background-color-default;
+$button-background-color-primary: $background-color-primary;
+$button-background-color-success: $background-color-success;
+$button-background-color-info: $background-color-info;
+$button-background-color-warning: $background-color-warning;
+$button-background-color-danger: $background-color-danger;
+
+// button-color
+$button-color-default: $text-color-default;
+$button-color-primary: $text-color-white;
+$button-color-success: $text-color-white;
+$button-color-info: $text-color-white;
+$button-color-warning: $text-color-white;
+$button-color-danger: $text-color-white;
+
+// button-hover
+$button-hover-percent: 20% !default;
+
+// button-disabled
+$button-disabled-border-color: $border-color-lighter;
+$button-disabled-text-color: $color-regular;
+
+// button-round
+$button-round-radius: $border-radius-extra-larger;
