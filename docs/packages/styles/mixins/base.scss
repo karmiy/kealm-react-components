@@ -18,8 +18,3 @@
         visibility: hidden;
     }
 }
-
-/* loading */
-@mixin loadingCircle {
-    animation: km-loading 1.4s linear infinite;
-}
