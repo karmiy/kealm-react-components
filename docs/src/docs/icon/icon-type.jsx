@@ -51,6 +51,15 @@ export const identityIcons = [
     'windows', 'QQ', 'weibo', 'wechat', 'github'
 ]
 
+/* 总数 */
+export const iconLength = [
+    ...directionIcons,
+    ...tipIcons,
+    ...editIcons,
+    ...generalIcons,
+    ...identityIcons
+].length;
+
 export default [
     {
         name: '方向性图标',

@@ -11,6 +11,8 @@ $color-lighter: #ebeef5 !default;
 $color-extra-light: #f2f6fc !default;
 $color-blank: #000 !default;
 $color-regular: #606266 !default;
+$color-text-tip: #c0c4cc !default;;
+$color-none: transparent !default;;
 
 $color-primary-light-1: mix($color-white, $color-primary, 10%) !default; /* #2b9fff */
 $color-primary-light-2: mix($color-white, $color-primary, 20%) !default; /* #42a9ff */
@@ -32,6 +34,7 @@ $border-color-danger: $color-danger;
 $border-color-light: $color-light;
 $border-color-lighter: $color-lighter;
 $border-color-extra-light: $color-extra-light;
+$border-color-none: $color-none;
 
 /* 背景色 */
 $background-color-default: $color-white;
@@ -40,6 +43,8 @@ $background-color-success: $color-success;
 $background-color-info: $color-info;
 $background-color-warning: $color-warning;
 $background-color-danger: $color-danger;
+$background-color-danger: $color-danger;
+$background-color-none: $color-none;
 
 /* 字体色 */
 $text-color-default: $color-regular;
@@ -49,3 +54,4 @@ $text-color-success: $color-success;
 $text-color-info: $color-info;
 $text-color-warning: $color-warning;
 $text-color-danger: $color-danger;
+$text-color-placeholder: $color-text-tip;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon } from '@kealm/react-components';
-import iconGroups from './icon-type';
+import iconGroups, { iconLength } from './icon-type';
 
 function IconDoc() {
     return (
         <div className='page-box'>
             <h1>Icon 图标</h1>
-            <p>语义化的矢量图形。</p>
+            <p>语义化的矢量图形 ({iconLength})。</p>
             {iconGroups.map((iconGroup, index) => {
                 return (
                     <React.Fragment key={index}>

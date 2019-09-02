@@ -17,11 +17,31 @@
     -webkit-appearance: none;
     user-select: none;
 
-    [class*=km-icon-] + span {
+    [class*=km-icon-] + span, span + [class*=km-icon-] {
         margin-left: 5px;
     }
 
-    &-default {
+    &.is-loading {
+        position: relative;
+        pointer-events: none;
+        &:before {
+            pointer-events: none;
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: inherit;
+            background-color: rgba(255,255,255,.35);
+        }
+        [class=km-icon-loading] {
+            display: inline-block;
+            @include loadingCircle;
+        }
+    }
+
+    & {
         @include button-variant($button-border-color-default, $button-background-color-default, $button-color-default);
     }
     &-primary {
@@ -38,6 +58,61 @@
     }
     &-danger {
         @include button-variant($button-border-color-danger, $button-background-color-danger, $button-color-danger, danger);
+    }
+    &-text {
+        padding-left: 0;
+        padding-right: 0;
+        @include button-variant($button-border-color-text, $button-background-color-text, $button-color-text, text);
+    }
+
+    // round
+    &.is-round {
+        @include button-round;
+    }
+
+    // circle
+    &.is-circle {
+        @include button-circle;
+    }
+
+    // size
+    &-medium {
+        padding: $button-padding-vertical - 2 $button-padding-horizontal;
+    }
+    &-small {
+        padding: $button-padding-vertical - 3 $button-padding-horizontal - 5;
+    }
+    &-mini {
+        padding: $button-padding-vertical - 5 $button-padding-horizontal - 5;
+    }
+}
+
+@include rootCls(button-group) {
+    display: inline-block;
+    vertical-align: middle;
+    @include clearFix;
+    @include rootCls(button) {
+        $buttonCls: classRootName(button);
+        float: left;
+        margin: 0;
+        @include button-group-variant;
+        &.is-plain {
+            &.#{$buttonCls}-primary {
+                @include button-group-variant(mix($color-white, $button-border-color-primary, 60%));
+            }
+            &.#{$buttonCls}-success {
+                @include button-group-variant(mix($color-white, $button-border-color-success, 60%));
+            }
+            &.#{$buttonCls}-info {
+                @include button-group-variant(mix($color-white, $button-border-color-info, 60%));
+            }
+            &.#{$buttonCls}-warning {
+                @include button-group-variant(mix($color-white, $button-border-color-warning, 60%));
+            }
+            &.#{$buttonCls}-danger {
+                @include button-group-variant(mix($color-white, $button-border-color-danger, 60%));
+            }
+        }
     }
 }
 

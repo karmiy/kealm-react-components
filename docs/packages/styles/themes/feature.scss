@@ -9,6 +9,7 @@ $button-border-color-success: $border-color-success;
 $button-border-color-info: $border-color-info;
 $button-border-color-warning: $border-color-warning;
 $button-border-color-danger: $border-color-danger;
+$button-border-color-text: $border-color-none;
 
 // button-background-color
 $button-background-color-default: $background-color-default;
@@ -17,6 +18,7 @@ $button-background-color-success: $background-color-success;
 $button-background-color-info: $background-color-info;
 $button-background-color-warning: $background-color-warning;
 $button-background-color-danger: $background-color-danger;
+$button-background-color-text: $background-color-none;
 
 // button-color
 $button-color-default: $text-color-default;
@@ -25,6 +27,7 @@ $button-color-success: $text-color-white;
 $button-color-info: $text-color-white;
 $button-color-warning: $text-color-white;
 $button-color-danger: $text-color-white;
+$button-color-text: $text-color-primary;
 
 // button-padding
 $button-padding-vertical: 12px;
@@ -35,10 +38,14 @@ $button-hover-percent: 20% !default;
 
 // button-disabled
 $button-disabled-border-color: $border-color-lighter;
-$button-disabled-text-color: $color-regular;
+$button-disabled-background-color: $color-white;
+$button-disabled-text-color: $text-color-placeholder;
 
 // button-round
 $button-round-radius: $border-radius-extra-larger;
 
 // button-circle
 $button-circle-radius: $border-radius-round;
+
+// button-group-gap-color缝隙
+$button-group-gap-color: rgba($color-white, 0.5);

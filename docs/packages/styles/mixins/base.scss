@@ -7,3 +7,19 @@
         @content;
     }
 }
+
+/* 清除浮动 */
+@mixin clearFix {
+    &:after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+}
+
+/* loading */
+@mixin loadingCircle {
+    animation: km-loading 1.4s linear infinite;
+}

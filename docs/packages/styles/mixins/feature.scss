@@ -12,17 +12,32 @@
 // button: hover/focus/is-plain/is-round
 @mixin button-variant($border-color, $background-color, $text-color, $type: default) {
     @include button-color($border-color, $background-color, $text-color);
-    // default特殊处理
+    // default / text 特殊处理
     @if $type == default {
         &:hover,
         &:focus {
             @include button-color($color-primary-light-7, $color-primary-light-9, $color-primary);
         }
         &.is-plain {
-            &:hover,
-            &:focus {
-                @include button-color($color-primary, $color-white, $color-primary);
-            }
+            @include button-plain(null, $type);
+        }
+        &.is-disabled {
+            @include button-disabled(null, null, null, $type);
+        }
+    } @else if $type == text {
+        &:hover,
+        &:focus {
+            @include button-color(
+                    $button-border-color-text,
+                    $button-background-color-text,
+                    mix($color-white, $color-primary, $button-hover-percent)
+            );
+        }
+        &.is-plain {
+            @include button-plain(null, $type);
+        }
+        &.is-disabled {
+            @include button-disabled(null, null, null, $type);
         }
     } @else {
         &:hover,
@@ -34,27 +49,48 @@
             );
         }
         &.is-plain {
-            @include button-plain($background-color);
+            @include button-plain($background-color, $type);
         }
-    }
-    &.is-round {
-        @include button-round;
-    }
-    &.is-circle {
-        @include button-circle;
+        &.is-disabled {
+            @include button-disabled($border-color, $background-color, $color-white, $type);
+        }
     }
 }
 
 // button-plain
-@mixin button-plain($color) {
-    @include button-color(
-        mix($color-white, $color, 60%),
-        mix($color-white, $color, 90%),
-        $color
-    );
-    &:hover,
-    &:focus {
-        @include button-color($color, $color, $color-white);
+@mixin button-plain($color, $type: default) {
+    @if $type == default {
+        &:hover,
+        &:focus {
+            @include button-color($color-primary, $color-white, $color-primary);
+        }
+    } @else if $type == text {
+        &:hover,
+        &:focus {
+            @include button-color(
+                $button-border-color-text,
+                $button-background-color-text,
+                mix($color-white, $color-primary, $button-hover-percent)
+            );
+        }
+    } @else {
+        @include button-color(
+                mix($color-white, $color, 60%),
+                mix($color-white, $color, 90%),
+                $color
+        );
+        &:hover,
+        &:focus {
+            @include button-color($color, $color, $color-white);
+        }
+        &.is-disabled {
+            @include button-disabled(
+                    mix($color-white, $color, 60%),
+                    mix($color-white, $color, 90%),
+                    mix($color-white, $color, 40%),
+                    $type
+            );
+        }
     }
 }
 
@@ -67,4 +103,54 @@
 @mixin button-circle() {
     padding: $button-padding-vertical;
     border-radius: $button-circle-radius;
+}
+
+// button-disabled
+@mixin button-disabled($border-color, $background-color, $text-color, $type: default) {
+    &,
+    &:hover,
+    &:focus {
+        @if $type == default {
+            @include button-color(
+                    $button-disabled-border-color,
+                    $button-disabled-background-color,
+                    $button-disabled-text-color
+            );
+        } @else if $type == text {
+            @include button-color(
+                    $button-border-color-text,
+                    $button-background-color-text,
+                    $button-disabled-text-color
+            );
+        } @else {
+            @include button-color(
+                    mix($border-color, $color-white),
+                    mix($background-color, $color-white),
+                    $text-color
+            );
+        }
+        cursor: not-allowed;
+    }
+}
+
+// button-group
+@mixin button-group-variant($color: $button-group-gap-color) {
+    &:first-child {
+        border-top-right-radius: $border-radius-none;
+        border-bottom-right-radius: $border-radius-none;
+        border-right-color: $color;
+    }
+    &:last-child {
+        border-top-left-radius: $border-radius-none;
+        border-bottom-left-radius: $border-radius-none;
+        border-left-color: $color;
+    }
+    &:not(:last-child) {
+        margin-right: -$border-width-base;
+    }
+    &:not(:first-child):not(:last-child) {
+        border-radius: $border-radius-none;
+        border-left-color: $color;
+        border-right-color: $color;
+    }
 }

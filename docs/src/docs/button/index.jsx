@@ -1,11 +1,14 @@
 import React from 'react';
-import { Button } from '@kealm/react-components';
+import { Link } from 'react-router-dom';
+import { Button, Icon } from '@kealm/react-components';
 
 function ButtonDoc() {
     return (
         <div className='page-box'>
             <h1>Button 按钮</h1>
             <p>按钮用于开始一个即时操作。</p>
+
+            {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>基础的按钮用法。</p>
             <div className="detail-box">
@@ -33,14 +36,6 @@ function ButtonDoc() {
                 <Button type='danger' round>危险按钮</Button>
             </div>
             <div className="detail-box">
-                <Button icon='star-full'>默认按钮</Button>
-                <Button type='primary' icon='droplet'>基本按钮</Button>
-                <Button type='success' icon='phone'>成功按钮</Button>
-                <Button type='info' icon='alarm'>信息按钮</Button>
-                <Button type='warning' icon='power'>警告按钮</Button>
-                <Button type='danger' icon='heart'>危险按钮</Button>
-            </div>
-            <div className="detail-box">
                 <Button circle icon='star-full' />
                 <Button type='primary' circle icon='droplet' />
                 <Button type='success' circle icon='phone' />
@@ -48,6 +43,204 @@ function ButtonDoc() {
                 <Button type='warning' circle icon='power' />
                 <Button type='danger' circle icon='heart' />
             </div>
+
+            {/* 禁用按钮 */}
+            <h2>禁用按钮</h2>
+            <p>按钮不可用状态。</p>
+            <div className="detail-box">
+                <Button disabled>默认按钮</Button>
+                <Button type='primary' disabled>基本按钮</Button>
+                <Button type='success' disabled>成功按钮</Button>
+                <Button type='info' disabled>信息按钮</Button>
+                <Button type='warning' disabled>警告按钮</Button>
+                <Button type='danger' disabled>危险按钮</Button>
+            </div>
+            <div className="detail-box">
+                <Button disabled>默认按钮</Button>
+                <Button type='primary' plain disabled>基本按钮</Button>
+                <Button type='success' plain disabled>成功按钮</Button>
+                <Button type='info' plain disabled>信息按钮</Button>
+                <Button type='warning' plain disabled>警告按钮</Button>
+                <Button type='danger' plain disabled>危险按钮</Button>
+            </div>
+
+            {/* 文字按钮 */}
+            <h2>文字按钮</h2>
+            <p>没有边框和背景色的按钮。</p>
+            <div className="detail-box">
+                <Button type='text'>文字按钮</Button>
+                <Button type='text' disabled>文字按钮</Button>
+            </div>
+
+            {/* 图标按钮 */}
+            <h2>图标按钮</h2>
+            <p>带图标的按钮。</p>
+            <div className="detail-box">
+                <Button icon='star-full' />
+                <Button type='primary' circle icon='droplet' />
+                <Button type='primary' plain icon='phone'>图标按钮</Button>
+                <Button round icon='alarm' iconRight={true}>图标按钮</Button>
+            </div>
+
+            {/* 按钮组 */}
+            <h2>按钮组</h2>
+            <p>以按钮组的方式出现，常用于多项类似操作。</p>
+            <div className="detail-box">
+                <Button.Group>
+                    <Button type='primary' icon='left'>上一页</Button>
+                    <Button type='primary' icon='right'>下一页</Button>
+                </Button.Group>
+                <Button.Group>
+                    <Button type='primary' icon='phone' />
+                    <Button type='success' icon='alarm' />
+                    <Button type='warning' icon='power' />
+                    <Button type='danger' icon='heart' />
+                </Button.Group>
+                <Button.Group>
+                    <Button type='primary' icon='left' circle plain />
+                    <Button type='success' plain>1</Button>
+                    <Button type='info' plain>2</Button>
+                    <Button type='warning' plain>3</Button>
+                    <Button type='danger' icon='right' circle plain />
+                </Button.Group>
+            </div>
+
+            {/* 加载中 */}
+            <h2>加载中</h2>
+            <p>点击按钮后进行数据加载操作，在按钮上显示加载状态。</p>
+            <div className="detail-box">
+                <Button type='primary' loading>加载中</Button>
+                <Button type='success' loading>加载中</Button>
+                <Button type='info' loading>加载中</Button>
+                <Button type='warning' loading>加载中</Button>
+                <Button type='danger' loading>加载中</Button>
+            </div>
+            <div className="detail-box">
+                <Button type='primary' plain loading>加载中</Button>
+                <Button type='success' plain loading>加载中</Button>
+                <Button type='info' plain loading>加载中</Button>
+                <Button type='warning' plain loading>加载中</Button>
+                <Button type='danger' plain loading>加载中</Button>
+            </div>
+
+            {/* 按钮尺寸 */}
+            <h2>按钮尺寸</h2>
+            <p>Button 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。</p>
+            <div className="detail-box">
+                <Button type='primary'>默认按钮</Button>
+                <Button type='success' size='medium'>中等按钮</Button>
+                <Button type='warning' size='small'>小型按钮</Button>
+                <Button type='danger' size='mini'>迷你按钮</Button>
+            </div>
+            <div className="detail-box">
+                <Button type='primary' plain round>默认按钮</Button>
+                <Button type='success' plain round size='medium'>中等按钮</Button>
+                <Button type='warning' plain round size='small'>小型按钮</Button>
+                <Button type='danger' plain round size='mini'>迷你按钮</Button>
+            </div>
+
+            {/* API */}
+            <h2>Button Props</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>说明</th>
+                        <th>类型</th>
+                        <th>可选</th>
+                        <th>默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>type</td>
+                        <td>类型</td>
+                        <td>string</td>
+                        <td>primary / success / warning / danger / info / text</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>plain</td>
+                        <td>是否朴素按钮</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>round</td>
+                        <td>是否圆角按钮</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>circle</td>
+                        <td>是否圆形按钮</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>icon</td>
+                        <td>图标类名</td>
+                        <td>string</td>
+                        <td><Link to={'/component/icon'}>Icon组件</Link></td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>iconRight</td>
+                        <td>是否图标置右</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td>是否禁用</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>loading</td>
+                        <td>是否加载状态</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>尺寸</td>
+                        <td>string</td>
+                        <td>medium / small / mini</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>nativeType</td>
+                        <td>原生type</td>
+                        <td>string</td>
+                        <td>button / submit / reset</td>
+                        <td>button</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Button Events</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>事件名称</th>
+                    <th>说明</th>
+                    <th>回调参数</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>click</td>
+                        <td>点击事件</td>
+                        <td>--</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     )
 }

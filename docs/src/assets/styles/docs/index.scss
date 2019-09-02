@@ -28,8 +28,32 @@
         margin-bottom: 16px;
     }
 
+    a {
+        color: #1394ff;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        line-height: 1.5;
+        margin-bottom: 45px;
+        background-color: #fff;
+        font-size: 14px;
+        th, td {
+            border-bottom: 1px solid #dcdfe6;
+            padding: 15px;
+            max-width: 250px;
+        }
+        th {
+            text-align: left;
+            white-space: nowrap;
+            font-weight: 400;
+            color: #909399;
+        }
+    }
+
     .detail-box {
-        margin: 16px 0;
+        margin: 20px 0;
     }
 
     /* 参考链接 */
