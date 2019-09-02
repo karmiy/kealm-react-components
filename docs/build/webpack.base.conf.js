@@ -74,6 +74,7 @@ module.exports = {
                 collapseWhitespace: true, // 删除空白符与换行符
                 minifyCSS: true // 压缩内联 css
             },
+            favicon: path.resolve(__dirname, '..', 'favicon.ico'),
             filename: 'index.html', // 生成后的文件名
             template: path.resolve(__dirname, '..', 'index.html'), // 根据此模版生成 HTML 文件
         }),
