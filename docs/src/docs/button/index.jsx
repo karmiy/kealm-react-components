@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon } from '@kealm/react-components';
 
+const Group = Button.Group;
+
 function ButtonDoc() {
     return (
         <div className='page-box'>
@@ -86,23 +88,23 @@ function ButtonDoc() {
             <h2>按钮组</h2>
             <p>以按钮组的方式出现，常用于多项类似操作。</p>
             <div className="detail-box">
-                <Button.Group>
+                <Group>
                     <Button type='primary' icon='left'>上一页</Button>
                     <Button type='primary' icon='right'>下一页</Button>
-                </Button.Group>
-                <Button.Group>
+                </Group>
+                <Group>
                     <Button type='primary' icon='phone' />
                     <Button type='success' icon='alarm' />
                     <Button type='warning' icon='power' />
                     <Button type='danger' icon='heart' />
-                </Button.Group>
-                <Button.Group>
+                </Group>
+                <Group>
                     <Button type='primary' icon='left' circle plain />
                     <Button type='success' plain>1</Button>
                     <Button type='info' plain>2</Button>
                     <Button type='warning' plain>3</Button>
                     <Button type='danger' icon='right' circle plain />
-                </Button.Group>
+                </Group>
             </div>
 
             {/* 加载中 */}
@@ -127,16 +129,21 @@ function ButtonDoc() {
             <h2>按钮尺寸</h2>
             <p>Button 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。</p>
             <div className="detail-box">
-                <Button type='primary'>默认按钮</Button>
-                <Button type='success' size='medium'>中等按钮</Button>
-                <Button type='warning' size='small'>小型按钮</Button>
-                <Button type='danger' size='mini'>迷你按钮</Button>
+                <Group>
+                    <Button plain>Large</Button>
+                    <Button plain>Default</Button>
+                    <Button plain>Small</Button>
+                </Group>
             </div>
             <div className="detail-box">
-                <Button type='primary' plain round>默认按钮</Button>
-                <Button type='success' plain round size='medium'>中等按钮</Button>
+                <Button type='primary' size='large'>大型按钮</Button>
+                <Button type='success'>默认按钮</Button>
+                <Button type='warning' size='small'>小型按钮</Button>
+            </div>
+            <div className="detail-box">
+                <Button type='primary' plain round size='large'>大型按钮</Button>
+                <Button type='success' plain round>默认按钮</Button>
                 <Button type='warning' plain round size='small'>小型按钮</Button>
-                <Button type='danger' plain round size='mini'>迷你按钮</Button>
             </div>
 
             {/* API */}

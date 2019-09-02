@@ -76,14 +76,11 @@
     }
 
     // size
-    &-medium {
-        padding: $button-padding-vertical - 2 $button-padding-horizontal;
+    &-large {
+        padding: $button-padding-vertical + 4 $button-padding-horizontal + 4;
     }
     &-small {
-        padding: $button-padding-vertical - 3 $button-padding-horizontal - 5;
-    }
-    &-mini {
-        padding: $button-padding-vertical - 5 $button-padding-horizontal - 5;
+        padding: $button-padding-vertical - 4 $button-padding-horizontal - 8;
     }
 }
 
@@ -95,7 +92,12 @@
         $buttonCls: classRootName(button);
         float: left;
         margin: 0;
-        @include button-group-variant;
+        @include button-group-variant($button-border-color-default);
+        @each $type in primary success info warning danger {
+            &.#{$buttonCls - $type} {
+                @include button-group-variant;
+            }
+        }
         &.is-plain {
             &.#{$buttonCls}-primary {
                 @include button-group-variant(mix($color-white, $button-border-color-primary, 60%));
