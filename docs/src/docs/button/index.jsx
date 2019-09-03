@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Icon } from '@kealm/react-components';
+import { ApiTable } from '@/components/common';
+import { buttonProps, buttonEvents } from "./api";
 
 const Group = Button.Group;
 
@@ -148,114 +149,7 @@ function ButtonDoc() {
             </div>
 
             {/* API */}
-            <h2>Button Props</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>参数</th>
-                        <th>说明</th>
-                        <th>类型</th>
-                        <th>可选</th>
-                        <th>默认值</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>type</td>
-                        <td>类型</td>
-                        <td>string</td>
-                        <td>primary / success / warning / danger / info / text</td>
-                        <td>--</td>
-                    </tr>
-                    <tr>
-                        <td>plain</td>
-                        <td>是否朴素按钮</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>round</td>
-                        <td>是否圆角按钮</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>circle</td>
-                        <td>是否圆形按钮</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>icon</td>
-                        <td>图标类名</td>
-                        <td>string</td>
-                        <td><Link to={'/component/icon'}>Icon组件</Link></td>
-                        <td>--</td>
-                    </tr>
-                    <tr>
-                        <td>iconRight</td>
-                        <td>是否图标置右</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>disabled</td>
-                        <td>是否禁用</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>loading</td>
-                        <td>是否加载状态</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>active</td>
-                        <td>是否激活状态</td>
-                        <td>boolean</td>
-                        <td>--</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>size</td>
-                        <td>尺寸</td>
-                        <td>string</td>
-                        <td>large / small</td>
-                        <td>--</td>
-                    </tr>
-                    <tr>
-                        <td>nativeType</td>
-                        <td>原生type</td>
-                        <td>string</td>
-                        <td>button / submit / reset</td>
-                        <td>button</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h2>Button Events</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>事件名称</th>
-                    <th>说明</th>
-                    <th>回调参数</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>click</td>
-                        <td>点击事件</td>
-                        <td>--</td>
-                    </tr>
-                </tbody>
-            </table>
+            <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />
         </div>
     )
 }
