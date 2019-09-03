@@ -16,6 +16,7 @@ function Button(props) {
         iconRight,
         disabled,
         loading,
+        active,
         size,
         nativeType,
         ...others
@@ -30,6 +31,7 @@ function Button(props) {
         [`is-circle`]: circle,
         [`is-disabled`]: disabled,
         [`is-loading`]: loading,
+        [`is-active`]: active,
         [`${componentCls}-${size}`]: !!size,
     });
 

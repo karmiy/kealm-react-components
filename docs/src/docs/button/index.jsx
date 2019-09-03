@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Icon } from '@kealm/react-components';
 
 const Group = Button.Group;
 
 function ButtonDoc() {
+    const [size, setSize] = useState('large');
     return (
         <div className='page-box'>
             <h1>Button 按钮</h1>
@@ -130,20 +131,20 @@ function ButtonDoc() {
             <p>Button 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。</p>
             <div className="detail-box">
                 <Group>
-                    <Button plain>Large</Button>
-                    <Button plain>Default</Button>
-                    <Button plain>Small</Button>
+                    <Button plain active={size === 'large'} onClick={() => setSize('large')}>Large</Button>
+                    <Button plain active={size === ''} onClick={() => setSize('')}>Default</Button>
+                    <Button plain active={size === 'small'} onClick={() => setSize('small')}>Small</Button>
                 </Group>
             </div>
             <div className="detail-box">
-                <Button type='primary' size='large'>大型按钮</Button>
-                <Button type='success'>默认按钮</Button>
-                <Button type='warning' size='small'>小型按钮</Button>
+                <Button type='primary' size={size}>基本按钮</Button>
+                <Button type='success' size={size}>成功按钮</Button>
+                <Button type='warning' size={size}>警告按钮</Button>
             </div>
             <div className="detail-box">
-                <Button type='primary' plain round size='large'>大型按钮</Button>
-                <Button type='success' plain round>默认按钮</Button>
-                <Button type='warning' plain round size='small'>小型按钮</Button>
+                <Button type='primary' plain round size={size}>基本按钮</Button>
+                <Button type='success' plain round size={size}>成功按钮</Button>
+                <Button type='warning' plain round size={size}>警告按钮</Button>
             </div>
 
             {/* API */}
@@ -216,10 +217,17 @@ function ButtonDoc() {
                         <td>false</td>
                     </tr>
                     <tr>
+                        <td>active</td>
+                        <td>是否激活状态</td>
+                        <td>boolean</td>
+                        <td>--</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
                         <td>size</td>
                         <td>尺寸</td>
                         <td>string</td>
-                        <td>medium / small / mini</td>
+                        <td>large / small</td>
                         <td>--</td>
                     </tr>
                     <tr>

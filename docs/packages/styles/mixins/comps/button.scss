@@ -1,4 +1,4 @@
-@import "../themes/index";
+@import "../../themes/index";
 
 /* button -------------------------------- */
 
@@ -15,7 +15,9 @@
     // default / text 特殊处理
     @if $type == default {
         &:hover,
-        &:focus {
+        &:focus,
+        &:active,
+        &.is-active {
             @include button-color($color-primary-light-7, $color-primary-light-9, $color-primary);
         }
         &.is-plain {
@@ -26,7 +28,9 @@
         }
     } @else if $type == text {
         &:hover,
-        &:focus {
+        &:focus,
+        &:active,
+        &.is-active {
             @include button-color(
                     $button-border-color-text,
                     $button-background-color-text,
@@ -41,11 +45,13 @@
         }
     } @else {
         &:hover,
-        &:focus {
+        &:focus,
+        &:active,
+        &.is-active {
             @include button-color(
-                mix($color-white, $border-color, $button-hover-percent),
-                mix($color-white, $background-color, $button-hover-percent),
-                $text-color
+                    mix($color-white, $border-color, $button-hover-percent),
+                    mix($color-white, $background-color, $button-hover-percent),
+                    $text-color
             );
         }
         &.is-plain {
@@ -61,16 +67,20 @@
 @mixin button-plain($color, $type: default) {
     @if $type == default {
         &:hover,
-        &:focus {
+        &:focus,
+        &:active,
+        &.is-active {
             @include button-color($color-primary, $color-white, $color-primary);
         }
     } @else if $type == text {
         &:hover,
-        &:focus {
+        &:focus,
+        &:active,
+        &.is-active {
             @include button-color(
-                $button-border-color-text,
-                $button-background-color-text,
-                mix($color-white, $color-primary, $button-hover-percent)
+                    $button-border-color-text,
+                    $button-background-color-text,
+                    mix($color-white, $color-primary, $button-hover-percent)
             );
         }
     } @else {
@@ -80,7 +90,9 @@
                 $color
         );
         &:hover,
-        &:focus {
+        &:focus,
+        &:active,
+        &.is-active {
             @include button-color($color, $color, $color-white);
         }
         &.is-disabled {
@@ -109,7 +121,9 @@
 @mixin button-disabled($border-color, $background-color, $text-color, $type: default) {
     &,
     &:hover,
-    &:focus {
+    &:focus,
+    &:active,
+    &.is-active {
         @if $type == default {
             @include button-color(
                     $button-disabled-border-color,

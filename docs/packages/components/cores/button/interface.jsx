@@ -11,6 +11,7 @@ export const ButtonProps = {
     iconRight: PropTypes.bool, // 图标置后
     disabled: PropTypes.bool, // 禁用
     loading: PropTypes.bool, // loading
+    active: PropTypes.bool, // active
     size: PropTypes.string, // 大小
     nativeType: PropTypes.string, // 原生type
 }
@@ -23,6 +24,7 @@ export const ButtonDefaultProps = {
     iconRight: false,
     disabled: false,
     loading: false,
+    active: false,
     nativeType: 'button',
 }
 

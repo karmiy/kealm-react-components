@@ -1,4 +1,5 @@
 @import "../mixins/index";
+@import "../themes/index";
 
 @include rootCls(button) {
     box-sizing: border-box;
@@ -8,7 +9,7 @@
     padding: $button-padding-vertical $button-padding-horizontal;
     border-radius: $border-radius-base;
     outline: none;
-    transition: .1s;
+    transition: $transition-duration-default;
     font-size: $font-size-base;
     font-weight: $font-weight-base;
     text-align: center;
@@ -92,6 +93,9 @@
         $buttonCls: classRootName(button);
         float: left;
         margin: 0;
+        &:hover, &:focus, &.is-active {
+            position: relative;
+        }
         @include button-group-variant($button-border-color-default);
         @each $type in primary success info warning danger {
             &.#{$buttonCls - $type} {
@@ -99,6 +103,9 @@
             }
         }
         &.is-plain {
+            &:hover, &:focus, &:active, &.is-active {
+                @include button-group-variant($button-border-color-primary);
+            }
             &.#{$buttonCls}-primary {
                 @include button-group-variant(mix($color-white, $button-border-color-primary, 60%));
             }
@@ -113,6 +120,13 @@
             }
             &.#{$buttonCls}-danger {
                 @include button-group-variant(mix($color-white, $button-border-color-danger, 60%));
+            }
+        }
+        &.#{$buttonCls}-text {
+            padding: $button-padding-vertical $button-padding-horizontal;
+            @include button-group-variant(transparent);
+            &:hover, &:focus, &:active, &.is-active {
+                @include button-group-variant(transparent);
             }
         }
     }

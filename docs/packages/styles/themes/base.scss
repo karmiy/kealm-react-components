@@ -34,3 +34,8 @@ $font-size-extra-large: 20px;
 /* 字体粗细 */
 $font-weight-base: 500;
 $font-weight-bold: 700;
+
+/* 过渡时长 */
+$transition-duration-default: .3s!default;
+$transition-duration-slow: .5s!default;
+$transition-duration-fast: .1s!default;
