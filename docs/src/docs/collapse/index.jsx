@@ -12,7 +12,7 @@ function CollapseDoc() {
             <p>可同时展开多个面板，面板之间不影响。</p>
             <div className="detail-box">
                 <Collapse>
-                    123
+                    <p style={{backgroundColor: 'pink'}}>123</p>
                 </Collapse>
             </div>
         </div>
