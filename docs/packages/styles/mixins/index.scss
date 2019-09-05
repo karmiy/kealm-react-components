@@ -1,3 +1,6 @@
-@import "base";
-@import "animate";
-@import "comps/index";
+@import "config";
+@import "mixins";
+@import "function";
+@import "utils";
+
+@import "_button";

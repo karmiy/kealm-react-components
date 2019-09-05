@@ -1,0 +1,6 @@
+@import "config";
+/* --------------common------------------ */
+/* 组件根类名 */
+@function classRootName($name) {
+    @return $km-prefix + $name;
+}

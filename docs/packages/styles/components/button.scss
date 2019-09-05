@@ -1,5 +1,5 @@
 @import "../mixins/index";
-@import "../themes/index";
+@import "../common/var";
 
 @include rootCls(button) {
     box-sizing: border-box;
@@ -9,7 +9,7 @@
     padding: $button-padding-vertical $button-padding-horizontal;
     border-radius: $border-radius-base;
     outline: none;
-    transition: $transition-duration-default;
+    transition: $transition-duration-base;
     font-size: $font-size-base;
     font-weight: $font-weight-base;
     text-align: center;
@@ -38,32 +38,32 @@
         }
         [class=km-icon-loading] {
             display: inline-block;
-            @include loadingCircle;
+            animation: km-loading 1.4s linear infinite;
         }
     }
 
     & {
-        @include button-variant($button-border-color-default, $button-background-color-default, $button-color-default);
+        @include button-variant($button-border-color-default, $button-background-color-default, $button-font-color-default);
     }
     &-primary {
-        @include button-variant($button-border-color-primary, $button-background-color-primary, $button-color-primary, primary);
+        @include button-variant($button-border-color-primary, $button-background-color-primary, $button-font-color-primary, primary);
     }
     &-success {
-        @include button-variant($button-border-color-success, $button-background-color-success, $button-color-success, success);
+        @include button-variant($button-border-color-success, $button-background-color-success, $button-font-color-success, success);
     }
     &-info {
-        @include button-variant($button-border-color-info, $button-background-color-info, $button-color-info, info);
+        @include button-variant($button-border-color-info, $button-background-color-info, $button-font-color-info, info);
     }
     &-warning {
-        @include button-variant($button-border-color-warning, $button-background-color-warning, $button-color-warning, warning);
+        @include button-variant($button-border-color-warning, $button-background-color-warning, $button-font-color-warning, warning);
     }
     &-danger {
-        @include button-variant($button-border-color-danger, $button-background-color-danger, $button-color-danger, danger);
+        @include button-variant($button-border-color-danger, $button-background-color-danger, $button-font-color-danger, danger);
     }
     &-text {
         padding-left: 0;
         padding-right: 0;
-        @include button-variant($button-border-color-text, $button-background-color-text, $button-color-text, text);
+        @include button-variant($button-border-color-text, $button-background-color-text, $button-font-color-text, text);
     }
 
     // round
@@ -88,7 +88,7 @@
 @include rootCls(button-group) {
     display: inline-block;
     vertical-align: middle;
-    @include clearFix;
+    @include utils-clear-fix;
     @include rootCls(button) {
         $buttonCls: classRootName(button);
         float: left;
@@ -98,7 +98,7 @@
         }
         @include button-group-variant($button-border-color-default);
         @each $type in primary success info warning danger {
-            &.#{$buttonCls - $type} {
+            &.#{$buttonCls + $km-separator + $type} {
                 @include button-group-variant;
             }
         }

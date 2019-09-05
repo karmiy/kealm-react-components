@@ -1,0 +1,155 @@
+/* --------------------------base-------------------------- */
+// border-radius
+$border-radius-small: 2px !default;
+$border-radius-base: 4px !default;
+$border-radius-medium: 8px !default;
+$border-radius-large: 12px !default;
+$border-radius-extra-larger: 20px !default;
+$border-radius-circle: 50% !default;
+$border-radius-none: 0 !default;
+
+// border-width
+$border-width-none: 0 !default;
+$border-width-base: 1px !default;
+$border-width-medium: 2px !default;
+$border-width-large: 4px !default;
+
+// border-style
+$border-style-base: solid !default;
+$border-style-dashed: dashed !default;
+$border-style-dotted: dotted !default;
+
+// box-shadow
+$--box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) !default;
+$--box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !default; // 深色投影
+$--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default; // 浅色投影
+
+// line-height
+$line-height-base: 1.5 !default;
+$line-height-small: 1 !default;
+
+// font-size
+$font-size-small: 12px !default;
+$font-size-base: 14px !default;
+$font-size-medium: 16px !default;
+$font-size-large: 18px !default;
+$font-size-extra-large: 20px !default;
+
+// font-weight
+$font-weight-base: 500 !default;
+$font-weight-bold: 700 !default;
+
+// transition-duration
+$transition-duration-fast: .1s!default;
+$transition-duration-base: .3s!default;
+$transition-duration-slow: .5s!default;
+
+// transition-timing-function
+$ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
+$ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
+$ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+$ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+$ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
+$ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
+$ease-in-out-back: cubic-bezier(0.71, -0.46, 0.29, 1.46);
+$ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
+$ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+$ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+$ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+$ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+$ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+
+/* --------------------------color-------------------------- */
+// 主题色
+$color-primary: #1394ff !default;
+$color-none: transparent !default;
+$color-white: #fff !default;
+$color-blank: #000 !default;
+$color-success: #33CC33 !default;
+$color-info: #909399 !default;
+$color-warning: #FF9933 !default;
+$color-danger: #FF6666 !default;
+
+// 主题色亮度
+$color-primary-light-1: mix($color-white, $color-primary, 10%) !default;
+$color-primary-light-2: mix($color-white, $color-primary, 20%) !default;
+$color-primary-light-3: mix($color-white, $color-primary, 30%) !default;
+$color-primary-light-4: mix($color-white, $color-primary, 40%) !default;
+$color-primary-light-5: mix($color-white, $color-primary, 50%) !default;
+$color-primary-light-6: mix($color-white, $color-primary, 60%) !default;
+$color-primary-light-7: mix($color-white, $color-primary, 70%) !default;
+$color-primary-light-8: mix($color-white, $color-primary, 80%) !default;
+$color-primary-light-9: mix($color-white, $color-primary, 90%) !default;
+
+$color-success-light: mix($color-white, $color-success, 80%) !default;
+$color-warning-light: mix($color-white, $color-warning, 80%) !default;
+$color-danger-light: mix($color-white, $color-danger, 80%) !default;
+$color-info-light: mix($color-white, $color-info, 80%) !default;
+
+$color-success-lighter: mix($color-white, $color-success, 90%) !default;
+$color-warning-lighter: mix($color-white, $color-warning, 90%) !default;
+$color-danger-lighter: mix($color-white, $color-danger, 90%) !default;
+$color-info-lighter: mix($color-white, $color-info, 90%) !default;
+
+// 文字色:
+$color-text-primary: #303133 !default; // 主要
+$color-text-regular: #606266 !default; // 常规
+$color-text-secondary: #909399 !default; // 次要
+$color-text-placeholder: #C0C4CC !default; // 占位
+
+// 边框颜
+$border-color-base: #DCDFE6 !default;
+$border-color-light: #E4E7ED !default;
+$border-color-lighter: #EBEEF5 !default;
+$border-color-extra-light: #F2F6FC !default;
+
+
+/* --------------------------Button-------------------------- */
+// button-border
+$button-border-color-default: $border-color-base;//-k
+$button-border-color-primary: $color-primary;//-k
+$button-border-color-success: $color-success;//-k
+$button-border-color-info: $color-info;//-k
+$button-border-color-warning: $color-warning;//-k
+$button-border-color-danger: $color-danger;//-k
+$button-border-color-text: $color-none;//-k
+
+// button-background-color
+$button-background-color-default: $color-white;//-k
+$button-background-color-primary: $color-primary;//-k
+$button-background-color-success: $color-success;//-k
+$button-background-color-info: $color-info;//-k
+$button-background-color-warning: $color-warning;//-k
+$button-background-color-danger: $color-danger;//-k
+$button-background-color-text: $color-none;//-k
+
+// button-font-color
+$button-font-color-default: $color-text-regular;//-k
+$button-font-color-primary: $color-white;//-k
+$button-font-color-success: $color-white;//-k
+$button-font-color-info: $color-white;//-k
+$button-font-color-warning: $color-white;//-k
+$button-font-color-danger: $color-white;//-k
+$button-font-color-text: $color-primary;//-k
+
+// button-padding
+$button-padding-vertical: 8px;
+$button-padding-horizontal: 15px;
+
+// button-hover
+$button-hover-percent: 20% !default;//-k
+
+// button-disabled
+$button-disabled-border-color: $border-color-lighter;//-k
+$button-disabled-background-color: $color-white;//-k
+$button-disabled-font-color: $color-text-placeholder;//-k
+
+// button-round
+$button-round-radius: $border-radius-extra-larger;
+
+// button-circle
+$button-circle-radius: $border-radius-circle;
+
+// button-group-gap-color缝隙
+$button-group-gap-color: rgba($color-white, 0.5);

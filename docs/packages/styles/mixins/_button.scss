@@ -1,4 +1,4 @@
-@import "../../themes/index";
+@import "../common/var";
 
 /* button -------------------------------- */
 
@@ -128,13 +128,13 @@
             @include button-color(
                     $button-disabled-border-color,
                     $button-disabled-background-color,
-                    $button-disabled-text-color
+                    $button-disabled-font-color
             );
         } @else if $type == text {
             @include button-color(
                     $button-border-color-text,
                     $button-background-color-text,
-                    $button-disabled-text-color
+                    $button-disabled-font-color
             );
         } @else {
             @include button-color(
