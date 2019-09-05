@@ -1,6 +1,6 @@
 @import "../common/var";
 
 /* collapse */
-.collapse-transition-enter-active, .collapse-transition-exit-active {
+.collapse-transition {
     transition: $transition-duration-base height $ease-in-out;
 }

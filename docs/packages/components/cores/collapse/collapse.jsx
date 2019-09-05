@@ -21,6 +21,7 @@ function Collapse(props) {
     const onEnter = (node, isAppearing) => {
         node.style.display = 'block';
         node.style.height = 0;
+        node.classList.add('collapse-transition')
         // node.style.transition = '0.3s height ease-in-out';
     }
     const onEntering = (node, isAppearing) => {
@@ -28,6 +29,7 @@ function Collapse(props) {
     }
     const onEntered = (node, isAppearing) => {
         node.style.height = '';
+        node.classList.remove('collapse-transition')
         // node.style.transition = '';
     }
 
@@ -36,12 +38,14 @@ function Collapse(props) {
         node.style.height = node.scrollHeight + 'px';
     }
     const onExiting = (node, isAppearing) => {
+        node.classList.add('collapse-transition')
         // node.style.transition = '0.3s height ease-in-out';
         node.style.height = 0;
     }
     const onExited = (node, isAppearing) => {
         node.style.height = '';
         // node.style.transition = '';
+        node.classList.remove('collapse-transition')
         node.style.display = 'none';
     }
     const addEndListener = (node, done) => {
@@ -76,7 +80,6 @@ function Collapse(props) {
             <CSSTransition
                 in={show}
                 addEndListener={addEndListener}
-                classNames="collapse-transition"
                 onEnter={onEnter}
                 onEntering={onEntering}
                 onEntered={onEntered}
