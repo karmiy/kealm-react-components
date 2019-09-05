@@ -65,7 +65,7 @@ $ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
 $color-primary: #1394ff !default;
 $color-none: transparent !default;
 $color-white: #fff !default;
-$color-blank: #000 !default;
+$color-black: #000 !default;
 $color-success: #33CC33 !default;
 $color-info: #909399 !default;
 $color-warning: #FF9933 !default;
@@ -107,43 +107,44 @@ $border-color-extra-light: #F2F6FC !default;
 
 /* --------------------------Button-------------------------- */
 // button-border
-$button-border-color-default: $border-color-base;//-k
-$button-border-color-primary: $color-primary;//-k
-$button-border-color-success: $color-success;//-k
-$button-border-color-info: $color-info;//-k
-$button-border-color-warning: $color-warning;//-k
-$button-border-color-danger: $color-danger;//-k
-$button-border-color-text: $color-none;//-k
+$button-border-color-default: $border-color-base;
+$button-border-color-primary: $color-primary;
+$button-border-color-success: $color-success;
+$button-border-color-info: $color-info;
+$button-border-color-warning: $color-warning;
+$button-border-color-danger: $color-danger;
+$button-border-color-text: $color-none;
 
 // button-background-color
-$button-background-color-default: $color-white;//-k
-$button-background-color-primary: $color-primary;//-k
-$button-background-color-success: $color-success;//-k
-$button-background-color-info: $color-info;//-k
-$button-background-color-warning: $color-warning;//-k
-$button-background-color-danger: $color-danger;//-k
-$button-background-color-text: $color-none;//-k
+$button-background-color-default: $color-white;
+$button-background-color-primary: $color-primary;
+$button-background-color-success: $color-success;
+$button-background-color-info: $color-info;
+$button-background-color-warning: $color-warning;
+$button-background-color-danger: $color-danger;
+$button-background-color-text: $color-none;
 
 // button-font-color
-$button-font-color-default: $color-text-regular;//-k
-$button-font-color-primary: $color-white;//-k
-$button-font-color-success: $color-white;//-k
-$button-font-color-info: $color-white;//-k
-$button-font-color-warning: $color-white;//-k
-$button-font-color-danger: $color-white;//-k
-$button-font-color-text: $color-primary;//-k
+$button-font-color-default: $color-text-regular;
+$button-font-color-primary: $color-white;
+$button-font-color-success: $color-white;
+$button-font-color-info: $color-white;
+$button-font-color-warning: $color-white;
+$button-font-color-danger: $color-white;
+$button-font-color-text: $color-primary;
 
 // button-padding
 $button-padding-vertical: 8px;
 $button-padding-horizontal: 15px;
 
 // button-hover
-$button-hover-percent: 20% !default;//-k
+$button-hover-percent: 20% !default;
+$button-active-shade-percent: 10% !default;
 
 // button-disabled
-$button-disabled-border-color: $border-color-lighter;//-k
-$button-disabled-background-color: $color-white;//-k
-$button-disabled-font-color: $color-text-placeholder;//-k
+$button-disabled-border-color: $border-color-lighter;
+$button-disabled-background-color: $color-white;
+$button-disabled-font-color: $color-text-placeholder;
 
 // button-round
 $button-round-radius: $border-radius-extra-larger;

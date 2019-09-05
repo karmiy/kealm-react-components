@@ -1,20 +1,236 @@
 @import "function";
 
 /* 组件根样式 */
-@mixin rootCls($name) {
+/*@mixin rootCls($name) {
     $rootClsName: classRootName($name);
     .#{$rootClsName} {
         @content;
     }
+}*/
+
+/*-------------------------BEM----------------------------------*/
+/**
+  @include b(button) {
+    ...
+  }
+  =>
+  .km-button {
+    ...
+  }
+ */
+@mixin b($block) {
+    $B: $namespace+'-'+$block !global; // km-button
+
+    .#{$B} {
+        @content;
+    }
 }
 
-/* 清除浮动 */
-@mixin clearFix {
-    &:after {
-        content: "";
-        display: block;
-        height: 0;
-        clear: both;
-        visibility: hidden;
+/**
+  @include e(item) {
+    ...
+  }
+  =>
+  1、如果是所处层级是有如--primary、is-XXX、:focus伪类，说明是特殊情况下的样式，就要输出:
+      .km-button--primary .km-button__item {
+        ...
+      }
+  2、如果不是特殊层级中，直接提到最外面，让CSS选择器优先级没那么大
+      .km-button__item {
+          ...
+      }
+ */
+@mixin e($element) {
+    $E: $element !global;// item
+    $selector: &; // .km-button
+    $currentSelector: "";
+    @each $unit in $element {
+        $currentSelector: #{$currentSelector + "." + $B + $km-separator + $unit + ","}; // .km-button__item,
+    }
+
+    @if hitAllSpecialNestRule($selector) {
+        /**
+          .km-button--primary .km-button__item{
+            ...
+          }
+         */
+        @at-root {
+            #{$selector} {
+                #{$currentSelector} {
+                    @content;
+                }
+            }
+        }
+    } @else {
+        /**
+          .km-button__item {
+            ...
+          }
+         */
+        @at-root {
+            #{$currentSelector} {
+                @content;
+            }
+        }
+    }
+}
+
+/**
+  @include m(primary) {
+    ...
+  }
+  =>
+  .km-button--primary {
+    ...
+  }
+ */
+@mixin m($modifier) {
+    $selector: &; // .km-button
+    $currentSelector: "";
+    @each $unit in $modifier {
+        $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ","}; // .km-button--primary,
+    }
+
+    @at-root {
+        #{$currentSelector} {
+            @content;
+        }
+    }
+}
+/**
+  @include configurable-m(primary, true) {
+    ...
+  }
+  =>
+  .km-button .km-button__true--primary{
+    ...
+  }
+ */
+@mixin configurable-m($modifier, $E-flag: false) {
+    $selector: &; // .km-button
+    $interpolation: '';
+
+    @if $E-flag {
+        $interpolation: $km-separator + $E-flag; // __true
+    }
+
+    @at-root {
+        #{$selector} {
+            .#{$B+$interpolation+$modifier-separator+$modifier} {
+                @content;
+            }
+        }
+    }
+}
+
+/**
+  @include spec-selector(-spec) {
+    ...
+  }
+  =>
+  .km-button-spec.km-button__item{
+    ...
+  }
+ */
+@mixin spec-selector($specSelector: '', $element: $E, $modifier: false, $block: $B) { // $E: item;  $block: km-button;
+    $modifierCombo: '';
+
+    @if $modifier {
+        $modifierCombo: $modifier-separator + $modifier; //  --true
+    }
+
+    @at-root {
+        #{&}#{$specSelector}.#{$block+$km-separator+$element+$modifierCombo} {
+            @content
+        }
+    }
+}
+
+/**
+  @include meb {
+    ...
+  }
+  =>
+  .km-button .km-button__item{
+    ...
+  }
+ */
+@mixin meb($modifier: false, $element: $E, $block: $B) { // $E: item;  $block: km-button;
+    $selector: &; // .km-button
+    $modifierCombo: '';
+
+    @if $modifier {
+        $modifierCombo: $modifier-separator + $modifier;
+    }
+
+    @at-root {
+        #{$selector} {
+            .#{$block+$km-separator+$element+$modifierCombo} {
+                @content
+            }
+        }
+    }
+}
+
+/**
+  @include when(disabled) {
+    ...
+  }
+  =>
+  .km-button.is-disabled{
+    ...
+  }
+ */
+@mixin when($state) {
+    @at-root {
+        &.#{$state-prefix + $state} {
+            @content;
+        }
+    }
+}
+
+/**
+  @include when(disabled) {
+    ...
+  }
+  =>
+  .km-button.is-disabled{
+    ...
+  }
+ */
+@mixin extend-rule($name) {
+    @extend #{'%shared-'+$name};
+}
+
+/**
+  @include share-rule(border-pseudo) {
+    ...
+  }
+  =>
+  %share-border-pseudo{
+    ...
+  }
+ */
+@mixin share-rule($name) {
+    $rule-name: '%shared-'+$name; // %shared-border-pseudo
+
+    @at-root #{$rule-name} {
+        @content
+    }
+}
+
+/**
+  伪类
+  @include pseudo(last-of-type) {
+    ...
+  }
+  =>
+  .km-button:last-of-type{
+    ...
+  }
+ */
+@mixin pseudo($pseudo) {
+    @at-root #{&}#{':#{$pseudo}'} {
+        @content
     }
 }

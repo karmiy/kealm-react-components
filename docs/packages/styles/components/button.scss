@@ -1,7 +1,7 @@
 @import "../mixins/index";
 @import "../common/var";
 
-@include rootCls(button) {
+@include b(button) {
     box-sizing: border-box;
     display: inline-block;
     line-height: $line-height-small;
@@ -16,13 +16,81 @@
     white-space: nowrap;
     cursor: pointer;
     -webkit-appearance: none;
-    user-select: none;
+    @include utils-user-select(none);
+    & + & {
+        margin-left: 10px;
+    }
 
     [class*=km-icon-] + span, span + [class*=km-icon-] {
         margin-left: 5px;
     }
 
-    &.is-loading {
+    /* km-button:hover/focus/active */
+    &:hover,
+    &:focus {
+        color: $color-primary;
+        border-color: $color-primary-light-7;
+        background-color: $color-primary-light-9;
+    }
+    &:active {
+        color: mix($color-black, $color-primary, $button-active-shade-percent);
+        border-color: mix($color-black, $color-primary, $button-active-shade-percent);
+        outline: none;
+    }
+    &::-moz-focus-inner {
+        border: 0;
+    }
+    /* km-button.is-plain */
+    @include when(plain) {
+        &:hover,
+        &:focus {
+            border-color: $color-primary;
+            background-color: $color-white;
+            color: $color-primary;
+        }
+        &:active {
+            border-color: mix($color-black, $color-primary, $button-active-shade-percent);
+            background-color: $color-white;
+            color: mix($color-black, $color-primary, $button-active-shade-percent);
+            outline: none;
+        }
+    }
+    
+    /* km-button.is-active */
+    @include when(active) {
+        color: mix($color-black, $color-primary, $button-active-shade-percent);
+        border-color: mix($color-black, $color-primary, $button-active-shade-percent);
+    }
+
+    /* km-button.is-disabled */
+    @include when(disabled) {
+        &,
+        &:hover,
+        &:focus {
+            border-color: $button-disabled-border-color;
+            background-image: none;
+            background-color: $button-disabled-background-color;
+            color: $button-disabled-font-color;
+            cursor: not-allowed;
+        }
+
+        &.km-button--text {
+            background-color: $color-none;
+        }
+
+        &.is-plain {
+            &,
+            &:hover,
+            &:focus {
+                background-color: $color-white;
+                border-color: $button-disabled-border-color;
+                color: $button-disabled-font-color;
+            }
+        }
+    }
+
+    /* km-button.is-loading */
+    @include when(loading) {
         position: relative;
         pointer-events: none;
         &:before {
@@ -36,10 +104,16 @@
             border-radius: inherit;
             background-color: rgba(255,255,255,.35);
         }
-        [class=km-icon-loading] {
-            display: inline-block;
-            animation: km-loading 1.4s linear infinite;
-        }
+    }
+
+    /* km-button.is-round */
+    @include when(round) {
+        @include button-round;
+    }
+
+    /* km-button.is-circle */
+    @include when(circle) {
+        @include button-circle;
     }
 
     & {
@@ -66,16 +140,6 @@
         @include button-variant($button-border-color-text, $button-background-color-text, $button-font-color-text, text);
     }
 
-    // round
-    &.is-round {
-        @include button-round;
-    }
-
-    // circle
-    &.is-circle {
-        @include button-circle;
-    }
-
     // size
     &-large {
         padding: $button-padding-vertical + 4 $button-padding-horizontal + 4;
@@ -85,11 +149,11 @@
     }
 }
 
-@include rootCls(button-group) {
+@include b(button-group) {
     display: inline-block;
     vertical-align: middle;
     @include utils-clear-fix;
-    @include rootCls(button) {
+    @include b(button) {
         $buttonCls: classRootName(button);
         float: left;
         margin: 0;

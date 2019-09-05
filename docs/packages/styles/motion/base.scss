@@ -1,3 +1,7 @@
+.km-icon-loading {
+    display: inline-block;
+    animation: km-loading 1.4s linear infinite;
+}
 @keyframes km-loading {
     0% {
         transform: rotate(0deg);

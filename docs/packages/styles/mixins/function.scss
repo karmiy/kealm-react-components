@@ -2,5 +2,58 @@
 /* --------------common------------------ */
 /* 组件根类名 */
 @function classRootName($name) {
-    @return $km-prefix + $name;
+    @return $namespace + '-' + $name;
+}
+
+/* --------------BEM Func------------------ */
+@function selectorToString($selector) { // .km-button
+    $selector: inspect($selector); // 转字符串=> (.km-button,)    ...会多了个,
+    $selector: str-slice($selector, 2, -2); // .km-button,
+    @return $selector;
+}
+
+@function containsModifier($selector) { // .km-button
+    $selector: selectorToString($selector);
+
+    @if str-index($selector, $modifier-separator) { // 是否有--符号
+        @return true;
+    } @else {
+        @return false;
+    }
+}
+
+/**
+    判断是否包含is-XXX标志
+ */
+@function containWhenFlag($selector) {
+    $selector: selectorToString($selector);
+
+    @if str-index($selector, '.' + $state-prefix) {
+        @return true
+    } @else {
+        @return false
+    }
+}
+
+/**
+    判断是否包含伪类
+ */
+@function containPseudoClass($selector) {
+    $selector: selectorToString($selector);
+
+    @if str-index($selector, ':') {
+        @return true
+    } @else {
+        @return false
+    }
+}
+
+/**
+    判断所属层级是否为特殊规则嵌套:
+        是否有修饰符，如: .km-button--primary
+        是否为is-XXX
+        是否为伪类
+ */
+@function hitAllSpecialNestRule($selector) {
+    @return containsModifier($selector) or containWhenFlag($selector) or containPseudoClass($selector);
 }

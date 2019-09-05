@@ -25,14 +25,14 @@ function Button(props) {
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
-        [`${componentCls}-${type}`]: true,
+        [`${componentCls}--${type}`]: true,
         [`is-plain`]: plain,
         [`is-round`]: round,
         [`is-circle`]: circle,
         [`is-disabled`]: disabled,
         [`is-loading`]: loading,
         [`is-active`]: active,
-        [`${componentCls}-${size}`]: !!size,
+        [`${componentCls}--${size}`]: !!size,
     });
 
     // icon
