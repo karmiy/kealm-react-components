@@ -160,3 +160,14 @@ $button-circle-radius: $border-radius-circle;
 
 // button-group-gap-color缝隙
 $button-group-gap-color: rgba($color-white, 0.5);
+
+/* --------------------------Collapse-------------------------- */
+$collapse-border-color: $border-color-base !default;
+$collapse-header-line-height: 22px !default;
+$collapse-header-padding: 20px !default;
+$collapse-header-fill: $color-white !default;
+$collapse-header-color: $color-text-primary !default;
+$collapse-header-size: $font-size-base !default;
+$collapse-content-fill: $color-white !default;
+$collapse-content-size: $font-size-base !default;
+$collapse-content-color: $color-text-regular !default;

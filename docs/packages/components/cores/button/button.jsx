@@ -42,7 +42,7 @@ function Button(props) {
     const contentNode = children ? <span>{children}</span> : null;
 
     // loading
-    const loadingNode = loading ? <Icon type='loading' /> : null
+    const loadingNode = loading ? <Icon type={'loading'} /> : null
 
     return (
         <button type={nativeType} className={classNames} disabled={disabled} {...others}>

@@ -18,7 +18,7 @@ function Collapse(props) {
         [componentCls]: true,
     });
 
-    const onEnter = (node, isAppearing) => {
+    /*const onEnter = (node, isAppearing) => {
         node.style.display = 'block';
         node.style.height = 0;
         node.classList.add('collapse-transition')
@@ -54,7 +54,7 @@ function Collapse(props) {
     return (
         <div className={classNames}>
             <button onClick={() => setShow(show => !show)}>切换状态,{show?1:0}</button>
-            {/*<Transition
+            {/!*<Transition
                 onEnter={onEnter}
                 onEntering={onEntering}
                 onEntered={onEntered}
@@ -76,7 +76,7 @@ function Collapse(props) {
                         )
                     }
                 }
-            </Transition>*/}
+            </Transition>*!/}
             <CSSTransition
                 in={show}
                 addEndListener={addEndListener}
@@ -92,6 +92,12 @@ function Collapse(props) {
                     {children}
                 </div>
             </CSSTransition>
+        </div>
+    )*/
+
+    return (
+        <div role='tablist' className={classNames}>
+            {children}
         </div>
     )
 }

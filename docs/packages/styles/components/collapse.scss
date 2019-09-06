@@ -1,0 +1,55 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(collapse) {
+    border: $border-width-base $border-style-base $collapse-border-color;
+}
+
+@include b(collapse-item) {
+    @include e(header) {
+        display: flex;
+        align-items: center;
+        line-height: $collapse-header-line-height;
+        padding: 12px 16px;
+        background-color: $collapse-header-fill;
+        color: $collapse-header-color;
+        cursor: pointer;
+        border-bottom: $border-width-base $border-style-base $collapse-border-color;
+        font-size: $collapse-header-size;
+        font-weight: 500;
+        transition: border-bottom-color .3s;
+        outline: none;
+        @include e(arrow) {
+            margin: 0 8px 0 auto;
+            transition: transform .3s;
+            @include when(active) {
+                transform: rotate(90deg);
+            }
+        }
+        &.focusing:focus:not(:hover){
+            color: $color-primary;
+        }
+        @include when(active) {
+            border-bottom-color: $color-none;
+        }
+    }
+
+    @include e(wrap) {
+        will-change: height;
+        background-color: $collapse-content-fill;
+        overflow: hidden;
+        box-sizing: border-box;
+        border-bottom: $border-width-base $border-style-base $collapse-border-color;
+    }
+
+    @include e(content) {
+        padding: 16px;
+        font-size: $collapse-content-size;
+        color: $collapse-content-color;
+        line-height: $line-height-base;
+    }
+
+    &:last-child {
+        margin-bottom: -1px;
+    }
+}
