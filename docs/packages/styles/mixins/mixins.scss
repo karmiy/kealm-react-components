@@ -1,13 +1,5 @@
 @import "function";
 
-/* 组件根样式 */
-/*@mixin rootCls($name) {
-    $rootClsName: classRootName($name);
-    .#{$rootClsName} {
-        @content;
-    }
-}*/
-
 /*-------------------------BEM----------------------------------*/
 /**
   @include b(button) {
@@ -19,7 +11,7 @@
   }
  */
 @mixin b($block) {
-    $B: $namespace+'-'+$block !global; // km-button
+    $B: $namespace + '-' + $block !global; // km-button
 
     .#{$B} {
         @content;
@@ -165,7 +157,7 @@
 
     @at-root {
         #{$selector} {
-            .#{$block+$km-separator+$element+$modifierCombo} {
+            .#{$block + $km-separator + $element + $modifierCombo} {
                 @content
             }
         }
@@ -199,7 +191,7 @@
   }
  */
 @mixin extend-rule($name) {
-    @extend #{'%shared-'+$name};
+    @extend #{'%shared-' + $name};
 }
 
 /**
@@ -212,7 +204,7 @@
   }
  */
 @mixin share-rule($name) {
-    $rule-name: '%shared-'+$name; // %shared-border-pseudo
+    $rule-name: '%shared-' + $name; // %shared-border-pseudo
 
     @at-root #{$rule-name} {
         @content

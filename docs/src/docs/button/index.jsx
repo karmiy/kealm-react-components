@@ -107,6 +107,10 @@ function ButtonDoc() {
                     <Button type='warning' plain>3</Button>
                     <Button type='danger' icon='right' circle plain />
                 </Group>
+                <Group>
+                    <Button type='text'>确定</Button>
+                    <Button type='text'>取消</Button>
+                </Group>
             </div>
 
             {/* 加载中 */}

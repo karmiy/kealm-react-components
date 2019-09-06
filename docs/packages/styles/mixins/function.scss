@@ -1,11 +1,16 @@
 @import "config";
-/* --------------common------------------ */
-/* 组件根类名 */
-@function classRootName($name) {
+/* -----------------------common--------------------------- */
+
+/**
+    添加前缀: km-
+ */
+@function addPrefix($name) {
     @return $namespace + '-' + $name;
 }
 
-/* --------------BEM Func------------------ */
+
+/* -----------------------BEM Func--------------------------- */
+
 @function selectorToString($selector) { // .km-button
     $selector: inspect($selector); // 转字符串=> (.km-button,)    ...会多了个,
     $selector: str-slice($selector, 2, -2); // .km-button,

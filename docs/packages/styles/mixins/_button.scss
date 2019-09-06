@@ -1,107 +1,73 @@
 @import "../common/var";
 
-/* button -------------------------------- */
-
-// button-borer/background/text-color
-@mixin button-color($border-color, $background-color, $text-color) {
-    border: $border-width-base $border-style-base $border-color;
+// button: hover/focus/active/.is-active/.is-disabled/.is-plain
+@mixin button-variant($color, $background-color, $border-color) {
+    color: $color;
     background-color: $background-color;
-    color: $text-color;
-}
+    border-color: $border-color;
 
-// button: hover/focus/is-plain/is-round
-@mixin button-variant($border-color, $background-color, $text-color, $type: default) {
-    @include button-color($border-color, $background-color, $text-color);
-    // default / text 特殊处理
-    @if $type == default {
+    &:hover,
+    &:focus {
+        border-color: mix($color-white, $border-color, $button-hover-tint-percent);
+        background-color: mix($color-white, $background-color, $button-hover-tint-percent);
+        color: $color;
+    }
+    &:active {
+        border-color: mix($color-black, $border-color, $button-active-shade-percent);
+        background-color: mix($color-black, $background-color, $button-active-shade-percent);
+        color: $color;
+        outline: none;
+    }
+
+    &.is-active {
+        border-color: mix($color-black, $border-color, $button-active-shade-percent);
+        background-color: mix($color-black, $background-color, $button-active-shade-percent);
+        color: $color;
+    }
+
+    &.is-disabled {
+        &,
         &:hover,
         &:focus,
-        &:active,
-        &.is-active {
-            @include button-color($color-primary-light-7, $color-primary-light-9, $color-primary);
+        &:active {
+            border-color: mix($border-color, $color-white);
+            background-color: mix($background-color, $color-white);
+            color: $color-white;
         }
-        &.is-plain {
-            @include button-plain(null, $type);
-        }
-        &.is-disabled {
-            @include button-disabled(null, null, null, $type);
-        }
-    } @else if $type == text {
-        &:hover,
-        &:focus,
-        &:active,
-        &.is-active {
-            @include button-color(
-                    $button-border-color-text,
-                    $button-background-color-text,
-                    mix($color-white, $color-primary, $button-hover-percent)
-            );
-        }
-        &.is-plain {
-            @include button-plain(null, $type);
-        }
-        &.is-disabled {
-            @include button-disabled(null, null, null, $type);
-        }
-    } @else {
-        &:hover,
-        &:focus,
-        &:active,
-        &.is-active {
-            @include button-color(
-                    mix($color-white, $border-color, $button-hover-percent),
-                    mix($color-white, $background-color, $button-hover-percent),
-                    $text-color
-            );
-        }
-        &.is-plain {
-            @include button-plain($background-color, $type);
-        }
-        &.is-disabled {
-            @include button-disabled($border-color, $background-color, $color-white, $type);
-        }
+    }
+
+    &.is-plain {
+        @include button-plain($background-color);
     }
 }
 
 // button-plain
-@mixin button-plain($color, $type: default) {
-    @if $type == default {
+@mixin button-plain($color) {
+    border-color: mix($color-white, $color, 60%);
+    background-color: mix($color-white, $color, 90%);
+    color: $color;
+
+    &:hover,
+    &:focus {
+        border-color: $color;
+        background-color: $color;
+        color: $color-white;
+    }
+    &:active {
+        border-color: mix($color-black, $color, $button-active-shade-percent);
+        background-color: mix($color-black, $color, $button-active-shade-percent);
+        color: $color-white;
+        outline: none;
+    }
+
+    &.is-disabled {
+        &,
         &:hover,
         &:focus,
-        &:active,
-        &.is-active {
-            @include button-color($color-primary, $color-white, $color-primary);
-        }
-    } @else if $type == text {
-        &:hover,
-        &:focus,
-        &:active,
-        &.is-active {
-            @include button-color(
-                    $button-border-color-text,
-                    $button-background-color-text,
-                    mix($color-white, $color-primary, $button-hover-percent)
-            );
-        }
-    } @else {
-        @include button-color(
-                mix($color-white, $color, 60%),
-                mix($color-white, $color, 90%),
-                $color
-        );
-        &:hover,
-        &:focus,
-        &:active,
-        &.is-active {
-            @include button-color($color, $color, $color-white);
-        }
-        &.is-disabled {
-            @include button-disabled(
-                    mix($color-white, $color, 60%),
-                    mix($color-white, $color, 90%),
-                    mix($color-white, $color, 40%),
-                    $type
-            );
+        &:active {
+            border-color: mix($color-white, $color, 80%);
+            background-color: mix($color-white, $color, 90%);
+            color: mix($color-white, $color, 40%);
         }
     }
 }
@@ -117,54 +83,28 @@
     border-radius: $button-circle-radius;
 }
 
-// button-disabled
-@mixin button-disabled($border-color, $background-color, $text-color, $type: default) {
-    &,
-    &:hover,
-    &:focus,
-    &:active,
-    &.is-active {
-        @if $type == default {
-            @include button-color(
-                    $button-disabled-border-color,
-                    $button-disabled-background-color,
-                    $button-disabled-font-color
-            );
-        } @else if $type == text {
-            @include button-color(
-                    $button-border-color-text,
-                    $button-background-color-text,
-                    $button-disabled-font-color
-            );
-        } @else {
-            @include button-color(
-                    mix($border-color, $color-white),
-                    mix($background-color, $color-white),
-                    $text-color
-            );
-        }
-        cursor: not-allowed;
-    }
-}
-
-// button-group
-@mixin button-group-variant($color: $button-group-gap-color) {
+// button-group > button
+@mixin button-group-variant($color) {
     &:first-child {
-        border-top-right-radius: $border-radius-none;
-        border-bottom-right-radius: $border-radius-none;
-        border-right-color: $color;
+        border-right-color: rgba($color-white, 0.5);
     }
     &:last-child {
-        border-top-left-radius: $border-radius-none;
-        border-bottom-left-radius: $border-radius-none;
-        border-left-color: $color;
-    }
-    &:not(:last-child) {
-        margin-right: -$border-width-base;
+        border-left-color: rgba($color-white, 0.5);
     }
     &:not(:first-child):not(:last-child) {
-        border-radius: $border-radius-none;
-        border-left-color: $color;
-        border-right-color: $color;
+        border-left-color: rgba($color-white, 0.5);
+        border-right-color: rgba($color-white, 0.5);
+    }
+    &.is-plain {
+        &:first-child {
+            border-right-color: mix($color-white, $color, 60%);
+        }
+        &:last-child {
+            border-left-color: mix($color-white, $color, 60%);
+        }
+        &:not(:first-child):not(:last-child) {
+            border-left-color: mix($color-white, $color, 60%);
+            border-right-color: mix($color-white, $color, 60%);
+        }
     }
 }

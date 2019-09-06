@@ -39,6 +39,12 @@ $font-size-extra-large: 20px !default;
 $font-weight-base: 500 !default;
 $font-weight-bold: 700 !default;
 
+// z-index
+$z-index-base: 1 !default;
+$z-index-large: 10 !default;
+$z-index-extra-large: 100 !default;
+$z-index-extremely-large: 1000 !default;
+
 // transition-duration
 $transition-duration-fast: .1s!default;
 $transition-duration-base: .3s!default;
@@ -138,7 +144,7 @@ $button-padding-vertical: 8px;
 $button-padding-horizontal: 15px;
 
 // button-hover
-$button-hover-percent: 20% !default;
+$button-hover-tint-percent: 20% !default;
 $button-active-shade-percent: 10% !default;
 
 // button-disabled

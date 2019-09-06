@@ -7,11 +7,14 @@
     line-height: $line-height-small;
     margin: 0;
     padding: $button-padding-vertical $button-padding-horizontal;
+    border: $border-width-base $border-style-base $button-border-color-default;
     border-radius: $border-radius-base;
     outline: none;
+    background-color: $button-background-color-default;
     transition: $transition-duration-base;
     font-size: $font-size-base;
     font-weight: $font-weight-base;
+    color: $button-font-color-default;
     text-align: center;
     white-space: nowrap;
     cursor: pointer;
@@ -25,7 +28,7 @@
         margin-left: 5px;
     }
 
-    /* km-button:hover/focus/active */
+    /* .km-button:hover/focus/active */
     &:hover,
     &:focus {
         color: $color-primary;
@@ -40,7 +43,7 @@
     &::-moz-focus-inner {
         border: 0;
     }
-    /* km-button.is-plain */
+    /* .km-button.is-plain */
     @include when(plain) {
         &:hover,
         &:focus {
@@ -56,13 +59,13 @@
         }
     }
     
-    /* km-button.is-active */
+    /* .km-button.is-active */
     @include when(active) {
         color: mix($color-black, $color-primary, $button-active-shade-percent);
         border-color: mix($color-black, $color-primary, $button-active-shade-percent);
     }
 
-    /* km-button.is-disabled */
+    /* .km-button.is-disabled */
     @include when(disabled) {
         &,
         &:hover,
@@ -89,7 +92,7 @@
         }
     }
 
-    /* km-button.is-loading */
+    /* .km-button.is-loading */
     @include when(loading) {
         position: relative;
         pointer-events: none;
@@ -106,45 +109,65 @@
         }
     }
 
-    /* km-button.is-round */
+    /* .km-button.is-round */
     @include when(round) {
         @include button-round;
     }
 
-    /* km-button.is-circle */
+    /* .km-button.is-circle */
     @include when(circle) {
         @include button-circle;
     }
 
-    & {
-        @include button-variant($button-border-color-default, $button-background-color-default, $button-font-color-default);
+    /* .km-button--primary/success/info/warning/danger */
+    @include m(primary) {
+        @include button-variant($button-font-color-primary, $button-background-color-primary, $button-border-color-primary);
     }
-    &-primary {
-        @include button-variant($button-border-color-primary, $button-background-color-primary, $button-font-color-primary, primary);
+    @include m(success) {
+        @include button-variant($button-font-color-success, $button-background-color-success, $button-border-color-success);
     }
-    &-success {
-        @include button-variant($button-border-color-success, $button-background-color-success, $button-font-color-success, success);
+    @include m(warning) {
+        @include button-variant($button-font-color-warning, $button-background-color-warning, $button-border-color-warning);
     }
-    &-info {
-        @include button-variant($button-border-color-info, $button-background-color-info, $button-font-color-info, info);
+    @include m(danger) {
+        @include button-variant($button-font-color-danger, $button-background-color-danger, $button-border-color-danger);
     }
-    &-warning {
-        @include button-variant($button-border-color-warning, $button-background-color-warning, $button-font-color-warning, warning);
-    }
-    &-danger {
-        @include button-variant($button-border-color-danger, $button-background-color-danger, $button-font-color-danger, danger);
-    }
-    &-text {
-        padding-left: 0;
-        padding-right: 0;
-        @include button-variant($button-border-color-text, $button-background-color-text, $button-font-color-text, text);
+    @include m(info) {
+        @include button-variant($button-font-color-info, $button-background-color-info, $button-border-color-info);
     }
 
-    // size
-    &-large {
+    /* .km-button--text */
+    @include m(text) {
+        border-color: $button-border-color-text;
+        background-color: $button-background-color-text;
+        color: $button-font-color-text;
+        padding-left: 0;
+        padding-right: 0;
+
+        &:hover,
+        &:focus {
+            border-color: $button-border-color-text;
+            background-color: $button-background-color-text;
+            color: mix($color-white, $color-primary, $button-hover-tint-percent);
+        }
+        &:active {
+            border-color: $button-border-color-text;
+            background-color: $button-background-color-text;
+            color: mix($color-black, $color-primary, $button-active-shade-percent);
+        }
+
+        &.is-disabled,
+        &.is-disabled:hover,
+        &.is-disabled:focus {
+            border-color: $button-border-color-text;
+        }
+    }
+
+    /* .km-button--large/small */
+    @include m(large) {
         padding: $button-padding-vertical + 4 $button-padding-horizontal + 4;
     }
-    &-small {
+    @include m(small) {
         padding: $button-padding-vertical - 4 $button-padding-horizontal - 8;
     }
 }
@@ -153,46 +176,62 @@
     display: inline-block;
     vertical-align: middle;
     @include utils-clear-fix;
-    @include b(button) {
-        $buttonCls: classRootName(button);
+    /* .km-button-group > .km-button */
+    & > .#{addPrefix(button)} {
+        position: relative;
         float: left;
-        margin: 0;
-        &:hover, &:focus, &.is-active {
-            position: relative;
+        & + .#{addPrefix(button)} {
+            margin-left: 0;
         }
-        @include button-group-variant($button-border-color-default);
-        @each $type in primary success info warning danger {
-            &.#{$buttonCls + $km-separator + $type} {
-                @include button-group-variant;
-            }
+        &.is-disabled {
+            z-index: $z-index-base;
         }
-        &.is-plain {
-            &:hover, &:focus, &:active, &.is-active {
-                @include button-group-variant($button-border-color-primary);
-            }
-            &.#{$buttonCls}-primary {
-                @include button-group-variant(mix($color-white, $button-border-color-primary, 60%));
-            }
-            &.#{$buttonCls}-success {
-                @include button-group-variant(mix($color-white, $button-border-color-success, 60%));
-            }
-            &.#{$buttonCls}-info {
-                @include button-group-variant(mix($color-white, $button-border-color-info, 60%));
-            }
-            &.#{$buttonCls}-warning {
-                @include button-group-variant(mix($color-white, $button-border-color-warning, 60%));
-            }
-            &.#{$buttonCls}-danger {
-                @include button-group-variant(mix($color-white, $button-border-color-danger, 60%));
-            }
+
+        &:first-child {
+            border-top-right-radius: $border-radius-none;
+            border-bottom-right-radius: $border-radius-none;
         }
-        &.#{$buttonCls}-text {
-            padding: $button-padding-vertical $button-padding-horizontal;
-            @include button-group-variant(transparent);
-            &:hover, &:focus, &:active, &.is-active {
-                @include button-group-variant(transparent);
-            }
+        &:last-child {
+            border-top-left-radius: $border-radius-none;
+            border-bottom-left-radius: $border-radius-none;
         }
+        &:not(:first-child):not(:last-child) {
+            border-radius: $border-radius-none;
+        }
+        &:not(:last-child) {
+            margin-right: -$border-width-base;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            z-index: $z-index-base;
+        }
+        @include when(active) {
+            z-index: $z-index-base;
+        }
+    }
+
+    /* .km-button-group > .km-button--primary/success/warning/danger/info */
+    & > .#{addPrefix(button + $modifier-separator + primary)} {
+        @include button-group-variant($button-background-color-primary);
+    }
+    & > .#{addPrefix(button + $modifier-separator + success)} {
+        @include button-group-variant($button-background-color-success);
+    }
+    & > .#{addPrefix(button + $modifier-separator + warning)} {
+        @include button-group-variant($button-background-color-warning);
+    }
+    & > .#{addPrefix(button + $modifier-separator + danger)} {
+        @include button-group-variant($button-background-color-danger);
+    }
+    & > .#{addPrefix(button + $modifier-separator + info)} {
+        @include button-group-variant($button-background-color-info);
+    }
+
+    /* .km-button-group > .km-button--text */
+    & > .#{addPrefix(button + $modifier-separator + text)} {
+        padding: $button-padding-vertical $button-padding-horizontal - 5;
     }
 }
 
