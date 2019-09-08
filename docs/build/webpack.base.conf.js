@@ -20,6 +20,7 @@ module.exports = {
             '@kealm/react-components': path.join(__dirname, '../packages/components/cores/index.jsx'),
             '@kealm/react-components-style': path.join(__dirname, '../packages/styles/index.scss'),
             'hooks': path.join(__dirname, '../packages/hooks'),
+            'utils': path.join(__dirname, '../packages/utils'),
         },
     },
     module: {

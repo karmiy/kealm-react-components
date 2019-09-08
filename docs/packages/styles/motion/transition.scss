@@ -2,5 +2,8 @@
 
 /* collapse */
 .collapse-transition {
-    transition: $transition-duration-base height $ease-in-out;
+    transition: $transition-duration-base height $ease-in-out, $transition-duration-base padding-top $ease-in-out, $transition-duration-base padding-bottom $ease-in-out;
+}
+.horizontal-collapse-transition {
+    transition: $transition-duration-base width $ease-in-out, $transition-duration-base padding-left $ease-in-out, $transition-duration-base padding-right $ease-in-out;
 }
