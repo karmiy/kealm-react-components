@@ -5,13 +5,14 @@ import { useContextConf, useClassName } from 'hooks';
 import { CollapseTransition } from '../transition';
 
 function CollapseItem(props) {
-    const [show, setShow] = useState(false);
     const { componentCls } = useContextConf('collapse-item');
     const {
         children,
         className,
         name,
         title,
+        expand,
+        onExpandChange,
         ...others
     } = props;
     // 根元素class
@@ -33,19 +34,19 @@ function CollapseItem(props) {
     // arrow class
     const arrowClassNames = useClassName({
         [`${componentCls}__arrow`]: true,
-        'is-active': show,
+        'is-active': expand,
     })
 
     return (
         <div className={classNames} {...others}>
             <div role={'tab'}>
                 {/* header */}
-                <div role={'button'} tabIndex={0} className={headerClassNames} onClick={() => setShow(pre => !pre)}>
+                <div role={'button'} tabIndex={0} className={headerClassNames} onClick={() => {onExpandChange(!expand)}}>
                     {title}
                     <Icon type={'right'} className={arrowClassNames} />
                 </div>
                 {/* wrap */}
-                <CollapseTransition visible={show}>
+                <CollapseTransition visible={expand}>
                     <div role={'tabpanel'} className={wrapClassNames}>
                         <div className={`${componentCls}__content`}>
                             {children}

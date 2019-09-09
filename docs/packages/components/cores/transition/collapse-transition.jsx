@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import ReactDom from 'react-dom';
 import { Transition } from 'react-transition-group';
 import addEventListener from 'add-dom-event-listener';
+import { useDidMount } from 'hooks';
 import { addClass, removeClass } from 'utils/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
 
@@ -80,8 +81,8 @@ function CollapseTransition(props) {
         onExited
     } = _Transition;
 
-    useEffect(() => {
-        // visible => nothing
+    useDidMount(() => {
+        // visible => to do nothing
         // !visible => to do display none
         const el = ReactDom.findDOMNode(ref.current);
         if(!visible && el) {
@@ -89,7 +90,7 @@ function CollapseTransition(props) {
             el.dataset.display = el.style.display;
             el.style.display = 'none';
         }
-    }, []);
+    })
     return (
         <Transition
             ref={ref}
