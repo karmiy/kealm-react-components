@@ -11,6 +11,7 @@ $border-radius-none: 0 !default;
 // border-width
 $border-width-none: 0 !default;
 $border-width-base: 1px !default;
+$border-width-base: 20px;
 $border-width-medium: 2px !default;
 $border-width-large: 4px !default;
 
@@ -103,6 +104,7 @@ $color-text-primary: #303133 !default; // 主要
 $color-text-regular: #606266 !default; // 常规
 $color-text-secondary: #909399 !default; // 次要
 $color-text-placeholder: #C0C4CC !default; // 占位
+$color-text-disabled: #bbb !default; // disabled
 
 // 边框颜
 $border-color-base: #DCDFE6 !default;

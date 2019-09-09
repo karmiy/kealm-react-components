@@ -6,6 +6,12 @@
 }
 
 @include b(collapse-item) {
+    @include when(disabled) {
+        .km-collapse-item__header {
+            color: $color-text-disabled;
+            cursor: not-allowed;
+        }
+    }
     @include e(header) {
         display: flex;
         align-items: center;
@@ -25,12 +31,12 @@
             @include when(active) {
                 transform: rotate(90deg);
             }
+            @include when(left) {
+                margin: 0 8px;
+            }
         }
         &.focusing:focus:not(:hover){
             color: $color-primary;
-        }
-        @include when(active) {
-            border-bottom-color: $color-none;
         }
     }
 

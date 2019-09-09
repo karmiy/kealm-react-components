@@ -6,13 +6,13 @@ import React, { useRef, useLayoutEffect } from 'react';
  * @param dependencies 依赖项，不传则都会触发
  */
 function useDidUpdate(callback, dependencies) {
-    const mounted = useRef(false);
+    const mounted = useRef(true);
     useLayoutEffect(() => {
-        if (!mounted.current) {
-            mounted.current = true;
-            return;
+        if (mounted.current) {
+            mounted.current = false;
+        }else {
+            callback && callback();
         }
-        callback && callback();
     }, dependencies);
 }
 
