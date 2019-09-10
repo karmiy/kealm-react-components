@@ -1,6 +1,6 @@
-import React, { Children, cloneElement, useState, useCallback } from 'react';
+import React, { Children, cloneElement, useState, useCallback, useMemo } from 'react';
 import { CollapseProps, CollapseDefaultProps } from "./interface";
-import { useContextConf, useClassName, useDidUpdate, useSyncOnce } from 'hooks';
+import { useContextConf, useClassName, useDidUpdate, useSyncOnce, useTransChildren } from 'hooks';
 import { toArray, removeOfArray } from 'utils/array';
 
 const noop = () => {};
@@ -17,12 +17,18 @@ function Collapse(props) {
         ...others
     } = props;
 
+    // ---------------------------------- class ----------------------------------
     // root-className
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
-    });
+    }, [className]);
 
+    // ---------------------------------- logic code ----------------------------------
+    // 转化children
+    const _children = useTransChildren(children);
+
+    // 初始化当前active激活项
     let initValue = null;
     useSyncOnce(() => {
         // 初始化当前active状态的collapse-item，默认[]
@@ -37,6 +43,7 @@ function Collapse(props) {
         setActiveNames(value);
     }, [value])
 
+    // ---------------------------------- event ----------------------------------
     // 展开/收起 回调
     const onExpandChange = useCallback((name, expand) => {
         let nextActiveNames = activeNames;
@@ -49,21 +56,26 @@ function Collapse(props) {
         onChange(nextActiveNames);
 
         !value && setActiveNames(nextActiveNames);
-    })
-    // 激活选中的collapse-item
-    const _children = Children.map(children, (child, index) => {
-        const name = child.props.name || `collapse-item-${index}`;
-        const isDisabled = child.props.disabled;
-        return cloneElement(child, {
-            expand: activeNames.includes(name) && !isDisabled,
-            name,
-            onExpandChange: isDisabled ? noop : onExpandChange,
-        })
-    });
+    }, [activeNames, value, onChange, accordion])
 
+    // ---------------------------------- render chunk ----------------------------------
+    // 激活选中的collapse-item
+    const renderChildren = useMemo(() => {
+        return Children.map(_children, (child, index) => {
+            const name = child.props.name || `collapse-item-${index}`;
+            const isDisabled = child.props.disabled;
+            return cloneElement(child, {
+                expand: activeNames.includes(name) && !isDisabled,
+                name,
+                onExpandChange: isDisabled ? noop : onExpandChange,
+            })
+        })
+    }, [activeNames, onExpandChange]);
+
+    // ---------------------------------- render ----------------------------------
     return (
         <div role='tablist' className={classNames} {...others}>
-            {_children}
+            {renderChildren}
         </div>
     )
 }

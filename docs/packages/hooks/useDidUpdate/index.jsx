@@ -2,8 +2,8 @@ import React, { useRef, useLayoutEffect } from 'react';
 
 /**
  * componentDidUpdate
- * @param callback 回调
- * @param dependencies 依赖项，不传则都会触发
+ * @param callback
+ * @param dependencies
  */
 function useDidUpdate(callback, dependencies) {
     const mounted = useRef(true);

@@ -11,10 +11,13 @@ function ButtonGroup(props) {
         ...others
     } = props;
 
+    // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
-    });
+    }, [className]);
+
+    // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
             {children}

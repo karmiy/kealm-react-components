@@ -2,8 +2,9 @@ import useClassName from './useClassName';
 import useContextConf from './useContextConf';
 import useDidMount from './useDidMount';
 import useWillUnMount from './useWillUnMount';
-import useDidUpdate from "./useDidUpdate";
+import useDidUpdate from './useDidUpdate';
 import useSyncOnce from './useSyncOnce';
+import useTransChildren from './useTransChildren';
 
 export {
     useClassName,
@@ -12,4 +13,5 @@ export {
     useWillUnMount,
     useDidUpdate,
     useSyncOnce,
+    useTransChildren,
 }

@@ -10,12 +10,14 @@ function Icon(props) {
     } = props;
     const { componentCls } = useContextConf(`icon-${type}`);
 
+    // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
-    });
+    }, className);
 
-    return <i className={classNames} {...others} />
+    // ---------------------------------- render ----------------------------------
+    return <i className={classNames} {...others} />;
 }
 
 Icon.propTypes = IconProps;
