@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ButtonProps, ButtonDefaultProps } from "./interface";
 import Icon from '../icon';
 import { useContextConf, useClassName } from 'hooks';
@@ -22,6 +22,7 @@ function Button(props) {
         ...others
     } = props;
 
+    // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
@@ -33,22 +34,30 @@ function Button(props) {
         [`is-loading`]: loading,
         [`is-active`]: active,
         [`${componentCls}--${size}`]: !!size,
-    });
+    }, [className, plain, round, circle, disabled, loading, active, size]);
 
+    // ---------------------------------- render chunk ----------------------------------
     // icon
-    const iconNode = icon ? <Icon type={icon} /> : null;
+    const renderIcon = useMemo(() => {
+        return icon ? <Icon type={icon} /> : null;
+    }, [icon])
 
     // content
-    const contentNode = children ? <span>{children}</span> : null;
+    const renderContent = useMemo(() => {
+        return children ? <span>{children}</span> : null;
+    }, [children])
 
     // loading
-    const loadingNode = loading ? <Icon type={'loading'} /> : null
+    const renderLoading = useMemo(() => {
+        return loading ? <Icon type={'loading'} /> : null;
+    }, [loading]);
 
+    // ---------------------------------- render ----------------------------------
     return (
         <button type={nativeType} className={classNames} disabled={disabled} {...others}>
-            {!iconRight && (loadingNode || iconNode)}
-            {contentNode}
-            {iconRight && (loadingNode || iconNode)}
+            {!iconRight && (renderLoading || renderIcon)}
+            {renderContent}
+            {iconRight && (renderLoading || renderIcon)}
         </button>
     )
 }

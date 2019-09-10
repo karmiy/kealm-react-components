@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Icon from '../icon';
 import { CollapseItemProps, CollapseItemDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
@@ -17,46 +17,74 @@ function CollapseItem(props) {
         iconLeft,
         ...others
     } = props;
+    // ---------------------------------- class ----------------------------------
     // 根元素class
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
         'is-disabled': disabled,
-    });
+    }, [className, disabled]);
 
     // header class
     const headerClassNames = useClassName({
         [`${componentCls}__header`]: true,
-    })
+    }, [])
 
     // wrap class
     const wrapClassNames = useClassName({
         [`${componentCls}__wrap`]: true,
-    })
+    }, [])
+
+    // content class
+    const contentClassNames = useClassName({
+        [`${componentCls}__content`]: true,
+    }, [])
 
     // arrow class
     const arrowClassNames = useClassName({
         [`${componentCls}__arrow`]: true,
         'is-active': expand,
         'is-left': iconLeft,
-    })
+    }, [expand, iconLeft])
 
+    // ---------------------------------- event ----------------------------------
+    // header-click
+    const headerClick = useCallback(() => {
+        onExpandChange(name, !expand);
+    }, [onExpandChange, name, expand]);
+
+    // ---------------------------------- render chunk ----------------------------------
+    // render-header
+    const renderHeader = useMemo(() => {
+        return (
+            <div role={'button'} tabIndex={0} className={headerClassNames} onClick={headerClick}>
+                {iconLeft && <Icon type={'right'} className={arrowClassNames} />}
+                {title}
+                {!iconLeft && <Icon type={'right'} className={arrowClassNames} />}
+            </div>
+        )
+    }, [iconLeft, headerClassNames, arrowClassNames, headerClick, title]);
+
+    // render-wrap
+    const renderWrap = useMemo(() => {
+        return (
+            <div role={'tabpanel'} className={wrapClassNames}>
+                <div className={contentClassNames}>
+                    {children}
+                </div>
+            </div>
+        )
+    }, [contentClassNames, wrapClassNames, children])
+
+    // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
             <div role={'tab'}>
                 {/* header */}
-                <div role={'button'} tabIndex={0} className={headerClassNames} onClick={() => {onExpandChange(name, !expand)}}>
-                    {iconLeft && <Icon type={'right'} className={arrowClassNames} />}
-                    {title}
-                    {!iconLeft && <Icon type={'right'} className={arrowClassNames} />}
-                </div>
+                {renderHeader}
                 {/* wrap */}
                 <CollapseTransition visible={expand}>
-                    <div role={'tabpanel'} className={wrapClassNames}>
-                        <div className={`${componentCls}__content`}>
-                            {children}
-                        </div>
-                    </div>
+                    {renderWrap}
                 </CollapseTransition>
             </div>
         </div>

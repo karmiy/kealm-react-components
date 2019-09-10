@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { IconProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 
@@ -10,12 +10,14 @@ function Icon(props) {
     } = props;
     const { componentCls } = useContextConf(`icon-${type}`);
 
+    // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [className]: className,
         [componentCls]: true,
-    });
+    }, className);
 
-    return <i className={classNames} {...others} />
+    // ---------------------------------- render ----------------------------------
+    return useMemo(() => <i className={classNames} {...others} />, [props]);
 }
 
 Icon.propTypes = IconProps;
