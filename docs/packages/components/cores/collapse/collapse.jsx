@@ -16,6 +16,7 @@ function Collapse(props) {
         iconLeft,
         accordion,
         unmountOnExit,
+        showArrow,
         ...others
     } = props;
 
@@ -72,9 +73,10 @@ function Collapse(props) {
                 iconLeft: !!iconLeft,
                 unmountOnExit: !!unmountOnExit,
                 onExpandChange: isDisabled ? noop : onExpandChange,
+                showArrow,
             })
         })
-    }, [activeNames, onExpandChange, iconLeft, unmountOnExit]);
+    }, [activeNames, onExpandChange, iconLeft, unmountOnExit, showArrow]);
 
     // ---------------------------------- render ----------------------------------
     return (

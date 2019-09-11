@@ -73,7 +73,7 @@ function CollapseDoc() {
     // ---------------------------------- render chunk ----------------------------------
     const renderBaseDemo = useMemo(() => {
         return (
-            <Collapse defaultValue={1} iconLeft>
+            <Collapse defaultValue={1}>
                 {itemContents}
             </Collapse>
         )

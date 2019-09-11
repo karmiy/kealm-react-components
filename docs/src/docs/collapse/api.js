@@ -33,6 +33,13 @@ export const CollapseProps = [
         type: 'boolean',
         option: '--',
         default: 'false',
+    },
+    {
+        param: 'showArrow',
+        des: '是否显示箭头',
+        type: 'boolean',
+        option: '--',
+        default: 'true',
     }
 ]
 
@@ -79,5 +86,19 @@ export const CollapseItemProps = [
         type: 'ReactNode',
         option: '--',
         default: '--',
-    }
+    },
+    {
+        param: 'headerClass',
+        des: '自定义头部块的类名',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'wrapClass',
+        des: '自定义内容块的类名',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
 ]

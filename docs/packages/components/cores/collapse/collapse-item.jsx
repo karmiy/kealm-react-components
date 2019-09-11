@@ -18,6 +18,9 @@ function CollapseItem(props) {
         expandIcon,
         unmountOnExit,
         extra,
+        showArrow,
+        headerClass,
+        wrapClass,
         ...others
     } = props;
     // ---------------------------------- class ----------------------------------
@@ -31,12 +34,14 @@ function CollapseItem(props) {
     // header class
     const headerClassNames = useClassName({
         [`${componentCls}__header`]: true,
-    }, [])
+        [headerClass]: headerClass,
+    }, [headerClass])
 
     // wrap class
     const wrapClassNames = useClassName({
         [`${componentCls}__wrap`]: true,
-    }, [])
+        [wrapClass]: wrapClass,
+    }, [wrapClass])
 
     // content class
     const contentClassNames = useClassName({
@@ -65,7 +70,7 @@ function CollapseItem(props) {
     // render-header
     const renderHeader = useMemo(() => {
         const _expandIcon = expandIcon ? React.cloneElement(expandIcon, {className: arrowClassNames}) : null;
-        const iconNode = _expandIcon || <Icon type={'right'} className={arrowClassNames} />;
+        const iconNode = showArrow ? (_expandIcon || <Icon type={'right'} className={arrowClassNames} />) : null;
         const extraNode = extra ? React.cloneElement(extra, {className: extraClassNames}) : null;
         return (
             <div role={'button'} tabIndex={0} className={headerClassNames} onClick={headerClick}>
@@ -75,7 +80,7 @@ function CollapseItem(props) {
                 {extraNode}
             </div>
         )
-    }, [iconLeft, headerClassNames, arrowClassNames, headerClick, title, expandIcon, extra, arrowClassNames]);
+    }, [iconLeft, headerClassNames, arrowClassNames, headerClick, title, expandIcon, extra, arrowClassNames, showArrow]);
 
     // render-wrap
     const renderWrap = useMemo(() => {
