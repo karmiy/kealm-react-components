@@ -32,8 +32,11 @@
                 transform: rotate(90deg);
             }
             @include when(left) {
-                margin: 0 8px;
+                margin: 0 8px 0 0;
             }
+        }
+        @include e(extra) {
+            margin: 0 8px 0 auto;
         }
         &.focusing:focus:not(:hover){
             color: $color-primary;
@@ -45,7 +48,6 @@
         background-color: $collapse-content-fill;
         overflow: hidden;
         box-sizing: border-box;
-        padding: 30px 0;
         border-bottom: $border-width-base $border-style-base $collapse-border-color;
     }
 

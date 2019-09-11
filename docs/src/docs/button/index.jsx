@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Icon } from '@kealm/react-components';
 import { ApiTable } from '@/components/common';
 import { buttonProps, buttonEvents } from "./api";
@@ -153,7 +153,7 @@ function ButtonDoc() {
             </div>
 
             {/* API */}
-            <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />
+            {useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}
         </div>
     )
 }

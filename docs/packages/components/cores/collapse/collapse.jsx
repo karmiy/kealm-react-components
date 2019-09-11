@@ -13,7 +13,9 @@ function Collapse(props) {
         value,
         defaultValue,
         onChange,
+        iconLeft,
         accordion,
+        unmountOnExit,
         ...others
     } = props;
 
@@ -67,10 +69,12 @@ function Collapse(props) {
             return cloneElement(child, {
                 expand: activeNames.includes(name) && !isDisabled,
                 name,
+                iconLeft: !!iconLeft,
+                unmountOnExit: !!unmountOnExit,
                 onExpandChange: isDisabled ? noop : onExpandChange,
             })
         })
-    }, [activeNames, onExpandChange]);
+    }, [activeNames, onExpandChange, iconLeft, unmountOnExit]);
 
     // ---------------------------------- render ----------------------------------
     return (

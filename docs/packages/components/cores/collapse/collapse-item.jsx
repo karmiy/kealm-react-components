@@ -15,6 +15,9 @@ function CollapseItem(props) {
         onExpandChange,
         disabled,
         iconLeft,
+        expandIcon,
+        unmountOnExit,
+        extra,
         ...others
     } = props;
     // ---------------------------------- class ----------------------------------
@@ -47,6 +50,11 @@ function CollapseItem(props) {
         'is-left': iconLeft,
     }, [expand, iconLeft])
 
+    // extra class
+    const extraClassNames = useClassName({
+        [`${componentCls}__extra`]: true,
+    }, [extra])
+
     // ---------------------------------- event ----------------------------------
     // header-click
     const headerClick = useCallback(() => {
@@ -56,14 +64,18 @@ function CollapseItem(props) {
     // ---------------------------------- render chunk ----------------------------------
     // render-header
     const renderHeader = useMemo(() => {
+        const _expandIcon = expandIcon ? React.cloneElement(expandIcon, {className: arrowClassNames}) : null;
+        const iconNode = _expandIcon || <Icon type={'right'} className={arrowClassNames} />;
+        const extraNode = extra ? React.cloneElement(extra, {className: extraClassNames}) : null;
         return (
             <div role={'button'} tabIndex={0} className={headerClassNames} onClick={headerClick}>
-                {iconLeft && <Icon type={'right'} className={arrowClassNames} />}
+                {iconLeft && iconNode}
                 {title}
-                {!iconLeft && <Icon type={'right'} className={arrowClassNames} />}
+                {!iconLeft && iconNode}
+                {extraNode}
             </div>
         )
-    }, [iconLeft, headerClassNames, arrowClassNames, headerClick, title]);
+    }, [iconLeft, headerClassNames, arrowClassNames, headerClick, title, expandIcon, extra, arrowClassNames]);
 
     // render-wrap
     const renderWrap = useMemo(() => {
@@ -83,7 +95,7 @@ function CollapseItem(props) {
                 {/* header */}
                 {renderHeader}
                 {/* wrap */}
-                <CollapseTransition visible={expand}>
+                <CollapseTransition visible={expand} unmountOnExit={unmountOnExit}>
                     {renderWrap}
                 </CollapseTransition>
             </div>

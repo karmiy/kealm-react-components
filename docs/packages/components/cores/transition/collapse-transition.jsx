@@ -1,23 +1,32 @@
 import React, { useRef } from 'react';
 import ReactDom from 'react-dom';
 import { Transition } from 'react-transition-group';
-import addEventListener from 'add-dom-event-listener';
+import addDomEventListener from 'add-dom-event-listener';
 import { useDidMount, useDidUpdate } from 'hooks';
 import {addClass, getStyle, removeClass} from 'utils/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
 
 // ---------------------------------- transition action ----------------------------------
 const _Transition = {
-    init(el, visible = true) {
-        // init dataset object
-        if (!el.dataset) el.dataset = {};
-        // store data
-        (this || _Transition).invariableStore(el);
-        (this || _Transition).variableStore(el);
+    init(el, visible = true, unmountOnExit = false) {
+        // if unmount on exit, don't init
+        if(unmountOnExit) return;
+
+        // init data store
+        _Transition.initStore(el);
+
         // visible => display: none
         if(!visible) {
             el.style.display = 'none';
         }
+    },
+    initStore(el) {
+        // init dataset object
+        if (!el.dataset) el.dataset = {};
+
+        // store data
+        _Transition.invariableStore(el);
+        _Transition.variableStore(el);
     },
     invariableStore(el) {
         // store display、overflow
@@ -38,7 +47,13 @@ const _Transition = {
         el._borderBottom = getStyle(el, 'border-bottom-width');
         el._isBorderBox = getStyle(el, 'box-sizing') === 'border-box';
     },
+    validateStore(el) { // validate store for preventing the lack of data in unmountOnExit
+        (!el.dataset || !el._paddingTop) && _Transition.init(el);
+    },
     onEnter(el) {
+        // prevent props of unmountOnExit
+        _Transition.validateStore(el);
+
         // console.log('onEnter');
         addClass(el, 'collapse-transition');
         el.style.height = '0';
@@ -80,6 +95,9 @@ const _Transition = {
         el.style.overflow = el.dataset.oldOverflow;
     },
     onExit(el) {
+        // prevent props of unmountOnExit
+        _Transition.validateStore(el);
+
         // console.log('onExit');
         const height = el._isBorderBox ?
             el.scrollHeight
@@ -117,13 +135,13 @@ const _Transition = {
 }
 
 const addEndListener = (node, done) => {
-    addEventListener(node, 'transitionend', done, false);
+    addDomEventListener(node, 'transitionend', done, false);
 }
 
 function CollapseTransition(props) {
     const transitionRef = useRef(null);
     const elementRef = useRef(null);
-    const { children, visible } = props;
+    const { children, visible, unmountOnExit } = props;
     const {
         init,
         variableStore,
@@ -141,9 +159,10 @@ function CollapseTransition(props) {
         // !visible => to do display none
         const el = ReactDom.findDOMNode(transitionRef.current);
         elementRef.current = el;
-        init(el, visible);
+        init(el, visible, unmountOnExit);
     })
 
+    // prevent height changes in DOM
     useDidUpdate(() => {
         const el = elementRef.current;
         el && variableStore(el);
@@ -161,6 +180,7 @@ function CollapseTransition(props) {
             onExit={onExit}
             onExiting={onExiting}
             onExited={onExited}
+            unmountOnExit={unmountOnExit}
         >
             {children}
         </Transition>
