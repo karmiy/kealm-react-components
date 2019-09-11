@@ -74,10 +74,10 @@ export const CollapseItemProps = [
         default: '<Icon type={\'right\'} />',
     },
     {
-        param: 'unmountOnExit',
-        des: '销毁折叠后隐藏的面板',
-        type: 'boolean',
+        param: 'extra',
+        des: '面板右上角内容',
+        type: 'ReactNode',
         option: '--',
-        default: 'false',
+        default: '--',
     }
 ]

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Collapse, Icon } from '@kealm/react-components';
 import { ApiTable } from '@/components/common';
-import { CollapseProps, collapseEvents } from "./api";
+import { CollapseProps, collapseEvents, CollapseItemProps } from "./api";
 
 const Item = Collapse.Item;
 
@@ -182,6 +182,7 @@ function CollapseDoc() {
 
         {/* API */}
         {useMemo(() => <ApiTable title='Collapse' propsList={CollapseProps} eventsList={collapseEvents} />, [])}
+        {useMemo(() => <ApiTable title='CollapseItem' propsList={CollapseItemProps} />, [])}
     </div>
 }
 
