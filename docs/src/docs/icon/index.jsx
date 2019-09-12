@@ -1,6 +1,8 @@
 import React from 'react';
 import { Icon } from '@kealm/react-components';
 import iconGroups, { iconLength } from './icon-type';
+import { HighLight } from '@/components';
+import { CodeBasic } from 'demos/icon';
 
 function IconDoc() {
     return (
@@ -24,6 +26,8 @@ function IconDoc() {
                     </React.Fragment>
                 )
             })}
+            <h2>代码示例</h2>
+            <HighLight code={CodeBasic} />
         </div>
     )
 }

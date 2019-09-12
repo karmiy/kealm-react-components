@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Collapse, Icon } from '@kealm/react-components';
-import { ApiTable } from '@/components/common';
-import { CollapseProps, collapseEvents, CollapseItemProps } from "./api";
+import { ApiTable, HighLight } from '@/components';
+import { CollapseProps, collapseEvents, CollapseItemProps } from "api/collapse";
+import { CodeBasic, CodeHandle, CodeAccordion, CodeNest, CodeExpandIcon, CodeExtra } from 'demos/collapse';
 
 const Item = Collapse.Item;
 
@@ -144,6 +145,7 @@ function CollapseDoc() {
         <div className="detail-box">
             {renderBaseDemo}
         </div>
+        <HighLight code={CodeBasic} />
 
         {/* 手动切换 */}
         <h2>手动切换</h2>
@@ -151,6 +153,7 @@ function CollapseDoc() {
         <div className="detail-box">
             {renderHandleDemo}
         </div>
+        <HighLight code={CodeHandle} />
 
         {/* 手风琴效果 */}
         <h2>手风琴效果</h2>
@@ -158,6 +161,7 @@ function CollapseDoc() {
         <div className="detail-box">
             {renderAccordionDemo}
         </div>
+        <HighLight code={CodeAccordion} />
 
         {/* 面板嵌套 */}
         <h2>面板嵌套</h2>
@@ -165,6 +169,7 @@ function CollapseDoc() {
         <div className="detail-box">
             {renderNestDemo}
         </div>
+        <HighLight code={CodeNest} />
 
         {/* 自定义箭头 */}
         <h2>自定义箭头</h2>
@@ -172,6 +177,7 @@ function CollapseDoc() {
         <div className="detail-box">
             {renderExpandIconDemo}
         </div>
+        <HighLight code={CodeExpandIcon} />
 
         {/* 额外节点 */}
         <h2>额外节点</h2>
@@ -179,6 +185,7 @@ function CollapseDoc() {
         <div className="detail-box">
             {renderExtraDemo}
         </div>
+        <HighLight code={CodeExtra} />
 
         {/* API */}
         {useMemo(() => <ApiTable title='Collapse' propsList={CollapseProps} eventsList={collapseEvents} />, [])}

@@ -21,6 +21,8 @@ module.exports = {
             '@kealm/react-components-style': path.join(__dirname, '../packages/styles/index.scss'),
             'hooks': path.join(__dirname, '../packages/hooks'),
             'utils': path.join(__dirname, '../packages/utils'),
+            'api': path.join(__dirname, '../src/api'),
+            'demos': path.join(__dirname, '../src/demos'),
         },
     },
     module: {
