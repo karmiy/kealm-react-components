@@ -22,6 +22,15 @@ const sidebarList = [
         ]
     },
     {
+        title: 'Layout',
+        children: [
+            {
+                name: 'Grid 栅格',
+                link: 'grid',
+            }
+        ]
+    },
+    {
         title: 'Others',
         children: [
             {
