@@ -12,9 +12,9 @@ function Icon(props) {
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [className]: className,
         [componentCls]: true,
-    }, className);
+        [className]: className,
+    }, [className, componentCls]);
 
     // ---------------------------------- render ----------------------------------
     return <i className={classNames} {...others} />;

@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
-import hljs from 'highlight.js';
 import { Collapse } from '@kealm/react-components';
 import { HighlightProps, HighlightDefaultProps } from "./interface";
 const Item = Collapse.Item;

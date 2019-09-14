@@ -23,9 +23,9 @@ function Collapse(props) {
     // ---------------------------------- class ----------------------------------
     // root-className
     const classNames = useClassName({
-        [className]: className,
         [componentCls]: true,
-    }, [className]);
+        [className]: className,
+    }, [className, componentCls]);
 
     // ---------------------------------- logic code ----------------------------------
     // 转化children

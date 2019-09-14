@@ -26,10 +26,10 @@ function CollapseItem(props) {
     // ---------------------------------- class ----------------------------------
     // 根元素class
     const classNames = useClassName({
-        [className]: className,
         [componentCls]: true,
         'is-disabled': disabled,
-    }, [className, disabled]);
+        [className]: className,
+    }, [className, componentCls, disabled]);
 
     // header class
     const headerClassNames = useClassName({

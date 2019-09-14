@@ -1,26 +1,5 @@
+import { trim, camelCase } from './base';
 const ieVersion = Number(document.documentMode);
-const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
-const MOZ_HACK_REGEXP = /^moz([A-Z])/;
-
-/**
- * 消除前后空格
- * @param string
- * @returns {string}
- */
-const trim = function(string) {
-    return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-};
-
-/**
- * 转驼峰
- * @param name
- * @returns {string}
- */
-const camelCase = function(name) {
-    return name.replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
-        return offset ? letter.toUpperCase() : letter;
-    }).replace(MOZ_HACK_REGEXP, 'Moz$1');
-};
 
 /**
  * 判断类名

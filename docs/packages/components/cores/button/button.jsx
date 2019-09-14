@@ -24,7 +24,6 @@ function Button(props) {
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [className]: className,
         [componentCls]: true,
         [`${componentCls}--${type}`]: true,
         [`is-plain`]: plain,
@@ -34,7 +33,8 @@ function Button(props) {
         [`is-loading`]: loading,
         [`is-active`]: active,
         [`${componentCls}--${size}`]: !!size,
-    }, [className, plain, round, circle, disabled, loading, active, size]);
+        [className]: className,
+    }, [className, componentCls, plain, round, circle, disabled, loading, active, size]);
 
     // ---------------------------------- render chunk ----------------------------------
     // icon
