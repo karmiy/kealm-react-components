@@ -1,3 +1,56 @@
+/* --------------------------color-------------------------- */
+// theme color
+$color-primary: #1394ff !default;
+$color-none: transparent !default;
+$color-white: #fff !default;
+$color-black: #000 !default;
+$color-success: #33CC33 !default;
+$color-info: #909399 !default;
+$color-warning: #FF9933 !default;
+$color-danger: #FF6666 !default;
+
+// theme color lightness
+$color-primary-light-1: mix($color-white, $color-primary, 10%) !default;
+$color-primary-light-2: mix($color-white, $color-primary, 20%) !default;
+$color-primary-light-3: mix($color-white, $color-primary, 30%) !default;
+$color-primary-light-4: mix($color-white, $color-primary, 40%) !default;
+$color-primary-light-5: mix($color-white, $color-primary, 50%) !default;
+$color-primary-light-6: mix($color-white, $color-primary, 60%) !default;
+$color-primary-light-7: mix($color-white, $color-primary, 70%) !default;
+$color-primary-light-8: mix($color-white, $color-primary, 80%) !default;
+$color-primary-light-9: mix($color-white, $color-primary, 90%) !default;
+
+$color-success-light: mix($color-white, $color-success, 80%) !default;
+$color-warning-light: mix($color-white, $color-warning, 80%) !default;
+$color-danger-light: mix($color-white, $color-danger, 80%) !default;
+$color-info-light: mix($color-white, $color-info, 80%) !default;
+
+$color-success-lighter: mix($color-white, $color-success, 90%) !default;
+$color-warning-lighter: mix($color-white, $color-warning, 90%) !default;
+$color-danger-lighter: mix($color-white, $color-danger, 90%) !default;
+$color-info-lighter: mix($color-white, $color-info, 90%) !default;
+
+// font-color:
+$color-text-primary: #303133 !default; // 主要
+$color-text-regular: #606266 !default; // 常规
+$color-text-secondary: #909399 !default; // 次要
+$color-text-placeholder: #C0C4CC !default; // 占位
+$color-text-disabled: #bbb !default; // disabled
+
+// border-color
+$border-color-base: #DCDFE6 !default;
+$border-color-light: #E4E7ED !default;
+$border-color-lighter: #EBEEF5 !default;
+$border-color-extra-light: #F2F6FC !default;
+
+// background-color
+$background-color-base: #F5F7FA !default;
+
+// Disable color
+$disabled-fill-base: $background-color-base !default;
+$disabled-color-base: $color-text-placeholder !default;
+$disabled-border-base: $border-color-light !default;
+
 /* --------------------------base-------------------------- */
 // border-radius
 $border-radius-small: 2px !default;
@@ -20,10 +73,13 @@ $border-style-base: solid !default;
 $border-style-dashed: dashed !default;
 $border-style-dotted: dotted !default;
 
+// border-base
+$border-base: $border-width-base $border-style-base $border-color-base !default;
+
 // box-shadow
-$--box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) !default;
-$--box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !default; // 深色投影
-$--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default; // 浅色投影
+$box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) !default;
+$box-shadow-dark: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12) !default; // 深色投影
+$box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default; // 浅色投影
 
 // line-height
 $line-height-base: 1.5 !default;
@@ -67,50 +123,6 @@ $ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
 $ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
 $ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
 
-/* --------------------------color-------------------------- */
-// 主题色
-$color-primary: #1394ff !default;
-$color-none: transparent !default;
-$color-white: #fff !default;
-$color-black: #000 !default;
-$color-success: #33CC33 !default;
-$color-info: #909399 !default;
-$color-warning: #FF9933 !default;
-$color-danger: #FF6666 !default;
-
-// 主题色亮度
-$color-primary-light-1: mix($color-white, $color-primary, 10%) !default;
-$color-primary-light-2: mix($color-white, $color-primary, 20%) !default;
-$color-primary-light-3: mix($color-white, $color-primary, 30%) !default;
-$color-primary-light-4: mix($color-white, $color-primary, 40%) !default;
-$color-primary-light-5: mix($color-white, $color-primary, 50%) !default;
-$color-primary-light-6: mix($color-white, $color-primary, 60%) !default;
-$color-primary-light-7: mix($color-white, $color-primary, 70%) !default;
-$color-primary-light-8: mix($color-white, $color-primary, 80%) !default;
-$color-primary-light-9: mix($color-white, $color-primary, 90%) !default;
-
-$color-success-light: mix($color-white, $color-success, 80%) !default;
-$color-warning-light: mix($color-white, $color-warning, 80%) !default;
-$color-danger-light: mix($color-white, $color-danger, 80%) !default;
-$color-info-light: mix($color-white, $color-info, 80%) !default;
-
-$color-success-lighter: mix($color-white, $color-success, 90%) !default;
-$color-warning-lighter: mix($color-white, $color-warning, 90%) !default;
-$color-danger-lighter: mix($color-white, $color-danger, 90%) !default;
-$color-info-lighter: mix($color-white, $color-info, 90%) !default;
-
-// 文字色:
-$color-text-primary: #303133 !default; // 主要
-$color-text-regular: #606266 !default; // 常规
-$color-text-secondary: #909399 !default; // 次要
-$color-text-placeholder: #C0C4CC !default; // 占位
-$color-text-disabled: #bbb !default; // disabled
-
-// 边框颜
-$border-color-base: #DCDFE6 !default;
-$border-color-light: #E4E7ED !default;
-$border-color-lighter: #EBEEF5 !default;
-$border-color-extra-light: #F2F6FC !default;
 
 /* --------------------------Break-point-------------------------- */
 $sm: 768px !default;
@@ -200,3 +212,66 @@ $collapse-header-size: $font-size-base !default;
 $collapse-content-fill: $color-white !default;
 $collapse-content-size: $font-size-base !default;
 $collapse-content-color: $color-text-regular !default;
+
+
+/* --------------------------Radio-------------------------- */
+// font
+$radio-font-size: $font-size-base !default;
+$radio-font-weight: $font-weight-base !default;
+$radio-font-color: $color-text-regular !default;
+
+// input
+$radio-input-height: 16px !default;
+$radio-input-width: 16px !default;
+$radio-input-border-radius: $border-radius-circle !default;
+$radio-input-background-color: $color-white !default;
+$radio-input-border: $border-base !default;
+$radio-input-border-color: $border-color-base !default;
+
+// transition
+$radio-transition: $transition-duration-base !default;
+
+// icon
+$radio-icon-color: $color-white !default;
+
+// disabled
+$radio-disabled-input-border-color: $disabled-border-base !default;
+$radio-disabled-input-fill: $disabled-fill-base !default;
+$radio-disabled-icon-color: $disabled-fill-base !default;
+
+// disabled-checked
+$radio-disabled-checked-input-border-color: $disabled-border-base !default;
+$radio-disabled-checked-input-fill: $disabled-fill-base !default;
+$radio-disabled-checked-icon-color: $color-text-placeholder !default;
+
+// checked
+$radio-checked-font-color: $color-primary !default;
+$radio-checked-input-border-color: $color-primary !default;
+$radio-checked-input-background-color: $color-white !default;
+$radio-checked-icon-color: $color-primary !default;
+
+// hover
+$radio-input-border-color-hover: $color-primary-light-9 !default;
+
+// isbordered
+$radio-bordered-height: 40px !default;
+$radio-bordered-padding: 12px 20px 0 10px !default;
+$radio-bordered-medium-padding: 10px 20px 0 10px !default;
+$radio-bordered-small-padding: 8px 15px 0 10px !default;
+$radio-bordered-mini-padding: 6px 15px 0 10px !default;
+$radio-bordered-medium-input-height: 14px !default;
+$radio-bordered-medium-input-width: 14px !default;
+$radio-bordered-medium-height: 36px !default;
+$radio-bordered-small-input-height: 12px !default;
+$radio-bordered-small-input-width: 12px !default;
+$radio-bordered-small-height: 32px !default;
+$radio-bordered-mini-input-height: 12px !default;
+$radio-bordered-mini-input-width: 12px !default;
+$radio-bordered-mini-height: 28px !default;
+
+// radio-button
+$radio-button-font-size: $font-size-base !default;
+$radio-button-checked-background-color: $color-primary !default;
+$radio-button-checked-font-color: $color-white !default;
+$radio-button-checked-border-color: $color-primary !default;
+$radio-button-disabled-checked-fill: $border-color-extra-light !default;

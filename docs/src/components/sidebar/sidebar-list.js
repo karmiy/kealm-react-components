@@ -18,15 +18,19 @@ const sidebarList = [
             {
                 name: 'Button 按钮',
                 link: 'button',
+            },
+            {
+                name: 'Grid 栅格',
+                link: 'grid',
             }
         ]
     },
     {
-        title: 'Layout',
+        title: 'Form',
         children: [
             {
-                name: 'Grid 栅格',
-                link: 'grid',
+                name: 'Radio 单选框',
+                link: 'radio',
             }
         ]
     },
