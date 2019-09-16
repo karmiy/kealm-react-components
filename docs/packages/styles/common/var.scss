@@ -154,53 +154,65 @@ $breakpoints-spec: (
 
 /* --------------------------Button-------------------------- */
 // button-border
-$button-border-color-default: $border-color-base;
-$button-border-color-primary: $color-primary;
-$button-border-color-success: $color-success;
-$button-border-color-info: $color-info;
-$button-border-color-warning: $color-warning;
-$button-border-color-danger: $color-danger;
-$button-border-color-text: $color-none;
+$button-border-color-default: $border-color-base !default;
+$button-border-color-primary: $color-primary !default;
+$button-border-color-success: $color-success !default;
+$button-border-color-info: $color-info !default;
+$button-border-color-warning: $color-warning !default;
+$button-border-color-danger: $color-danger !default;
+$button-border-color-text: $color-none !default;
 
 // button-background-color
-$button-background-color-default: $color-white;
-$button-background-color-primary: $color-primary;
-$button-background-color-success: $color-success;
-$button-background-color-info: $color-info;
-$button-background-color-warning: $color-warning;
-$button-background-color-danger: $color-danger;
-$button-background-color-text: $color-none;
+$button-background-color-default: $color-white !default;
+$button-background-color-primary: $color-primary !default;
+$button-background-color-success: $color-success !default;
+$button-background-color-info: $color-info !default;
+$button-background-color-warning: $color-warning !default;
+$button-background-color-danger: $color-danger !default;
+$button-background-color-text: $color-none !default;
 
 // button-font-color
-$button-font-color-default: $color-text-regular;
-$button-font-color-primary: $color-white;
-$button-font-color-success: $color-white;
-$button-font-color-info: $color-white;
-$button-font-color-warning: $color-white;
-$button-font-color-danger: $color-white;
-$button-font-color-text: $color-primary;
+$button-font-color-default: $color-text-regular !default;
+$button-font-color-primary: $color-white !default;
+$button-font-color-success: $color-white !default;
+$button-font-color-info: $color-white !default;
+$button-font-color-warning: $color-white !default;
+$button-font-color-danger: $color-white !default;
+$button-font-color-text: $color-primary !default;
+
+// button-font
+$button-font-size: $font-size-base !default;
+$button-large-font-size: $font-size-medium !default;
+$button-small-font-size: $font-size-small !default;
+
+// button-border-radius
+$button-border-radius: $border-radius-base !default;
 
 // button-padding
-$button-padding-vertical: 8px;
-$button-padding-horizontal: 15px;
+$button-padding-vertical: 8px !default;
+$button-padding-horizontal: 15px !default;
+$button-large-padding-vertical: 12px !default;
+$button-large-padding-horizontal: 19px !default;
+$button-small-padding-vertical: 4px !default;
+$button-small-padding-horizontal: 7px !default;
 
 // button-hover
 $button-hover-tint-percent: 20% !default;
 $button-active-shade-percent: 10% !default;
 
 // button-disabled
-$button-disabled-border-color: $border-color-lighter;
-$button-disabled-background-color: $color-white;
-$button-disabled-font-color: $color-text-placeholder;
+$button-disabled-border-color: $border-color-lighter !default;
+$button-disabled-background-color: $color-white !default;
+$button-disabled-font-color: $color-text-placeholder !default;
 
 // button-round
-$button-round-radius: $border-radius-extra-larger;
+$button-round-radius: $border-radius-extra-larger !default;
 
 // button-circle
-$button-circle-radius: $border-radius-circle;
+$button-circle-radius: $border-radius-circle !default;
 
 // button-group-gap-color缝隙
-$button-group-gap-color: rgba($color-white, 0.5);
+$button-group-gap-color: rgba($color-white, 0.5) !default;
 
 /* --------------------------Collapse-------------------------- */
 $collapse-border-color: $border-color-base !default;
@@ -229,7 +241,8 @@ $radio-input-border: $border-base !default;
 $radio-input-border-color: $border-color-base !default;
 
 // transition
-$radio-transition: $transition-duration-base !default;
+$radio-transition-duration: $transition-duration-base !default;
+$radio-transition-timing-function: $ease-in-out-circ !default;
 
 // icon
 $radio-icon-color: $color-white !default;
@@ -250,8 +263,11 @@ $radio-checked-input-border-color: $color-primary !default;
 $radio-checked-input-background-color: $color-white !default;
 $radio-checked-icon-color: $color-primary !default;
 
+// box-shadow
+$radio-input-border-box-shadow-focus: $color-primary-light-9 !default;
+
 // hover
-$radio-input-border-color-hover: $color-primary-light-9 !default;
+$radio-input-border-color-hover: $color-primary !default;
 
 // isbordered
 $radio-bordered-height: 40px !default;
@@ -271,7 +287,13 @@ $radio-bordered-mini-height: 28px !default;
 
 // radio-button
 $radio-button-font-size: $font-size-base !default;
-$radio-button-checked-background-color: $color-primary !default;
+$radio-button-font-weight: $font-weight-base !default;
+$radio-button-base-font-color: $button-font-color-default !default;
+$radio-button-base-background-color: $color-white !default;
+/*$radio-button-checked-background-color: $color-primary !default;
 $radio-button-checked-font-color: $color-white !default;
+$radio-button-checked-border-color: $color-primary !default;*/
+$radio-button-checked-background-color: $color-white !default;
+$radio-button-checked-font-color: $color-primary !default;
 $radio-button-checked-border-color: $color-primary !default;
 $radio-button-disabled-checked-fill: $border-color-extra-light !default;

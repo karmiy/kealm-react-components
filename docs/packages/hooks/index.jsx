@@ -5,6 +5,7 @@ import useWillUnMount from './useWillUnMount';
 import useDidUpdate from './useDidUpdate';
 import useSyncOnce from './useSyncOnce';
 import useTransChildren from './useTransChildren';
+import useForceUpdate from './useForceUpdate';
 
 export {
     useClassName,
@@ -14,4 +15,5 @@ export {
     useDidUpdate,
     useSyncOnce,
     useTransChildren,
+    useForceUpdate,
 }

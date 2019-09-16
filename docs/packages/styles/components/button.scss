@@ -6,13 +6,10 @@
     display: inline-block;
     line-height: $line-height-small;
     margin: 0;
-    padding: $button-padding-vertical $button-padding-horizontal;
     border: $border-width-base $border-style-base $button-border-color-default;
-    border-radius: $border-radius-base;
     outline: none;
     background-color: $button-background-color-default;
     transition: $transition-duration-base;
-    font-size: $font-size-base;
     font-weight: $font-weight-base;
     color: $button-font-color-default;
     text-align: center;
@@ -23,6 +20,8 @@
     & + & {
         margin-left: 10px;
     }
+
+    @include button-size($button-padding-vertical, $button-padding-horizontal, $button-font-size, $button-border-radius);
 
     [class*=km-icon-] + span, span + [class*=km-icon-] {
         margin-left: 5px;
@@ -165,10 +164,10 @@
 
     /* .km-button--large/small */
     @include m(large) {
-        padding: $button-padding-vertical + 4 $button-padding-horizontal + 4;
+        @include button-size($button-large-padding-vertical, $button-large-padding-horizontal, $button-large-font-size, $button-border-radius);
     }
     @include m(small) {
-        padding: $button-padding-vertical - 4 $button-padding-horizontal - 8;
+        @include button-size($button-small-padding-vertical, $button-small-padding-horizontal, $button-small-font-size, $button-border-radius);
     }
 }
 

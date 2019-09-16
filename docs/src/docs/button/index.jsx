@@ -7,7 +7,7 @@ import { CodeBasic, CodeDisabled, CodeText, CodeIcon, CodeGroup, CodeLoading, Co
 const Group = Button.Group;
 
 function ButtonDoc() {
-    const [size, setSize] = useState('large');
+    const [size, setSize] = useState('');
     return (
         <div className='page-box'>
             <h1>Button 按钮</h1>

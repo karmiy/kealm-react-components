@@ -76,7 +76,7 @@ function Collapse(props) {
                 showArrow,
             })
         })
-    }, [activeNames, onExpandChange, iconLeft, unmountOnExit, showArrow]);
+    }, [_children, activeNames, onExpandChange, iconLeft, unmountOnExit, showArrow]);
 
     // ---------------------------------- render ----------------------------------
     return (

@@ -8,7 +8,7 @@
     position: relative;
     line-height: 1;
     outline: none;
-    margin-right: 30px;
+    margin-right: 20px;
     font-size: 0;
     font-weight: $radio-font-weight;
     color: $radio-font-color;
@@ -139,11 +139,11 @@
             }*/
         }
 
-        @include when(focus) {
+        /*@include when(focus) {
             .km-radio__inner {
                 border-color: $radio-input-border-color-hover;
             }
-        }
+        }*/
     }
     @include e(inner) {
         box-sizing: border-box;
@@ -156,7 +156,8 @@
         background-color: $radio-input-background-color;
         vertical-align: sub;
         cursor: pointer;
-        transition: box-shadow $radio-transition $ease-in;
+        transition: border-color $radio-transition-duration $radio-transition-timing-function,
+                    box-shadow $radio-transition-duration $radio-transition-timing-function;
 
         &:hover {
             border-color: $radio-input-border-color-hover;
@@ -172,7 +173,8 @@
             border-radius: $radio-input-border-radius;
             background-color: $radio-checked-icon-color;
             transform: translate(-50%, -50%) scale(0);
-            transition: transform $radio-transition $ease-in;
+            transition: transform $radio-transition-duration $radio-transition-timing-function,
+                        background-color $radio-transition-duration $radio-transition-timing-function;
         }
     }
 
@@ -188,7 +190,7 @@
         opacity: 0;
 
         &:focus + .km-radio__inner {
-            box-shadow: 0 0 0 3px $radio-input-border-color-hover;
+            box-shadow: 0 0 0 3px $radio-input-border-box-shadow-focus;
         }
     }
 
