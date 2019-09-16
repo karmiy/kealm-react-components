@@ -6,30 +6,4 @@
     line-height: 1;
     vertical-align: middle;
     font-size: 0;
-
-    & > .km-radio-button {
-        @include when(checked) {
-            z-index: $z-index-base;
-        }
-        &:not(:first-child) {
-            margin-left: -1px;
-        }
-        &:first-child {
-            .km-radio-button__inner {
-                border-radius: $border-radius-base 0 0 $border-radius-base;
-            }
-        }
-
-        &:last-child {
-            .km-radio-button__inner {
-                border-radius: 0 $border-radius-base $border-radius-base 0;
-            }
-        }
-
-        &:first-child:last-child {
-            .km-radio-button__inner {
-                border-radius: $border-radius-base;
-            }
-        }
-    }
 }

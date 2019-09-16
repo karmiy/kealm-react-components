@@ -13,14 +13,14 @@
         z-index: -1;
         opacity: 0;
 
-        &:checked {
+        /*&:checked {
             & + .km-radio-button__inner {
                 border-color: $radio-button-checked-border-color;
                 background-color: $radio-button-checked-background-color;
                 color: $radio-button-checked-font-color;
                 //box-shadow: -1px 0 0 0 $radio-button-checked-border-color;
             }
-        }
+        }*/
 
         &:focus {
             & + .km-radio-button__inner {
@@ -28,7 +28,7 @@
             }
         }
 
-        &:disabled {
+        /*&:disabled {
             & + .km-radio-button__inner {
                 border-color: $button-disabled-border-color;
                 background-color: $button-disabled-background-color;
@@ -40,7 +40,7 @@
             &:checked + .km-radio-button__inner {
                 background-color: $radio-button-disabled-checked-fill;
             }
-        }
+        }*/
     }
 
     @include e(inner) {
@@ -80,37 +80,92 @@
         }
     }
 
-    /*&:first-child {
+    @include when(checked) {
         .km-radio-button__inner {
-            border-left: $border-base;
-            border-radius: $border-radius-base 0 0 $border-radius-base;
+            border-color: $radio-button-checked-border-color;
+            background-color: $radio-button-checked-background-color;
+            color: $radio-button-checked-font-color;
         }
     }
 
-    &:last-child {
+    @include when(disabled) {
         .km-radio-button__inner {
-            border-radius: 0 $border-radius-base $border-radius-base 0;
+            border-color: $button-disabled-border-color;
+            background-color: $button-disabled-background-color;
+            background-image: none;
+            box-shadow: none;
+            color: $button-disabled-font-color;
+            cursor: not-allowed;
+        }
+        @include when(checked) {
+            .km-radio-button__inner {
+                background-color: $radio-button-disabled-checked-fill;
+            }
+            @include when(fill) {
+                .km-radio-button__inner {
+                    border-color: $button-disabled-border-color;
+                    background-color: $radio-button-disabled-checked-fill;
+                    color: $button-disabled-font-color;
+                }
+            }
         }
     }
 
-    &:first-child:last-child {
-        .km-radio-button__inner {
-            border-radius: $border-radius-base;
+    @include when(fill) {
+        @include when(checked) {
+            .km-radio-button__inner {
+                border-color: $radio-button-fill-checked-border-color;
+                background-color: $radio-button-fill-checked-background-color;
+                color: $radio-button-fill-checked-font-color;
+            }
         }
-    }*/
+    }
 
     @include m(large) {
         & .km-radio-button__inner {
-            @include button-size($button-large-padding-vertical, $button-large-padding-horizontal, $button-font-size, 0);
+            @include button-size($button-large-padding-vertical, $button-large-padding-horizontal, $button-large-font-size, 0);
         }
     }
     @include m(small) {
         & .km-radio-button__inner {
-            @include button-size($button-small-padding-vertical, $button-small-padding-horizontal, $button-font-size, 0);
+            @include button-size($button-small-padding-vertical, $button-small-padding-horizontal, $button-small-font-size, 0);
         }
     }
 
     /*&:focus:not(.is-focus):not(:active):not(.is-disabled){ !*获得焦点时 样式提醒*!
         box-shadow: 0 0 2px 2px $radio-button-checked-border-color;
     }*/
+}
+
+@include b(radio-group) {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    font-size: 0;
+
+    & > .km-radio-button {
+        @include when(checked) {
+            z-index: $z-index-base;
+        }
+        &:not(:first-child) {
+            margin-left: -1px;
+        }
+        &:first-child {
+            .km-radio-button__inner {
+                border-radius: $border-radius-base 0 0 $border-radius-base;
+            }
+        }
+
+        &:last-child {
+            .km-radio-button__inner {
+                border-radius: 0 $border-radius-base $border-radius-base 0;
+            }
+        }
+
+        &:first-child:last-child {
+            .km-radio-button__inner {
+                border-radius: $border-radius-base;
+            }
+        }
+    }
 }

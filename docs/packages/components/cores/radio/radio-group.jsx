@@ -11,6 +11,9 @@ function RadioGroup(props) {
         defaultValue,
         value,
         onChange,
+        disabled,
+        fill,
+        size,
         ...others
     } = props;
 
@@ -35,9 +38,12 @@ function RadioGroup(props) {
     // 激活选中的radio
     const renderChildren = useMemo(() => {
         return Children.map(_children, (child, index) => {
-            const _val = child.props.value;
+            const { value: _val, disabled: _disabled, fill: _fill } = child.props;
             return cloneElement(child, {
                 checked: _val === checkedValue,
+                disabled: disabled !== undefined ? disabled : _disabled,
+                fill: fill !== undefined ? fill : _fill,
+                size,
                 onChange: val => {
                     // 有value，由用户自主onChange控制
                     if(value !== undefined) {
@@ -50,7 +56,7 @@ function RadioGroup(props) {
                 },
             })
         })
-    }, [_children, checkedValue, value, onChange]);
+    }, [_children, checkedValue, value, onChange, disabled, fill, size]);
 
     // ---------------------------------- render ----------------------------------
     return (

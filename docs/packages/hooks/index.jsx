@@ -6,6 +6,7 @@ import useDidUpdate from './useDidUpdate';
 import useSyncOnce from './useSyncOnce';
 import useTransChildren from './useTransChildren';
 import useForceUpdate from './useForceUpdate';
+import useCheckValue from './useCheckValue';
 
 export {
     useClassName,
@@ -16,4 +17,5 @@ export {
     useSyncOnce,
     useTransChildren,
     useForceUpdate,
+    useCheckValue,
 }
