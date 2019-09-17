@@ -12,7 +12,16 @@ function CheckboxDoc() {
             <h2>基本用法</h2>
             <p>由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。</p>
             <div className="detail-box">
-                <Checkbox>A</Checkbox>
+                <Checkbox>Checkbox</Checkbox>
+            </div>
+
+            {/* 禁用状态 */}
+            <h2>禁用状态</h2>
+            <p>多选框不可用状态。</p>
+            <div className="detail-box">
+                <Checkbox disabled>A</Checkbox>
+                <br/>
+                <Checkbox defaultChecked disabled>B</Checkbox>
             </div>
         </div>
     )
