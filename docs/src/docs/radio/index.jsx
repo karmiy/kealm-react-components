@@ -4,7 +4,7 @@ import { ApiTable, HighLight } from '@/components';
 import { radioProps, radioEvents, radioGroupProps, radioGroupEvents, radioButtonProps, radioButtonEvents } from 'api/radio';
 import { CodeBasic, CodeControlled, CodeDisabled, CodeGroup, CodeGroupControlled, CodeGroupName, CodeButton, CodeSize } from 'demos/radio'
 
-function GridDoc() {
+function RadioDoc() {
     const [checkedValue, setCheckedValue] = useState('a');
     const [disabled, setDisabled] = useState(true);
     const [groupValue, setGroupValue] = useState('a');
@@ -209,4 +209,4 @@ function GridDoc() {
     )
 }
 
-export default GridDoc;
+export default RadioDoc;

@@ -31,6 +31,10 @@ const sidebarList = [
             {
                 name: 'Radio 单选框',
                 link: 'radio',
+            },
+            {
+                name: 'Checkbox 单选框',
+                link: 'checkbox',
             }
         ]
     },

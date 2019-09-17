@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const noop = () => {};
 
 /* checked DOM公共样式 */
-const AbstractCheckProps = {
+export const AbstractCheckProps = {
     className: PropTypes.string,
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
@@ -13,13 +13,13 @@ const AbstractCheckProps = {
     name: PropTypes.string,
 }
 
-const AbstractCheckDefaultProps = {
+export const AbstractCheckDefaultProps = {
     // disabled: false,
     onChange: noop,
 }
 
 /* checked-group DOM公共样式 */
-const AbstractCheckGroupProps = {
+export const AbstractCheckGroupProps = {
     className: PropTypes.string,
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -28,7 +28,7 @@ const AbstractCheckGroupProps = {
     name: PropTypes.string,
 }
 
-const AbstractCheckGroupDefaultProps = {
+export const AbstractCheckGroupDefaultProps = {
     // disabled: false,
 }
 

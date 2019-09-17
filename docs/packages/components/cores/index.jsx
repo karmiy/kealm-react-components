@@ -3,6 +3,7 @@ import Button from "./button";
 import Collapse from "./collapse";
 import { Row, Col } from './grid';
 import { Radio } from './radio';
+import { Checkbox } from './checkbox';
 
 export {
     Icon,
@@ -11,4 +12,5 @@ export {
     Row,
     Col,
     Radio,
+    Checkbox,
 }

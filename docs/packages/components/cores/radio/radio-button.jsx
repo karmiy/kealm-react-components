@@ -38,7 +38,7 @@ function RadioButton(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <label role={'radio'} tabIndex={0} className={classNames} {...others}>
+        <label role={'radio-button'} tabIndex={0} className={classNames} {...others}>
             <input type="radio" tabIndex={-1} className={`${componentCls}__orig-radio`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} />
             <span className={`${componentCls}__inner`}>{children}</span>
         </label>

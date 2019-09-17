@@ -63,7 +63,7 @@ function RadioGroup(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...others}>
+        <div role={'radio-group'} className={classNames} {...others}>
             {renderChildren}
         </div>
     )
