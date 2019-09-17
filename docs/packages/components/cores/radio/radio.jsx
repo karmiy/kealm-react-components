@@ -12,6 +12,7 @@ function Radio(props) {
         value,
         onChange,
         disabled,
+        name,
         ...others
     } = props;
 
@@ -39,7 +40,7 @@ function Radio(props) {
     const renderInput = useMemo(() => {
         return (
             <span className={_inputClassNames}>
-                <input type="radio" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} />
+                <input type="radio" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} />
                 <span className={`${componentCls}__inner`} />
             </span>
         )

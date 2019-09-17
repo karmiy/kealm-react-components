@@ -13,34 +13,11 @@
         z-index: -1;
         opacity: 0;
 
-        /*&:checked {
-            & + .km-radio-button__inner {
-                border-color: $radio-button-checked-border-color;
-                background-color: $radio-button-checked-background-color;
-                color: $radio-button-checked-font-color;
-                //box-shadow: -1px 0 0 0 $radio-button-checked-border-color;
-            }
-        }*/
-
         &:focus {
             & + .km-radio-button__inner {
                 box-shadow: 0 0 0 3px $radio-input-border-box-shadow-focus;
             }
         }
-
-        /*&:disabled {
-            & + .km-radio-button__inner {
-                border-color: $button-disabled-border-color;
-                background-color: $button-disabled-background-color;
-                background-image: none;
-                box-shadow: none;
-                color: $button-disabled-font-color;
-                cursor: not-allowed;
-            }
-            &:checked + .km-radio-button__inner {
-                background-color: $radio-button-disabled-checked-fill;
-            }
-        }*/
     }
 
     @include e(inner) {
@@ -49,10 +26,6 @@
         position: relative;
         line-height: 1;
         border: $border-base;
-        //border-width: $border-width-base;
-        //border-left-width: 0;
-        //border-style: $border-style-base;
-        //border-color: $border-color-base;
         outline: none;
         margin: 0;
         background-color: $radio-button-base-background-color;
@@ -101,7 +74,7 @@
             .km-radio-button__inner {
                 background-color: $radio-button-disabled-checked-fill;
             }
-            @include when(fill) {
+            @include when(solid) {
                 .km-radio-button__inner {
                     border-color: $button-disabled-border-color;
                     background-color: $radio-button-disabled-checked-fill;
@@ -111,12 +84,12 @@
         }
     }
 
-    @include when(fill) {
+    @include when(solid) {
         @include when(checked) {
             .km-radio-button__inner {
-                border-color: $radio-button-fill-checked-border-color;
-                background-color: $radio-button-fill-checked-background-color;
-                color: $radio-button-fill-checked-font-color;
+                border-color: $radio-button-solid-checked-border-color;
+                background-color: $radio-button-solid-checked-background-color;
+                color: $radio-button-solid-checked-font-color;
             }
         }
     }
@@ -131,10 +104,6 @@
             @include button-size($button-small-padding-vertical, $button-small-padding-horizontal, $button-small-font-size, 0);
         }
     }
-
-    /*&:focus:not(.is-focus):not(:active):not(.is-disabled){ !*获得焦点时 样式提醒*!
-        box-shadow: 0 0 2px 2px $radio-button-checked-border-color;
-    }*/
 }
 
 @include b(radio-group) {

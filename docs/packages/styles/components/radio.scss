@@ -69,17 +69,7 @@
                     transform: translate(-50%, -50%) scale(1);
                 }
             }
-
-            /*& + .km-radio__label {
-                color: $radio-checked-font-color;
-            }*/
         }
-
-        /*@include when(focus) {
-            .km-radio__inner {
-                border-color: $radio-input-border-color-hover;
-            }
-        }*/
     }
     @include e(inner) {
         box-sizing: border-box;
@@ -129,12 +119,6 @@
             box-shadow: 0 0 0 3px $radio-input-border-box-shadow-focus;
         }
     }
-
-    /*&:focus:not(.is-focus):not(:active):not(.is-disabled) { !*获得焦点时 样式提醒*!
-        .km-radio__inner {
-            box-shadow: 0 0 0 3px $radio-input-border-color-hover;
-        }
-    }*/
 
     @include e(label) {
         padding-left: 10px;

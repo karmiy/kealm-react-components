@@ -74,3 +74,11 @@ export const isIE = function() {
 export const isEdge = function() {
     return navigator.userAgent.indexOf('Edge') > -1;
 };
+
+/**
+ * 是否为空
+ * @returns {boolean}
+ */
+export const isEmpty = function(value) {
+    return value === null || value === undefined;
+};

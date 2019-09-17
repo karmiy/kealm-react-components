@@ -13,8 +13,9 @@ function RadioButton(props) {
         value,
         onChange,
         disabled,
-        fill,
+        solid,
         size,
+        name,
         ...others
     } = props;
 
@@ -27,10 +28,10 @@ function RadioButton(props) {
         [componentCls]: true,
         'is-checked': isChecked,
         'is-disabled': disabled,
-        'is-fill': fill,
+        'is-solid': solid,
         [`${componentCls}--${size}`]: size,
         [className]: className,
-    }, [className, componentCls, isChecked, disabled, fill, size]);
+    }, [className, componentCls, isChecked, disabled, solid, size]);
 
     // ---------------------------------- logic code ----------------------------------
 
@@ -38,7 +39,7 @@ function RadioButton(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <label role={'radio'} tabIndex={0} className={classNames} {...others}>
-            <input type="radio" tabIndex={-1} className={`${componentCls}__orig-radio`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} />
+            <input type="radio" tabIndex={-1} className={`${componentCls}__orig-radio`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} />
             <span className={`${componentCls}__inner`}>{children}</span>
         </label>
     )

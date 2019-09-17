@@ -1,7 +1,7 @@
 export const buttonProps = [
     {
         param: 'type',
-        des: 'type',
+        des: '类型',
         type: 'string',
         option: 'primary / success / warning / danger / info / text',
         default: '--',

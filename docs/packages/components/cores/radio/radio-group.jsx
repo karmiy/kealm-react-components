@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, Children, cloneElement } from 'react';
 import { RadioGroupProps, RadioGroupDefaultProps } from "./interface";
 import { useContextConf, useClassName, useTransChildren, useForceUpdate } from 'hooks';
+import { isEmpty } from 'utils/base';
 
 function RadioGroup(props) {
     const { componentCls } = useContextConf('radio-group');
@@ -12,8 +13,9 @@ function RadioGroup(props) {
         value,
         onChange,
         disabled,
-        fill,
+        solid,
         size,
+        name,
         ...others
     } = props;
 
@@ -37,16 +39,17 @@ function RadioGroup(props) {
     // ---------------------------------- render chunk ----------------------------------
     // 激活选中的radio
     const renderChildren = useMemo(() => {
-        return Children.map(_children, (child, index) => {
-            const { value: _val, disabled: _disabled, fill: _fill } = child.props;
+        return Children.map(_children, child => {
+            const { value: _val, disabled: _disabled, solid: _solid, name: _name, size: _size } = child.props;
             return cloneElement(child, {
                 checked: _val === checkedValue,
-                disabled: disabled !== undefined ? disabled : _disabled,
-                fill: fill !== undefined ? fill : _fill,
-                size,
+                disabled: isEmpty(_disabled) ? disabled : _disabled,
+                solid: isEmpty(_solid) ? solid : _solid,
+                name: isEmpty(_name) ? name : _name,
+                size: isEmpty(_size) ? size : _size,
                 onChange: val => {
                     // 有value，由用户自主onChange控制
-                    if(value !== undefined) {
+                    if(!isEmpty(value)) {
                         onChange(val);
                         return;
                     }
@@ -56,7 +59,7 @@ function RadioGroup(props) {
                 },
             })
         })
-    }, [_children, checkedValue, value, onChange, disabled, fill, size]);
+    }, [_children, checkedValue, value, onChange, disabled, solid, size, name]);
 
     // ---------------------------------- render ----------------------------------
     return (

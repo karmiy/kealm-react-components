@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Radio, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { radioProps, radioEvents, radioGroupProps, radioGroupEvents, radioButtonProps, radioButtonEvents } from 'api/radio';
+import { CodeBasic, CodeControlled, CodeDisabled, CodeGroup, CodeGroupControlled, CodeGroupName, CodeButton, CodeSize } from 'demos/radio'
 
 function GridDoc() {
     const [checkedValue, setCheckedValue] = useState('a');
@@ -20,6 +22,7 @@ function GridDoc() {
             <div className="detail-box">
                 {useMemo(() => <Radio>Radio</Radio>, [])}
             </div>
+            <HighLight code={CodeBasic} />
 
             {/* 受控用法 */}
             <h2>受控用法</h2>
@@ -36,6 +39,7 @@ function GridDoc() {
                     )
                 }, [checkedValue, change])
             }
+            <HighLight code={CodeControlled} />
 
             {/* 禁用状态 */}
             <h2>禁用状态</h2>
@@ -51,6 +55,7 @@ function GridDoc() {
                     </div>
                 )
             }, [disabled, setDisabled])}
+            <HighLight code={CodeDisabled} />
 
             {/* 单选框组 */}
             <h2>单选框组</h2>
@@ -67,6 +72,7 @@ function GridDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeGroup} />
 
             {/* 受控组 */}
             <h2>受控组</h2>
@@ -83,6 +89,25 @@ function GridDoc() {
                     </div>
                 )
             }, [groupValue, groupChange])}
+            <HighLight code={CodeGroupControlled} />
+
+            {/* 单选组合 - 配合name */}
+            <h2>单选组合 - 配合name</h2>
+            <p>为组合内的 input 元素赋予相同的 name 属性，</p>
+            <p>使浏览器把 Radio.Group 下的 Radio 真正看作是一组（例如可以通过方向键始终在同一组内更改选项）。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Radio.Group defaultValue={'a'} name={'kealm'}>
+                            <Radio value={'a'}>A</Radio>
+                            <Radio value={'b'}>B</Radio>
+                            <Radio value={'c'}>C</Radio>
+                            <Radio value={'d'}>D</Radio>
+                        </Radio.Group>
+                    </div>
+                )
+            }, [])}
+            <HighLight code={CodeGroupName} />
 
             {/* 按钮样式 */}
             <h2>按钮样式</h2>
@@ -115,7 +140,7 @@ function GridDoc() {
                             </Radio.Group>
                         </div>
                         <div className="detail-box">
-                            <Radio.Group defaultValue={'a'} fill>
+                            <Radio.Group defaultValue={'a'} solid>
                                 <Radio.Button value={'a'}>Hangzhou</Radio.Button>
                                 <Radio.Button value={'b'}>Shanghai</Radio.Button>
                                 <Radio.Button value={'c'}>Beijing</Radio.Button>
@@ -123,7 +148,7 @@ function GridDoc() {
                             </Radio.Group>
                         </div>
                         <div className="detail-box">
-                            <Radio.Group defaultValue={'a'} fill>
+                            <Radio.Group defaultValue={'a'} solid>
                                 <Radio.Button value={'a'}>Hangzhou</Radio.Button>
                                 <Radio.Button value={'b'} disabled>Shanghai</Radio.Button>
                                 <Radio.Button value={'c'}>Beijing</Radio.Button>
@@ -133,6 +158,7 @@ function GridDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeButton} />
 
             {/* 大小 */}
             <h2>大小</h2>
@@ -149,7 +175,7 @@ function GridDoc() {
                             </Radio.Group>
                         </div>
                         <div className="detail-box">
-                            <Radio.Group defaultValue={'a'} fill>
+                            <Radio.Group defaultValue={'a'} solid>
                                 <Radio.Button value={'a'}>Hangzhou</Radio.Button>
                                 <Radio.Button value={'b'}>Shanghai</Radio.Button>
                                 <Radio.Button value={'c'}>Beijing</Radio.Button>
@@ -167,7 +193,18 @@ function GridDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeSize} />
 
+            {/* API */}
+            {useMemo(() => {
+                return (
+                    <>
+                        <ApiTable title='Radio' propsList={radioProps} eventsList={radioEvents} />
+                        <ApiTable title='RadioGroup' propsList={radioGroupProps} eventsList={radioGroupEvents} />
+                        <ApiTable title='RadioGroup' propsList={radioButtonProps} eventsList={radioButtonEvents} />
+                    </>
+                )
+            }, [])}
         </div>
     )
 }

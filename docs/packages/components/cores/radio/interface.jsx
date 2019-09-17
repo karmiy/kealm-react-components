@@ -10,11 +10,26 @@ const AbstractCheckProps = {
     disabled: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
+    name: PropTypes.string,
 }
 
 const AbstractCheckDefaultProps = {
-    disabled: false,
+    // disabled: false,
     onChange: noop,
+}
+
+/* checked-group DOM公共样式 */
+const AbstractCheckGroupProps = {
+    className: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
+    disabled: PropTypes.bool,
+    name: PropTypes.string,
+}
+
+const AbstractCheckGroupDefaultProps = {
+    // disabled: false,
 }
 
 /* radio-props */
@@ -28,28 +43,24 @@ export const RadioDefaultProps = {
 
 /* radio-group-props */
 export const RadioGroupProps = {
-    className: PropTypes.string,
-    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onChange: PropTypes.func,
-    disabled: PropTypes.bool,
     size: PropTypes.string,
-    fill: PropTypes.bool,
+    solid: PropTypes.bool,
+    ...AbstractCheckGroupProps,
 }
 
 export const RadioGroupDefaultProps = {
-    // disabled: false,  --------- Default false cannot be set, it will directly affect radio
-    // fill: false,  --------- Default false cannot be set, it will directly affect radio
+    // solid: false,
+    ...AbstractCheckGroupDefaultProps,
 }
 
 /* radio-button-props */
 export const RadioButtonProps = {
-    fill: PropTypes.bool,
+    solid: PropTypes.bool,
     size: PropTypes.string,
     ...AbstractCheckProps
 }
 
 export const RadioButtonDefaultProps = {
-    fill: false,
+    // solid: false,
     ...AbstractCheckDefaultProps,
 }
