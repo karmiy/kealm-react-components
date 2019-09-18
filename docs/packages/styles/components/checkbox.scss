@@ -133,12 +133,13 @@
 
             &.is-indeterminate {
                 .km-checkbox__inner {
-                    border-color: $checkbox-disabled-checked-input-border-color;
-                    background-color: $checkbox-disabled-checked-input-fill;
+                    //border-color: $checkbox-disabled-checked-input-border-color;
+                    //background-color: $checkbox-disabled-checked-input-fill;
 
-                    &::before {
-                        border-color: $checkbox-disabled-checked-icon-color;
+                    &::after {
                         background-color: $checkbox-disabled-checked-icon-color;
+                        //border-color: $checkbox-disabled-checked-icon-color;
+                        //background-color: $checkbox-disabled-checked-icon-color;
                     }
                 }
             }
@@ -183,10 +184,10 @@
         }
         @include when(indeterminate) {
             .km-checkbox__inner {
-                border-color: $checkbox-checked-input-border-color;
-                background-color: $checkbox-checked-background-color;
+                //border-color: $checkbox-checked-input-border-color;
+                //background-color: $checkbox-checked-background-color;
 
-                &::before {
+                /*&::before {
                     content: '';
                     position: absolute;
                     display: block;
@@ -196,10 +197,17 @@
                     top: 5px;
                     background-color: $checkbox-checked-icon-color;
                     transform: scale(0.5);
-                }
+                }*/
 
                 &::after {
-                    display: none;
+                    width: $checkbox-indeterminate-width;
+                    height: $checkbox-indeterminate-height;
+                    border: 0;
+                    top: 50%;
+                    left: 50%;
+                    background-color: $checkbox-indeterminate-background-color;
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
                 }
             }
         }
@@ -265,6 +273,7 @@
         padding-left: 10px;
         font-size: $checkbox-font-size;
         vertical-align: middle;
+        transition: color $transition-duration-base;
     }
 
     &:last-of-type {
@@ -377,5 +386,6 @@
 }
 
 @include b(checkbox-group) {
+    display: inline-block;
     font-size: 0;
 }

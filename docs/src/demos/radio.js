@@ -15,7 +15,7 @@ export const CodeControlled =
     function Demo() {
         const [checkedValue, setCheckedValue] = useState('a');
         
-        const change = useCallback((value) => setCheckedValue(value), []);
+        const change = useCallback((e) => setCheckedValue(e.target.value), [setCheckedValue]);
         
         return (
             <div>
@@ -68,7 +68,7 @@ export const CodeGroupControlled =
     function Demo() {
         const [groupValue, setGroupValue] = useState('a');
 
-        const groupChange = useCallback((value) => setGroupValue(value), []);
+        const groupChange = useCallback((e) => setGroupValue(e.target.value), [setGroupValue]);
         
         return (
             <Radio.Group value={groupValue} onChange={groupChange}>

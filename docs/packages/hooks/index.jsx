@@ -7,6 +7,8 @@ import useSyncOnce from './useSyncOnce';
 import useTransChildren from './useTransChildren';
 import useForceUpdate from './useForceUpdate';
 import useCheckValue from './useCheckValue';
+import useContextProps from './useContextProps';
+import useNotEmptyObj from './useNotEmptyObj';
 
 export {
     useClassName,
@@ -18,4 +20,6 @@ export {
     useTransChildren,
     useForceUpdate,
     useCheckValue,
+    useContextProps,
+    useNotEmptyObj,
 }

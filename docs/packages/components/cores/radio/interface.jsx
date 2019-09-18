@@ -29,6 +29,7 @@ export const AbstractCheckGroupProps = {
 }
 
 export const AbstractCheckGroupDefaultProps = {
+    onChange: noop,
     // disabled: false,
 }
 

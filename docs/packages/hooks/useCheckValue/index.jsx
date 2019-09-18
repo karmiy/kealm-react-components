@@ -15,7 +15,7 @@ function useCheckValue(defaultChecked, checked, onChange, disabled) {
     const checkChange = useCallback(e => {
         if(disabled) return;
 
-        onChange(e.target.value);
+        onChange(e);
         // 如果有props.checked，由props.checked控制
         if(checked !== undefined) return;
 

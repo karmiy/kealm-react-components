@@ -337,6 +337,11 @@ $checkbox-checked-icon-color: $color-white !default;
 // input hover
 $checkbox-input-border-color-hover: $color-primary !default;
 
+// indeterminate
+$checkbox-indeterminate-width: $checkbox-input-width - 8px;
+$checkbox-indeterminate-height: $checkbox-input-height - 8px;
+$checkbox-indeterminate-background-color: $checkbox-checked-background-color;
+
 // is bordered
 $checkbox-bordered-height: 40px !default;
 $checkbox-bordered-padding: 9px 20px 9px 10px !default;

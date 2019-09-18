@@ -82,3 +82,19 @@ export const isEdge = function() {
 export const isEmpty = function(value) {
     return value === null || value === undefined;
 };
+
+/**
+ * 从对象移除某些项
+ * @param obj
+ * @param fields
+ */
+export const omit = function(obj, fields) {
+    const shallowCopy = {
+        ...obj,
+    };
+    for (let i = 0; i < fields.length; i++) {
+        const key = fields[i];
+        delete shallowCopy[key];
+    }
+    return shallowCopy;
+}

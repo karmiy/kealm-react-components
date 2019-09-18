@@ -40,7 +40,7 @@ export const radioEvents = [
     {
         name: 'onChange',
         des: '选项变化时的回调函数',
-        callback: '--',
+        callback: '(e: Event)',
     }
 ]
 

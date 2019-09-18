@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
 import { useContextConf, useClassName, useForceUpdate, useCheckValue } from 'hooks';
 

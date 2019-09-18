@@ -1,8 +1,11 @@
 import React, { useMemo } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
-import { useContextConf, useClassName, useCheckValue } from 'hooks';
+import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
+import { CheckedContext } from './checkbox-group';
 
 function Checkbox(props) {
+    // const c = useContext(CheckedContext);
+    // console.log(c);
     const { componentCls } = useContextConf('checkbox');
     const {
         className,
@@ -13,8 +16,9 @@ function Checkbox(props) {
         onChange,
         disabled,
         name,
+        indeterminate,
         ...others
-    } = props;
+    } = useContextProps(props, CheckedContext);
 
     // ---------------------------------- logic code ----------------------------------
     const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, onChange, disabled);
@@ -33,7 +37,8 @@ function Checkbox(props) {
         [`${componentCls}__input`]: true,
         'is-checked': isChecked,
         'is-disabled': disabled,
-    }, [componentCls, isChecked, disabled]);
+        'is-indeterminate': indeterminate,
+    }, [componentCls, isChecked, disabled, indeterminate]);
 
     // ---------------------------------- render chunk ----------------------------------
     // render-input
