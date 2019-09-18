@@ -11,6 +11,7 @@ export const AbstractCheckProps = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
     name: PropTypes.string,
+    groupValues: PropTypes.array, // provide from check-group
 }
 
 export const AbstractCheckDefaultProps = {

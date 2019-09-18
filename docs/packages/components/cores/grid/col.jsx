@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { ColProps, ColDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
-import { isObject } from 'utils/base';
+import { isObject } from 'utils/common';
 
 function Col(props) {
     const { componentCls } = useContextConf('col');

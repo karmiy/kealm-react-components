@@ -1,5 +1,5 @@
 import React, {useMemo, useState, useCallback} from 'react';
-import {Checkbox, Button} from '@kealm/react-components';
+import {Checkbox, Button, Row, Col} from '@kealm/react-components';
 import {ApiTable, HighLight} from '@/components';
 
 function CheckboxDoc() {
@@ -148,6 +148,24 @@ function CheckboxDoc() {
                         </>
                     )
                 }, [indeterminate, checkAll, checkAllChange, checkedList, checkedChange])}
+            </div>
+
+            {/* t */}
+            <h2>t</h2>
+            <p>通过value与onChange联动checkbox-group。</p>
+            <div className="detail-box">
+                {useMemo(() => {
+                    return (
+                        <Checkbox.Group style={{width: '100%'}} value={['a', 'c']} onChange={value => console.log(value)}>
+                            <Row>
+                                <Col span={6}><Checkbox value={'a'}>A</Checkbox></Col>
+                                <Col span={6}><Checkbox value={'b'}>B</Checkbox></Col>
+                                <Col span={6}><Checkbox value={'c'}>C</Checkbox></Col>
+                                <Col span={6}><Checkbox value={'d'}>D</Checkbox></Col>
+                            </Row>
+                        </Checkbox.Group>
+                    )
+                }, [])}
             </div>
         </div>
     )

@@ -1,7 +1,8 @@
-import React, { useRef, useMemo, Children, cloneElement } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { RadioGroupProps, RadioGroupDefaultProps } from "./interface";
-import { useContextConf, useClassName, useTransChildren, useForceUpdate } from 'hooks';
-import { isEmpty } from 'utils/base';
+import { useContextConf, useClassName, useForceUpdate } from 'hooks';
+import { CheckedContext } from './context';
+import { isEmpty } from 'utils/common';
 
 function RadioGroup(props) {
     const { componentCls } = useContextConf('radio-group');
@@ -27,44 +28,38 @@ function RadioGroup(props) {
     }, [className, componentCls]);
 
     // ---------------------------------- logic code ----------------------------------
-    // 转化children
-    const _children = useTransChildren(children);
-
     const forceUpdate = useForceUpdate();
     // 默认选中的radio.value
     const _valueRef = useRef(defaultValue);
     // 实际选中的radio.value(依赖value，没有取默认)
     const checkedValue = value !== undefined ? value : _valueRef.current;
 
-    // ---------------------------------- render chunk ----------------------------------
-    // 激活选中的radio
-    const renderChildren = useMemo(() => {
-        return Children.map(_children, child => {
-            const { value: _val, disabled: _disabled, solid: _solid, name: _name, size: _size } = child.props;
-            return cloneElement(child, {
-                checked: _val === checkedValue,
-                disabled: isEmpty(_disabled) ? disabled : _disabled,
-                solid: isEmpty(_solid) ? solid : _solid,
-                name: isEmpty(_name) ? name : _name,
-                size: isEmpty(_size) ? size : _size,
-                onChange: e => {
-                    // 有value，由用户自主onChange控制
-                    onChange(e);
-                    if(!isEmpty(value)) return;
+    // ---------------------------------- context.provider ----------------------------------
+    // 传递给选择框的context
+    const providers = useMemo(() => ({
+        disabled,
+        name,
+        solid,
+        size,
+        groupValues: !isEmpty(checkedValue) ? [checkedValue] : [],
+        onChange: e => {
+            // 有value，由用户自主onChange控制
+            onChange(e);
+            if(!isEmpty(value)) return;
 
-                    // 没有value，Group内部控制
-                    _valueRef.current = e.target.value;
-                    forceUpdate();
-                },
-            })
-        })
-    }, [_children, checkedValue, value, onChange, disabled, solid, size, name]);
+            // 没有value，Group内部控制
+            _valueRef.current = e.target.value;
+            forceUpdate();
+        },
+    }), [checkedValue, value, onChange, disabled, solid, size, name])
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div role={'radio-group'} className={classNames} {...others}>
-            {renderChildren}
-        </div>
+        <CheckedContext.Provider value={providers}>
+            <div role={'radio-group'} className={classNames} {...others}>
+                {children}
+            </div>
+        </CheckedContext.Provider>
     )
 }
 RadioGroup.propTypes = RadioGroupProps;

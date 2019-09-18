@@ -7,7 +7,9 @@ function useClassName(obj = {}, dependencies) {
     return useMemo(() => {
         let className = '';
         for(let cls in obj) {
-            obj.hasOwnProperty(cls) && obj[cls] && (className += `${cls} `);
+            if(obj.hasOwnProperty(cls)) {
+                obj[cls] && (className += `${cls} `);
+            }
         }
         return className.slice(0, -1);
     }, dependencies);

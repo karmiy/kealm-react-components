@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
-import { CheckedContext } from './checkbox-group';
+import { CheckedContext } from '../radio/context';
 
 function Checkbox(props) {
     // const c = useContext(CheckedContext);
@@ -17,11 +17,12 @@ function Checkbox(props) {
         disabled,
         name,
         indeterminate,
+        groupValues,
         ...others
-    } = useContextProps(props, CheckedContext);
+    } = useContextProps(props, CheckedContext, ['onChange']);
 
     // ---------------------------------- logic code ----------------------------------
-    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, onChange, disabled);
+    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange, disabled);
 
     // ---------------------------------- class ----------------------------------
     // root-className

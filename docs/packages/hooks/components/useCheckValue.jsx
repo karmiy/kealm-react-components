@@ -1,15 +1,18 @@
-import React, { useRef, useMemo, useCallback } from 'react';
-import { useForceUpdate } from "hooks";
+import React, { useRef, useCallback } from 'react';
+import { useForceUpdate } from 'hooks';
 
 /**
  * build isChecked and checkChange hook for radio、checkbox
- * core-props: defaultChecked、checked、onChange、disabled
+ * core-props: defaultChecked、checked、groupValues、value、onChange、disabled
  */
-function useCheckValue(defaultChecked, checked, onChange, disabled) {
+function useCheckValue(defaultChecked, checked, groupValues, value, onChange, disabled) {
+    // logic if it's packaged by group
+    const _checked = groupValues ? groupValues.includes(value) : checked;
+
     // logic isChecked
     const forceUpdate = useForceUpdate();
     const _checkedRef = useRef(defaultChecked || false); // 默认选中状态
-    const isChecked = checked !== undefined ? checked : _checkedRef.current; // 实际选中(依赖checked，没有取默认)
+    const isChecked = _checked !== undefined ? _checked : _checkedRef.current; // 实际选中(依赖checked，没有取默认)
 
     // logic checkChange
     const checkChange = useCallback(e => {

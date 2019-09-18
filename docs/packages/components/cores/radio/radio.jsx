@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
-import { useContextConf, useClassName, useForceUpdate, useCheckValue } from 'hooks';
+import { useContextConf, useClassName, useContextProps, useCheckValue } from 'hooks';
+import { CheckedContext } from './context';
 
 function Radio(props) {
     const { componentCls } = useContextConf('radio');
@@ -13,11 +14,12 @@ function Radio(props) {
         onChange,
         disabled,
         name,
+        groupValues,
         ...others
-    } = props;
+    } = useContextProps(props, CheckedContext, ['onChange']);
 
     // ---------------------------------- logic code ----------------------------------
-    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, onChange, disabled);
+    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange, disabled);
 
     // ---------------------------------- class ----------------------------------
     // root-className
