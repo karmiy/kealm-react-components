@@ -1,0 +1,6 @@
+@import "../mixins/mixins";
+
+@include b(checkbox-group) {
+    display: inline-block;
+    font-size: 0;
+}

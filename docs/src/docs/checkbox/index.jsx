@@ -1,5 +1,5 @@
 import React, {useMemo, useState, useCallback} from 'react';
-import {Checkbox, Button, Row, Col} from '@kealm/react-components';
+import {Checkbox, Button, Row, Col, Radio} from '@kealm/react-components';
 import {ApiTable, HighLight} from '@/components';
 
 function CheckboxDoc() {
@@ -150,13 +150,13 @@ function CheckboxDoc() {
                 }, [indeterminate, checkAll, checkAllChange, checkedList, checkedChange])}
             </div>
 
-            {/* t */}
-            <h2>t</h2>
-            <p>通过value与onChange联动checkbox-group。</p>
+            {/* 布局 */}
+            <h2>布局</h2>
+            <p>Checkbox.Group 内嵌 Checkbox 并与 Grid 组件一起使用，可以实现灵活的布局。</p>
             <div className="detail-box">
                 {useMemo(() => {
                     return (
-                        <Checkbox.Group style={{width: '100%'}} value={['a', 'c']} onChange={value => console.log(value)}>
+                        <Checkbox.Group style={{width: '100%'}}>
                             <Row>
                                 <Col span={6}><Checkbox value={'a'}>A</Checkbox></Col>
                                 <Col span={6}><Checkbox value={'b'}>B</Checkbox></Col>
@@ -167,6 +167,92 @@ function CheckboxDoc() {
                     )
                 }, [])}
             </div>
+
+            {/* 按钮样式 */}
+            <h2>按钮样式</h2>
+            <p>按钮样式的多选组合。</p>
+            <div className="detail-box">
+                {useMemo(() => {
+                    return (
+                        <>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']}>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']}>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']} disabled>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a', 'b']} solid>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']} solid>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                        </>
+                    )
+                }, [])}
+            </div>
+
+            {/* 大小 */}
+            <h2>大小</h2>
+            <p>大中小三种组合，可以和表单输入框进行对应配合。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Checkbox.Group defaultValue={['a']} size={'large'}>
+                                <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                            </Checkbox.Group>
+                        </div>
+                        <div className="detail-box">
+                            <Checkbox.Group defaultValue={['a']} solid>
+                                <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                            </Checkbox.Group>
+                        </div>
+                        <div className="detail-box">
+                            <Checkbox.Group defaultValue={['a']} size={'small'}>
+                                <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
+                                <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                            </Checkbox.Group>
+                        </div>
+                    </>
+                )
+            }, [])}
         </div>
     )
 }

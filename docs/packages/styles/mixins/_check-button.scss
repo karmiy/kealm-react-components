@@ -1,0 +1,169 @@
+@import "../mixins/mixins";
+@import "../mixins/_button";
+@import "../common/var";
+@import "./config";
+
+@mixin check-button($e: radio) {
+    $b: $e + '-button';
+    $bCls: '.' + $namespace + '-' + $b;
+    $innerCls: $bCls + '__inner';
+    $orig: 'orig-' + $e;
+    $group: $e + '-group';
+
+    @at-root {
+        /* km-radio/checkbox-button */
+        @include b($b) {
+            position: relative;
+            display: inline-block;
+            outline: none;
+
+            @include e($orig) {
+                position: absolute;
+                outline: none;
+                z-index: -1;
+                opacity: 0;
+
+                &:focus {
+                    & + #{$innerCls} {
+                        //box-shadow: 0 0 0 3px $radio-input-border-box-shadow-focus;
+                        z-index: $z-index-base;
+                    }
+                }
+            }
+
+            @include e(inner) {
+                box-sizing: border-box;
+                display: inline-block;
+                position: relative;
+                line-height: 1;
+                border: $border-base;
+                outline: none;
+                margin: 0;
+                background-color: $radio-button-base-background-color;
+                font-weight: $radio-button-font-weight;
+                color: $radio-button-base-font-color;
+                white-space: nowrap;
+                text-align: center;
+                vertical-align: middle;
+                -webkit-appearance: none;
+                cursor: pointer;
+                transition: all $transition-duration-base $ease-in-out;
+
+                @include button-size($button-padding-vertical, $button-padding-horizontal, $button-font-size, 0);
+
+                &:hover {
+                    color: $color-primary;
+                }
+
+                & [class*="km-icon-"] {
+                    line-height: 0.9;
+
+                    & + span {
+                        margin-left: 5px;
+                    }
+                }
+            }
+
+            @include when(checked) {
+                #{$innerCls} {
+                    border-color: $radio-button-checked-border-color;
+                    background-color: $radio-button-checked-background-color;
+                    color: $radio-button-checked-font-color;
+                }
+            }
+
+            @include when(disabled) {
+                #{$innerCls} {
+                    border-color: $button-disabled-border-color;
+                    background-color: $button-disabled-background-color;
+                    background-image: none;
+                    box-shadow: none;
+                    color: $button-disabled-font-color;
+                    cursor: not-allowed;
+                }
+                @include when(checked) {
+                    #{$innerCls} {
+                        background-color: $radio-button-disabled-checked-fill;
+                    }
+                    @include when(solid) {
+                        #{$innerCls} {
+                            border-color: $button-disabled-border-color;
+                            background-color: $radio-button-disabled-checked-fill;
+                            color: $button-disabled-font-color;
+                        }
+                    }
+                }
+            }
+
+            @include when(solid) {
+                @include when(checked) {
+                    #{$innerCls} {
+                        border-color: $radio-button-solid-checked-background-color;
+                        background-color: $radio-button-solid-checked-background-color;
+                        color: $radio-button-solid-checked-font-color;
+                    }
+                }
+            }
+
+            @include m(large) {
+                & #{$innerCls} {
+                    @include button-size($button-large-padding-vertical, $button-large-padding-horizontal, $button-large-font-size, 0);
+                }
+            }
+            @include m(small) {
+                & #{$innerCls} {
+                    @include button-size($button-small-padding-vertical, $button-small-padding-horizontal, $button-small-font-size, 0);
+                }
+            }
+        }
+
+        /* km-radio/checkbox-button-group >  km-radio/checkbox-button-group */
+        @include b($group) {
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+            font-size: 0;
+
+            & > #{$bCls} {
+                @include when(checked) {
+                    #{$innerCls} {
+                        z-index: $z-index-large;
+                    }
+                    @include when(solid) {
+                        & + #{$bCls}.is-checked #{$innerCls}{
+                            border-left-color: $radio-button-solid-checked-sibling-border-color;
+                            /*transition: background-color $transition-duration-base $ease-in-out,
+                                        color $transition-duration-base $ease-in-out;*/
+                        }
+                    }
+                }
+
+                /*@include when(disabled) {
+                    z-index: $z-index-negative;
+                }*/
+
+                &:not(:first-child) {
+                    margin-left: -1px;
+                }
+
+                &:first-child {
+                    #{$innerCls} {
+                        border-radius: $border-radius-base 0 0 $border-radius-base;
+                    }
+                }
+
+                &:last-child {
+                    #{$innerCls} {
+                        border-radius: 0 $border-radius-base $border-radius-base 0;
+                    }
+                }
+
+                &:first-child:last-child {
+                    #{$innerCls} {
+                        border-radius: $border-radius-base;
+                    }
+                }
+            }
+        }
+    }
+}

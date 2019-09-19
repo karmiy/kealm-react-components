@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import {
     AbstractCheckProps,
     AbstractCheckDefaultProps,
-    AbstractCheckGroupProps,
-    AbstractCheckGroupDefaultProps,
+    RadioGroupProps,
+    RadioGroupDefaultProps,
+    RadioButtonProps,
+    RadioButtonDefaultProps,
 } from '../radio/interface'
 
 const empty = [];
@@ -21,12 +23,21 @@ export const CheckboxDefaultProps = {
 
 /* checkbox-group-props */
 export const CheckboxGroupProps = {
-    ...AbstractCheckGroupProps,
+    ...RadioGroupProps,
     defaultValue: PropTypes.array,
     value: PropTypes.array,
 }
 
 export const CheckboxGroupDefaultProps = {
-    ...AbstractCheckGroupDefaultProps,
+    ...RadioGroupDefaultProps,
     defaultValue: empty,
+}
+
+/* checkbox-button-props */
+export const CheckboxButtonProps = {
+    ...RadioButtonProps,
+}
+
+export const CheckboxButtonDefaultProps = {
+    ...RadioButtonDefaultProps,
 }

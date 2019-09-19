@@ -14,6 +14,8 @@ function CheckboxGroup(props) {
         value,
         onChange,
         disabled,
+        solid,
+        size,
         name,
         ...others
     } = props;
@@ -37,6 +39,8 @@ function CheckboxGroup(props) {
     const providers = useMemo(() => ({
         disabled,
         name,
+        solid,
+        size,
         groupValues: checkedValue,
         onChange: e => {
             // 状态改变的checkbox.value与checked
@@ -54,7 +58,7 @@ function CheckboxGroup(props) {
             _valueRef.current = nextCheckedValue;
             forceUpdate();
         },
-    }), [checkedValue, value, onChange, disabled, name])
+    }), [checkedValue, value, onChange, disabled, solid, size, name])
 
     // ---------------------------------- render ----------------------------------
     return (

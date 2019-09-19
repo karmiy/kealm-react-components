@@ -281,7 +281,7 @@
     }
 }
 
-@include b(checkbox-button) {
+/*@include b(checkbox-button) {
     position: relative;
     display: inline-block;
 
@@ -383,9 +383,4 @@
             @include button-size($button-small-padding-vertical, $button-small-padding-horizontal, $button-small-font-size, 0);
         }
     }
-}
-
-@include b(checkbox-group) {
-    display: inline-block;
-    font-size: 0;
-}
+}*/
