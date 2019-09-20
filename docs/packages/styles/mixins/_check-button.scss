@@ -25,7 +25,6 @@
 
                 &:focus {
                     & + #{$innerCls} {
-                        //box-shadow: 0 0 0 3px $radio-input-border-box-shadow-focus;
                         z-index: $z-index-base;
                     }
                 }
@@ -132,15 +131,9 @@
                     @include when(solid) {
                         & + #{$bCls}.is-checked #{$innerCls}{
                             border-left-color: $radio-button-solid-checked-sibling-border-color;
-                            /*transition: background-color $transition-duration-base $ease-in-out,
-                                        color $transition-duration-base $ease-in-out;*/
                         }
                     }
                 }
-
-                /*@include when(disabled) {
-                    z-index: $z-index-negative;
-                }*/
 
                 &:not(:first-child) {
                     margin-left: -1px;

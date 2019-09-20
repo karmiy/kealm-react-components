@@ -1,8 +1,7 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { CheckboxGroupProps, CheckboxGroupDefaultProps } from "./interface";
-import { useContextConf, useClassName, useForceUpdate } from 'hooks';
+import { useContextConf, useClassName, useCheckGroupValue } from 'hooks';
 import { CheckedContext } from '../radio/context';
-import { isEmpty } from 'utils/common';
 
 function CheckboxGroup(props) {
     const { componentCls } = useContextConf('checkbox-group');
@@ -28,11 +27,7 @@ function CheckboxGroup(props) {
     }, [className, componentCls]);
 
     // ---------------------------------- logic code ----------------------------------
-    const forceUpdate = useForceUpdate();
-    // 默认选中的checkbox.value
-    const _valueRef = useRef(defaultValue);
-    // 实际选中的checkbox.value(依赖value，没有取默认)
-    const checkedValue = value !== undefined ? value : _valueRef.current;
+    const { checkedValue, checkChange } = useCheckGroupValue(defaultValue, value, onChange);
 
     // ---------------------------------- context.provider ----------------------------------
     // 传递给选择框的context
@@ -42,23 +37,8 @@ function CheckboxGroup(props) {
         solid,
         size,
         groupValues: checkedValue,
-        onChange: e => {
-            // 状态改变的checkbox.value与checked
-            const changedValue = e.target.value, changedChecked = e.target.checked;
-            // 变化后checkbox组的value
-            const nextCheckedValue = changedChecked
-                ? [...checkedValue, changedValue]
-                : checkedValue.filter(item => item !== changedValue);
-
-            onChange(nextCheckedValue);
-
-            // 有value，由用户自主onChange控制
-            if(!isEmpty(value)) return;
-            // 没有value，Group内部控制
-            _valueRef.current = nextCheckedValue;
-            forceUpdate();
-        },
-    }), [checkedValue, value, onChange, disabled, solid, size, name])
+        onChange: checkChange,
+    }), [checkedValue, checkChange, disabled, solid, size, name])
 
     // ---------------------------------- render ----------------------------------
     return (

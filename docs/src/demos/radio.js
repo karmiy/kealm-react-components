@@ -30,7 +30,7 @@ export const CodeControlled =
 /* 禁用状态 */
 export const CodeDisabled =
 `    import { useState } from 'react';
-    import { Radio } from "@kealm/react-components";
+    import { Radio, Button } from "@kealm/react-components";
     
     function Demo() {
         const [disabled, setDisabled] = useState(true);
@@ -90,6 +90,22 @@ export const CodeGroupName =
             <Radio value={'b'}>B</Radio>
             <Radio value={'c'}>C</Radio>
             <Radio value={'d'}>D</Radio>
+        </Radio.Group>,
+        mountNode
+    );`
+
+/* 布局 */
+export const CodeGroupLayout =
+`    import { Radio, Row, Col } from "@kealm/react-components";
+    
+    ReactDom.render(
+        <Radio.Group style={{width: '100%'}}>
+            <Row>
+                <Col span={6}><Radio value={'a'}>A</Radio></Col>
+                <Col span={6}><Radio value={'b'}>B</Radio></Col>
+                <Col span={6}><Radio value={'c'}>C</Radio></Col>
+                <Col span={6}><Radio value={'d'}>D</Radio></Col>
+            </Row>
         </Radio.Group>,
         mountNode
     );`

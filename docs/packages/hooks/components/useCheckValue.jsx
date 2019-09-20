@@ -19,7 +19,7 @@ function useCheckValue(defaultChecked, checked, groupValues, value, onChange, di
         if(disabled) return;
 
         onChange(e);
-        // 如果有props.checked，由props.checked控制
+        // If there is props. checked, it is controlled by props. checked
         if(checked !== undefined) return;
 
         _checkedRef.current = e.target.checked;

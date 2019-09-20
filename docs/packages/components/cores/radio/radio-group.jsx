@@ -1,6 +1,6 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { RadioGroupProps, RadioGroupDefaultProps } from "./interface";
-import { useContextConf, useClassName, useForceUpdate } from 'hooks';
+import { useContextConf, useClassName, useCheckGroupValue } from 'hooks';
 import { CheckedContext } from './context';
 import { isEmpty } from 'utils/common';
 
@@ -28,11 +28,7 @@ function RadioGroup(props) {
     }, [className, componentCls]);
 
     // ---------------------------------- logic code ----------------------------------
-    const forceUpdate = useForceUpdate();
-    // 默认选中的radio.value
-    const _valueRef = useRef(defaultValue);
-    // 实际选中的radio.value(依赖value，没有取默认)
-    const checkedValue = value !== undefined ? value : _valueRef.current;
+    const { checkedValue, checkChange } = useCheckGroupValue(defaultValue, value, onChange);
 
     // ---------------------------------- context.provider ----------------------------------
     // 传递给选择框的context
@@ -42,16 +38,8 @@ function RadioGroup(props) {
         solid,
         size,
         groupValues: !isEmpty(checkedValue) ? [checkedValue] : [],
-        onChange: e => {
-            // 有value，由用户自主onChange控制
-            onChange(e);
-            if(!isEmpty(value)) return;
-
-            // 没有value，Group内部控制
-            _valueRef.current = e.target.value;
-            forceUpdate();
-        },
-    }), [checkedValue, value, onChange, disabled, solid, size, name])
+        onChange: checkChange,
+    }), [checkedValue, checkChange, disabled, solid, size, name])
 
     // ---------------------------------- render ----------------------------------
     return (

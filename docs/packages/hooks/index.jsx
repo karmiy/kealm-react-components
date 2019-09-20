@@ -10,7 +10,10 @@ import {
     useContextProps,
 } from './common';
 
-import { useCheckValue } from './components';
+import {
+    useCheckValue,
+    useCheckGroupValue,
+} from './components';
 
 export {
     useClassName,
@@ -23,4 +26,5 @@ export {
     useForceUpdate,
     useContextProps,
     useCheckValue,
+    useCheckGroupValue,
 }

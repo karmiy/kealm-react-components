@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { Radio, Button } from '@kealm/react-components';
+import {Radio, Button, Row, Col} from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { radioProps, radioEvents, radioGroupProps, radioGroupEvents, radioButtonProps, radioButtonEvents } from 'api/radio';
-import { CodeBasic, CodeControlled, CodeDisabled, CodeGroup, CodeGroupControlled, CodeGroupName, CodeButton, CodeSize } from 'demos/radio'
+import { CodeBasic, CodeControlled, CodeDisabled, CodeGroup, CodeGroupControlled, CodeGroupName, CodeGroupLayout, CodeButton, CodeSize } from 'demos/radio'
 
 function RadioDoc() {
     const [checkedValue, setCheckedValue] = useState('a');
@@ -108,6 +108,25 @@ function RadioDoc() {
                 )
             }, [])}
             <HighLight code={CodeGroupName} />
+
+            {/* 布局 */}
+            <h2>布局</h2>
+            <p>Radio.Group 内嵌 Radio 并与 Grid 组件一起使用，可以实现灵活的布局。</p>
+            <div className="detail-box">
+                {useMemo(() => {
+                    return (
+                        <Radio.Group style={{width: '100%'}}>
+                            <Row>
+                                <Col span={6}><Radio value={'a'}>A</Radio></Col>
+                                <Col span={6}><Radio value={'b'}>B</Radio></Col>
+                                <Col span={6}><Radio value={'c'}>C</Radio></Col>
+                                <Col span={6}><Radio value={'d'}>D</Radio></Col>
+                            </Row>
+                        </Radio.Group>
+                    )
+                }, [])}
+            </div>
+            <HighLight code={CodeGroupLayout} />
 
             {/* 按钮样式 */}
             <h2>按钮样式</h2>
