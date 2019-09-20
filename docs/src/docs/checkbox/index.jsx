@@ -1,6 +1,8 @@
-import React, {useMemo, useState, useCallback} from 'react';
-import {Checkbox, Button, Row, Col, Radio} from '@kealm/react-components';
-import {ApiTable, HighLight} from '@/components';
+import React, { useMemo, useState, useCallback } from 'react';
+import { Checkbox, Button, Row, Col } from '@kealm/react-components';
+import { ApiTable, HighLight} from '@/components';
+import { checkboxProps, checkboxEvents, checkboxGroupProps, checkboxGroupEvents, checkboxButtonProps, checkboxButtonEvents } from 'api/checkbox';
+import { CodeBasic, CodeDisabled, CodeControlled, CodeGroup, CodeGroupControlled, CodeIndeterminate, CodeLayout, CodeButton, CodeSize } from 'demos/checkbox';
 
 function CheckboxDoc() {
     const [checked, setChecked] = useState(true);
@@ -38,6 +40,7 @@ function CheckboxDoc() {
             <div className="detail-box">
                 {useMemo(() => <Checkbox>Checkbox</Checkbox>, [])}
             </div>
+            <HighLight code={CodeBasic} />
 
             {/* 禁用状态 */}
             <h2>禁用状态</h2>
@@ -53,6 +56,7 @@ function CheckboxDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeDisabled} />
 
             {/* 受控的复选框 */}
             <h2>受控的复选框</h2>
@@ -70,6 +74,7 @@ function CheckboxDoc() {
                     </>
                 )
             }, [checked, disabled, change, setChecked, setDisabled])}
+            <HighLight code={CodeControlled} />
 
             {/* 复选框组 */}
             <h2>复选框组</h2>
@@ -112,6 +117,7 @@ function CheckboxDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeGroup} />
 
             {/* 受控的复选框组 */}
             <h2>受控的复选框组</h2>
@@ -128,6 +134,7 @@ function CheckboxDoc() {
                     )
                 }, [groupValue, groupChange])}
             </div>
+            <HighLight code={CodeGroupControlled} />
 
             {/* indeterminate 状态 */}
             <h2>indeterminate 状态</h2>
@@ -149,6 +156,7 @@ function CheckboxDoc() {
                     )
                 }, [indeterminate, checkAll, checkAllChange, checkedList, checkedChange])}
             </div>
+            <HighLight code={CodeIndeterminate} />
 
             {/* 布局 */}
             <h2>布局</h2>
@@ -167,6 +175,7 @@ function CheckboxDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeLayout} />
 
             {/* 按钮样式 */}
             <h2>按钮样式</h2>
@@ -219,6 +228,7 @@ function CheckboxDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeButton} />
 
             {/* 大小 */}
             <h2>大小</h2>
@@ -250,6 +260,18 @@ function CheckboxDoc() {
                                 <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
                             </Checkbox.Group>
                         </div>
+                    </>
+                )
+            }, [])}
+            <HighLight code={CodeSize} />
+
+            {/* API */}
+            {useMemo(() => {
+                return (
+                    <>
+                        <ApiTable title='Checkbox' propsList={checkboxProps} eventsList={checkboxEvents} />
+                        <ApiTable title='CheckboxGroup' propsList={checkboxGroupProps} eventsList={checkboxGroupEvents} />
+                        <ApiTable title='CheckboxGroup' propsList={checkboxButtonProps} eventsList={checkboxButtonEvents} />
                     </>
                 )
             }, [])}
