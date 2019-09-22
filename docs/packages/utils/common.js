@@ -24,6 +24,15 @@ export const camelCase = function(name) {
 };
 
 /**
+ * 是否为字符串
+ * @param value: any
+ * @returns {boolean}
+ */
+export const isString = function(value) {
+    return toString.call(value) === '[object String]';
+}
+
+/**
  * 是否为对象
  * @param value: any
  * @returns {boolean}

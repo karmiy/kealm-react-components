@@ -1,10 +1,12 @@
 @import "../mixins/index";
 
 /* 滚动条 */
-.scroll-bar, .scroll-bar * {
+//.scroll-bar, .scroll-bar * {
+.scroll-bar {
     @include scroll-bar(10px);
 }
 /* 隐藏式滚动条 */
-.scroll-hidden, .scroll-hidden * {
+//.scroll-hidden, .scroll-hidden * {
+.scroll-hidden {
     @include scroll-bar(0);
 }

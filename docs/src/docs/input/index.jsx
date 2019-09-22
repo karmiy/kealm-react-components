@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Input } from '@kealm/react-components';
+import { isElement } from 'react-is';
+import { Input, Icon, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
 function InputDoc() {
@@ -34,6 +35,29 @@ function InputDoc() {
             <h2>密码框</h2>
             <p>密码框的明密文。</p>
             {useMemo(() => <Input.Password placeholder={'请输入内容'} />, [])}
+
+            {/* 带 icon 的输入框 */}
+            <h2>带 icon 的输入框</h2>
+            <p>带有图标标记输入类型。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row gutter={20}>
+                            <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
+                            <Col><Input placeholder={'请输入内容'} prefix={'phone'} /></Col>
+                        </Row>
+                        <Row gutter={20}>
+                            <Col><Input placeholder={'请输入内容'} suffix={<Icon type={'star-full'} />} /></Col>
+                            <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} /></Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
+
+            {/* 文本域 */}
+            <h2>文本域</h2>
+            <p>用于多行输入。</p>
+            {useMemo(() => <Input.TextArea placeholder={'请输入内容'} autosize={{minRows: 2, maxRows: 6}} />, [])}
 
         </div>
     )

@@ -5,7 +5,6 @@ import {
     useWillUnMount,
     useDidUpdate,
     useSyncOnce,
-    useTransChildren,
     useForceUpdate,
     useContextProps,
 } from './common';
@@ -23,7 +22,6 @@ export {
     useWillUnMount,
     useDidUpdate,
     useSyncOnce,
-    useTransChildren,
     useForceUpdate,
     useContextProps,
     useCheckValue,

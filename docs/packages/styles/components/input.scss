@@ -12,15 +12,16 @@
         box-sizing: border-box;
         display: block;
         width: 100%;
+        min-height: 32px;
         line-height: 1.5;
         border: $input-border;
         border-radius: $input-border-radius;
-        padding: 5px 15px;
+        padding: 4px 15px;
         background-color: $input-background-color;
         background-image: none;
         font-size: inherit;
         color: $input-font-color;
-        resize: vertical;
+        //resize: vertical;
         transition: $border-transition-base;
 
         &::placeholder {
@@ -152,6 +153,7 @@
         color: $input-icon-color;
         transition: all $transition-duration-base;
         pointer-events: none;
+        user-select: none; // Prevent double-click selection
     }
 
     @include e(suffix-inner) {

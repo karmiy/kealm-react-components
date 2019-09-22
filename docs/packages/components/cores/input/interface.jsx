@@ -21,6 +21,8 @@ export const AbstractInputDefaultProps = {
 export const InputProps = {
     ...AbstractInputProps,
     allowClear: PropTypes.bool,
+    prefix: PropTypes.node,
+    suffix: PropTypes.node,
 }
 
 export const InputDefaultProps = {
@@ -31,8 +33,22 @@ export const InputDefaultProps = {
 /* password-props */
 export const PasswordProps = {
     ...AbstractInputProps,
+    showToggleIcon: PropTypes.bool,
 }
 
 export const PasswordDefaultProps = {
     ...AbstractInputDefaultProps,
+    showToggleIcon: true,
+}
+
+/* textarea-props */
+export const TextareaProps = {
+    ...AbstractInputProps,
+    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    autosize: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+}
+
+export const TextareaDefaultProps = {
+    ...AbstractInputDefaultProps,
+    autosize: false,
 }

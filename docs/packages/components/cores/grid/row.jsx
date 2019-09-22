@@ -1,6 +1,7 @@
 import React, { Children, cloneElement, useMemo } from 'react';
 import { RowProps, RowDefaultProps } from "./interface";
-import { useContextConf, useClassName, useTransChildren } from 'hooks';
+import { useContextConf, useClassName } from 'hooks';
+import { transChildren } from 'utils/react-util';
 
 function Row(props) {
     const { componentCls } = useContextConf('row');
@@ -42,7 +43,7 @@ function Row(props) {
 
     // ---------------------------------- logic code ----------------------------------
     // 转化children
-    const _children = useTransChildren(children);
+    const _children = transChildren(children);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderChildren = useMemo(() => {

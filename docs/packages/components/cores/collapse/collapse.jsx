@@ -1,7 +1,8 @@
 import React, { Children, cloneElement, useState, useCallback, useMemo } from 'react';
 import { CollapseProps, CollapseDefaultProps } from "./interface";
-import { useContextConf, useClassName, useDidUpdate, useSyncOnce, useTransChildren } from 'hooks';
+import { useContextConf, useClassName, useDidUpdate, useSyncOnce } from 'hooks';
 import { toArray, removeOfArray } from 'utils/array';
+import { transChildren } from 'utils/react-util';
 
 const noop = () => {};
 
@@ -29,7 +30,7 @@ function Collapse(props) {
 
     // ---------------------------------- logic code ----------------------------------
     // 转化children
-    const _children = useTransChildren(children);
+    const _children = transChildren(children);
 
     // 初始化当前active激活项
     let initValue = null;

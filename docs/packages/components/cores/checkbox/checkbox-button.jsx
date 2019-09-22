@@ -35,8 +35,6 @@ function CheckboxButton(props) {
         [className]: className,
     }, [className, componentCls, isChecked, disabled, solid, size]);
 
-    // ---------------------------------- logic code ----------------------------------
-
 
     // ---------------------------------- render ----------------------------------
     return (

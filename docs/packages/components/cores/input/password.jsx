@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { PasswordProps, PasswordDefaultProps } from "./interface";
-import { useContextConf, useClassName, useInputValue } from 'hooks';
+import { useContextConf, useClassName, useInputValue, useDidUpdate } from 'hooks';
 
 function Password(props) {
     const { componentCls } = useContextConf('input');
@@ -12,11 +12,19 @@ function Password(props) {
         defaultValue,
         value,
         onChange,
+        showToggleIcon,
         ...others
     } = props;
 
     // ---------------------------------- logic code ----------------------------------
-    const { inputValue, setInputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
+    const [visible, setVisible] = useState(false);
+    const passwordRef = useRef(null);
+    const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange);
+
+    // Switch to focus password box
+    useDidUpdate(() => {
+        passwordRef.current.focus();
+    }, [visible])
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -31,34 +39,43 @@ function Password(props) {
     }, [componentCls]);
 
     // ---------------------------------- event ----------------------------------
-    const onClear = useCallback(() => setInputValue(''), [setInputValue]);
-    const onClearMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
+    const onSwitch = useCallback(() => {
+        setVisible(v => !v);
+    }, [setVisible]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderSuffix = useMemo(() => {
+        if(!showToggleIcon) return false;
         return (
             <span className={`${componentCls}__suffix`}>
                 <span className={`${componentCls}__suffix-inner`}>
                     <Icon className={`${componentCls}__icon ${componentCls}__handle`}
-                                         type={'eye'}
-                                         onClick={onClear}
-                                         onMouseDown={onClearMouseDown} />
+                                         type={visible ? 'eye' : 'eye-o'}
+                                         onClick={onSwitch}
+                                          />
                 </span>
             </span>
         )
-    }, [])
+    }, [showToggleIcon, visible])
 
-    // ---------------------------------- render ----------------------------------
-    return (
-        <div className={classNames} {...others}>
+    const renderInput = useMemo(() => {
+        return (
             <input
-                type="text"
+                ref={passwordRef}
+                type={visible ? 'text' : 'password'}
                 className={_inputClassNames}
                 value={inputValue}
                 onChange={inputChange}
                 disabled={disabled}
                 placeholder={placeholder}
             />
+        )
+    }, [visible, _inputClassNames, inputValue, inputChange, disabled, placeholder]);
+
+    // ---------------------------------- render ----------------------------------
+    return (
+        <div className={classNames} {...others}>
+            {renderInput}
             {renderSuffix}
         </div>
     )

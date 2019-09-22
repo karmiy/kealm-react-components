@@ -8,13 +8,13 @@ function Icon(props) {
         className,
         ...others
     } = props;
-    const { componentCls } = useContextConf(`icon-${type}`);
+    const { componentCls } = useContextConf(`icon`);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [componentCls]: true,
+        [`${componentCls}-${type}`]: true,
         [className]: className,
-    }, [className, componentCls]);
+    }, [type, className, componentCls]);
 
     // ---------------------------------- render ----------------------------------
     return <i className={classNames} {...others} />;
