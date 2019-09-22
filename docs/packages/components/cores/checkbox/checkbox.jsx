@@ -4,8 +4,6 @@ import { useContextConf, useClassName, useCheckValue, useContextProps } from 'ho
 import { CheckedContext } from '../radio/context';
 
 function Checkbox(props) {
-    // const c = useContext(CheckedContext);
-    // console.log(c);
     const { componentCls } = useContextConf('checkbox');
     const {
         className,
@@ -22,7 +20,7 @@ function Checkbox(props) {
     } = useContextProps(props, CheckedContext, ['onChange']);
 
     // ---------------------------------- logic code ----------------------------------
-    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange, disabled);
+    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange);
 
     // ---------------------------------- class ----------------------------------
     // root-className
@@ -50,7 +48,7 @@ function Checkbox(props) {
                 <span className={`${componentCls}__inner`} />
             </span>
         )
-    }, [_inputClassNames, componentCls, isChecked, checkChange, value]);
+    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name]);
 
     // render-label
     const renderLabel = useMemo(() => {

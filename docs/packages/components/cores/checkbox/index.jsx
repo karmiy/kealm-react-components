@@ -5,6 +5,4 @@ import CheckboxButton from './checkbox-button';
 Checkbox.Group = CheckboxGroup;
 Checkbox.Button = CheckboxButton;
 
-export {
-    Checkbox,
-}
+export default Checkbox;

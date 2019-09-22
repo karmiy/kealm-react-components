@@ -35,6 +35,10 @@ const sidebarList = [
             {
                 name: 'Checkbox 复选框',
                 link: 'checkbox',
+            },
+            {
+                name: 'Input 输入框',
+                link: 'input',
             }
         ]
     },

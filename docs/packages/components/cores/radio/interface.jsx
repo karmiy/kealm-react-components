@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const noop = () => {};
 
-/* checked DOM公共样式 */
+/* checked-common-props */
 export const AbstractCheckProps = {
     className: PropTypes.string,
     defaultChecked: PropTypes.bool,
@@ -19,7 +19,7 @@ export const AbstractCheckDefaultProps = {
     onChange: noop,
 }
 
-/* checked-group DOM公共样式 */
+/* checked-group-common-props */
 export const AbstractCheckGroupProps = {
     className: PropTypes.string,
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

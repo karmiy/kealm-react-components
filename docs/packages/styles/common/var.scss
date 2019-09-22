@@ -42,13 +42,14 @@ $border-color-base: #DCDFE6 !default;
 $border-color-light: #E4E7ED !default;
 $border-color-lighter: #EBEEF5 !default;
 $border-color-extra-light: #F2F6FC !default;
+$border-color-hover: $color-text-placeholder !default;
 
 // background-color
 $background-color-base: #F5F7FA !default;
 
 // Disable color
 $disabled-fill-base: $background-color-base !default;
-$disabled-color-base: $color-text-placeholder !default;
+$disabled-color-base: $color-text-disabled !default;
 $disabled-border-base: $border-color-light !default;
 
 /* --------------------------base-------------------------- */
@@ -104,9 +105,11 @@ $z-index-extra-large: 100 !default;
 $z-index-extremely-large: 1000 !default;
 
 // transition-duration
-$transition-duration-fast: .1s!default;
+$transition-duration-faster: .1s!default;
+$transition-duration-fast: .2s!default;
 $transition-duration-base: .3s!default;
-$transition-duration-slow: .5s!default;
+$transition-duration-slow: .4s!default;
+$transition-duration-slower: .5s!default;
 
 // transition-timing-function
 $ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
@@ -125,6 +128,11 @@ $ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
 $ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
 
 $all-transition: all $transition-duration-base $ease-in-out !default;
+$fade-transition: opacity $transition-duration-base $ease-out-quint !default;
+$fade-linear-transition: opacity $transition-duration-fast linear !default;
+$md-fade-transition: transform $transition-duration-base $ease-out-quint, opacity $transition-duration-base $ease-out-quint !default;
+$border-transition-base: border-color $transition-duration-fast $ease-in-out !default;
+$color-transition-base: color $transition-duration-fast $ease-in-out !default;
 
 
 /* --------------------------Break-point-------------------------- */
@@ -367,3 +375,48 @@ $checkbox-bordered-mini-height: 28px !default;
 $checkbox-button-checked-background-color: $color-primary !default;
 $checkbox-button-checked-font-color: $color-white !default;
 $checkbox-button-checked-border-color: $color-primary !default;
+
+/* --------------------------Input-------------------------- */
+// font
+$input-font-size: $font-size-base !default;
+$input-font-color: $color-text-regular !default;
+
+// height
+$input-height: 32px !default;
+
+// borer
+$input-border: $border-base !default;
+$input-border-color: $border-color-base !default;
+$input-border-radius: $border-radius-base !default;
+$input-border-color-hover: $border-color-hover !default;
+
+// background-color
+$input-background-color: $color-white !default;
+
+// disabled
+$input-disabled-fill: $disabled-fill-base !default;
+$input-disabled-border: $disabled-border-base !default;
+$input-disabled-color: $disabled-color-base !default;
+$input-disabled-placeholder-color: $color-text-placeholder !default;
+
+// icon
+$input-icon-color: $color-text-placeholder !default;
+
+// placeholder
+$input-placeholder-color: $color-text-placeholder !default;
+
+// hover
+$input-hover-border: $border-color-hover !default;
+$input-clear-hover-color: $color-text-secondary !default;
+
+// focus
+$input-focus-border: $color-primary !default;
+$input-focus-fill: $color-white !default;
+
+// size
+$input-medium-font-size: 14px !default;
+$input-medium-height: 36px !default;
+$input-small-font-size: 13px !default;
+$input-small-height: 32px !default;
+$input-mini-font-size: 12px !default;
+$input-mini-height: 28px !default;

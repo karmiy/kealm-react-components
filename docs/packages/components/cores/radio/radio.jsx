@@ -19,7 +19,7 @@ function Radio(props) {
     } = useContextProps(props, CheckedContext, ['onChange']);
 
     // ---------------------------------- logic code ----------------------------------
-    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange, disabled);
+    const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange);
 
     // ---------------------------------- class ----------------------------------
     // root-className
@@ -46,7 +46,7 @@ function Radio(props) {
                 <span className={`${componentCls}__inner`} />
             </span>
         )
-    }, [_inputClassNames, componentCls, isChecked, checkChange, value]);
+    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name]);
 
     // render-label
     const renderLabel = useMemo(() => {

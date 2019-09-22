@@ -13,6 +13,7 @@ import {
 import {
     useCheckValue,
     useCheckGroupValue,
+    useInputValue,
 } from './components';
 
 export {
@@ -27,4 +28,5 @@ export {
     useContextProps,
     useCheckValue,
     useCheckGroupValue,
+    useInputValue,
 }

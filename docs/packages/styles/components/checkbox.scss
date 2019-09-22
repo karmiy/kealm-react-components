@@ -147,7 +147,7 @@
             top: 50%;
             opacity: 0;
             transform: rotate(45deg) scale(0) translate(-50%, -50%) ;
-            transition: all $transition-duration-fast $ease-in-back $transition-duration-fast;
+            transition: all $transition-duration-faster $ease-in-back $transition-duration-faster;
         }
     }
 

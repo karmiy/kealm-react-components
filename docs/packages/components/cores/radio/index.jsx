@@ -5,6 +5,4 @@ import RadioButton from './radio-button';
 Radio.Group = RadioGroup;
 Radio.Button = RadioButton;
 
-export {
-    Radio,
-}
+export default Radio;

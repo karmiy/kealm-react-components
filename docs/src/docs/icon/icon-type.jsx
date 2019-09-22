@@ -34,7 +34,7 @@ export const generalIcons = [
     'film', 'connection', 'mic', 'book', 'books', 'file',
     'files', 'file-text', 'file-music', 'file-play', 'file-video',
     'file-pdf', 'file-word', 'file-excel', 'folder',
-    'tree', 'download', 'upload', 'link', 'eye', 'eye-o', 'price-tag',
+    'tree', 'download', 'upload', 'link', 'eye', 'eye-o', 'eye-fill', 'eye-fill-o', 'price-tag',
     'barcode', 'qrcode', 'cart', 'coin-dollar', 'coin-euro', 'coin-pound',
     'coin-yen', 'phone', 'envelop', 'location', 'alarm', 'calendar', 'printer',
     'keyboard', 'display', 'mobile', 'database', 'user', 'user-plus', 'user-minus',
