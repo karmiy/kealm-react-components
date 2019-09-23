@@ -7,6 +7,7 @@ import {
     useSyncOnce,
     useForceUpdate,
     useContextProps,
+    useStateCallable,
 } from './common';
 
 import {
@@ -24,6 +25,7 @@ export {
     useSyncOnce,
     useForceUpdate,
     useContextProps,
+    useStateCallable,
     useCheckValue,
     useCheckGroupValue,
     useInputValue,

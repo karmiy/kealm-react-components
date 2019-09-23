@@ -6,6 +6,7 @@ import useDidUpdate from './useDidUpdate';
 import useSyncOnce from './useSyncOnce';
 import useForceUpdate from './useForceUpdate';
 import useContextProps from './useContextProps';
+import useStateCallable from './useStateCallable';
 
 export {
     useClassName,
@@ -16,4 +17,5 @@ export {
     useSyncOnce,
     useForceUpdate,
     useContextProps,
+    useStateCallable,
 }

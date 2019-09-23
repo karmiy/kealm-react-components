@@ -5,7 +5,10 @@ import { ApiTable, HighLight } from '@/components';
 
 function InputDoc() {
     const [value, setValue] = useState('beauty');
-    const change = useCallback((e) => setValue(e.target.value), [setValue])
+    const change = useCallback((e) => setValue(e.target.value), [setValue]);
+
+    const [textareaValue, setTextareaValue] = useState('');
+
     return (
         <div className='page-box input-doc'>
             <h1>Input 输入框</h1>
@@ -57,7 +60,7 @@ function InputDoc() {
             {/* 文本域 */}
             <h2>文本域</h2>
             <p>用于多行输入。</p>
-            {useMemo(() => <Input.TextArea placeholder={'请输入内容'} autosize={{minRows: 2, maxRows: 6}} />, [])}
+            {useMemo(() => <Input.TextArea value={textareaValue} placeholder={'请输入内容'} autosize onChange={(e) => setTextareaValue(e.target.value)} />, [textareaValue])}
 
         </div>
     )

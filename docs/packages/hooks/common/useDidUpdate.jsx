@@ -11,7 +11,7 @@ function useDidUpdate(callback, dependencies) {
         if (mounted.current) {
             mounted.current = false;
         }else {
-            callback && callback();
+            return callback && callback();
         }
     }, dependencies);
 }
