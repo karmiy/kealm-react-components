@@ -1,8 +1,9 @@
-import React, { useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useRef, useCallback } from 'react';
 import { TextareaProps, TextareaDefaultProps } from "./interface";
 import { useContextConf, useClassName, useStateCallable } from 'hooks';
 // import { ResizeObserver } from '../../common';
 import calculateNodeHeight from './calculateNodeHeight';
+import { throttle } from 'utils/common';
 
 function TextArea(props) {
     const { componentCls } = useContextConf('textarea');
@@ -27,15 +28,10 @@ function TextArea(props) {
     }, [className, componentCls, disabled]);
 
     // ---------------------------------- logic code ----------------------------------
-    const [textareaState, setTextareaState] = useStateCallable({
-        textareaStyles: {},
-        resizing: false,
-    })
+    const [textareaStyles, setTextareaStyles] = useStateCallable(null);
+    const [resizing, setResizing] = useState(false);
     const textareaRef = useRef(null);
     const resizeFrameIdRef = useRef(null);
-
-
-    const { textareaStyles, resizing } = textareaState;
 
     useLayoutEffect(() => {
         resizeTextarea();
@@ -48,44 +44,41 @@ function TextArea(props) {
     };
 
     // ---------------------------------- event ----------------------------------
-    const handleTextareaChange = useCallback((e) => {
-        if(!('value' in props)) {
-            resizeTextarea();
-        }
-        onChange(e);
-    }, [onChange]);
 
-    const setTextareaCb = useCallback(() => {
+    const resetResizingNextFrame = useCallback(() => {
         cancelAnimationFrame(resizeFrameIdRef.current);
-        resizeFrameIdRef.current = requestAnimationFrame(() => {
-            setTextareaState(state => ({
-                ...state,
-                resizing: false,
-            }))
-        })
-    }, [setTextareaState]);
+        resizeFrameIdRef.current = requestAnimationFrame(() => setResizing(false));
+    }, [setResizing]);
 
     const resizeTextarea = useCallback(() => {
         if (!autosize || !textareaRef.current) return;
         const { minRows, maxRows } = autosize;
         const textareaStyles = calculateNodeHeight(textareaRef.current, false, minRows, maxRows);
 
-        setTextareaState({ textareaStyles, resizing: true }, setTextareaCb);
-    }, [autosize, setTextareaState, setTextareaCb]);
+        setResizing(true);
+        setTextareaStyles(textareaStyles, resetResizingNextFrame);
+    }, [autosize, setResizing, setTextareaStyles, resetResizingNextFrame]);
+
+    const handleTextareaChange = useCallback((e) => {
+        if(!('value' in props)) {
+            resizeTextarea();
+        }
+        onChange(e);
+    }, [resizeTextarea, onChange]);
 
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
             {/*<ResizeObserver onResize={resizeOnNextFrame}>*/}
-                <textarea
-                    ref={textareaRef}
-                    className={`${componentCls}__inner`}
-                    style={styles}
-                    defaultValue={defaultValue}
-                    value={value}
-                    onChange={handleTextareaChange}
-                    rows={rows}
-                    placeholder={placeholder} />
+            <textarea
+                ref={textareaRef}
+                className={`${componentCls}__inner`}
+                style={styles}
+                defaultValue={defaultValue}
+                value={value}
+                onChange={handleTextareaChange}
+                rows={rows}
+                placeholder={placeholder} />
             {/*</ResizeObserver>*/}
         </div>
     )

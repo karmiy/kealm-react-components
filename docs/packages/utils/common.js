@@ -91,3 +91,51 @@ export const isEdge = function() {
 export const isEmpty = function(value) {
     return value === null || value === undefined;
 };
+
+/**
+ * 节流
+ * @param func 节流函数
+ * @param wait 等待时长
+ * @param options 配置: leading(true: 立即执行; false: 第一次执行也wait)，trailing(true 函数setTimeout执行效果; false 函数仅通过计算时间执行)
+ * @returns {function(): *}
+ */
+export const throttle = function (func, wait, options = {}) {
+    const {leading = true, trailing = true} = options;
+    let timeout, context, args, result;
+    let previous = 0;
+    const later = function () {
+        previous = leading === false ? 0 : (Date.now() || new Date().getTime());
+        timeout = null;
+        result = func.apply(context, args);
+        if(!timeout) context = args = null;
+    }
+    const throttled = function() {
+        const now = Date.now() || new Date().getTime();
+        if(!previous && leading === false) previous = now;
+        // remaining 为距离下次执行 func 的时间
+        // remaining > wart，表示系统时间被调整过
+        const remaining = wait - (now - previous);
+        context = this;
+        args = arguments;
+        if(remaining <= 0 || remaining > wait) {
+            if(timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            // 重置previous
+            previous = now;
+            // 执行函数
+            result = func.apply(context, args);
+            if(!timeout) context = args = null;
+        } else if(!timeout && trailing !== false) {
+            timeout = setTimeout(later, remaining);
+        }
+        return result;
+    }
+    throttled.cancel = function () {
+        clearTimeout(timeout);
+        previous = 0;
+        timeout = context = args = null;
+    }
+    return throttled;
+}

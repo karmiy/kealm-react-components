@@ -52,7 +52,7 @@ class ReactResizeObserver extends Component {
         const fixedHeight = Math.floor(height);
         console.log(fixedWidth, fixedHeight);
 
-        // if (this.state.width !== fixedWidth || this.state.height !== fixedHeight) {
+        if (this.state.width !== fixedWidth || this.state.height !== fixedHeight) {
             this.setState({
                 width: fixedWidth,
                 height: fixedHeight,
@@ -61,7 +61,7 @@ class ReactResizeObserver extends Component {
             if (onResize) {
                 onResize();
             }
-        // }
+        }
     };
 
     destroyObserver() {
