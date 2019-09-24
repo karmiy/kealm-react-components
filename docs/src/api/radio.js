@@ -1,5 +1,12 @@
 export const radioProps = [
     {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
         param: 'defaultChecked',
         des: '初始是否选中',
         type: 'boolean',
@@ -94,6 +101,13 @@ export const radioGroupEvents = [
 ]
 
 export const radioButtonProps = [
+    {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
     {
         param: 'defaultChecked',
         des: '初始是否选中',

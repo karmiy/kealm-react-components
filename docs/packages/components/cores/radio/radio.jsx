@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
 import { useContextConf, useClassName, useContextProps, useCheckValue } from 'hooks';
 import { CheckedContext } from './context';
+import { extract, omit } from 'utils/object';
 
 function Radio(props) {
     const { componentCls } = useContextConf('radio');
@@ -17,6 +18,10 @@ function Radio(props) {
         groupValues,
         ...others
     } = useContextProps(props, CheckedContext, ['onChange']);
+
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const radioOthers = omit(others, ['style', 'onClick']);
 
     // ---------------------------------- logic code ----------------------------------
     const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange);
@@ -42,11 +47,11 @@ function Radio(props) {
     const renderInput = useMemo(() => {
         return (
             <span className={_inputClassNames}>
-                <input type="radio" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} />
+                <input type="radio" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...radioOthers} />
                 <span className={`${componentCls}__inner`} />
             </span>
         )
-    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name]);
+    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name, ...Object.values(radioOthers)]);
 
     // render-label
     const renderLabel = useMemo(() => {
@@ -55,7 +60,7 @@ function Radio(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <label role={'radio'} tabIndex={0} className={classNames} {...others}>
+        <label role={'radio'} tabIndex={0} className={classNames} {...rootOthers}>
             {renderInput}
             {renderLabel}
         </label>

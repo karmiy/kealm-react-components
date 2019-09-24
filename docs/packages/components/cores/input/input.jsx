@@ -1,8 +1,9 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { InputProps, InputDefaultProps } from "./interface";
-import { useContextConf, useClassName, useInputValue, useInputEvents } from 'hooks';
+import { useContextConf, useClassName, useInputValue } from 'hooks';
 import { isString } from 'utils/common';
+import { extract, omit } from 'utils/object';
 import { cloneVElement } from 'utils/react-util';
 
 function Input(props) {
@@ -13,6 +14,7 @@ function Input(props) {
         disabled,
         defaultValue,
         value,
+        onChange,
         allowClear,
         prefix,
         suffix,
@@ -24,8 +26,9 @@ function Input(props) {
         ...others
     } = props;
 
-    const { inputEvents, ...domProps } = useInputEvents(others);
-    const { onChange, ...otherEvents } = inputEvents;
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const inputOthers = omit(others, ['style', 'onClick']);
 
     // ---------------------------------- logic code ----------------------------------
     const { inputValue, setInputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
@@ -138,7 +141,7 @@ function Input(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...domProps}>
+        <div className={classNames} {...rootOthers}>
             {renderPrependWrapper}
             <input
                 type="text"
@@ -148,7 +151,7 @@ function Input(props) {
                 disabled={disabled}
                 placeholder={placeholder}
                 maxLength={maxLength}
-                {...otherEvents}
+                {...inputOthers}
             />
             {renderPrefixWrapper}
             {renderSuffixWrapper}

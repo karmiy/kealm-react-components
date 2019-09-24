@@ -1,5 +1,12 @@
 export const checkboxProps = [
     {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
         param: 'defaultChecked',
         des: '初始是否选中',
         type: 'boolean',
@@ -101,6 +108,13 @@ export const checkboxGroupEvents = [
 ]
 
 export const checkboxButtonProps = [
+    {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
     {
         param: 'defaultChecked',
         des: '初始是否选中',

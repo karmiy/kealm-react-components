@@ -2,6 +2,7 @@ import React from 'react';
 import { CheckboxButtonProps, CheckboxButtonDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
+import { extract, omit } from 'utils/object';
 
 function CheckboxButton(props) {
     const { componentCls } = useContextConf('checkbox-button');
@@ -21,6 +22,10 @@ function CheckboxButton(props) {
         ...others
     } = useContextProps(props, CheckedContext, ['onChange']);
 
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const checkboxOthers = omit(others, ['style', 'onClick']);
+
     // ---------------------------------- logic code ----------------------------------
     const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange, disabled);
 
@@ -38,8 +43,8 @@ function CheckboxButton(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <label role={'checkbox-button'} tabIndex={0} className={classNames} {...others}>
-            <input type="checkbox" tabIndex={-1} className={`${componentCls}__orig-checkbox`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} />
+        <label role={'checkbox-button'} tabIndex={0} className={classNames} {...rootOthers}>
+            <input type="checkbox" tabIndex={-1} className={`${componentCls}__orig-checkbox`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...checkboxOthers} />
             <span className={`${componentCls}__inner`}>{children}</span>
         </label>
     )

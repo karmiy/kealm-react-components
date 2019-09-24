@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { PasswordProps, PasswordDefaultProps } from "./interface";
-import { useContextConf, useClassName, useInputValue, useDidUpdate, useInputEvents } from 'hooks';
+import { useContextConf, useClassName, useInputValue, useDidUpdate } from 'hooks';
+import { extract, omit } from 'utils/object';
 
 function Password(props) {
     const { componentCls } = useContextConf('input');
@@ -11,12 +12,14 @@ function Password(props) {
         disabled,
         defaultValue,
         value,
+        onChange,
         showToggleIcon,
         ...others
     } = props;
 
-    const { inputEvents, ...domProps } = useInputEvents(others);
-    const { onChange, ...otherEvents } = inputEvents;
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const inputOthers = omit(others, ['style', 'onClick']);
 
     // ---------------------------------- logic code ----------------------------------
     const [visible, setVisible] = useState(false);
@@ -70,14 +73,14 @@ function Password(props) {
                 onChange={inputChange}
                 disabled={disabled}
                 placeholder={placeholder}
-                {...otherEvents}
+                {...inputOthers}
             />
         )
-    }, [visible, _inputClassNames, inputValue, inputChange, disabled, placeholder, inputEvents]);
+    }, [visible, _inputClassNames, inputValue, inputChange, disabled, placeholder, ...Object.values(inputOthers)]);
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...domProps}>
+        <div className={classNames} {...rootOthers}>
             {renderInput}
             {renderSuffix}
         </div>

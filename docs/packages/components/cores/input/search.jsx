@@ -2,8 +2,9 @@ import React, { useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import Button from '../button';
 import { SearchProps, SearchDefaultProps } from "./interface";
-import { useContextConf, useClassName, useInputEvents } from 'hooks';
+import { useContextConf, useClassName } from 'hooks';
 import { isBoolean } from 'utils/common';
+import { extract, omit } from 'utils/object';
 import KeyCode from 'utils/keyCode';
 
 function Search(props) {
@@ -13,6 +14,8 @@ function Search(props) {
         placeholder,
         disabled,
         defaultValue,
+        onChange,
+        onKeyDown,
         value,
         size,
         enterButton,
@@ -20,8 +23,9 @@ function Search(props) {
         ...others
     } = props;
 
-    const { inputEvents, ...domProps } = useInputEvents(others);
-    const { onChange, onKeyDown, ...otherEvents } = inputEvents;
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const inputOthers = omit(others, ['style', 'onClick']);
 
     // ---------------------------------- logic code ----------------------------------
     const searchRef = useRef(null);
@@ -83,17 +87,18 @@ function Search(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...domProps}>
+        <div className={classNames} {...rootOthers}>
             <input
                 ref={searchRef}
                 type="text"
                 className={_inputClassNames}
+                defaultValue={defaultValue}
                 value={value}
                 onChange={onChange}
                 disabled={disabled}
                 placeholder={placeholder}
                 onKeyDown={onKeydownTrigger}
-                {...otherEvents}
+                {...inputOthers}
             />
             {renderSuffix}
             {renderAppend}

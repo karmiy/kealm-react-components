@@ -1,5 +1,12 @@
 export const inputProps = [
     {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
         param: 'defaultValue',
         des: '默认值',
         type: 'string',

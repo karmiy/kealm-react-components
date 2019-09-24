@@ -20,7 +20,7 @@ function RadioDoc() {
             <h2>基本用法</h2>
             <p>由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。</p>
             <div className="detail-box">
-                {useMemo(() => <Radio>Radio</Radio>, [])}
+                {useMemo(() => <Radio autoFocus>Radio</Radio>, [])}
             </div>
             <HighLight code={CodeBasic} />
 
@@ -220,7 +220,7 @@ function RadioDoc() {
                     <>
                         <ApiTable title='Radio' propsList={radioProps} eventsList={radioEvents} />
                         <ApiTable title='RadioGroup' propsList={radioGroupProps} eventsList={radioGroupEvents} />
-                        <ApiTable title='RadioGroup' propsList={radioButtonProps} eventsList={radioButtonEvents} />
+                        <ApiTable title='RadioButton' propsList={radioButtonProps} eventsList={radioButtonEvents} />
                     </>
                 )
             }, [])}

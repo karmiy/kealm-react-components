@@ -271,7 +271,7 @@ function CheckboxDoc() {
                     <>
                         <ApiTable title='Checkbox' propsList={checkboxProps} eventsList={checkboxEvents} />
                         <ApiTable title='CheckboxGroup' propsList={checkboxGroupProps} eventsList={checkboxGroupEvents} />
-                        <ApiTable title='CheckboxGroup' propsList={checkboxButtonProps} eventsList={checkboxButtonEvents} />
+                        <ApiTable title='CheckboxButton' propsList={checkboxButtonProps} eventsList={checkboxButtonEvents} />
                     </>
                 )
             }, [])}

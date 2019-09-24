@@ -1,8 +1,11 @@
 import React, { useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { TextareaProps, TextareaDefaultProps } from "./interface";
-import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue, useInputEvents } from 'hooks';
+import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue } from 'hooks';
 // import { ResizeObserver } from '../../common';
 import calculateNodeHeight from './calculateNodeHeight';
+import { extract, omit } from 'utils/object';
+import raf from 'utils/raf';
+
 
 function TextArea(props) {
     const { componentCls } = useContextConf('textarea');
@@ -13,6 +16,7 @@ function TextArea(props) {
         disabled,
         defaultValue,
         value,
+        onChange,
         rows,
         autosize,
         maxLength,
@@ -20,8 +24,9 @@ function TextArea(props) {
         ...others
     } = props;
 
-    const { inputEvents, ...domProps } = useInputEvents(others);
-    const { onChange, ...otherEvents } = inputEvents;
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const textareaOthers = omit(others, ['style', 'onClick']);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -53,8 +58,8 @@ function TextArea(props) {
     // ---------------------------------- event ----------------------------------
 
     const resetResizingNextFrame = useCallback(() => {
-        cancelAnimationFrame(resizeFrameIdRef.current);
-        resizeFrameIdRef.current = requestAnimationFrame(() => setResizing(false));
+        raf.cancel(resizeFrameIdRef.current);
+        resizeFrameIdRef.current = raf(() => setResizing(false));
     }, [setResizing]);
 
     const resizeTextarea = useCallback(() => {
@@ -86,7 +91,7 @@ function TextArea(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...domProps}>
+        <div className={classNames} {...rootOthers}>
             {/*<ResizeObserver onResize={resizeOnNextFrame}>*/}
             <textarea
                 ref={textareaRef}
@@ -98,7 +103,7 @@ function TextArea(props) {
                 rows={rows}
                 maxLength={maxLength}
                 placeholder={placeholder}
-                {...otherEvents}
+                {...textareaOthers}
             />
             {/*</ResizeObserver>*/}
             {renderCount}

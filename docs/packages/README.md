@@ -1,5 +1,7 @@
 ## Code Split
 
+- within props
+
 - logic code
 
 - class

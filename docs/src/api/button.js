@@ -1,5 +1,12 @@
 export const buttonProps = [
     {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
         param: 'type',
         des: '类型',
         type: 'string',

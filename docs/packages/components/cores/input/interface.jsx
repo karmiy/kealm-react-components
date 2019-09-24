@@ -76,3 +76,13 @@ export const SearchDefaultProps = {
     enterButton: false,
     onSearch: noop,
 }
+
+/*
+    onChange,
+    onKeyDown,
+    onKeyPress,
+    onKeyUp,
+    onBlur,
+    onFocus,
+    onInput,
+*/

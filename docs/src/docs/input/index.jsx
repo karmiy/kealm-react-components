@@ -13,8 +13,7 @@ function InputDoc() {
             <h1>Input 输入框</h1>
             <p>通过鼠标或键盘输入字符。</p>
 
-            {/* 事件测试
-            <h2>事件测试</h2>
+            {/*<h2>事件测试</h2>
             <p>事件测试。</p>
             {useMemo(() => {
                 return (

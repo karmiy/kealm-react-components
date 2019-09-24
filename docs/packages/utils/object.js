@@ -1,7 +1,7 @@
 import { isEmpty } from './common';
 
 /**
- * 从对象移除某些项
+ * 从对象移除某些项(浅拷贝)
  * @param obj
  * @param fields
  */
@@ -9,10 +9,22 @@ export const omit = function(obj, fields) {
     const shallowCopy = {
         ...obj,
     };
-    for (let i = 0; i < fields.length; i++) {
-        const key = fields[i];
+    fields.forEach(key => {
         delete shallowCopy[key];
-    }
+    });
+    return shallowCopy;
+}
+
+/**
+ * 从对象提取某些项(浅拷贝)
+ * @param obj
+ * @param fields
+ */
+export const extract = function(obj, fields) {
+    const shallowCopy = {};
+    fields.forEach(key => {
+        obj[key] && (shallowCopy[key] = obj[key]);
+    });
     return shallowCopy;
 }
 

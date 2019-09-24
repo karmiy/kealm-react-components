@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
+import { extract, omit } from 'utils/object';
 
 function Checkbox(props) {
     const { componentCls } = useContextConf('checkbox');
@@ -18,6 +19,10 @@ function Checkbox(props) {
         groupValues,
         ...others
     } = useContextProps(props, CheckedContext, ['onChange']);
+
+    // ---------------------------------- within props ----------------------------------
+    const rootOthers = extract(others, ['style', 'onClick']);
+    const checkboxOthers = omit(others, ['style', 'onClick']);
 
     // ---------------------------------- logic code ----------------------------------
     const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange);
@@ -44,11 +49,11 @@ function Checkbox(props) {
     const renderInput = useMemo(() => {
         return (
             <span className={_inputClassNames}>
-                <input type="checkbox" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} />
+                <input type="checkbox" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...checkboxOthers} />
                 <span className={`${componentCls}__inner`} />
             </span>
         )
-    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name]);
+    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name, ...Object.values(checkboxOthers)]);
 
     // render-label
     const renderLabel = useMemo(() => {
@@ -58,7 +63,7 @@ function Checkbox(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <label role={'checkbox'} tabIndex={0} className={classNames} {...others}>
+        <label role={'checkbox'} tabIndex={0} className={classNames} {...rootOthers}>
             {renderInput}
             {renderLabel}
         </label>
