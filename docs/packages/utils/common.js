@@ -33,6 +33,15 @@ export const isString = function(value) {
 }
 
 /**
+ * 是否为布尔类型
+ * @param value: any
+ * @returns {boolean}
+ */
+export const isBoolean = function(value) {
+    return toString.call(value) === '[object Boolean]';
+}
+
+/**
  * 是否为对象
  * @param value: any
  * @returns {boolean}

@@ -15,6 +15,7 @@ import {
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
+    useInputEvents,
 } from './components';
 
 export {
@@ -33,4 +34,5 @@ export {
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
+    useInputEvents,
 }

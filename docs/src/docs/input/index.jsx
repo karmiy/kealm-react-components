@@ -13,6 +13,24 @@ function InputDoc() {
             <h1>Input 输入框</h1>
             <p>通过鼠标或键盘输入字符。</p>
 
+            {/* 事件测试
+            <h2>事件测试</h2>
+            <p>事件测试。</p>
+            {useMemo(() => {
+                return (
+                    <Input placeholder={'请输入内容'}
+                           style={{width: '100px'}}
+                           onClick={() => console.log('click')}
+                           onFocus={() => console.log('focus')}
+                           onBlur={() => console.log('blur')}
+                           onKeyPress={() => console.log('keyPress')}
+                           onKeyDown={() => console.log('keyDown')}
+                           onKeyUp={() => console.log('keyUp')}
+                           onInput={() => console.log('input')}
+                    />
+                )
+            }, [value, change])}*/}
+
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>基本使用。</p>
@@ -20,8 +38,8 @@ function InputDoc() {
 
             {/* 受控输入框 */}
             <h2>受控输入框</h2>
-            <p>通过value与onChange联动input。</p>
-            {useMemo(() => <Input value={value} onChange={change} placeholder={'请输入内容'} />, [value, setValue])}
+            <p>通过 value 与 onChange 联动 input。</p>
+            {useMemo(() => <Input value={value} onChange={change} placeholder={'请输入内容'} />, [value, change])}
 
             {/* 禁用状态 */}
             <h2>禁用状态</h2>
@@ -37,6 +55,25 @@ function InputDoc() {
             <h2>密码框</h2>
             <p>密码框的明密文。</p>
             {useMemo(() => <Input.Password placeholder={'请输入内容'} />, [])}
+
+            {/* 搜索框 */}
+            <h2>搜索框</h2>
+            <p>带有搜索按钮的输入框。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Input.Search placeholder={'请输入内容'} onSearch={(a,b) => console.log(a, b)} />
+                        </div>
+                        <div className="detail-box">
+                            <Input.Search style={{width: '300px'}} placeholder={'请输入内容'} enterButton onSearch={(a,b) => console.log(a, b)} />
+                        </div>
+                        <div className="detail-box">
+                            <Input.Search style={{width: '400px'}} placeholder={'请输入内容'} enterButton={'search'} size={'large'} onInput={() => {}} onSearch={(a,b) => console.log(a, b)} />
+                        </div>
+                    </>
+                )
+            }, [])}
 
             {/* 带 icon 的输入框 */}
             <h2>带 icon 的输入框</h2>

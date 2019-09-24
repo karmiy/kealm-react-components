@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { TextareaProps, TextareaDefaultProps } from "./interface";
-import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue } from 'hooks';
+import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue, useInputEvents } from 'hooks';
 // import { ResizeObserver } from '../../common';
 import calculateNodeHeight from './calculateNodeHeight';
 
@@ -13,13 +13,15 @@ function TextArea(props) {
         disabled,
         defaultValue,
         value,
-        onChange,
         rows,
         autosize,
         maxLength,
         showLimitCount,
         ...others
     } = props;
+
+    const { inputEvents, ...domProps } = useInputEvents(others);
+    const { onChange, ...otherEvents } = inputEvents;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -84,7 +86,7 @@ function TextArea(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...others}>
+        <div className={classNames} {...domProps}>
             {/*<ResizeObserver onResize={resizeOnNextFrame}>*/}
             <textarea
                 ref={textareaRef}
@@ -95,7 +97,9 @@ function TextArea(props) {
                 onChange={handleTextareaChange}
                 rows={rows}
                 maxLength={maxLength}
-                placeholder={placeholder} />
+                placeholder={placeholder}
+                {...otherEvents}
+            />
             {/*</ResizeObserver>*/}
             {renderCount}
         </div>

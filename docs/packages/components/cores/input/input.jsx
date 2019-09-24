@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import Icon from '../icon';
 import { InputProps, InputDefaultProps } from "./interface";
-import { useContextConf, useClassName, useInputValue } from 'hooks';
+import { useContextConf, useClassName, useInputValue, useInputEvents } from 'hooks';
 import { isString } from 'utils/common';
 import { cloneVElement } from 'utils/react-util';
 
@@ -13,7 +13,6 @@ function Input(props) {
         disabled,
         defaultValue,
         value,
-        onChange,
         allowClear,
         prefix,
         suffix,
@@ -24,6 +23,9 @@ function Input(props) {
         showLimitCount,
         ...others
     } = props;
+
+    const { inputEvents, ...domProps } = useInputEvents(others);
+    const { onChange, ...otherEvents } = inputEvents;
 
     // ---------------------------------- logic code ----------------------------------
     const { inputValue, setInputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
@@ -136,7 +138,7 @@ function Input(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...others}>
+        <div className={classNames} {...domProps}>
             {renderPrependWrapper}
             <input
                 type="text"
@@ -146,6 +148,7 @@ function Input(props) {
                 disabled={disabled}
                 placeholder={placeholder}
                 maxLength={maxLength}
+                {...otherEvents}
             />
             {renderPrefixWrapper}
             {renderSuffixWrapper}

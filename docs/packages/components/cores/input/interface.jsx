@@ -5,6 +5,7 @@ const noop = () => {};
 /* input-common-props */
 export const AbstractInputProps = {
     className: PropTypes.string,
+    // autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     defaultValue: PropTypes.string,
@@ -14,6 +15,7 @@ export const AbstractInputProps = {
 }
 
 export const AbstractInputDefaultProps = {
+    // autoFocus: false,
     disabled: false,
     onChange: noop,
 }
@@ -59,4 +61,18 @@ export const TextareaDefaultProps = {
     ...AbstractInputDefaultProps,
     autosize: false,
     showLimitCount: false,
+}
+
+/* search-props */
+export const SearchProps = {
+    ...AbstractInputProps,
+    size: PropTypes.string,
+    enterButton: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+    onSearch: PropTypes.func,
+}
+
+export const SearchDefaultProps = {
+    ...AbstractInputDefaultProps,
+    enterButton: false,
+    onSearch: noop,
 }
