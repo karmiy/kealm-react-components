@@ -50,7 +50,7 @@ function InputDoc() {
                         </Row>
                         <Row gutter={20}>
                             <Col><Input placeholder={'请输入内容'} suffix={<Icon type={'star-full'} />} /></Col>
-                            <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} /></Col>
+                            <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} allowClear /></Col>
                         </Row>
                     </div>
                 )
@@ -86,6 +86,21 @@ function InputDoc() {
                 )
             }, [textareaValue, setTextareaValue])}
 
+            {/* 尺寸 */}
+            <h2>尺寸</h2>
+            <p>3种不同大小的输入框。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <Row gutter={20} type={'flex'} align={'middle'}>
+                            <Col><Input placeholder={'请输入内容'} size={'large'} suffix={'star-full'} /></Col>
+                            <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
+                            <Col><Input placeholder={'请输入内容'} size={'small'} suffix={'star-full'} /></Col>
+                        </Row>
+                    </>
+                )
+            }, [])}
+
             {/* 复合型输入框 */}
             <h2>复合型输入框</h2>
             <p>可前置或后置元素，一般为标签或按钮。</p>
@@ -99,7 +114,23 @@ function InputDoc() {
                             <Input placeholder={'请输入内容'} append={'.com'} />
                         </div>
                         <div className="detail-box">
-                            <Input placeholder={'请输入内容'} append={<Button icon='search' />} />
+                            <Input placeholder={'请输入内容'} size={'large'} append={<Button type={'primary'} icon='search' />} />
+                        </div>
+                    </>
+                )
+            }, [])}
+
+            {/* 输入长度限制 */}
+            <h2>输入长度限制</h2>
+            <p>可以通过 maxlength 限制输入框的字符长度，showLimitCount 来展示字数统计。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Input placeholder={'请输入内容'} maxLength={10} showLimitCount />
+                        </div>
+                        <div className="detail-box">
+                            <Input.TextArea placeholder={'请输入内容'} maxLength={30} showLimitCount />
                         </div>
                     </>
                 )

@@ -38,7 +38,7 @@
         }
     }
 
-    & .km-input__count {
+    & .km-textarea__count {
         position: absolute;
         background-color: $color-white;
         bottom: 5px;
@@ -103,10 +103,10 @@
         color: $color-info;
 
         .km-input__count-inner {
-            background: $color-white;
-            line-height: initial;
             display: inline-block;
-            padding: 0 5px;
+            line-height: initial;
+            padding-right: 5px;
+            background: $color-white;
         }
     }
 
@@ -240,22 +240,28 @@
         }
     }
 
+    @include m(count) {
+        .km-input__inner {
+            padding-right: 48px;
+        }
+    }
+
     @include m(prefix) {
         .km-input__inner {
             padding-left: 30px;
         }
     }
 
-    @include m(medium) {
-        font-size: $input-medium-font-size;
+    @include m(large) {
+        font-size: $input-large-font-size;
 
         @include e(inner) {
-            height: $input-medium-height;
-            line-height: $input-medium-height;
+            height: $input-large-height;
+            line-height: $input-large-height;
         }
 
         .km-input__icon {
-            line-height: $input-medium-height;
+            line-height: $input-large-height;
         }
     }
     @include m(small) {
@@ -268,18 +274,6 @@
 
         .km-input__icon {
             line-height: $input-small-height;
-        }
-    }
-    @include m(mini) {
-        font-size: $input-mini-font-size;
-
-        @include e(inner) {
-            height: $input-mini-height;
-            line-height: $input-mini-height;
-        }
-
-        .km-input__icon {
-            line-height: $input-mini-height;
         }
     }
 }

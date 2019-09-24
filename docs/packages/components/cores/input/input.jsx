@@ -19,12 +19,15 @@ function Input(props) {
         suffix,
         prepend,
         append,
+        size,
+        maxLength,
+        showLimitCount,
         ...others
     } = props;
 
     // ---------------------------------- logic code ----------------------------------
     const { inputValue, setInputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
-    const hasSuffix = allowClear || suffix;
+    const hasSuffix = allowClear || suffix || showLimitCount;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -35,8 +38,10 @@ function Input(props) {
         [`${componentCls}-group`] : prepend || append,
         [`${componentCls}-group--prepend`] : prepend,
         [`${componentCls}-group--append`] : append,
+        [`${componentCls}--${size}`] : size,
+        [`${componentCls}--count`] : showLimitCount,
         [className]: className
-    }, [className, componentCls, disabled, hasSuffix, prefix, prepend, append]);
+    }, [className, componentCls, disabled, hasSuffix, prefix, prepend, append, size, showLimitCount]);
 
     const _inputClassNames = useClassName({
         [`${componentCls}__inner`]: true,
@@ -76,6 +81,16 @@ function Input(props) {
                 cloneVElement(suffix, {className: `${componentCls}__icon`})
     }, [suffix, componentCls]);
 
+    const renderLimitCount = useMemo(() => {
+        if(!maxLength || !showLimitCount) return null;
+
+        return (
+            <span className={`${componentCls}__count`}>
+                <span className={`${componentCls}__count-inner`}>{inputValue.length}/{maxLength}</span>
+            </span>
+        )
+    }, [maxLength, showLimitCount, componentCls, inputValue]);
+
     // ---------------------------------- render chunk ----------------------------------
     const renderPrefixWrapper = useMemo(() => {
         if(!prefix) return null;
@@ -93,10 +108,11 @@ function Input(props) {
                 <span className={`${componentCls}__suffix-inner`}>
                     {renderClearEle}
                     {renderSuffixEle}
+                    {renderLimitCount}
                 </span>
             </span>
         )
-    }, [hasSuffix, componentCls, renderClearEle, renderSuffixEle]);
+    }, [hasSuffix, componentCls, renderClearEle, renderSuffixEle, renderLimitCount]);
 
     const renderPrependWrapper = useMemo(() => {
         if(!prepend) return null;
@@ -129,6 +145,7 @@ function Input(props) {
                 onChange={inputChange}
                 disabled={disabled}
                 placeholder={placeholder}
+                maxLength={maxLength}
             />
             {renderPrefixWrapper}
             {renderSuffixWrapper}

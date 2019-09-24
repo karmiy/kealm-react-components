@@ -10,6 +10,7 @@ export const AbstractInputProps = {
     defaultValue: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    maxLength: PropTypes.number,
 }
 
 export const AbstractInputDefaultProps = {
@@ -25,11 +26,14 @@ export const InputProps = {
     suffix: PropTypes.node,
     prepend: PropTypes.node,
     append: PropTypes.node,
+    size: PropTypes.string,
+    showLimitCount: PropTypes.bool,
 }
 
 export const InputDefaultProps = {
     ...AbstractInputDefaultProps,
     allowClear: false,
+    showLimitCount: false,
 }
 
 /* password-props */
@@ -48,9 +52,11 @@ export const TextareaProps = {
     ...AbstractInputProps,
     rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autosize: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+    showLimitCount: PropTypes.bool,
 }
 
 export const TextareaDefaultProps = {
     ...AbstractInputDefaultProps,
     autosize: false,
+    showLimitCount: false,
 }

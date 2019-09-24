@@ -38,7 +38,7 @@ export const generalIcons = [
     'barcode', 'qrcode', 'cart', 'coin-dollar', 'coin-euro', 'coin-pound',
     'coin-yen', 'phone', 'envelop', 'location', 'alarm', 'calendar', 'printer',
     'keyboard', 'display', 'mobile', 'database', 'user', 'user-plus', 'user-minus',
-    'loading', 'search', 'zoom-in', 'zoom-out', 'key', 'lock', 'unlocked', 'gift',
+    'loading', 'search', 'zoom-in', 'zoom-out', 'key', 'lock', 'unlock', 'gift',
     'rocket', 'power', 'switch', 'star-empty', 'star-half', 'star-full', 'heart',
     'heart-broken', 'play', 'pause', 'stop', 'previous', 'next', 'go-backward', 'go-forward',
     'volume-medium', 'volume-mute', 'volume-mute-o', 'filter'

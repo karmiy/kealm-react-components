@@ -1,6 +1,6 @@
-import React, { useState, useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { TextareaProps, TextareaDefaultProps } from "./interface";
-import { useContextConf, useClassName, useStateCallable, useThrottle } from 'hooks';
+import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue } from 'hooks';
 // import { ResizeObserver } from '../../common';
 import calculateNodeHeight from './calculateNodeHeight';
 
@@ -16,6 +16,8 @@ function TextArea(props) {
         onChange,
         rows,
         autosize,
+        maxLength,
+        showLimitCount,
         ...others
     } = props;
 
@@ -27,6 +29,7 @@ function TextArea(props) {
     }, [className, componentCls, disabled]);
 
     // ---------------------------------- logic code ----------------------------------
+    const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
     const [textareaStyles, setTextareaStyles] = useStateCallable(null);
     const [resizing, setResizing] = useState(false);
     const textareaRef = useRef(null);
@@ -68,8 +71,16 @@ function TextArea(props) {
         if(!('value' in props) && autosize && textareaRef.current) {
             throttleResize();
         }
-        onChange(e);
+        inputChange(e);
     }, [throttleResize, onChange]);
+
+    // ---------------------------------- render chunk ----------------------------------
+    const renderCount = useMemo(() => {
+        if(!maxLength || !showLimitCount) return null;
+
+        return <span className={`${componentCls}__count`}>{inputValue.length}/{maxLength}</span>
+    }, [maxLength, showLimitCount, componentCls, inputValue]);
+
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -79,12 +90,14 @@ function TextArea(props) {
                 ref={textareaRef}
                 className={`${componentCls}__inner`}
                 style={styles}
-                defaultValue={defaultValue}
-                value={value}
+                // defaultValue={defaultValue}
+                value={inputValue}
                 onChange={handleTextareaChange}
                 rows={rows}
+                maxLength={maxLength}
                 placeholder={placeholder} />
             {/*</ResizeObserver>*/}
+            {renderCount}
         </div>
     )
 }
