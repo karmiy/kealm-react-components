@@ -4,9 +4,9 @@ import { isEmpty } from 'utils/common';
 import { isArray } from 'utils/common';
 
 /**
- * build checkedValue and checkChange hook for radio-group、checkbox-group
- * core-props: defaultChecked、checked、groupValues、value、onChange、disabled
- * param.defaultValue defaults to empty arrays when checkbox-group
+ * Build checkedValue and checkChange hook for radio-group、checkbox-group
+ * Core-props: defaultChecked、checked、groupValues、value、onChange、disabled
+ * Param.defaultValue defaults to empty arrays when checkbox-group
  */
 function useCheckGroupValue(defaultValue, value, onChange) {
     // Judge whether it's checkbox or radio

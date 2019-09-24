@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 /**
- * build root className
+ * Build root className
  */
 function useClassName(obj = {}, dependencies) {
     return useMemo(() => {

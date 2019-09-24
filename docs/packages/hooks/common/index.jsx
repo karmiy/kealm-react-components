@@ -7,6 +7,7 @@ import useSyncOnce from './useSyncOnce';
 import useForceUpdate from './useForceUpdate';
 import useContextProps from './useContextProps';
 import useStateCallable from './useStateCallable';
+import useThrottle from './useThrottle';
 
 export {
     useClassName,
@@ -18,4 +19,5 @@ export {
     useForceUpdate,
     useContextProps,
     useStateCallable,
+    useThrottle,
 }

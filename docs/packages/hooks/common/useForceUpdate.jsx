@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
 /**
- * force update
+ * Force update
  */
 function useForceUpdate() {
     const setState = useState(0)[1];

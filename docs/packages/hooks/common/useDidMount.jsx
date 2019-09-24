@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 
 /**
- * componentDidMount
+ * ComponentDidMount
  */
 function useDidMount(callback) {
     useLayoutEffect(() => {

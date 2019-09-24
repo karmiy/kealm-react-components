@@ -96,7 +96,9 @@ export const isEmpty = function(value) {
  * 节流
  * @param func 节流函数
  * @param wait 等待时长
- * @param options 配置: leading(true: 立即执行; false: 第一次执行也wait)，trailing(true 函数setTimeout执行效果; false 函数仅通过计算时间执行)
+ * @param options 配置:
+ *              leading(true: 立即执行; false: 第一次执行也wait)
+ *              trailing(true 函数setTimeout异步执行效果; false 函数仅通过计算时间同步执行)
  * @returns {function(): *}
  */
 export const throttle = function (func, wait, options = {}) {

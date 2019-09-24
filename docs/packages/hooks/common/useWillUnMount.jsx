@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 
 /**
- * componentWillUnMount
+ * ComponentWillUnMount
  */
 function useWillUnMount(callback) {
     useLayoutEffect(() => callback, []);

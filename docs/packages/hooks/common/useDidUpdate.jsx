@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 
 /**
- * componentDidUpdate
+ * ComponentDidUpdate
  * @param callback
  * @param dependencies
  */

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import useDidUpdate from './useDidUpdate';
 
 /**
- * useState will callback
+ * UseState will callback
  */
 function useStateCallable(defaultState) {
     const [state, setState] = useState(defaultState);

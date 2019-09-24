@@ -8,6 +8,7 @@ import {
     useForceUpdate,
     useContextProps,
     useStateCallable,
+    useThrottle,
 } from './common';
 
 import {
@@ -17,6 +18,7 @@ import {
 } from './components';
 
 export {
+    /* common */
     useClassName,
     useContextConf,
     useDidMount,
@@ -26,6 +28,8 @@ export {
     useForceUpdate,
     useContextProps,
     useStateCallable,
+    useThrottle,
+    /* components */
     useCheckValue,
     useCheckGroupValue,
     useInputValue,

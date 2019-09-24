@@ -17,6 +17,8 @@ function Input(props) {
         allowClear,
         prefix,
         suffix,
+        prepend,
+        append,
         ...others
     } = props;
 
@@ -30,8 +32,11 @@ function Input(props) {
         'is-disabled': disabled,
         [`${componentCls}--suffix`] : hasSuffix,
         [`${componentCls}--prefix`] : prefix,
+        [`${componentCls}-group`] : prepend || append,
+        [`${componentCls}-group--prepend`] : prepend,
+        [`${componentCls}-group--append`] : append,
         [className]: className
-    }, [className, componentCls, disabled, hasSuffix, prefix]);
+    }, [className, componentCls, disabled, hasSuffix, prefix, prepend, append]);
 
     const _inputClassNames = useClassName({
         [`${componentCls}__inner`]: true,
@@ -93,9 +98,30 @@ function Input(props) {
         )
     }, [hasSuffix, componentCls, renderClearEle, renderSuffixEle]);
 
+    const renderPrependWrapper = useMemo(() => {
+        if(!prepend) return null;
+
+        return (
+            <div className={`${componentCls}-group__prepend`}>
+                {prepend}
+            </div>
+        )
+    }, [prepend, componentCls]);
+
+    const renderAppendWrapper = useMemo(() => {
+        if(!append) return null;
+
+        return (
+            <div className={`${componentCls}-group__append`}>
+                {append}
+            </div>
+        )
+    }, [append, componentCls]);
+
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
+            {renderPrependWrapper}
             <input
                 type="text"
                 className={_inputClassNames}
@@ -106,6 +132,7 @@ function Input(props) {
             />
             {renderPrefixWrapper}
             {renderSuffixWrapper}
+            {renderAppendWrapper}
         </div>
     )
 }

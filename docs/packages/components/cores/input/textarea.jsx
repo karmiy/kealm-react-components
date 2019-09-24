@@ -1,9 +1,8 @@
 import React, { useState, useLayoutEffect, useRef, useCallback } from 'react';
 import { TextareaProps, TextareaDefaultProps } from "./interface";
-import { useContextConf, useClassName, useStateCallable } from 'hooks';
+import { useContextConf, useClassName, useStateCallable, useThrottle } from 'hooks';
 // import { ResizeObserver } from '../../common';
 import calculateNodeHeight from './calculateNodeHeight';
-import { throttle } from 'utils/common';
 
 function TextArea(props) {
     const { componentCls } = useContextConf('textarea');
@@ -33,9 +32,12 @@ function TextArea(props) {
     const textareaRef = useRef(null);
     const resizeFrameIdRef = useRef(null);
 
+    // Calculate the height when props.value changes
     useLayoutEffect(() => {
-        resizeTextarea();
-    }, [value]);
+        if (!autosize || !textareaRef.current) return;
+
+        throttleResize();
+    }, [value, autosize]);
 
     const styles = {
         ...style,
@@ -52,6 +54,7 @@ function TextArea(props) {
 
     const resizeTextarea = useCallback(() => {
         if (!autosize || !textareaRef.current) return;
+
         const { minRows, maxRows } = autosize;
         const textareaStyles = calculateNodeHeight(textareaRef.current, false, minRows, maxRows);
 
@@ -59,12 +62,14 @@ function TextArea(props) {
         setTextareaStyles(textareaStyles, resetResizingNextFrame);
     }, [autosize, setResizing, setTextareaStyles, resetResizingNextFrame]);
 
+    const throttleResize = useThrottle(resizeTextarea, 1000 / 60);
+
     const handleTextareaChange = useCallback((e) => {
-        if(!('value' in props)) {
-            resizeTextarea();
+        if(!('value' in props) && autosize && textareaRef.current) {
+            throttleResize();
         }
         onChange(e);
-    }, [resizeTextarea, onChange]);
+    }, [throttleResize, onChange]);
 
     // ---------------------------------- render ----------------------------------
     return (

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 /**
- * global config
+ * Global config
  */
 function useContextConf(name) {
     return useMemo(() => {

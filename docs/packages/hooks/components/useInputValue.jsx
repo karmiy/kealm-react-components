@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 
 /**
- * build inputValue, setInputValue and inputChange hook for input
- * core-props: defaultValue、value、onChange
+ * Build inputValue, setInputValue and inputChange hook for input
+ * Core-props: defaultValue、value、onChange
  */
 function useInputValue(defaultValue, value, onChange) {
     // logic inputValue

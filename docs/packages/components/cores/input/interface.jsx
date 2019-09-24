@@ -23,6 +23,8 @@ export const InputProps = {
     allowClear: PropTypes.bool,
     prefix: PropTypes.node,
     suffix: PropTypes.node,
+    prepend: PropTypes.node,
+    append: PropTypes.node,
 }
 
 export const InputDefaultProps = {
