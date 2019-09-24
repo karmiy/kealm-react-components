@@ -53,7 +53,7 @@ function InputDoc() {
             {/* 密码框 */}
             <h2>密码框</h2>
             <p>密码框的明密文。</p>
-            {useMemo(() => <Input.Password placeholder={'请输入内容'} />, [])}
+            {useMemo(() => <Input.Password size={'large'} placeholder={'请输入内容'} />, [])}
 
             {/* 搜索框 */}
             <h2>搜索框</h2>

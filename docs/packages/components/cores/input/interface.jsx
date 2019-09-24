@@ -41,6 +41,7 @@ export const InputDefaultProps = {
 /* password-props */
 export const PasswordProps = {
     ...AbstractInputProps,
+    size: PropTypes.string,
     showToggleIcon: PropTypes.bool,
 }
 

@@ -1,3 +1,55 @@
+export const commonProps = [
+    {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
+        param: 'defaultValue',
+        des: '默认值',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'value',
+        des: '输入值',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'placeholder',
+        des: '输入框占位文本',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'maxLength',
+        des: '原生属性，最大输入长度',
+        type: 'number',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'minLength',
+        des: '原生属性，最小输入长度',
+        type: 'number',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'disabled',
+        des: '是否禁用',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+]
+
 export const inputProps = [
     {
         param: 'autoFocus',
@@ -35,6 +87,13 @@ export const inputProps = [
         default: '--',
     },
     {
+        param: 'minLength',
+        des: '原生属性，最小输入长度',
+        type: 'number',
+        option: '--',
+        default: '--',
+    },
+    {
         param: 'disabled',
         des: '是否禁用',
         type: 'boolean',
@@ -50,31 +109,31 @@ export const inputProps = [
     },
     {
         param: 'prefix',
-        des: '输入框头部图标',
+        des: '输入框头部内容',
         type: 'string / ReactNode',
         option: '--',
         default: '--',
     },
     {
         param: 'suffix',
-        des: '输入框尾部图标',
+        des: '输入框尾部内容',
         type: 'string / ReactNode',
         option: '--',
         default: '--',
     },
     {
         param: 'prepend',
-        des: '是否加载状态',
-        type: 'boolean',
+        des: '输入框前置内容',
+        type: 'string / ReactNode',
         option: '--',
-        default: 'false',
+        default: '--',
     },
     {
-        param: 'active',
-        des: '是否激活状态',
-        type: 'boolean',
+        param: 'append',
+        des: '输入框后置内容',
+        type: 'string / ReactNode',
         option: '--',
-        default: 'false',
+        default: '--',
     },
     {
         param: 'size',
@@ -84,18 +143,124 @@ export const inputProps = [
         default: '--',
     },
     {
-        param: 'nativeType',
-        des: '原生type',
-        type: 'string',
-        option: 'button / submit / reset',
-        default: 'button'
+        param: 'showLimitCount',
+        des: '是否展示字数统计',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
     }
 ]
 
 export const inputEvents = [
     {
-        name: 'click',
-        des: '点击事件',
-        callback: '--',
+        name: 'onChange',
+        des: '在 Input 值改变时触发',
+        callback: '(e: Event)',
+    },
+    {
+        name: 'onKeyDown onKeyUp onBlur onFocus onInput',
+        des: '支持原生input事件',
+        callback: '(e: Event)',
+    }
+]
+
+export const passwordProps = [
+    {
+        param: 'autoFocus',
+        des: '是否默认聚焦',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
+        param: 'defaultValue',
+        des: '默认值',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'value',
+        des: '输入值',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'placeholder',
+        des: '输入框占位文本',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'maxLength',
+        des: '原生属性，最大输入长度',
+        type: 'number',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'minLength',
+        des: '原生属性，最小输入长度',
+        type: 'number',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'disabled',
+        des: '是否禁用',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
+        param: 'allowClear',
+        des: '是否允许清空',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
+        param: 'prefix',
+        des: '输入框头部内容',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'suffix',
+        des: '输入框尾部内容',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'prepend',
+        des: '输入框前置内容',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'append',
+        des: '输入框后置内容',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'size',
+        des: '尺寸',
+        type: 'string',
+        option: 'large / small',
+        default: '--',
+    },
+    {
+        param: 'showLimitCount',
+        des: '是否展示字数统计',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
     }
 ]

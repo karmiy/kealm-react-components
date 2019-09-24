@@ -13,6 +13,7 @@ function Password(props) {
         defaultValue,
         value,
         onChange,
+        size,
         showToggleIcon,
         ...others
     } = props;
@@ -36,8 +37,9 @@ function Password(props) {
         [componentCls]: true,
         'is-disabled': disabled,
         [`${componentCls}--suffix`] : true,
+        [`${componentCls}--${size}`] : size,
         [className]: className
-    }, [className, componentCls, disabled]);
+    }, [className, componentCls, disabled, size]);
 
     const _inputClassNames = useClassName({
         [`${componentCls}__inner`]: true,
