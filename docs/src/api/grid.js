@@ -1,4 +1,4 @@
-export const RowProps = [
+export const rowProps = [
     {
         param: 'gutter',
         des: '栅格间隔',
@@ -29,7 +29,7 @@ export const RowProps = [
     }
 ]
 
-export const ColProps = [
+export const colProps = [
     {
         param: 'span',
         des: '栅格占据的列数',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
-import { RowProps, ColProps } from 'api/grid';
+import { rowProps, colProps } from 'api/grid';
 import { CodeBasic, CodeGutter, CodeOffset, CodeMove, CodeFlexHoriz, CodeFlexVert, CodeFlexOrder, CodeReactive, CodeReactiveObj } from 'demos/grid';
 
 function GridDoc() {
@@ -182,8 +182,8 @@ function GridDoc() {
             <HighLight code={CodeReactiveObj} />
 
             {/* API */}
-            <ApiTable title='Row' propsList={RowProps} />
-            <ApiTable title='Col' propsList={ColProps} />
+            <ApiTable title='Row' propsList={rowProps} />
+            <ApiTable title='Col' propsList={colProps} />
         </div>
     )
 }

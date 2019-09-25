@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { Input, Icon, Row, Col, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { commonProps, commonEvents, inputProps, passwordProps, searchProps, searchEvents, textareaProps } from 'api/input';
+import { CodeBasic, CodeControlled, CodeDisabled, CodeClear, CodePassword, CodeSearch, CodeIcon, CodeTextarea, CodeAutosize, CodeSize, CodeMixins, CodeLimitCount } from 'demos/input';
 
 function InputDoc() {
     const [value, setValue] = useState('beauty');
@@ -33,27 +35,42 @@ function InputDoc() {
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>基本使用。</p>
-            {useMemo(() => <Input placeholder={'请输入内容'} />, [])}
+            <div className="detail-box">
+                {useMemo(() => <Input placeholder={'请输入内容'} />, [])}
+            </div>
+            <HighLight code={CodeBasic} />
 
             {/* 受控输入框 */}
             <h2>受控输入框</h2>
             <p>通过 value 与 onChange 联动 input。</p>
-            {useMemo(() => <Input value={value} onChange={change} placeholder={'请输入内容'} />, [value, change])}
+            <div className="detail-box">
+                {useMemo(() => <Input value={value} onChange={change} placeholder={'请输入内容'} />, [value, change])}
+            </div>
+            <HighLight code={CodeControlled} />
 
             {/* 禁用状态 */}
             <h2>禁用状态</h2>
             <p>输入框的不可用状态。</p>
-            {useMemo(() => <Input placeholder={'请输入内容'} disabled />, [])}
+            <div className="detail-box">
+                {useMemo(() => <Input placeholder={'请输入内容'} disabled />, [])}
+            </div>
+            <HighLight code={CodeDisabled} />
 
             {/* 可清空 */}
             <h2>可清空</h2>
             <p>允许清空输入值。</p>
-            {useMemo(() => <Input placeholder={'请输入内容'} allowClear />, [])}
+            <div className="detail-box">
+                {useMemo(() => <Input placeholder={'请输入内容'} allowClear />, [])}
+            </div>
+            <HighLight code={CodeClear} />
 
             {/* 密码框 */}
             <h2>密码框</h2>
             <p>密码框的明密文。</p>
-            {useMemo(() => <Input.Password size={'large'} placeholder={'请输入内容'} />, [])}
+            <div className="detail-box">
+                {useMemo(() => <Input.Password size={'large'} placeholder={'请输入内容'} />, [])}
+            </div>
+            <HighLight code={CodePassword} />
 
             {/* 搜索框 */}
             <h2>搜索框</h2>
@@ -62,17 +79,18 @@ function InputDoc() {
                 return (
                     <>
                         <div className="detail-box">
-                            <Input.Search placeholder={'请输入内容'} onSearch={(a,b) => console.log(a, b)} />
+                            <Input.Search placeholder={'请输入内容'} onSearch={(value, event) => console.log(value, event)} />
                         </div>
                         <div className="detail-box">
-                            <Input.Search style={{width: '300px'}} placeholder={'请输入内容'} enterButton onSearch={(a,b) => console.log(a, b)} />
+                            <Input.Search style={{width: '300px'}} placeholder={'请输入内容'} enterButton onSearch={(value, event) => console.log(value, event)} />
                         </div>
                         <div className="detail-box">
-                            <Input.Search style={{width: '400px'}} placeholder={'请输入内容'} enterButton={'search'} size={'large'} onInput={() => {}} onSearch={(a,b) => console.log(a, b)} />
+                            <Input.Search style={{width: '400px'}} placeholder={'请输入内容'} enterButton={'search'} size={'large'} onSearch={(value, event) => console.log(value, event)} />
                         </div>
                     </>
                 )
             }, [])}
+            <HighLight code={CodeSearch} />
 
             {/* 带 icon 的输入框 */}
             <h2>带 icon 的输入框</h2>
@@ -86,11 +104,12 @@ function InputDoc() {
                         </Row>
                         <Row gutter={20}>
                             <Col><Input placeholder={'请输入内容'} suffix={<Icon type={'star-full'} />} /></Col>
-                            <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} allowClear /></Col>
+                            <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} /></Col>
                         </Row>
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeIcon} />
 
             {/* 文本域 */}
             <h2>文本域</h2>
@@ -102,6 +121,7 @@ function InputDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeTextarea} />
 
             {/* 可自适应文本高度的文本域 */}
             <h2>可自适应文本高度的文本域</h2>
@@ -121,21 +141,25 @@ function InputDoc() {
                     </>
                 )
             }, [textareaValue, setTextareaValue])}
+            <HighLight code={CodeAutosize} />
 
             {/* 尺寸 */}
             <h2>尺寸</h2>
             <p>3种不同大小的输入框。</p>
-            {useMemo(() => {
-                return (
-                    <>
-                        <Row gutter={20} type={'flex'} align={'middle'}>
-                            <Col><Input placeholder={'请输入内容'} size={'large'} suffix={'star-full'} /></Col>
-                            <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
-                            <Col><Input placeholder={'请输入内容'} size={'small'} suffix={'star-full'} /></Col>
-                        </Row>
-                    </>
-                )
-            }, [])}
+            <div className="detail-box">
+                {useMemo(() => {
+                    return (
+                        <>
+                            <Row gutter={20} type={'flex'} align={'middle'}>
+                                <Col><Input placeholder={'请输入内容'} size={'large'} suffix={'star-full'} /></Col>
+                                <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
+                                <Col><Input placeholder={'请输入内容'} size={'small'} suffix={'star-full'} /></Col>
+                            </Row>
+                        </>
+                    )
+                }, [])}
+            </div>
+            <HighLight code={CodeSize} />
 
             {/* 复合型输入框 */}
             <h2>复合型输入框</h2>
@@ -155,6 +179,7 @@ function InputDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeMixins} />
 
             {/* 输入长度限制 */}
             <h2>输入长度限制</h2>
@@ -171,6 +196,14 @@ function InputDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeLimitCount} />
+
+            {/* API */}
+            <ApiTable title='Common' propsList={commonProps} eventsList={commonEvents} />
+            <ApiTable title='Input' propsList={inputProps} />
+            <ApiTable title='Password' propsList={passwordProps} />
+            <ApiTable title='Textarea' propsList={textareaProps} />
+            <ApiTable title='Search' propsList={searchProps} eventsList={searchEvents} />
         </div>
     )
 }

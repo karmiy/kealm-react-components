@@ -1,4 +1,4 @@
-export const CollapseProps = [
+export const collapseProps = [
     {
         param: 'value',
         des: '当前激活的面板',
@@ -51,7 +51,7 @@ export const collapseEvents = [
     }
 ]
 
-export const CollapseItemProps = [
+export const collapseItemProps = [
     {
         param: 'title',
         des: '面板标题',
