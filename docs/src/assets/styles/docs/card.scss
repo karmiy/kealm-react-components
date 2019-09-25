@@ -1,0 +1,11 @@
+.page-box .km-card {
+    width: 300px;
+    img {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid #DCDFE6;
+    }
+    &.card-fill {
+        width: 100%;
+    }
+}

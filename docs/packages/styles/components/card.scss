@@ -1,0 +1,95 @@
+@import "../mixins/mixins";
+@import "../common/var";
+
+@include b(card) {
+    box-sizing: border-box;
+    line-height: 1.5;
+    border-radius: $card-border-radius;
+    background-color: $card-background-color;
+    overflow: hidden;
+    font-size: $font-size-base;
+    color: $card-font-color;
+    transition: $all-transition;
+
+    @include when(bordered) {
+        border: 1px solid $card-border-color;
+    }
+
+    @include when(always-shadow) {
+        box-shadow: $card-box-shadow;
+    }
+
+    @include when(hover-shadow) {
+        &:hover,
+        &:focus {
+            box-shadow: $card-box-shadow;
+        }
+    }
+
+    @include when(small) {
+        & > .km-card__header {
+            padding: 0 $card-padding-small;
+            font-size: $font-size-base;
+        }
+
+        & .km-card__header-wrapper {
+            padding: $card-padding-small - 4px 0;
+        }
+
+        & > .km-card__body {
+            padding: $card-padding-small;
+        }
+    }
+
+    @include e(header) {
+        box-sizing: border-box;
+        border-bottom: 1px solid $card-border-color;
+        padding: 0 $card-padding;
+        font-size: $font-size-medium;
+    }
+
+    @include e(wrapper) {
+        display: flex;
+        padding: $card-padding - 8px 0;
+        align-items: center;
+    }
+
+    @include e(title) {
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    @include e(extra) {
+        margin-right: auto;
+        font-size: $font-size-base;
+        color: mix($color-black, $color-white, 35%);
+    }
+
+    @include e(body) {
+        padding: $card-padding;
+        color: $card-font-color-body;
+    }
+}
+
+@include b(card-meta) {
+    margin: -4px 0;
+    @include e(detail) {
+        overflow: hidden;
+        & > div:not(:last-child) {
+            margin-bottom: 8px;
+        }
+    }
+    @include e(title) {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: $font-size-medium;
+        font-weight: $font-weight-base;
+        color: mix($color-black, $color-white, 85%)
+    }
+    @include e(desc) {
+        color: mix($color-black, $color-white, 45%)
+    }
+}

@@ -48,6 +48,10 @@ const sidebarList = [
             {
                 name: 'Collapse 折叠面板',
                 link: 'collapse',
+            },
+            {
+                name: 'Card 卡片',
+                link: 'card',
             }
         ]
     }

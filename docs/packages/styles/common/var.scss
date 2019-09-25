@@ -422,4 +422,15 @@ $input-small-height: 24px !default;
 // search
 $input-search-border-color: $color-primary;
 $input-search-background-color: $color-primary;
-$input-search-font-color: $color-white
+$input-search-font-color: $color-white;
+
+/* --------------------------Card-------------------------- */
+
+$card-background-color: $color-white !default;
+$card-border-color: $border-color-base !default;
+$card-border-radius: $border-radius-base !default;
+$card-font-color: $color-text-primary !default;
+$card-font-color-body: $color-text-regular !default;
+$card-padding: 24px !default;
+$card-padding-small: 12px !default;
+$card-box-shadow: $box-shadow-light !default;
