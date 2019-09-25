@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { CardProps, CardDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
+import { isContainEle, transChildren } from 'utils/react-util';
+import Grid from './grid';
 
 function Card(props) {
     const {
@@ -16,14 +18,18 @@ function Card(props) {
     } = props;
     const { componentCls } = useContextConf(`card`);
 
+    // ---------------------------------- logic code ----------------------------------
+    const isContainGrid = isContainEle(transChildren(children), Grid);
+
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [`${componentCls}`]: true,
         [`is-${size}`]: size,
         [`is-bordered`]: border,
         [`is-${shadow}-shadow`]: shadow,
+        [`is-grid`]: isContainGrid,
         [className]: className,
-    }, [className, componentCls, size, border, shadow]);
+    }, [className, componentCls, size, border, shadow, isContainGrid]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderHeader = useMemo(() => {

@@ -1,4 +1,5 @@
 @import "../mixins/mixins";
+@import "../mixins/utils";
 @import "../common/var";
 
 @include b(card) {
@@ -6,7 +7,7 @@
     line-height: 1.5;
     border-radius: $card-border-radius;
     background-color: $card-background-color;
-    overflow: hidden;
+    //overflow: hidden;
     font-size: $font-size-base;
     color: $card-font-color;
     transition: $all-transition;
@@ -41,6 +42,13 @@
         }
     }
 
+    @include when(grid) {
+        & > .km-card__body {
+            margin: -1px 0 0 -1px;
+            padding: 0;
+        }
+    }
+
     @include e(header) {
         box-sizing: border-box;
         border-bottom: 1px solid $card-border-color;
@@ -70,6 +78,7 @@
     @include e(body) {
         padding: $card-padding;
         color: $card-font-color-body;
+        @include utils-clear-fix();
     }
 }
 
@@ -91,5 +100,21 @@
     }
     @include e(desc) {
         color: mix($color-black, $color-white, 45%)
+    }
+}
+
+@include b(card-grid) {
+    box-sizing: border-box;
+    float: left;
+    width: percentage(1/3);
+    padding: $card-padding;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 1px 0 0 0 $card-border-color, 0 1px 0 0 $card-border-color, 1px 1px 0 0 $card-border-color, 1px 0 0 0 $card-border-color inset, 0 1px 0 0 $card-border-color inset;
+    transition: $all-transition;
+    @include pseudo(hover) {
+        position: relative;
+        z-index: $z-index-base;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 }

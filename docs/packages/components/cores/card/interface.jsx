@@ -24,3 +24,14 @@ export const CardMetaProps = {
 
 export const CardMetaDefaultProps = {
 }
+
+/* card-grid-props */
+export const CardGridProps = {
+    className: PropTypes.string,
+    style: PropTypes.object,
+    hoverable: PropTypes.bool,
+}
+
+export const CardGridDefaultProps = {
+    hoverable: true,
+}

@@ -86,6 +86,18 @@ function CardDoc() {
                 </div>
             </div>
 
+            {/* 网格型内嵌卡片 */}
+            <h2>网格型内嵌卡片</h2>
+            <p>一种常见的卡片内容区隔模式。</p>
+            <div className='detail-box'>
+                <Card title={'Card Title'}>
+                    <Card.Grid>Content</Card.Grid>
+                    <Card.Grid>Content</Card.Grid>
+                    <Card.Grid>Content</Card.Grid>
+                    <Card.Grid>Content</Card.Grid>
+                </Card>
+            </div>
+
             {/* API */}
             {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}
         </div>
