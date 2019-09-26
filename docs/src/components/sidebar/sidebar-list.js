@@ -46,6 +46,10 @@ const sidebarList = [
         title: 'Others',
         children: [
             {
+                name: 'Dialog 对话框',
+                link: 'dialog',
+            },
+            {
                 name: 'Collapse 折叠面板',
                 link: 'collapse',
             },

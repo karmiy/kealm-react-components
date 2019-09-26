@@ -20,7 +20,7 @@ function RadioDoc() {
             <h2>基本用法</h2>
             <p>由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。</p>
             <div className="detail-box">
-                {useMemo(() => <Radio autoFocus>Radio</Radio>, [])}
+                {useMemo(() => <Radio>Radio</Radio>, [])}
             </div>
             <HighLight code={CodeBasic} />
 
