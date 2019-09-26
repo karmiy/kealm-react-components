@@ -8,6 +8,7 @@ function Meta(props) {
         children,
         title,
         desc,
+        avatar,
         ...others
     } = props;
     const { componentCls } = useContextConf(`card-meta`);
@@ -18,10 +19,18 @@ function Meta(props) {
         [className]: className,
     }, [className, componentCls]);
 
+    // ---------------------------------- render chunk ----------------------------------
+    const renderAvatar = useMemo(() => {
+        if(!avatar) return null;
 
-    // ---------------------------------- render ----------------------------------
-    return (
-        <div className={classNames} {...others}>
+        return (
+            <div className={`${componentCls}__avatar`}>
+                {avatar}
+            </div>
+        )
+    }, [componentCls, avatar]);
+    const renderDetail = useMemo(() => {
+        return (
             <div className={`${componentCls}__detail`}>
                 <div className={`${componentCls}__title`}>
                     {title}
@@ -30,6 +39,14 @@ function Meta(props) {
                     {desc}
                 </div>
             </div>
+        )
+    }, [componentCls, title, desc]);
+
+    // ---------------------------------- render ----------------------------------
+    return (
+        <div className={classNames} {...others}>
+            {renderAvatar}
+            {renderDetail}
         </div>
     );
 }

@@ -5,7 +5,13 @@
         width: 100%;
         border-bottom: 1px solid #DCDFE6;
     }
-    &.card-fill {
+    &.card-fill, &.is-inner {
         width: 100%;
+    }
+    .card-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
     }
 }

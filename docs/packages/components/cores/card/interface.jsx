@@ -7,12 +7,14 @@ export const CardProps = {
     title: PropTypes.node,
     extra: PropTypes.node,
     cover: PropTypes.node,
-    border: PropTypes.bool,
+    bordered: PropTypes.bool,
     shadow: PropTypes.string,
+    type: PropTypes.string,
+    actions: PropTypes.array,
 }
 
 export const CardDefaultProps = {
-    border: true,
+    bordered: true,
 }
 
 /* card-meta-props */
@@ -20,6 +22,7 @@ export const CardMetaProps = {
     className: PropTypes.string,
     title: PropTypes.node,
     desc: PropTypes.node,
+    avatar: PropTypes.node,
 }
 
 export const CardMetaDefaultProps = {

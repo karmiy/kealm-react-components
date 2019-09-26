@@ -49,6 +49,19 @@
         }
     }
 
+    @include when(inner) {
+        > .km-card__header {
+            background-color: $card-inner-background-color;
+        }
+        .km-card__wrapper {
+            padding: $card-padding - 12px 0;
+            font-size: $font-size-base;
+        }
+        > .km-card__body {
+            padding: $card-padding - 8px $card-padding;
+        }
+    }
+
     @include e(header) {
         box-sizing: border-box;
         border-bottom: 1px solid $card-border-color;
@@ -80,26 +93,66 @@
         color: $card-font-color-body;
         @include utils-clear-fix();
     }
+
+    @include e(actions) {
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid $card-border-color;
+        background-color: $card-actions-background-color;
+        list-style: none;
+        @include utils-clear-fix();
+
+        & > li {
+            box-sizing: border-box;
+            float: left;
+            margin: 12px 0;
+            color: $card-meta-font-color-desc;
+            text-align: center;
+
+            &:not(:last-child) {
+                border-right: 1px solid $card-border-color;
+            }
+
+            & > span {
+                box-sizing: border-box;
+                position: relative;
+                display: block;
+                //min-width: 32px;
+                //line-height: 22px;
+                font-size: $font-size-large;
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 @include b(card-meta) {
     margin: -4px 0;
+    @include utils-clear-fix();
+
+    @include e(avatar) {
+        float: left;
+        padding-right: 16px;
+    }
+
     @include e(detail) {
         overflow: hidden;
         & > div:not(:last-child) {
             margin-bottom: 8px;
         }
     }
+
     @include e(title) {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         font-size: $font-size-medium;
         font-weight: $font-weight-base;
-        color: mix($color-black, $color-white, 85%)
+        color: $card-meta-font-color-title;
     }
+
     @include e(desc) {
-        color: mix($color-black, $color-white, 45%)
+        color: $card-meta-font-color-desc;
     }
 }
 
@@ -110,11 +163,12 @@
     padding: $card-padding;
     border: 0;
     border-radius: 0;
-    box-shadow: 1px 0 0 0 $card-border-color, 0 1px 0 0 $card-border-color, 1px 1px 0 0 $card-border-color, 1px 0 0 0 $card-border-color inset, 0 1px 0 0 $card-border-color inset;
+    box-shadow: 1px 0 0 0 $card-grid-shadow, 0 1px 0 0 $card-grid-shadow, 1px 1px 0 0 $card-grid-shadow, 1px 0 0 0 $card-grid-shadow inset, 0 1px 0 0 $card-grid-shadow inset;
     transition: $all-transition;
+
     @include pseudo(hover) {
         position: relative;
         z-index: $z-index-base;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 8px $card-grid-shadow-hover;
     }
 }

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?eqrzfj');
-  src:  url('kealm-icon.eot?eqrzfj#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?eqrzfj') format('truetype'),
-    url('kealm-icon.woff?eqrzfj') format('woff'),
-    url('kealm-icon.svg?eqrzfj#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?d47iv0');
+  src:  url('kealm-icon.eot?d47iv0#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?d47iv0') format('truetype'),
+    url('kealm-icon.woff?d47iv0') format('woff'),
+    url('kealm-icon.svg?d47iv0#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,23 +25,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.km-icon-unlock:before {
-  content: "\e7c9";
+.km-icon-config:before {
+  content: "\e78e";
 }
-.km-icon-lock:before {
-  content: "\e7ca";
+.km-icon-delete:before {
+  content: "\e7c3";
 }
-.km-icon-key:before {
+.km-icon-edit:before {
   content: "\e7e1";
-}
-.km-icon-zoom-out:before {
-  content: "\e897";
-}
-.km-icon-zoom-in:before {
-  content: "\e898";
-}
-.km-icon-search:before {
-  content: "\e8ef";
 }
 .km-icon-check-circle:before {
   content: "\e77d";
@@ -88,10 +79,16 @@
 .km-icon-check-square:before {
   content: "\e7a8";
 }
+.km-icon-unlock:before {
+  content: "\e7c9";
+}
+.km-icon-lock:before {
+  content: "\e7ca";
+}
 .km-icon-error:before {
   content: "\e7df";
 }
-.km-icon-edit:before {
+.km-icon-key:before {
   content: "\e900";
 }
 .km-icon-right:before {
@@ -175,6 +172,12 @@
 .km-icon-github:before {
   content: "\e886";
 }
+.km-icon-zoom-out:before {
+  content: "\e897";
+}
+.km-icon-zoom-in:before {
+  content: "\e898";
+}
 .km-icon-caret-down:before {
   content: "\e8ec";
 }
@@ -184,8 +187,8 @@
 .km-icon-caret-up:before {
   content: "\e8ee";
 }
-.km-icon-caret-right:before {
-  content: "\e901";
+.km-icon-search:before {
+  content: "\e8ef";
 }
 .km-icon-caret-left:before {
   content: "\e8f0";
@@ -210,6 +213,9 @@
 }
 .km-icon-eye-fill-o:before {
   content: "\e8ff";
+}
+.km-icon-caret-right:before {
+  content: "\e901";
 }
 .km-icon-eye-o:before {
   content: "\e902";
@@ -370,17 +376,11 @@
 .km-icon-shrink:before {
   content: "\e98c";
 }
-.km-icon-config:before {
-  content: "\e994";
-}
 .km-icon-gift:before {
   content: "\e99f";
 }
 .km-icon-rocket:before {
   content: "\e9a5";
-}
-.km-icon-bin:before {
-  content: "\e9ac";
 }
 .km-icon-power:before {
   content: "\e9b5";

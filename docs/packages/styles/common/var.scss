@@ -46,6 +46,7 @@ $border-color-hover: $color-text-placeholder !default;
 
 // background-color
 $background-color-base: #F5F7FA !default;
+$background-color-light: #FAFAFA !default;
 
 // Disable color
 $disabled-fill-base: $background-color-base !default;
@@ -427,10 +428,16 @@ $input-search-font-color: $color-white;
 /* --------------------------Card-------------------------- */
 
 $card-background-color: $color-white !default;
+$card-inner-background-color: $background-color-light !default;
+$card-actions-background-color: $background-color-light !default;
 $card-border-color: $border-color-base !default;
 $card-border-radius: $border-radius-base !default;
 $card-font-color: $color-text-primary !default;
 $card-font-color-body: $color-text-regular !default;
+$card-meta-font-color-title: mix($color-black, $color-white, 85%) !default;
+$card-meta-font-color-desc: mix($color-black, $color-white, 45%) !default;
 $card-padding: 24px !default;
 $card-padding-small: 12px !default;
 $card-box-shadow: $box-shadow-light !default;
+$card-grid-shadow: $card-border-color !default;
+$card-grid-shadow-hover: mix($color-black, $color-white, 15%) !default;

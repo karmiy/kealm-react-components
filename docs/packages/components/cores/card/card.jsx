@@ -11,9 +11,11 @@ function Card(props) {
         size,
         title,
         extra,
-        border,
+        bordered,
         cover,
         shadow,
+        type,
+        actions,
         ...others
     } = props;
     const { componentCls } = useContextConf(`card`);
@@ -25,11 +27,12 @@ function Card(props) {
     const classNames = useClassName({
         [`${componentCls}`]: true,
         [`is-${size}`]: size,
-        [`is-bordered`]: border,
+        [`is-bordered`]: bordered,
         [`is-${shadow}-shadow`]: shadow,
         [`is-grid`]: isContainGrid,
+        [`is-inner`]: type,
         [className]: className,
-    }, [className, componentCls, size, border, shadow, isContainGrid]);
+    }, [className, componentCls, size, bordered, shadow, isContainGrid, type]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderHeader = useMemo(() => {
@@ -69,12 +72,28 @@ function Card(props) {
         )
     }, [componentCls, cover]);
 
+    const renderActions = useMemo(() => {
+        if(!actions || !actions.length) return null;
+
+        const length = actions.length;
+        return (
+            <ul className={`${componentCls}__actions`}>
+                {actions.map((action, index) => {
+                    return (
+                        <li style={{width: `${100/length}%`}} key={index}><span>{action}</span></li>
+                    )
+                })}
+            </ul>
+        )
+    }, [actions]);
+
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
             {renderHeader}
             {renderCover}
             {renderBody}
+            {renderActions}
         </div>
     );
 }

@@ -21,7 +21,7 @@ export const tipIcons = [
 
 /* 编辑类图标 */
 export const editIcons = [
-    'edit', 'copy', 'paste', 'save', 'config', 'bin',
+    'edit', 'copy', 'paste', 'save', 'config', 'delete', 'ellipsis',
     'ordered-list', 'unordered-list', 'bold', 'underline', 'italic',
     'strikethrough', 'scissors', 'menu', 'align-left', 'align-center',
     'align-right', 'ellipsis', 'dash'
