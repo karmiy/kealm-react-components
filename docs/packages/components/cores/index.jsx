@@ -6,6 +6,7 @@ import Radio from './radio';
 import Checkbox from './checkbox';
 import Input from './input';
 import Card from './card';
+import Dialog from './dialog';
 
 export {
     Icon,
@@ -17,4 +18,5 @@ export {
     Checkbox,
     Input,
     Card,
+    Dialog,
 }
