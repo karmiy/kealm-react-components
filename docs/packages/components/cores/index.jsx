@@ -6,6 +6,7 @@ import Radio from './radio';
 import Checkbox from './checkbox';
 import Input from './input';
 import Card from './card';
+import { CollapseTransition, FadeTransition } from './transition';
 import Dialog from './dialog';
 
 export {
@@ -18,5 +19,7 @@ export {
     Checkbox,
     Input,
     Card,
+    CollapseTransition,
+    FadeTransition,
     Dialog,
 }

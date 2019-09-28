@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import { Transition } from 'react-transition-group';
 import addDomEventListener from 'add-dom-event-listener';
 import { useDidMount, useDidUpdate } from 'hooks';
-import {addClass, getStyle, removeClass} from 'utils/dom';
+import { addClass, getStyle, removeClass } from 'utils/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
 
 // ---------------------------------- transition action ----------------------------------
@@ -13,12 +13,15 @@ const _Transition = {
         if(unmountOnExit) return;
 
         // init data store
-        _Transition.initStore(el);
+        _Transition.validateStore(el);
 
         // visible => display: none
         if(!visible) {
             el.style.display = 'none';
         }
+    },
+    validateStore(el) { // validate store for preventing the lack of data in unmountOnExit
+        return (!el.dataset || !el._paddingTop) && _Transition.initStore(el);
     },
     initStore(el) {
         // init dataset object
@@ -27,6 +30,8 @@ const _Transition = {
         // store data
         _Transition.invariableStore(el);
         _Transition.variableStore(el);
+
+        return true;
     },
     invariableStore(el) {
         // store display、overflow
@@ -47,21 +52,23 @@ const _Transition = {
         el._borderBottom = getStyle(el, 'border-bottom-width');
         el._isBorderBox = getStyle(el, 'box-sizing') === 'border-box';
     },
-    validateStore(el) { // validate store for preventing the lack of data in unmountOnExit
-        (!el.dataset || !el._paddingTop) && _Transition.init(el);
-    },
     onEnter(el) {
         // prevent props of unmountOnExit
-        _Transition.validateStore(el);
+        // isAppear includes props.appear is true or unmountOnExit is true
+        const isAppear = _Transition.validateStore(el);
 
         // console.log('onEnter');
-        addClass(el, 'collapse-transition');
         el.style.height = '0';
         el.style.paddingTop = '0';
         el.style.paddingBottom = '0';
         el.style.borderTopWidth = '0';
         el.style.borderBottomWidth = '0';
         el.style.display = el.dataset.display || '';
+
+        // Important
+        // When appear comes in, force browser to render before adding transition style, otherwise scroll Height in Entering phase will be affected by transition
+        isAppear && el.scrollHeight;
+        addClass(el, 'collapse-transition');
     },
     onEntering(el) {
         // console.log('onEntering');
@@ -141,10 +148,10 @@ const addEndListener = (node, done) => {
 function CollapseTransition(props) {
     const transitionRef = useRef(null);
     const elementRef = useRef(null);
-    const { children, visible, unmountOnExit } = props;
+    const { children, visible, appear, unmountOnExit } = props;
     const {
         init,
-        variableStore,
+        // variableStore,
         onEnter,
         onEntering,
         onEntered,
@@ -162,17 +169,19 @@ function CollapseTransition(props) {
         init(el, visible, unmountOnExit);
     })
 
+    // warning: To delete, because between onEnter and onEntering
     // prevent height changes in DOM
-    useDidUpdate(() => {
+    /*useDidUpdate(() => {
         const el = elementRef.current;
         el && variableStore(el);
-    }, children);
+    }, children);*/
 
     // ---------------------------------- render ----------------------------------
     return (
         <Transition
             ref={transitionRef}
             in={visible}
+            appear={appear}
             addEndListener={addEndListener}
             onEnter={onEnter}
             onEntering={onEntering}

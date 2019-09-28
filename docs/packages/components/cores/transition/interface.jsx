@@ -1,12 +1,32 @@
 import PropTypes from 'prop-types';
 
+/* common-props */
+export const CommonTransitionProps = {
+    visible: PropTypes.bool, // Whether visible
+    appear: PropTypes.bool, // Whether to enter perform an animation
+    unmountOnExit: PropTypes.bool, // Whether unmount dom when component exit
+}
+
+export const CommonTransitionDefaultProps = {
+    visible: false,
+    appear: false,
+    unmountOnExit: false,
+}
+
 /* collapse-transition-props */
 export const CollapseTransitionProps = {
-    visible: PropTypes.bool, // is visible
-    unmountOnExit: PropTypes.bool, // is unmount dom when component exit
+    ...CommonTransitionProps,
 }
 
 export const CollapseTransitionDefaultProps = {
-    visible: false,
-    unmountOnExit: false,
+    ...CommonTransitionDefaultProps,
+}
+
+/* fade-transition-props */
+export const FadeTransitionProps = {
+    ...CommonTransitionProps,
+}
+
+export const FadeTransitionDefaultProps = {
+    ...CommonTransitionDefaultProps,
 }

@@ -441,3 +441,16 @@ $card-padding-small: 12px !default;
 $card-box-shadow: $box-shadow-light !default;
 $card-grid-shadow: $card-border-color !default;
 $card-grid-shadow-hover: mix($color-black, $color-white, 15%) !default;
+
+
+/* --------------------------Dialog-------------------------- */
+
+$dialog-background-color: $color-white !default;
+$dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
+
+$dialog-title-font-size: $font-size-large !default;
+$dialog-content-font-size: $font-size-base !default;
+
+$dialog-padding-primary: 20px !default;
+$dialog-padding-header: 20px 20px 10px !default;
+$dialog-padding-footer: 10px 20px 20px !default;

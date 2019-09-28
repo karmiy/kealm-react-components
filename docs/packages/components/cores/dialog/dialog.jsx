@@ -1,6 +1,7 @@
 import React from 'react';
 import { DialogProps, DialogDefaultProps } from './interface';
-import { Portal } from '../../common';
+import Button from '../button';
+import Icon from '../icon';
 import { useContextConf, useClassName } from 'hooks';
 
 function Dialog(props) {
@@ -13,14 +14,34 @@ function Dialog(props) {
     const { componentCls } = useContextConf(`dialog`);
 
     // ---------------------------------- class ----------------------------------
-    const classNames = useClassName({
+    const dialogClassNames = useClassName({
+        [componentCls]: true,
         [className]: className,
     }, [className, componentCls]);
+    console.log(123);
 
     // ---------------------------------- render ----------------------------------
+
     return (
-        <Portal visible={visible}>{children}</Portal>
-    );
+        <div className={`${componentCls}__wrapper`}>
+            <div role="dialog" className={dialogClassNames}>
+                <div className={`${componentCls}__header`}>
+                    <span className={`${componentCls}__title`}>提示</span>
+                    {/*<Button circle icon='close' />*/}
+                    <button className={`${componentCls}__header-btn`}>
+                        <Icon type={'close'} />
+                    </button>
+                </div>
+                <div className={`${componentCls}__body`}>
+                    这是一段话
+                </div>
+                <div className={`${componentCls}__footer`}>
+                    <Button>取消</Button>
+                    <Button type={'primary'}>确定</Button>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 Dialog.propTypes = DialogProps;
