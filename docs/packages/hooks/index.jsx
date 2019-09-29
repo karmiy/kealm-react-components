@@ -9,6 +9,7 @@ import {
     useContextProps,
     useStateCallable,
     useThrottle,
+    usePrevProps,
 } from './common';
 
 import {
@@ -29,6 +30,7 @@ export {
     useContextProps,
     useStateCallable,
     useThrottle,
+    usePrevProps,
     /* components */
     useCheckValue,
     useCheckGroupValue,

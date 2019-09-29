@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Button, CollapseTransition, Row, Col } from '@kealm/react-components';
+import { Button, CollapseTransition, FadeTransition, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
 function TransitionDoc() {
@@ -8,6 +8,16 @@ function TransitionDoc() {
         <div className='page-box'>
             <h1>Transition 过渡动画</h1>
             <p>提供了3种过渡效果的组件。</p>
+
+            {/* fade 淡入淡出 */}
+            <h2>fade 淡入淡出</h2>
+            <p>控制元素的进出动画。</p>
+            <p>123</p>
+            <FadeTransition visible={collapse}>
+                {/*123*/}
+                {collapse ? <p key={1} style={{backgroundColor: '#1394ff'}}>2222</p> : null}
+                {collapse ? <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p> : null}
+            </FadeTransition>
 
             {/* collapse 展开折叠 */}
             <h2>collapse 展开折叠</h2>
@@ -32,11 +42,6 @@ function TransitionDoc() {
                     </CollapseTransition>
                 </Col>
             </Row>
-
-            {/* fade 淡入淡出 */}
-            {/*<h2>fade 淡入淡出</h2>
-            <p>控制元素的进出动画。</p>
-            <Button type={'primary'} onClick={() => setVisible(v => !v)}>Toggle Fade</Button>*/}
 
             {/* API */}
             {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}

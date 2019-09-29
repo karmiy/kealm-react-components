@@ -8,6 +8,7 @@ import useForceUpdate from './useForceUpdate';
 import useContextProps from './useContextProps';
 import useStateCallable from './useStateCallable';
 import useThrottle from './useThrottle';
+import usePrevProps from './usePrevProps';
 
 export {
     useClassName,
@@ -20,4 +21,5 @@ export {
     useContextProps,
     useStateCallable,
     useThrottle,
+    usePrevProps,
 }
