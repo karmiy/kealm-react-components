@@ -10,6 +10,7 @@ import {
     useStateCallable,
     useThrottle,
     usePrevProps,
+    usePropsStore,
 } from './common';
 
 import {
@@ -31,6 +32,7 @@ export {
     useStateCallable,
     useThrottle,
     usePrevProps,
+    usePropsStore,
     /* components */
     useCheckValue,
     useCheckGroupValue,

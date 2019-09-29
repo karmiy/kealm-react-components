@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import ReactDom from 'react-dom';
 import Animate from 'rc-animate';
 import Motion from '../../common/motion';
@@ -30,6 +30,36 @@ const _Transition = {
     },
 }
 
+class Test extends React.Component {
+    componentWillReceiveProps(nextProps) {
+        console.log(this.props.name, nextProps.name);
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            this.test();
+        }, 2000);
+    }
+    test() {
+        console.log(this.props.name);
+    }
+    render() {
+        return <span>123</span>
+    }
+}
+function Test2(props) {
+    const {
+        showProp
+    } = props;
+    const test = useCallback(() => {
+        console.log(showProp, 222);
+    }, [showProp])
+
+    setTimeout(() => {
+        console.log(showProp, 111);
+        test();
+    }, 1000);
+    return null;
+}
 const addEndListener = (node, done) => {
     addDomEventListener(node, 'transitionend', done, false);
 }
@@ -85,19 +115,25 @@ function FadeTransition(props) {
     /*const ref = useRef(null);
     setTimeout(() => {
         console.log(ref);
-    }, 200);
+    }, 200);*/
 
     // ---------------------------------- render ----------------------------------
-    return (
-        <Animate ref={node => ref.current = node}>
-            {visible ? children : null}
+    /*return (
+        <Animate transitionName={'km-fade-k'}>
+            {children}
         </Animate>
     )*/
-    return (
-        <Motion transitionName={'km-fade-in'}>
+    /*return (
+        <Motion transitionName={'km-fade-k'} >
             {children}
         </Motion>
+    )*/
+    return (
+        <Test2 showProp={visible} />
     )
+    /*return (
+        <Test name={props.name}>1</Test>
+    )*/
 }
 FadeTransition.propTypes = FadeTransitionProps;
 FadeTransition.defaultProps = FadeTransitionDefaultProps;

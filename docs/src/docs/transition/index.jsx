@@ -4,6 +4,7 @@ import { ApiTable, HighLight } from '@/components';
 
 function TransitionDoc() {
     const [collapse, setCollapse] = useState(true);
+    const [fade, setFade] = useState(true);
     return (
         <div className='page-box'>
             <h1>Transition 过渡动画</h1>
@@ -11,12 +12,15 @@ function TransitionDoc() {
 
             {/* fade 淡入淡出 */}
             <h2>fade 淡入淡出</h2>
-            <p>控制元素的进出动画。</p>
+            <p>控制元素的进出动画。{fade + ''}</p>
             <p>123</p>
-            <FadeTransition visible={collapse}>
+            <div className="detail-box">
+                <Button onClick={() => setFade(v => !v)}>Toggle</Button>
+            </div>
+            <FadeTransition visible={fade}>
                 {/*123*/}
-                {collapse ? <p key={1} style={{backgroundColor: '#1394ff'}}>2222</p> : null}
-                {collapse ? <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p> : null}
+                {fade ? <p key={1} style={{backgroundColor: '#1394ff'}}>1111</p> : null}
+                {fade ? <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p> : null}
             </FadeTransition>
 
             {/* collapse 展开折叠 */}

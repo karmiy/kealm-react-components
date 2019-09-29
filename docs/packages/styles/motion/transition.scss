@@ -27,3 +27,20 @@
 .km-fade-in-leave-active {
     opacity: 0;
 }
+
+.km-fade-k-enter {
+    opacity: 0;
+}
+.km-fade-k-enter-active {
+    opacity: 1;
+    transition: all 2s cubic-bezier(.55,0,.1,1);
+}
+
+.km-fade-k-leave {
+
+}
+
+.km-fade-k-leave-active {
+    opacity: 0;
+    transition: all 2s cubic-bezier(.55,0,.1,1);
+}

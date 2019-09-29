@@ -1,14 +1,15 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { AnimateProps, AnimateDefaultProps } from './interface';
 import {
-    getChildrenFromProps,
+    completeChildrenKeys,
     toArrayChildren,
     findChildInChildrenByKey,
     mergeChildren,
-    findShownChildInChildrenByKey
+    findShownChildInChildrenByKey,
+    isSameChildren
 } from './utils/childrenUtils';
 import AnimateChild from './animate-child';
-import { usePrevProps, useDidUpdate } from 'hooks';
+import { usePrevProps, usePropsStore, useDidMount, useDidUpdate, useForceUpdate } from 'hooks';
 import animUtil from './utils/animate';
 
 function Animate(props) {
@@ -20,10 +21,20 @@ function Animate(props) {
         transitionName,
         transitionAppear,
         transitionEnter,
-        transitionLeave
+        transitionLeave,
+        onAppear,
+        onEnter,
+        onLeave,
+        onEnd,
     }  = props;
 
+    const forceUpdate = useForceUpdate();
+
+
     // 构建数据存储:
+    // 最新的props (防止延迟执行后闭包问题)
+    const propsStore = usePropsStore(props);
+
     // 当前运动中的key
     const currentlyAnimatingKeysRef = useRef({});
     // 准备执行enter/leave动画的key
@@ -32,14 +43,129 @@ function Animate(props) {
     // animate-child的item
     const childrenRefs = useRef({});
 
-    let renderChildren = children;
+    // let renderChildren = children;
+    const renderChildrenRef = useRef(toArrayChildren(completeChildrenKeys(children)));
+
+    const stop = useCallback(key => {
+        delete currentlyAnimatingKeysRef.current[key];
+        const component = childrenRefs.current[key];
+        if (component) {
+            component.stop();
+        }
+    }, []);
+
+    const handleDoneAdding = useCallback((key, type) => {
+        delete currentlyAnimatingKeysRef.current[key];
+        // if update on exclusive mode, skip check
+
+        const newestProps = propsStore.current;
+        // if (props.exclusive && props !== this.nextProps) {
+        if (newestProps.exclusive) {
+            return;
+        }
+        const currentChildren = toArrayChildren(completeChildrenKeys(newestProps.children));
+        if (!isValidChildByKey(currentChildren, key)) {
+            // exclusive will not need this
+            // 本来进场了又发现离开了，执行离开动画
+            performLeave(key);
+        } else if (type === 'appear') {
+            if (animUtil.allowAppearCallback(newestProps)) {
+                newestProps.onAppear(key);
+                newestProps.onEnd(key, true);
+            }
+        } else if (animUtil.allowEnterCallback(newestProps)) {
+            newestProps.onEnter(key);
+            newestProps.onEnd(key, true);
+        }
+    }, []);
+
+    const handleDoneLeaving = useCallback(key => {
+        delete currentlyAnimatingKeysRef.current[key];
+        // if update on exclusive mode, skip check
+        // if (props.exclusive && props !== this.nextProps) {
+        /*if (exclusive) {
+            return;
+        }*/
+        const newestProps = propsStore.current;
+        const currentChildren = toArrayChildren(completeChildrenKeys(newestProps.children));
+        // in case state change is too fast
+        if (isValidChildByKey(currentChildren, key)) {
+            // 离开了后现在又发现进入了，执行进入动画
+            performEnter(key);
+        } else {
+            const end = () => {
+                if (animUtil.allowLeaveCallback(props)) {
+                    newestProps.onLeave(key);
+                    newestProps.onEnd(key, false);
+                }
+            };
+            if (!isSameChildren(renderChildrenRef.current,
+                currentChildren, newestProps.showProp)) {
+                /*this.setState({
+                    children: currentChildren,
+                }, end);*/
+                renderChildrenRef.current = currentChildren;
+                forceUpdate();
+            } else {
+                end();
+            }
+            // end();
+        }
+    }, []);
+
+    const performAppear = useCallback(key => {
+        if (childrenRefs.current[key]) {
+            currentlyAnimatingKeysRef.current[key] = true;
+            childrenRefs.current[key].componentWillAppear(() => {
+                handleDoneAdding(key, 'appear');
+            });
+        }
+    }, []);
+
+    const performEnter = useCallback(key => {
+        if (childrenRefs.current[key]) {
+            currentlyAnimatingKeysRef.current[key] = true;
+            childrenRefs.current[key].componentWillEnter(() => {
+                handleDoneAdding(key, 'enter');
+            });
+        }
+    }, []);
+
+    const performLeave = useCallback(key => {
+        if (childrenRefs.current[key]) {
+            currentlyAnimatingKeysRef.current[key] = true;
+            childrenRefs.current[key].componentWillLeave(() => {
+                handleDoneLeaving(key);
+            });
+        }
+    }, [])
+
+    const isValidChildByKey = useCallback((currentChildren, key) => {
+        if (showProp) {
+            return findShownChildInChildrenByKey(currentChildren, key, showProp);
+        }
+        return findChildInChildrenByKey(currentChildren, key);
+    }, [showProp]);
+
+    useDidMount(() => {
+
+    });
+
+    useDidUpdate(() => {
+        const keysToEnter = keysToEnterRef.current;
+        keysToEnterRef.current = [];
+        keysToEnter.forEach(performEnter);
+        const keysToLeave = keysToLeaveRef.current;
+        keysToLeaveRef.current = [];
+        keysToLeave.forEach(performLeave);
+    })
+
 
     const prevProps = usePrevProps(props);
     if(prevProps) {
-        console.log(123);
         // 重新render后，对比2次的props
-        const prevChildren = toArrayChildren(getChildrenFromProps(prevProps));
-        const nextChildren = toArrayChildren(getChildrenFromProps(props));
+        const prevChildren = toArrayChildren(completeChildrenKeys(prevProps.children));
+        const nextChildren = toArrayChildren(completeChildrenKeys(children));
         // 动画是唯一的(每次只能一组)，前一次的直接停止
         if(exclusive) {
             Object.keys(currentlyAnimatingKeysRef.current).forEach((key) => {
@@ -82,7 +208,7 @@ function Animate(props) {
             );
         }
 
-        renderChildren = newChildren;
+        renderChildrenRef.current = newChildren;
 
         // 遍历新节点，找到要执行进入动画的节点
         nextChildren.forEach(child => {
@@ -138,115 +264,7 @@ function Animate(props) {
     }
 
 
-    const stop = useCallback(key => {
-        delete currentlyAnimatingKeysRef.current[key];
-        const component = childrenRefs.current[key];
-        if (component) {
-            component.stop();
-        }
-    }, []);
-
-    const performAppear = (key) => {
-        if (childrenRefs.current[key]) {
-            currentlyAnimatingKeysRef.current[key] = true;
-            childrenRefs.current[key].componentWillAppear(() => {
-                handleDoneAdding(key, 'appear');
-            });
-        }
-    }
-
-    const performEnter = useCallback(key => {
-        if (childrenRefs.current[key]) {
-            currentlyAnimatingKeysRef.current[key] = true;
-            childrenRefs.current[key].componentWillEnter(() => {
-                handleDoneAdding(key, 'enter');
-            });
-        }
-    }, []);
-
-    const performLeave = useCallback(key => {
-        if (childrenRefs.current[key]) {
-            currentlyAnimatingKeysRef.current[key] = true;
-            childrenRefs.current[key].componentWillLeave(() => {
-                handleDoneLeaving(key);
-            });
-        }
-    }, []);
-
-    const handleDoneAdding = useCallback((key, type) => {
-        delete currentlyAnimatingKeysRef.current[key];
-        // if update on exclusive mode, skip check
-
-        // if (props.exclusive && props !== this.nextProps) {
-        if (exclusive) {
-            return;
-        }
-        const currentChildren = toArrayChildren(getChildrenFromProps(props));
-        if (!isValidChildByKey(currentChildren, key)) {
-            // exclusive will not need this
-            // 本来进场了又发现离开了，执行离开动画
-            performLeave(key);
-        } else if (type === 'appear') {
-            if (animUtil.allowAppearCallback(props)) {
-                props.onAppear(key);
-                props.onEnd(key, true);
-            }
-        } else if (animUtil.allowEnterCallback(props)) {
-            props.onEnter(key);
-            props.onEnd(key, true);
-        }
-    }, [props]);
-
-    const handleDoneLeaving = useCallback(key => {
-        delete currentlyAnimatingKeysRef.current[key];
-        // if update on exclusive mode, skip check
-        // if (props.exclusive && props !== this.nextProps) {
-        if (props.exclusive) {
-            return;
-        }
-        const currentChildren = toArrayChildren(getChildrenFromProps(props));
-        // in case state change is too fast
-        if (isValidChildByKey(currentChildren, key)) {
-            // 离开了后现在又发现进入了，执行进入动画
-            performEnter(key);
-        } else {
-            const end = () => {
-                if (animUtil.allowLeaveCallback(props)) {
-                    props.onLeave(key);
-                    props.onEnd(key, false);
-                }
-            };
-            /*if (!isSameChildren(this.state.children,
-                currentChildren, props.showProp)) {
-                this.setState({
-                    children: currentChildren,
-                }, end);
-            } else {
-                end();
-            }*/
-            end();
-        }
-    });
-
-    const isValidChildByKey = (currentChildren, key) => {
-        const showProp = props.showProp;
-        if (showProp) {
-            return findShownChildInChildrenByKey(currentChildren, key, showProp);
-        }
-        return findChildInChildrenByKey(currentChildren, key);
-    }
-
-    useDidUpdate(() => {
-        const keysToEnter = keysToEnterRef.current;
-        keysToEnterRef.current = [];
-        keysToEnter.forEach(performEnter);
-        const keysToLeave = keysToLeaveRef.current;
-        keysToLeaveRef.current = [];
-        keysToLeave.forEach(performLeave);
-    })
-
-
-    return renderChildren.map(child => {
+    return renderChildrenRef.current.map(child => {
         if (child === null || child === undefined) {
             return child;
         }

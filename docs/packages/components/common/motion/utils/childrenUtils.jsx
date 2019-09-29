@@ -2,10 +2,9 @@ import React from 'react';
 const defaultKey = `km_animate_${Date.now()}`;
 
 /**
- * 从props中获取children， 如果是单个元素(非单个会是数组)，则添加key
+ * children是单个元素(非单个会是数组)，则添加key
  */
-export function getChildrenFromProps(props) {
-    const children = props.children;
+export function completeChildrenKeys(children) {
     if (React.isValidElement(children)) {
         if (!children.key) {
             return React.cloneElement(children, {
@@ -94,4 +93,23 @@ export function findShownChildInChildrenByKey(children, key, showProp) {
         });
     }
     return ret;
+}
+
+export function isSameChildren(c1, c2, showProp) {
+    let same = c1.length === c2.length;
+    if (same) {
+        c1.forEach((child, index) => {
+            const child2 = c2[index];
+            if (child && child2) {
+                if ((child && !child2) || (!child && child2)) {
+                    same = false;
+                } else if (child.key !== child2.key) {
+                    same = false;
+                } else if (showProp && child.props[showProp] !== child2.props[showProp]) {
+                    same = false;
+                }
+            }
+        });
+    }
+    return same;
 }
