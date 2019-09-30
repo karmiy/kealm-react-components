@@ -19,8 +19,10 @@ function TransitionDoc() {
             </div>
             <FadeTransition visible={fade}>
                 {/*123*/}
-                {fade ? <p key={1} style={{backgroundColor: '#1394ff'}}>1111</p> : null}
-                {/*{fade ? <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p> : null}*/}
+                <p key={1} style={{backgroundColor: '#1394ff'}}>1111</p>
+                <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p>
+                {/*{fade ? <p key={1} style={{backgroundColor: '#1394ff'}}>1111</p> : null}*/}
+                {/*{!fade ? <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p> : null}*/}
             </FadeTransition>
 
             {/* collapse 展开折叠 */}

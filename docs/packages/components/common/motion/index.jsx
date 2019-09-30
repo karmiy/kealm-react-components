@@ -1,3 +1,3 @@
-import Animate from "./animate";
+import Motion from './motion';
 
-export default Animate;
+export default Motion;

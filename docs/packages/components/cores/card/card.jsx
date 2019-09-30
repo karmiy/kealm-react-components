@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { CardProps, CardDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
-import { isContainEle, transChildren } from 'utils/base/react-util';
+import { isContainEle, transChildren } from 'utils/common/react-util';
 import Grid from './grid';
 
 function Card(props) {

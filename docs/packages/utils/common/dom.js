@@ -1,4 +1,4 @@
-import { trim, camelCase } from './common';
+import { trim, camelCase } from './base';
 const ieVersion = Number(document.documentMode);
 
 /**

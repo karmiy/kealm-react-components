@@ -2,7 +2,7 @@ import React from 'react';
 import { CheckboxButtonProps, CheckboxButtonDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
-import { extract, omit } from 'utils/base/object';
+import { extract, omit } from 'utils/common/object';
 
 function CheckboxButton(props) {
     const { componentCls } = useContextConf('checkbox-button');

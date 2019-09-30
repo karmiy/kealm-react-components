@@ -10,7 +10,7 @@ const transitionMap = {
     leave: 'transitionLeave',
 };
 
-export default class AnimateChild extends React.Component {
+export default class MotionManager extends React.Component {
     static propTypes = {
         children: PropTypes.any,
         animation: PropTypes.any,

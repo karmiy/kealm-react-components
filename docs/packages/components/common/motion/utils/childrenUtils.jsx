@@ -1,8 +1,10 @@
 import React from 'react';
+import { isArray } from 'utils/common/base';
+
 const defaultKey = `km_animate_${Date.now()}`;
 
 /**
- * children是单个元素(非单个会是数组)，则添加key
+ * Add key to a single of props.children
  */
 export function completeChildrenKeys(children) {
     if (React.isValidElement(children)) {
@@ -16,9 +18,11 @@ export function completeChildrenKeys(children) {
 }
 
 /**
- * 转数组
+ * Props.children converts to array
  */
 export function toArrayChildren(children) {
+    if(isArray(children)) return children;
+
     const ret = [];
     React.Children.forEach(children, (child) => {
         ret.push(child);
@@ -27,25 +31,18 @@ export function toArrayChildren(children) {
 }
 
 /**
- * 通过key找到child
+ * Find the child by key
  */
 export function findChildInChildrenByKey(children, key) {
     let ret = null;
     if (children) {
-        children.forEach((child) => {
-            if (ret) {
-                return;
-            }
-            if (child && child.key === key) {
-                ret = child;
-            }
-        });
+        ret = children.find(child => child && child.key === key);
     }
     return ret;
 }
 
 /**
- * 合并children
+ * merge children and let the same child be a newer one
  */
 export function mergeChildren(prev, next) {
     let ret = [];
@@ -78,7 +75,7 @@ export function mergeChildren(prev, next) {
 }
 
 /**
- * 通过key找到child，且child是显示状态
+ * Find the child by key, and the child is the display state
  */
 export function findShownChildInChildrenByKey(children, key, showProp) {
     let ret = null;
@@ -86,7 +83,7 @@ export function findShownChildInChildrenByKey(children, key, showProp) {
         children.forEach((child) => {
             if (child && child.key === key && child.props[showProp]) {
                 if (ret) {
-                    throw new Error('two child with same key for <rc-animate> children');
+                    throw new Error('two child with same key for children');
                 }
                 ret = child;
             }
@@ -95,6 +92,9 @@ export function findShownChildInChildrenByKey(children, key, showProp) {
     return ret;
 }
 
+/**
+ * Judging whether two children are the same
+ */
 export function isSameChildren(c1, c2, showProp) {
     let same = c1.length === c2.length;
     if (same) {

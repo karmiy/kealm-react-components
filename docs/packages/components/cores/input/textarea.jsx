@@ -3,8 +3,8 @@ import { TextareaProps, TextareaDefaultProps } from "./interface";
 import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue } from 'hooks';
 // import { ResizeObserver } from '../../common';
 import calculateNodeHeight from './calculateNodeHeight';
-import { extract, omit } from 'utils/base/object';
-import raf from 'utils/base/raf';
+import { extract, omit } from 'utils/common/object';
+import raf from 'utils/common/raf';
 
 
 function TextArea(props) {

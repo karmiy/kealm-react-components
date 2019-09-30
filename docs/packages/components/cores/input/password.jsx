@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { PasswordProps, PasswordDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue, useDidUpdate } from 'hooks';
-import { extract, omit } from 'utils/base/object';
+import { extract, omit } from 'utils/common/object';
 
 function Password(props) {
     const { componentCls } = useContextConf('input');

@@ -2,9 +2,9 @@ import React, { useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { InputProps, InputDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue } from 'hooks';
-import { isString } from 'utils/base/common';
-import { extract, omit } from 'utils/base/object';
-import { cloneVElement } from 'utils/base/react-util';
+import { isString } from 'utils/common/base';
+import { extract, omit } from 'utils/common/object';
+import { cloneVElement } from 'utils/common/react-util';
 
 function Input(props) {
     const { componentCls } = useContextConf('input');

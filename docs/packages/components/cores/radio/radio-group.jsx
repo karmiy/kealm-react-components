@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { RadioGroupProps, RadioGroupDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckGroupValue } from 'hooks';
 import { CheckedContext } from './context';
-import { isEmpty } from 'utils/base/common';
+import { isEmpty } from 'utils/common/base';
 
 function RadioGroup(props) {
     const { componentCls } = useContextConf('radio-group');

@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react';
 import { useForceUpdate } from 'hooks';
-import { isEmpty } from 'utils/base/common';
-import { isArray } from 'utils/base/common';
+import { isEmpty } from 'utils/common/base';
+import { isArray } from 'utils/common/base';
 
 /**
  * Build checkedValue and checkChange hook for radio-group、checkbox-group

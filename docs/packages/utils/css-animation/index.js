@@ -1,6 +1,6 @@
 import Event from './Event';
-import { getStyle, addClass, removeClass } from 'utils/base/dom';
-import raf from "utils/base/raf";
+import { getStyle, addClass, removeClass } from 'utils/common/dom';
+import raf from "utils/common/raf";
 
 const isCssAnimationSupported = Event.endEvents.length !== 0;
 const capitalPrefixes = ['Webkit',
@@ -67,9 +67,7 @@ const cssAnimation = (node, transitionName, endCallback) => {
     }
 
     node.kmEndListener = (e) => {
-        if (e && e.target !== node) {
-            return;
-        }
+        if (e && e.target !== node || node.kmAnimTimeout !== null) return;
 
         if (node.kmAnimTimeout) {
             raf.cancel(node.kmAnimTimeout);
@@ -98,6 +96,7 @@ const cssAnimation = (node, transitionName, endCallback) => {
     if (start) {
         start(node);
     }
+
     addClass(node, className); // fade-in
     addClass(node, activeClassName); // fade-in-active
 
@@ -132,9 +131,7 @@ cssAnimation.style = (node, style, callback) => {
     }
 
     node.kmEndListener = (e) => {
-        if (e && e.target !== node) {
-            return;
-        }
+        if (e && e.target !== node || node.kmAnimTimeout !== null) return;
 
         if (node.kmAnimTimeout) {
             raf.cancel(node.kmAnimTimeout);

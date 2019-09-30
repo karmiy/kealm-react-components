@@ -5,8 +5,9 @@ import Motion from '../../common/motion';
 import cssAnimation from 'css-animation';
 import addDomEventListener from 'add-dom-event-listener';
 import { useDidMount, useDidUpdate, usePrevProps } from 'hooks';
-import { addClass, getStyle, removeClass } from 'utils/base/dom';
+import { addClass, getStyle, removeClass } from 'utils/common/dom';
 import { FadeTransitionProps, FadeTransitionDefaultProps } from './interface';
+import RenderWrapper from '../../common/renderWrapper';
 
 // ---------------------------------- transition action ----------------------------------
 const _Transition = {
@@ -48,17 +49,28 @@ class Test extends React.Component {
 }
 function Test2(props) {
     const {
-        showProp
+        visible,
+        children,
     } = props;
-    const test = useCallback(() => {
-        console.log(showProp, 222);
-    }, [showProp])
+    const _children = React.Children.map(children, (child) => {
+        return React.cloneElement(child, {
+            style: {
+                display: visible ? '' : 'none',
+                ...child.props.style,
+            }
+        })
+    });
+    return _children
+}
 
-    setTimeout(() => {
-        console.log(showProp, 111);
-        test();
-    }, 1000);
-    return null;
+class Test3 extends React.Component {
+    componentDidMount() {
+        console.log(ReactDom.findDOMNode(this));
+    }
+    render() {
+
+        return this.props.children;
+    }
 }
 const addEndListener = (node, done) => {
     addDomEventListener(node, 'transitionend', done, false);
@@ -124,8 +136,11 @@ function FadeTransition(props) {
         </Animate>
     )*/
     return (
-        <Motion  transitionName={'km-fade-k'} transitionAppear  onEnd={() => console.log(123)}>
-            {children}
+        <Motion showProp={'visible'} transitionAppear exclusive transitionName={'km-fade-k'}  onEnd={() => {}}>
+            {React.Children.map(children, (child, index) => {
+                // return <RenderWrapper key={index} visible={visible}>{child}</RenderWrapper>
+                return child;
+            })}
         </Motion>
     )
     /*return (
@@ -133,6 +148,9 @@ function FadeTransition(props) {
     )*/
     /*return (
         <Test name={props.name}>1</Test>
+    )*/
+    /*return (
+        <RenderWrapper visible={visible} unmountOnExit>{children}</RenderWrapper>
     )*/
 }
 FadeTransition.propTypes = FadeTransitionProps;

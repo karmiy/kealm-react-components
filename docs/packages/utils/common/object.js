@@ -1,4 +1,4 @@
-import { isEmpty } from './common';
+import { isEmpty } from './base';
 
 /**
  * 从对象移除某些项(浅拷贝)

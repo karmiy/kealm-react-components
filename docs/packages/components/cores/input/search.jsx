@@ -3,9 +3,9 @@ import Icon from '../icon';
 import Button from '../button';
 import { SearchProps, SearchDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
-import { isBoolean } from 'utils/base/common';
-import { extract, omit } from 'utils/base/object';
-import KeyCode from 'utils/base/keyCode';
+import { isBoolean } from 'utils/common/base';
+import { extract, omit } from 'utils/common/object';
+import KeyCode from 'utils/common/keyCode';
 
 function Search(props) {
     const { componentCls } = useContextConf('input');

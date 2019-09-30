@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 const noop = () => {};
 
-/* animate-props */
-export const AnimateProps = {
+/* motion-props */
+export const MotionProps = {
     className: PropTypes.string,
     style: PropTypes.object,
     animation: PropTypes.object,
@@ -23,7 +23,7 @@ export const AnimateProps = {
     children: PropTypes.node,
 }
 
-export const AnimateDefaultProps = {
+export const MotionDefaultProps = {
     animation: {},
     transitionEnter: true,
     transitionLeave: true,

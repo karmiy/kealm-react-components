@@ -1,8 +1,8 @@
 import React, { Children, cloneElement, useState, useCallback, useMemo } from 'react';
 import { CollapseProps, CollapseDefaultProps } from "./interface";
 import { useContextConf, useClassName, useDidUpdate, useSyncOnce } from 'hooks';
-import { toArray, removeOfArray } from 'utils/base/array';
-import { transChildren } from 'utils/base/react-util';
+import { toArray, removeOfArray } from 'utils/common/array';
+import { transChildren } from 'utils/common/react-util';
 
 const noop = () => {};
 

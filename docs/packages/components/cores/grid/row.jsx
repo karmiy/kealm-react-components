@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, useMemo } from 'react';
 import { RowProps, RowDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
-import { transChildren } from 'utils/base/react-util';
+import { transChildren } from 'utils/common/react-util';
 
 function Row(props) {
     const { componentCls } = useContextConf('row');

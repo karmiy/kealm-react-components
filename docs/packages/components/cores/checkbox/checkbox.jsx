@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
-import { extract, omit } from 'utils/base/object';
+import { extract, omit } from 'utils/common/object';
 
 function Checkbox(props) {
     const { componentCls } = useContextConf('checkbox');

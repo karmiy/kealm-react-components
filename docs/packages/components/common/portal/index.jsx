@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { PortalProps, PortalDefaultProps } from './interface';
-import { isFunction } from "utils/base/common";
+import { isFunction } from "utils/common/base";
 
 /**
  * @return {null}
