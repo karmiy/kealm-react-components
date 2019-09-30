@@ -9,7 +9,7 @@ import {
     isSameChildren
 } from './utils/childrenUtils';
 import AnimateChild from './animate-child';
-import { usePrevProps, usePropsStore, useDidMount, useDidUpdate, useForceUpdate } from 'hooks';
+import { usePrevProps, usePropsStore, useDidMount, useDidUpdate, useForceUpdate, useStateCallable } from 'hooks';
 import animUtil from './utils/animate';
 
 function Animate(props) {
@@ -28,7 +28,8 @@ function Animate(props) {
         onEnd,
     }  = props;
 
-    const forceUpdate = useForceUpdate();
+    // const forceUpdate = useForceUpdate();
+    const [_, forceUpdate] = useStateCallable(0);
 
 
     // 构建数据存储:
@@ -59,10 +60,11 @@ function Animate(props) {
         // if update on exclusive mode, skip check
 
         const newestProps = propsStore.current;
-        // if (props.exclusive && props !== this.nextProps) {
-        if (newestProps.exclusive) {
+        // if (props.exclusive && props !== this.nextProps) {\
+        // 如果 exclusive 模式结束后，当前props不是最新的，不检测和执行回调
+        /*if (exclusive && props !== newestProps) {
             return;
-        }
+        }*/
         const currentChildren = toArrayChildren(completeChildrenKeys(newestProps.children));
         if (!isValidChildByKey(currentChildren, key)) {
             // exclusive will not need this
@@ -81,12 +83,13 @@ function Animate(props) {
 
     const handleDoneLeaving = useCallback(key => {
         delete currentlyAnimatingKeysRef.current[key];
+        const newestProps = propsStore.current;
         // if update on exclusive mode, skip check
         // if (props.exclusive && props !== this.nextProps) {
+        // 如果 exclusive 模式结束后，当前props不是最新的，不检测和执行回调
         /*if (exclusive) {
             return;
         }*/
-        const newestProps = propsStore.current;
         const currentChildren = toArrayChildren(completeChildrenKeys(newestProps.children));
         // in case state change is too fast
         if (isValidChildByKey(currentChildren, key)) {
@@ -101,11 +104,8 @@ function Animate(props) {
             };
             if (!isSameChildren(renderChildrenRef.current,
                 currentChildren, newestProps.showProp)) {
-                /*this.setState({
-                    children: currentChildren,
-                }, end);*/
                 renderChildrenRef.current = currentChildren;
-                forceUpdate();
+                forceUpdate(v => !v, end);
             } else {
                 end();
             }
@@ -148,7 +148,18 @@ function Animate(props) {
     }, [showProp]);
 
     useDidMount(() => {
-
+        // 执行appear动画
+        let children = renderChildrenRef.current;
+        if (showProp) {
+            children = children.filter(child => {
+                return !!child.props[showProp];
+            });
+        }
+        children.forEach(child => {
+            if (child) {
+                performAppear(child.key);
+            }
+        });
     });
 
     useDidUpdate(() => {
@@ -164,9 +175,13 @@ function Animate(props) {
     const prevProps = usePrevProps(props);
     if(prevProps) {
         // 重新render后，对比2次的props
-        const prevChildren = toArrayChildren(completeChildrenKeys(prevProps.children));
+        // 注意：如果 exclusive 模式，每次只能一组动画，则取前一次的children(exclusive模式会停止之前的动画)，否则取当前渲染的children来对比
+        const prevChildren = exclusive ?
+            toArrayChildren(completeChildrenKeys(prevProps.children))
+            :
+            renderChildrenRef.current;
         const nextChildren = toArrayChildren(completeChildrenKeys(children));
-        // 动画是唯一的(每次只能一组)，前一次的直接停止
+        // 动画是 exclusive (每次只能一组)，前一次的直接停止
         if(exclusive) {
             Object.keys(currentlyAnimatingKeysRef.current).forEach((key) => {
                 stop(key);

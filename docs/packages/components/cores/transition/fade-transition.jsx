@@ -5,7 +5,7 @@ import Motion from '../../common/motion';
 import cssAnimation from 'css-animation';
 import addDomEventListener from 'add-dom-event-listener';
 import { useDidMount, useDidUpdate, usePrevProps } from 'hooks';
-import { addClass, getStyle, removeClass } from 'utils/dom';
+import { addClass, getStyle, removeClass } from 'utils/base/dom';
 import { FadeTransitionProps, FadeTransitionDefaultProps } from './interface';
 
 // ---------------------------------- transition action ----------------------------------
@@ -123,14 +123,14 @@ function FadeTransition(props) {
             {children}
         </Animate>
     )*/
-    /*return (
-        <Motion transitionName={'km-fade-k'} >
+    return (
+        <Motion  transitionName={'km-fade-k'} transitionAppear  onEnd={() => console.log(123)}>
             {children}
         </Motion>
-    )*/
-    return (
-        <Test2 showProp={visible} />
     )
+    /*return (
+        <Test2 showProp={visible} />
+    )*/
     /*return (
         <Test name={props.name}>1</Test>
     )*/

@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import useSyncOnce from './useSyncOnce';
-import { throttle } from "utils/common";
+import { throttle } from "utils/base/common";
 
 /**
  * Build throttling function，returns the singleton

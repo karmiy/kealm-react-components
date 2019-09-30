@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import { Transition } from 'react-transition-group';
 import addDomEventListener from 'add-dom-event-listener';
 import { useDidMount, useDidUpdate } from 'hooks';
-import { addClass, getStyle, removeClass } from 'utils/dom';
+import { addClass, getStyle, removeClass } from 'utils/base/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
 
 // ---------------------------------- transition action ----------------------------------

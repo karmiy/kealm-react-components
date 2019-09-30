@@ -2,7 +2,7 @@ import React from 'react';
 import { RadioButtonProps, RadioButtonDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from './context';
-import { extract, omit } from 'utils/object';
+import { extract, omit } from 'utils/base/object';
 
 function RadioButton(props) {
     const { componentCls } = useContextConf('radio-button');

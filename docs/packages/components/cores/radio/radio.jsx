@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
 import { useContextConf, useClassName, useContextProps, useCheckValue } from 'hooks';
 import { CheckedContext } from './context';
-import { extract, omit } from 'utils/object';
+import { extract, omit } from 'utils/base/object';
 
 function Radio(props) {
     const { componentCls } = useContextConf('radio');

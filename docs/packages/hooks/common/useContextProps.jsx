@@ -1,5 +1,5 @@
 import React, { useMemo, useContext } from 'react';
-import { shallowMergeProp } from 'utils/object';
+import { shallowMergeProp } from 'utils/base/object';
 
 /**
  * Prop from props else context
