@@ -21,10 +21,12 @@ export function completeChildrenKeys(children) {
  * Props.children converts to array
  */
 export function toArrayChildren(children) {
-    if(isArray(children)) return children;
-
     const ret = [];
     React.Children.forEach(children, (child) => {
+        if(isArray(child)) {
+            ret.push(...toArrayChildren(child));
+            return;
+        }
         ret.push(child);
     });
     return ret;

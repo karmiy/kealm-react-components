@@ -123,7 +123,6 @@ function FadeTransition(props) {
             // return animate(node, false, `${prefixCls}-anim`, done);
         },
     }
-
     /*const ref = useRef(null);
     setTimeout(() => {
         console.log(ref);
@@ -135,12 +134,19 @@ function FadeTransition(props) {
             {children}
         </Animate>
     )*/
+    const animation2 = {
+        enter() {
+            console.log(123);
+        }
+    }
     return (
-        <Motion showProp={'visible'} transitionAppear exclusive transitionName={'km-fade-k'}  onEnd={() => {}}>
+        <Motion showProp={'visible'} animation={animation} exclusive transitionName={'km-fade-k'}  onEnd={() => {}}>
             {React.Children.map(children, (child, index) => {
-                // return <RenderWrapper key={index} visible={visible}>{child}</RenderWrapper>
-                return child;
+                return <RenderWrapper key={index} visible={visible}>{child}</RenderWrapper>
             })}
+            <RenderWrapper key={3} visible={!visible}>
+                <p>3333</p>
+            </RenderWrapper>
         </Motion>
     )
     /*return (

@@ -277,7 +277,6 @@ function Motion(props) {
         })
     }
 
-
     return renderChildrenRef.current.map(child => {
         if (child === null || child === undefined) {
             return child;

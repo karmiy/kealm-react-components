@@ -5,6 +5,10 @@ import { ApiTable, HighLight } from '@/components';
 function TransitionDoc() {
     const [collapse, setCollapse] = useState(true);
     const [fade, setFade] = useState(true);
+    const list = [
+        <p key={1}>1</p>,
+        <p key={2}>2</p>
+    ]
     return (
         <div className='page-box'>
             <h1>Transition 过渡动画</h1>
