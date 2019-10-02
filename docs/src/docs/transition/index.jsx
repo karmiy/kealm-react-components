@@ -16,18 +16,27 @@ function TransitionDoc() {
 
             {/* fade 淡入淡出 */}
             <h2>fade 淡入淡出</h2>
-            <p>控制元素的进出动画。{fade + ''}</p>
-            <p>123</p>
+            <p>控制元素的进出动画。</p>
             <div className="detail-box">
                 <Button onClick={() => setFade(v => !v)}>Toggle</Button>
             </div>
-            <FadeTransition visible={fade}>
-                {/*123*/}
-                <p key={1} style={{backgroundColor: '#1394ff'}}>1111</p>
-                <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p>
-                {/*{fade ? <p key={1} style={{backgroundColor: '#1394ff'}}>1111</p> : null}*/}
-                {/*{!fade ? <p key={2} style={{backgroundColor: '#1394ff'}}>2222</p> : null}*/}
-            </FadeTransition>
+            <Row gutter={16}>
+                <Col span={5} className={'transition-demo-box'}>
+                    <FadeTransition visible={fade}>
+                        {useMemo(() => <div className="transition-demo" >fade-base</div>, [])}
+                    </FadeTransition>
+                </Col>
+                <Col span={5}>
+                    <FadeTransition visible={fade} unmountOnExit>
+                        {useMemo(() => <div className="transition-demo" >fade-unmount</div>, [])}
+                    </FadeTransition>
+                </Col>
+                <Col span={5}>
+                    <FadeTransition visible={fade} appear>
+                        {useMemo(() => <div className="transition-demo" >fade-appear</div>, [])}
+                    </FadeTransition>
+                </Col>
+            </Row>
 
             {/* collapse 展开折叠 */}
             <h2>collapse 展开折叠</h2>

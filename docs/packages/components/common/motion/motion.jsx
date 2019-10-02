@@ -201,7 +201,7 @@ function Motion(props) {
                 } else {
                     newChild = nextChild;
                 }
-                // 保存状态更新的旧节点，即时接下来要移除
+                // Save the old node for the status update, even if you want to remove it later
                 if (newChild) {
                     newChildren.push(newChild);
                 }
