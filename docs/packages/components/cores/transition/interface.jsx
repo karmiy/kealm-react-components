@@ -5,6 +5,7 @@ export const CommonTransitionProps = {
     visible: PropTypes.bool, // Whether visible
     appear: PropTypes.bool, // Whether to enter perform an animation
     unmountOnExit: PropTypes.bool, // Whether unmount dom when component exit
+    transitionName: PropTypes.string, // CSS className, just like 'fade-in' will render from fade-in => fade-in-active => fade-in-to
 }
 
 export const CommonTransitionDefaultProps = {
@@ -29,4 +30,5 @@ export const FadeTransitionProps = {
 
 export const FadeTransitionDefaultProps = {
     ...CommonTransitionDefaultProps,
+    transitionName: 'km-fade-transition',
 }

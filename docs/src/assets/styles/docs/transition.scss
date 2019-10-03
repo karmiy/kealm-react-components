@@ -1,11 +1,13 @@
 .transition-demo {
+    box-sizing: border-box;
     border-radius: 4px;
     padding: 40px 20px;
+    border: 5px solid #5ab4ff;
     background-color: #1394ff;
     font-size: 16px;
     color: #fff;
     text-align: center;
 }
 .transition-demo-box {
-    height: 100px;
+    height: 120px;
 }

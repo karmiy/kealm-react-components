@@ -17,6 +17,12 @@ export default class MotionManager extends React.Component {
         transitionName: PropTypes.any,
     }
 
+    componentDidMount() {
+        const node = ReactDOM.findDOMNode(this);
+        const init = this.props.animation['init'];
+        node && init && init(node);
+    }
+
     componentWillUnmount() {
         this.stop();
     }

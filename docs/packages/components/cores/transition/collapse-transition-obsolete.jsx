@@ -1,30 +1,24 @@
-import React, { Children, useMemo, useCallback } from 'react';
+import React, { useRef } from 'react';
+import ReactDom from 'react-dom';
+import { Transition } from 'react-transition-group';
+import addDomEventListener from 'add-dom-event-listener';
+import { useDidMount, useDidUpdate } from 'hooks';
 import { addClass, getStyle, removeClass } from 'utils/common/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
-import Motion from '../../common/motion';
-import RenderWrapper from '../../common/renderWrapper';
-import { motionAnimation } from 'utils/css-animation';
-
-function calActualScrollHeight(el) {
-    const invisible = getStyle(el, 'display') === 'none';
-    if(!invisible) return el.scrollHeight;
-    const _el = el.cloneNode(true);
-    _el.style.display = '';
-    document.body.appendChild(_el);
-    const scrollHeight = _el.scrollHeight;
-    document.body.removeChild(_el);
-    return scrollHeight;
-}
 
 // ---------------------------------- transition action ----------------------------------
 const _Transition = {
-    onInit(el) {
+    init(el, visible = true, unmountOnExit = false) {
         // if unmount on exit, don't init
-        // if(unmountOnExit) return;
+        if(unmountOnExit) return;
 
         // init data store
         _Transition.validateStore(el);
 
+        // visible => display: none
+        if(!visible) {
+            el.style.display = 'none';
+        }
     },
     validateStore(el) { // validate store for preventing the lack of data in unmountOnExit
         return (!el.dataset || !el._paddingTop) && _Transition.initStore(el);
@@ -40,7 +34,8 @@ const _Transition = {
         return true;
     },
     invariableStore(el) {
-        // store overflow
+        // store display、overflow
+        el.dataset.display = el.style.display;
         el.dataset.oldOverflow = el.style.overflow;
     },
     variableStore(el) {
@@ -51,9 +46,6 @@ const _Transition = {
         el.dataset.oldBorderBottom = el.style.borderBottomWidth;
 
         // spec store: real paddingTop、paddingBottom、borderTopWidth、borderBottomWidth、box-sizing
-        // It's good that even display: none can get the correct value
-        // The actual scrollHeight is stored to prevent quick switching during the rolling process, resulting in the wrong instant of scrollHeight obtained at enter
-        el._scrollHeight = calActualScrollHeight(el);
         el._paddingTop = getStyle(el, 'padding-top');
         el._paddingBottom = getStyle(el, 'padding-bottom');
         el._borderTop = getStyle(el, 'border-top-width');
@@ -63,41 +55,32 @@ const _Transition = {
     onEnter(el) {
         // prevent props of unmountOnExit
         // isAppear includes props.appear is true or unmountOnExit is true
-        _Transition.validateStore(el);
+        const isAppear = _Transition.validateStore(el);
 
         // console.log('onEnter');
-        el.inMotion = true;
-
         el.style.height = '0';
         el.style.paddingTop = '0';
         el.style.paddingBottom = '0';
         el.style.borderTopWidth = '0';
         el.style.borderBottomWidth = '0';
-        el.style.overflow = 'hidden';
+        el.style.display = el.dataset.display || '';
 
         // Important
         // When appear comes in, force browser to render before adding transition style, otherwise scroll Height in Entering phase will be affected by transition
-        // isAppear && el.scrollHeight;
+        isAppear && el.scrollHeight;
+        addClass(el, 'collapse-transition');
     },
     onEntering(el) {
         // console.log('onEntering');
         if (el.scrollHeight !== 0) {
-            /*const height = el._isBorderBox ?
+            const height = el._isBorderBox ?
                 el.scrollHeight
                 + parseFloat(el._paddingTop)
                 + parseFloat(el._paddingBottom)
                 + parseFloat(el._borderTop)
                 + parseFloat(el._borderBottom)
                 :
-                el.scrollHeight;*/
-            const height = el._isBorderBox ?
-                el._scrollHeight
-                + parseFloat(el._borderTop)
-                + parseFloat(el._borderBottom)
-                :
-                el._scrollHeight
-                - parseFloat(el._paddingTop)
-                - parseFloat(el._paddingBottom);
+                el.scrollHeight;
             el.style.height = `${height}px`;
         } else {
             el.style.height = '';
@@ -106,31 +89,23 @@ const _Transition = {
         el.style.paddingBottom = el._paddingBottom;
         el.style.borderTopWidth = el._borderTop;
         el.style.borderBottomWidth = el._borderBottom;
-        addClass(el, 'km-collapse-transition');
+        el.style.overflow = 'hidden';
     },
     onEntered(el) {
         // console.log('onEntered');
-        removeClass(el, 'km-collapse-transition');
+        removeClass(el, 'collapse-transition');
         el.style.height = '';
         el.style.paddingTop = el.dataset.oldPaddingTop;
         el.style.paddingBottom = el.dataset.oldPaddingBottom;
         el.style.borderTopWidth = el.dataset.oldBorderTop;
         el.style.borderBottomWidth = el.dataset.oldBorderBottom;
         el.style.overflow = el.dataset.oldOverflow;
-
-        el.inMotion = false;
     },
     onExit(el) {
         // prevent props of unmountOnExit
         _Transition.validateStore(el);
 
         // console.log('onExit');
-
-        // Before each complete exit, record the current scrollHeight to prevent child element height from changing
-        if(!el.inMotion) el._scrollHeight = el.scrollHeight;
-
-        el.inMotion = true;
-
         const height = el._isBorderBox ?
             el.scrollHeight
             + parseFloat(el._borderTop)
@@ -145,7 +120,7 @@ const _Transition = {
     onExiting(el) {
         // console.log('onExiting');
         if (el.scrollHeight !== 0) {
-            addClass(el, 'km-collapse-transition');
+            addClass(el, 'collapse-transition');
             el.style.height = '0';
             el.style.paddingTop = '0';
             el.style.paddingBottom = '0';
@@ -155,28 +130,28 @@ const _Transition = {
     },
     onExited(el) {
         // console.log('onExited');
-        removeClass(el, 'km-collapse-transition');
+        removeClass(el, 'collapse-transition');
         el.style.height = '';
         el.style.overflow = el.dataset.oldOverflow;
         el.style.paddingTop = el.dataset.oldPaddingTop;
         el.style.paddingBottom = el.dataset.oldPaddingBottom;
         el.style.borderTopWidth = el.dataset.oldBorderTop;
         el.style.borderBottomWidth = el.dataset.oldBorderBottom;
-
-        el.inMotion = false;
+        el.style.display = 'none';
     },
 }
 
-function CollapseTransition(props) {
-    const {
-        children,
-        visible,
-        appear: isAppear,
-        unmountOnExit
-    } = props;
+const addEndListener = (node, done) => {
+    addDomEventListener(node, 'transitionend', done, false);
+}
 
+function CollapseTransition(props) {
+    const transitionRef = useRef(null);
+    const elementRef = useRef(null);
+    const { children, visible, appear, unmountOnExit } = props;
     const {
-        onInit,
+        init,
+        // variableStore,
         onEnter,
         onEntering,
         onEntered,
@@ -185,69 +160,39 @@ function CollapseTransition(props) {
         onExited
     } = _Transition;
 
-
-    // ---------------------------------- event ----------------------------------
-    const init = useCallback(el => {
-        onInit(el, unmountOnExit);
-    }, [unmountOnExit]);
-
-    const enter = useCallback((el, done) => {
-        return motionAnimation(el, {
-            start: onEnter,
-            active: onEntering,
-            end(el) {
-                onEntered(el);
-                done();
-            },
-        })
-    }, [onEnter, onEntering, onEntered]);
-
-    const leave = useCallback((el, done) => {
-        return motionAnimation(el, {
-            start: onExit,
-            active: onExiting,
-            end(el) {
-                onExited(el);
-                done();
-            },
-        })
-    }, [onExit, onExiting, onExited]);
-
-    const appear = isAppear ? enter : null;
-
     // ---------------------------------- logic code ----------------------------------
-    const animation = useMemo(() => {
-        return {
-            init,
-            appear,
-            enter,
-            leave,
-        }
-    }, [init, enter, leave, appear]);
+    useDidMount(() => {
+        // visible => to do nothing
+        // !visible => to do display none
+        const el = ReactDom.findDOMNode(transitionRef.current);
+        elementRef.current = el;
+        init(el, visible, unmountOnExit);
+    })
 
-    // ---------------------------------- render chunk ----------------------------------
-    const renderChildren = useMemo(() => {
-        return Children.map(children, (child, index) => {
-            return <RenderWrapper
-                key={index}
-                visible={visible}
-                unmountOnExit={unmountOnExit}
-            >
-                {child}
-            </RenderWrapper>
-        })
-    }, [children, visible, unmountOnExit]);
+    // warning: To delete, because between onEnter and onEntering
+    // prevent height changes in DOM
+    /*useDidUpdate(() => {
+        const el = elementRef.current;
+        el && variableStore(el);
+    }, children);*/
 
     // ---------------------------------- render ----------------------------------
     return (
-        <Motion
-            showProp={'visible'}
-            animation={animation}
-            transitionAppear={isAppear}
-            exclusive
+        <Transition
+            ref={transitionRef}
+            in={visible}
+            appear={appear}
+            addEndListener={addEndListener}
+            onEnter={onEnter}
+            onEntering={onEntering}
+            onEntered={onEntered}
+            onExit={onExit}
+            onExiting={onExiting}
+            onExited={onExited}
+            unmountOnExit={unmountOnExit}
         >
-            {renderChildren}
-        </Motion>
+            {children}
+        </Transition>
     )
 }
 CollapseTransition.propTypes = CollapseTransitionProps;

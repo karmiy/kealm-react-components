@@ -37,6 +37,8 @@ function Motion(props) {
 
     // Key in the current movement
     const currentlyAnimatingKeysRef = useRef({});
+    // Props in the current movement
+    const currentlyAnimatingPropsRef = useRef({});
     // Key to prepare to execute enter/leave animation
     const keysToEnterRef = useRef([]);
     const keysToLeaveRef = useRef([]);
@@ -63,6 +65,9 @@ function Motion(props) {
         /*if (exclusive && props !== newestProps) {
             return;
         }*/
+        if (exclusive && currentlyAnimatingPropsRef.current[key] !== newestProps ) {
+            return;
+        }
         const currentChildren = toArrayChildren(completeChildrenKeys(newestProps.children));
         if (!isValidChildByKey(currentChildren, key)) {
             // exclusive will not need this
@@ -84,9 +89,9 @@ function Motion(props) {
         const newestProps = propsStore.current;
         // \\if update on exclusive mode, skip check
         // if (props.exclusive && props !== this.nextProps) {
-        /*if (exclusive) {
+        if (exclusive && currentlyAnimatingPropsRef.current[key] !== newestProps ) {
             return;
-        }*/
+        }
         const currentChildren = toArrayChildren(completeChildrenKeys(newestProps.children));
         // in case state change is too fast
         if (isValidChildByKey(currentChildren, key)) {
@@ -112,6 +117,7 @@ function Motion(props) {
     const performAppear = useCallback(key => {
         if (childrenRefs.current[key] && !currentlyAnimatingKeysRef.current[key]) {
             currentlyAnimatingKeysRef.current[key] = true;
+            currentlyAnimatingPropsRef.current[key] = propsStore.current;
             childrenRefs.current[key].componentWillAppear(() => {
                 handleDoneAdding(key, 'appear');
             });
@@ -121,6 +127,7 @@ function Motion(props) {
     const performEnter = useCallback(key => {
         if (childrenRefs.current[key] && !currentlyAnimatingKeysRef.current[key]) {
             currentlyAnimatingKeysRef.current[key] = true;
+            currentlyAnimatingPropsRef.current[key] = propsStore.current;
             childrenRefs.current[key].componentWillEnter(() => {
                 handleDoneAdding(key, 'enter');
             });
@@ -130,6 +137,7 @@ function Motion(props) {
     const performLeave = useCallback(key => {
         if (childrenRefs.current[key] && !currentlyAnimatingKeysRef.current[key]) {
             currentlyAnimatingKeysRef.current[key] = true;
+            currentlyAnimatingPropsRef.current[key] = propsStore.current;
             childrenRefs.current[key].componentWillLeave(() => {
                 handleDoneLeaving(key);
             });
@@ -143,6 +151,7 @@ function Motion(props) {
         return findChildInChildrenByKey(currentChildren, key);
     }, [showProp]);
 
+    // Perform the appear animation after initialization
     useDidMount(() => {
         // Execute appear animation
         let children = renderChildrenRef.current;
@@ -276,7 +285,6 @@ function Motion(props) {
             }
         })
     }
-
     return renderChildrenRef.current.map(child => {
         if (child === null || child === undefined) {
             return child;

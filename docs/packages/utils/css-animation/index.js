@@ -33,10 +33,25 @@ function clearBrowserBugTimeout(node) {
     }
 }
 
-const nextFrame = function(callback) {
-    raf(() => {
+/*const nextFrame = function(callback) {
+    return raf(() => {
         raf(callback)
     });
+}*/
+const nextFrame = function(callback) {
+    const fps = {
+        prev: raf(() => {
+            fps.next = raf(callback);
+        }),
+        next: null,
+    }
+    return fps;
+}
+
+const cancelFrame = function(fps) {
+    raf.cancel(fps.prev);
+    raf.cancel(fps.next);
+    fps = null;
 }
 
 /**
@@ -65,27 +80,28 @@ const cssAnimation = (node, transitionName, endCallback) => {
     if (node.kmEndListener) {
         node.kmEndListener();
     }
-
     node.kmEndListener = (e) => {
-        if (e && e.target !== node || node.kmAnimTimeout !== null) return;
+        // if (e && e.target !== node || node.kmAnimTimeout !== null) return;
+        // Three quick clicks in a row can trigger faster than the next frame
+        if (e && (e.target !== node || node.kmAnimTimeout !== null)) return;
 
         if (node.kmAnimTimeout) {
-            raf.cancel(node.kmAnimTimeout);
+            cancelFrame(node.kmAnimTimeout);
             node.kmAnimTimeout = null;
         }
 
         clearBrowserBugTimeout(node);
 
+        removeClass(node, className);
         removeClass(node, activeClassName);
         removeClass(node, toClassName);
 
         Event.removeEndEventListener(node, node.kmEndListener);
         node.kmEndListener = null;
 
-        // Usually this optional end is used for informing an owner of
-        // a leave animation and telling it to remove the child.
-        if (end) {
-            end();
+        // The end callback is executed only at the end of the transition
+        if (e && end) {
+            end(node);
         }
     };
 
@@ -104,9 +120,7 @@ const cssAnimation = (node, transitionName, endCallback) => {
         node.kmAnimTimeout = null;
 
         removeClass(node, className);
-        addClass(node, toClassName);
-
-        // nodeClasses.add(activeClassName); // slide-in-active
+        addClass(node, toClassName); // fade-in-to
 
         if (active) {
             // setTimeout(active, 0);
@@ -125,7 +139,71 @@ const cssAnimation = (node, transitionName, endCallback) => {
     };
 };
 
-cssAnimation.style = (node, style, callback) => {
+const motionAnimation = (node, endCallback) => {
+    let end = endCallback;
+    let start;
+    let active;
+
+    if (endCallback && Object.prototype.toString.call(endCallback) === '[object Object]') {
+        start = endCallback.start;
+        active = endCallback.active;
+        end = endCallback.end;
+    }
+
+    // If there was an animation in progress, end it
+    if (node.kmEndListener) {
+        node.kmEndListener();
+    }
+    node.kmEndListener = (e) => {
+        // if (e && e.target !== node || node.kmAnimTimeout !== null) return;
+        // Three quick clicks in a row can trigger faster than the next frame
+        if (e && (e.target !== node || node.kmAnimTimeout !== null)) return;
+
+        if (node.kmAnimTimeout) {
+            cancelFrame(node.kmAnimTimeout);
+            node.kmAnimTimeout = null;
+        }
+
+        clearBrowserBugTimeout(node);
+
+        Event.removeEndEventListener(node, node.kmEndListener);
+        node.kmEndListener = null;
+
+        // The end callback is executed only at the end of the transition
+        if (e && end) {
+            end(node);
+        }
+    };
+
+    // Add listen, animation end execution
+    Event.addEndEventListener(node, node.kmEndListener);
+
+    // Start Hook
+    if (start) {
+        start(node);
+    }
+
+    node.kmAnimTimeout = nextFrame(() => {
+        node.kmAnimTimeout = null;
+
+        if (active) {
+            // setTimeout(active, 0);
+            active(node);
+        }
+        fixBrowserByTimeout(node);
+        // 30ms for firefox
+    });
+
+    return {
+        stop() {
+            if (node.kmEndListener) {
+                node.kmEndListener();
+            }
+        },
+    };
+};
+
+const styleAnimation = (node, style, callback) => {
     if (node.kmEndListener) {
         node.kmEndListener();
     }
@@ -146,7 +224,7 @@ cssAnimation.style = (node, style, callback) => {
         // Usually this optional callback is used for informing an owner of
         // a leave animation and telling it to remove the child.
         if (callback) {
-            callback();
+            callback(node);
         }
     };
 
@@ -180,6 +258,8 @@ cssAnimation.isCssAnimationSupported = isCssAnimationSupported;
 
 export {
     isCssAnimationSupported,
+    motionAnimation,
+    styleAnimation,
 };
 
 export default cssAnimation;

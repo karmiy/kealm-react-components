@@ -1,27 +1,18 @@
 @import "../common/var";
 
 /* collapse-transition */
-.collapse-transition {
+.km-collapse-transition {
     transition: $transition-duration-base height $ease-in-out, $transition-duration-base padding-top $ease-in-out, $transition-duration-base padding-bottom $ease-in-out, $transition-duration-base border-top-width $ease-in-out, $transition-duration-base border-bottom-width $ease-in-out;
 }
-.horizontal-collapse-transition {
+.km-horizontal-collapse-transition {
     transition: $transition-duration-base width $ease-in-out, $transition-duration-base padding-left $ease-in-out, $transition-duration-base padding-right $ease-in-out, $transition-duration-base border-top-width $ease-in-out, $transition-duration-base border-bottom-width $ease-in-out;
 }
 
 /* fade-transition */
-.km-fade-in-linear-enter-active,
-.km-fade-in-linear-leave-active {
-    transition: $fade-linear-transition;
-}
-.km-fade-in-linear-enter,
-.km-fade-in-linear-leave,
-.km-fade-in-linear-leave-active {
-    opacity: 0;
-}
-
-.km-fade-in-enter-active, .km-fade-in-leave-active, .km-fade-in-appear-active {
+.km-fade-transition-enter-active, .km-fade-transition-leave-active, .km-fade-transition-appear-active {
     transition: $fade-transition;
+    //transition: opacity 2s;
 }
-.km-fade-in-enter, .km-fade-in-leave-to, .km-fade-in-appear {
+.km-fade-transition-enter, .km-fade-transition-leave-to, .km-fade-transition-appear {
     opacity: 0;
 }
