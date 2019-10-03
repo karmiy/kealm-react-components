@@ -48,13 +48,10 @@
     "@hot-loader/react-dom": "^16.9.0+4.12.11",
     "add-dom-event-listener": "^1.1.0",
     "core-js": "^3.2.0",
-    "css-animation": "^2.0.4",
-    "rc-animate": "^2.10.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-is": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "react-transition-group": "^4.2.2",
     "resize-observer-polyfill": "^1.5.1"
   }
 }
