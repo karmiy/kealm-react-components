@@ -1,18 +1,24 @@
 import React, { Children, useCallback, useMemo } from 'react';
 import Motion from '../../common/motion';
-import { FadeTransitionProps, FadeTransitionDefaultProps } from './interface';
+import { ZoomTransitionProps, ZoomTransitionDefaultProps } from './interface';
 import RenderWrapper from '../../common/renderWrapper';
+import { useContextConf } from 'hooks';
 
 
-function FadeTransition(props) {
+function ZoomTransition(props) {
+    const { componentCls } = useContextConf('zoom');
     const {
         children,
         visible,
         appear,
         unmountOnExit,
         visibleChange,
-        transitionName
+        transitionName,
+        position
     } = props;
+
+    // If there is a transitionName, the transitionName is given as a parameter, otherwise built-in is used
+    const _transitionName = transitionName || `${componentCls}-${position}`;
 
     // ---------------------------------- event ----------------------------------
     const onEnd = useCallback(() => {
@@ -37,7 +43,7 @@ function FadeTransition(props) {
         <Motion
             showProp={'visible'}
             exclusive
-            transitionName={transitionName}
+            transitionName={_transitionName}
             transitionAppear={appear}
             onEnd={onEnd}
         >
@@ -45,7 +51,7 @@ function FadeTransition(props) {
         </Motion>
     )
 }
-FadeTransition.propTypes = FadeTransitionProps;
-FadeTransition.defaultProps = FadeTransitionDefaultProps;
+ZoomTransition.propTypes = ZoomTransitionProps;
+ZoomTransition.defaultProps = ZoomTransitionDefaultProps;
 
-export default FadeTransition;
+export default ZoomTransition;

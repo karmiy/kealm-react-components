@@ -1,0 +1,35 @@
+@import "../common/var";
+@import "config";
+
+@mixin zoom-transition($position) {
+    $zoom-prefix: #{$namespace}-zoom-#{$position};
+    @at-root {
+        .#{$zoom-prefix}-appear-active,
+        .#{$zoom-prefix}-enter-active,
+        .#{$zoom-prefix}-leave-active {
+            transition: $zoom-transition;
+            @if $position == top {
+                transform-origin: center top;
+            } @else if $position == bottom {
+                transform-origin: center bottom;
+            } @else if $position == left {
+                transform-origin: left center;
+            } @else if $position == right {
+                transform-origin: right center;
+            }
+        }
+
+        .#{$zoom-prefix}-appear,
+        .#{$zoom-prefix}-enter,
+        .#{$zoom-prefix}-leave-to {
+            opacity: 0;
+            @if $position == center {
+                transform: scale(.2);
+            } @else if $position == top or $position == bottom {
+                transform: scaleY(.2);
+            } @else if $position == left or $position == right {
+                transform: scaleX(.2);
+            }
+        }
+    }
+}

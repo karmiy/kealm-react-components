@@ -132,6 +132,7 @@ $all-transition: all $transition-duration-base $ease-in-out !default;
 $fade-transition: opacity $transition-duration-base linear !default;
 $fade-linear-transition: opacity $transition-duration-fast linear !default;
 $md-fade-transition: transform $transition-duration-base $ease-out-quint, opacity $transition-duration-base $ease-out-quint !default;
+$zoom-transition: transform $transition-duration-base $ease-out-circ, opacity $transition-duration-base $ease-out-circ !default;
 $border-transition-base: border-color $transition-duration-fast $ease-in-out !default;
 $color-transition-base: color $transition-duration-fast $ease-in-out !default;
 

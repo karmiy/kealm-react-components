@@ -5,10 +5,6 @@ const sidebarList = [
             {
                 name: '快速上手',
                 link: 'quickstart',
-            },
-            {
-                name: '内置动画',
-                link: 'transition',
             }
         ]
     },
@@ -18,6 +14,10 @@ const sidebarList = [
             {
                 name: 'Icon 图标',
                 link: 'icon',
+            },
+            {
+                name: 'Transition 过渡动画',
+                link: 'transition',
             },
             {
                 name: 'Button 按钮',

@@ -172,7 +172,8 @@ function CollapseTransition(props) {
         children,
         visible,
         appear: isAppear,
-        unmountOnExit
+        unmountOnExit,
+        visibleChange
     } = props;
 
     const {
@@ -215,6 +216,10 @@ function CollapseTransition(props) {
 
     const appear = isAppear ? enter : null;
 
+    const onEnd = useCallback(() => {
+        visibleChange(visible);
+    }, [visible, visibleChange]);
+
     // ---------------------------------- logic code ----------------------------------
     const animation = useMemo(() => {
         return {
@@ -244,6 +249,7 @@ function CollapseTransition(props) {
             showProp={'visible'}
             animation={animation}
             transitionAppear={isAppear}
+            onEnd={onEnd}
             exclusive
         >
             {renderChildren}
