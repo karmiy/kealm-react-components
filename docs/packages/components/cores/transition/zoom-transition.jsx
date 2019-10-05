@@ -1,7 +1,6 @@
 import React, { Children, useCallback, useMemo } from 'react';
-import Motion from '../../common/motion';
 import { ZoomTransitionProps, ZoomTransitionDefaultProps } from './interface';
-import RenderWrapper from '../../common/renderWrapper';
+import { Motion, RenderWrapper } from '../../common';
 import { useContextConf } from 'hooks';
 
 

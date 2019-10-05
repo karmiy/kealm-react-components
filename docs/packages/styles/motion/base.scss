@@ -1,9 +1,9 @@
 /* loading */
 .km-icon-loading {
     display: inline-block;
-    animation: km-loading 1.4s linear infinite;
+    animation: kmLoading 1.4s linear infinite;
 }
-@keyframes km-loading {
+@keyframes kmLoading {
     0% {
         transform: rotate(0deg);
     }

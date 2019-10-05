@@ -1,8 +1,7 @@
 import React, { Children, useMemo, useCallback } from 'react';
 import { addClass, getStyle, removeClass } from 'utils/common/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
-import Motion from '../../common/motion';
-import RenderWrapper from '../../common/renderWrapper';
+import { Motion, RenderWrapper } from '../../common';
 import { motionAnimation } from 'utils/css-animation';
 
 function calActualScrollHeight(el) {

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?d47iv0');
-  src:  url('kealm-icon.eot?d47iv0#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?d47iv0') format('truetype'),
-    url('kealm-icon.woff?d47iv0') format('woff'),
-    url('kealm-icon.svg?d47iv0#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?y1oxwo');
+  src:  url('kealm-icon.eot?y1oxwo#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?y1oxwo') format('truetype'),
+    url('kealm-icon.woff?y1oxwo') format('woff'),
+    url('kealm-icon.svg?y1oxwo#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,14 +25,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.km-icon-config:before {
-  content: "\e78e";
-}
-.km-icon-delete:before {
-  content: "\e7c3";
-}
-.km-icon-edit:before {
-  content: "\e7e1";
+.km-icon-loading:before {
+  content: "\e61c";
 }
 .km-icon-check-circle:before {
   content: "\e77d";
@@ -64,6 +58,9 @@
 .km-icon-issues-close:before {
   content: "\e78c";
 }
+.km-icon-config:before {
+  content: "\e78e";
+}
 .km-icon-eye:before {
   content: "\e78f";
 }
@@ -79,6 +76,9 @@
 .km-icon-check-square:before {
   content: "\e7a8";
 }
+.km-icon-delete:before {
+  content: "\e7c3";
+}
 .km-icon-unlock:before {
   content: "\e7c9";
 }
@@ -88,8 +88,8 @@
 .km-icon-error:before {
   content: "\e7df";
 }
-.km-icon-key:before {
-  content: "\e900";
+.km-icon-edit:before {
+  content: "\e7e1";
 }
 .km-icon-right:before {
   content: "\e7eb";
@@ -213,6 +213,9 @@
 }
 .km-icon-eye-fill-o:before {
   content: "\e8ff";
+}
+.km-icon-key:before {
+  content: "\e900";
 }
 .km-icon-caret-right:before {
   content: "\e901";
@@ -357,9 +360,6 @@
 }
 .km-icon-user-minus:before {
   content: "\e974";
-}
-.km-icon-loading:before {
-  content: "\e97c";
 }
 .km-icon-spinner:before {
   content: "\e984";
