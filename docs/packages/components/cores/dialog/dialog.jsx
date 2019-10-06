@@ -4,7 +4,7 @@ import Button from '../button';
 import Icon from '../icon';
 import { Portal } from '../../common';
 import { ZoomTransition, FadeTransition } from '../transition';
-import { RenderWrapper, Motion } from '../../common';
+import { RenderWrapper } from '../../common';
 import Mask from './mask';
 import { useContextConf, useClassName, useDidUpdate } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
@@ -28,10 +28,17 @@ function Dialog(props) {
     const {
         className,
         children,
+        title,
         visible,
         destroyOnClose,
         keyboard,
         confirmLoading,
+        maskClosable,
+        footer,
+        okText,
+        cancelText,
+        okButtonProps,
+        cancelButtonProps,
         onOk,
         onCancel,
         ...others
@@ -95,45 +102,94 @@ function Dialog(props) {
         e.keyCode === KeyCode.ESC && onCancel(e);
     }, [onCancel]) : null;
 
+    const maskClick = maskClosable ? useCallback(e => {
+        const dialogNode = dialogRef.current;
+        !dialogNode.contains(e.target) && onCancel(e);
+    }, [onCancel]) : null;
+
+    // ---------------------------------- render mini chunk ----------------------------------
+    // dialog-header
+    const renderDialogHeader = useMemo(() => {
+        return (
+            <div className={`${componentCls}__header`}>
+                <span className={`${componentCls}__title`}>{title}</span>
+                <button className={`${componentCls}__header-btn`} onClick={onCancel}>
+                    <Icon type={'close'} />
+                </button>
+            </div>
+        )
+    }, [componentCls, title, onCancel]);
+
+    // dialog-body
+    const renderDialogBody = useMemo(() => {
+        return (
+            <div className={`${componentCls}__body`}>
+                {children}
+            </div>
+        )
+    }, [componentCls, children]);
+
+    // dialog-footer-buttons-default
+    const renderDefaultFooterButtons = useMemo(() => {
+        return (
+            <>
+                <Button onClick={onCancel} {...cancelButtonProps}>{cancelText}</Button>
+                <Button type='primary' loading={confirmLoading} onClick={onOk} {...okButtonProps}>{okText}</Button>
+            </>
+        )
+    }, [onOk, onCancel, confirmLoading, okButtonProps, cancelButtonProps, okText, cancelText]);
+
+    // dialog-footer
+    const renderDialogFooter = useMemo(() => {
+        if(footer === null) return null;
+
+        return (
+            <div className={`${componentCls}__footer`}>
+                {footer || renderDefaultFooterButtons}
+            </div>
+        )
+    }, [componentCls, footer, renderDefaultFooterButtons]);
+
     // ---------------------------------- render chunk ----------------------------------
-    console.log(confirmLoading);
+    // render-mask
+    const renderMask = useMemo(() => {
+        return (
+            <FadeTransition visible={visible} appear unmountOnExit={destroyOnClose}>
+                <Mask />
+            </FadeTransition>
+        )
+    }, [visible, destroyOnClose]);
+
+    // render-dialog
+    const renderDialog = useMemo(() => {
+        return (
+            <div role="dialog" className={dialogClassNames} ref={dialogRef}>
+                {renderDialogHeader}
+                {renderDialogBody}
+                {renderDialogFooter}
+            </div>
+        )
+    }, [dialogClassNames, renderDialogHeader, renderDialogBody, renderDialogFooter]);
+
+    // render-dialog-wrapper
+    const renderWrapper = useMemo(() => {
+        return (
+            <RenderWrapper visible={wrapperVisible} unmountOnExit={destroyOnClose}>
+                <div tabIndex={-1} ref={wrapperRef} className={`${componentCls}__wrapper`} onKeyDown={wrapperKeyDown} onClick={maskClick}>
+                    <ZoomTransition visible={visible} appear visibleChange={onZoomEnd}>
+                        {renderDialog}
+                    </ZoomTransition>
+                </div>
+            </RenderWrapper>
+        )
+    }, [componentCls, wrapperVisible, destroyOnClose, wrapperKeyDown, maskClick, visible, onZoomEnd, renderDialog]);
 
     // ---------------------------------- render ----------------------------------
     return (
         <Portal visible={portalVisible}>
             <div>
-                <FadeTransition visible={visible} appear unmountOnExit={destroyOnClose}>
-                    <Mask />
-                </FadeTransition>
-                <RenderWrapper visible={wrapperVisible} unmountOnExit={destroyOnClose}>
-                    <div tabIndex={-1} ref={wrapperRef} className={`${componentCls}__wrapper`} onKeyDown={wrapperKeyDown}>
-                        <ZoomTransition visible={visible} appear visibleChange={onZoomEnd}>
-                            <div role="dialog" className={dialogClassNames} ref={dialogRef}>
-                                <div className={`${componentCls}__header`}>
-                                    <span className={`${componentCls}__title`}>提示</span>
-                                    <button className={`${componentCls}__header-btn`} onClick={onCancel}>
-                                        <Icon type={'close'} />
-                                    </button>
-                                </div>
-                                <div className={`${componentCls}__body`}>
-                                    {children}
-                                </div>
-                                <div className={`${componentCls}__footer`}>
-                                    <Button onClick={onCancel}>取消</Button>
-                                    <Button className={confirmLoading ? 'is-loading' : ''} type='primary' onClick={onOk}>
-                                        <Motion showProp={'visible'} transitionName={`${componentCls}-loading`}>
-                                            {/*<RenderWrapper visible={confirmLoading} unmountOnExit>
-                                                <Icon className={`${componentCls}-loading`} type={'loading'} />
-                                            </RenderWrapper>*/}
-                                            {confirmLoading ? <Icon className={`${componentCls}-loading`} type={'loading'} /> : null}
-                                        </Motion>
-                                        确定
-                                    </Button>
-                                </div>
-                            </div>
-                        </ZoomTransition>
-                    </div>
-                </RenderWrapper>
+                {renderMask}
+                {renderWrapper}
             </div>
         </Portal>
     )

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { ButtonProps, ButtonDefaultProps } from "./interface";
 import Icon from '../icon';
+import { RenderWrapper, Motion } from '../../common';
 import { useContextConf, useClassName } from 'hooks';
 
 function Button(props) {
@@ -49,8 +50,14 @@ function Button(props) {
 
     // loading
     const renderLoading = useMemo(() => {
-        return loading ? <Icon type={'loading'} /> : null;
-    }, [loading]);
+        return (
+            <Motion showProp={'visible'} transitionName={`${componentCls}-loading`}>
+                <RenderWrapper visible={loading} unmountOnExit>
+                    <Icon type={'loading'} />
+                </RenderWrapper>
+            </Motion>
+        )
+    }, [componentCls, loading]);
 
     // ---------------------------------- render ----------------------------------
     return (

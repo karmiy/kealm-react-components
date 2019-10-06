@@ -234,3 +234,23 @@
     }
 }
 
+
+/* button loading animation */
+.km-button-loading-enter-active {
+    animation: loadingMoveIn .2s $ease-out;
+}
+
+.km-button-loading-leave-active {
+    animation: loadingMoveIn .2s $ease-in reverse;
+}
+
+@keyframes loadingMoveIn {
+    0% {
+        margin-right: -19px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
+}

@@ -20,7 +20,7 @@ function fixBrowserByTimeout(node) {
         node.kmEndAnimTimeout = setTimeout(() => {
             node.kmEndAnimTimeout = null;
             if (node.kmEndListener) {
-                node.kmEndListener();
+                node.kmEndListener('timeout');
             }
         }, (time) * 1000 + 200);
     }
@@ -83,8 +83,8 @@ const cssAnimation = (node, transitionName, endCallback) => {
     node.kmEndListener = (e) => {
         // if (e && e.target !== node || node.kmAnimTimeout !== null) return;
         // Three quick clicks in a row can trigger faster than the next frame
-        if (e && (e.target !== node || node.kmAnimTimeout !== null)) return;
-
+        // Causes the transitionend to be triggered immediately and quickly on the second click, faster than on the next frame on the third click
+        if (e && ((e.target && e.target !== node) || node.kmAnimTimeout !== null)) return;
         if (node.kmAnimTimeout) {
             cancelFrame(node.kmAnimTimeout);
             node.kmAnimTimeout = null;
@@ -98,7 +98,6 @@ const cssAnimation = (node, transitionName, endCallback) => {
 
         Event.removeEndEventListener(node, node.kmEndListener);
         node.kmEndListener = null;
-
         // The end callback is executed only at the end of the transition
         if (e && end) {
             end(node);
