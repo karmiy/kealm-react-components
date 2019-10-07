@@ -19,6 +19,12 @@ function DialogDoc() {
             setVisibleAsync(false);
         }, 2000)
     }, [setLoading, setVisibleAsync]);
+
+    const showConfirm = useCallback(() => {
+        Dialog.confirm({
+
+        });
+    }, [])
     return (
         <div className='page-box'>
             <h1>Dialog 对话框</h1>
@@ -108,6 +114,11 @@ function DialogDoc() {
                     )
                 }, [visibleBtnProps, setVisibleBtnProps])
             }
+
+            {/* 确认对话框 */}
+            <h2>确认对话框</h2>
+            <p>使用 confirm() 可以快捷地弹出确认框。</p>
+            <Button onClick={showConfirm}>Confirm</Button>
 
             {/* API */}
             {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}

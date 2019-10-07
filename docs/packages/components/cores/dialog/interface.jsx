@@ -16,8 +16,10 @@ export const DialogProps = {
     cancelText: PropTypes.string,
     okButtonProps: PropTypes.object,
     cancelButtonProps: PropTypes.object,
+    getContainer: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     onOk: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    afterClose: PropTypes.func,
 }
 
 export const DialogDefaultProps = {
@@ -31,4 +33,5 @@ export const DialogDefaultProps = {
     cancelText: '取消',
     onOk: noop,
     onCancel: noop,
+    afterClose: noop,
 }

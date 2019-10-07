@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import { Transition } from 'react-transition-group';
 import addDomEventListener from 'add-dom-event-listener';
 import { useDidMount, useDidUpdate } from 'hooks';
@@ -164,7 +164,7 @@ function CollapseTransition(props) {
     useDidMount(() => {
         // visible => to do nothing
         // !visible => to do display none
-        const el = ReactDom.findDOMNode(transitionRef.current);
+        const el = ReactDOM.findDOMNode(transitionRef.current);
         elementRef.current = el;
         init(el, visible, unmountOnExit);
     })

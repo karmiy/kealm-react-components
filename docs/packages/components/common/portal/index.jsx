@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import { PortalProps, PortalDefaultProps } from './interface';
 import { isFunction } from "utils/common/base";
 
@@ -13,9 +13,12 @@ function Portal(props) {
         getContainer
     } = props;
 
-    const container = getContainer ? (isFunction(getContainer) ? getContainer() : getContainer) : document.body;
+    const container = getContainer !== undefined ? (isFunction(getContainer) ? getContainer() : getContainer) : document.body;
 
-    return visible ? ReactDom.createPortal(children, container) : null;
+    if(!container)
+        return visible ? children : null;
+
+    return visible ? ReactDOM.createPortal(children, container) : null;
 }
 
 Portal.propTypes = PortalProps;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import { RenderWrapperProps, RenderWrapperDefaultProps } from './interface';
 
 class RenderWrapper extends Component {
@@ -13,7 +13,7 @@ class RenderWrapper extends Component {
         const { visible, unmountOnExit } = this.props;
         if(unmountOnExit) return;
 
-        const node = ReactDom.findDOMNode(this);
+        const node = ReactDOM.findDOMNode(this);
         if(mount) node._display = node.style.display || '';
 
         node && (node.style.display = visible ? node._display : 'none');

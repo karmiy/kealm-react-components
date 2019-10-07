@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
 import { DialogProps, DialogDefaultProps } from './interface';
 import Button from '../button';
 import Icon from '../icon';
@@ -39,8 +39,10 @@ function Dialog(props) {
         cancelText,
         okButtonProps,
         cancelButtonProps,
+        getContainer,
         onOk,
         onCancel,
+        afterClose,
         ...others
     } = props;
     const { componentCls } = useContextConf(`dialog`);
@@ -71,7 +73,7 @@ function Dialog(props) {
     }, [visible, setWrapperVisible]);
 
     // 改变dialog入场位置
-    useDidUpdate(() => {
+    useLayoutEffect(() => {
         if(visible) {
             const wrapperNode = wrapperRef.current;
             const dialogNode = dialogRef.current;
@@ -95,8 +97,8 @@ function Dialog(props) {
 
     // ---------------------------------- event ----------------------------------
     const onZoomEnd = useCallback(v => {
-        !v && setWrapperVisible(v);
-    }, [setWrapperVisible]);
+        !v && (setWrapperVisible(v), afterClose());
+    }, [setWrapperVisible, afterClose]);
 
     const wrapperKeyDown = keyboard ? useCallback(e => {
         e.keyCode === KeyCode.ESC && onCancel(e);
@@ -186,7 +188,7 @@ function Dialog(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <Portal visible={portalVisible}>
+        <Portal visible={portalVisible} getContainer={getContainer}>
             <div>
                 {renderMask}
                 {renderWrapper}
