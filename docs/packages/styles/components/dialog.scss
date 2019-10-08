@@ -53,15 +53,40 @@
     @include e(title) {
         line-height: 24px;
         font-size: $dialog-title-font-size;
-        color: $color-text-primary;
+        color: $dialog-title-font-color;
     }
 
     @include e(body) {
         line-height: 1.5;
         padding: ($dialog-padding-primary + 10px) $dialog-padding-primary;
         font-size: $dialog-content-font-size;
-        color: $color-text-regular;
+        color: $dialog-content-font-color;
         word-break: break-all;
+    }
+
+    @include e(confirm) {
+        padding: 0 10px;
+    }
+
+    @include e(confirm-icon) {
+        float: left;
+        margin-right: 16px;
+        font-size: 22px;
+        color: #faad14;
+    }
+
+    @include e(confirm-title) {
+        display: block;
+        line-height: 1.5;
+        overflow: hidden;
+        font-size: $dialog-confirm-title-font-size;
+        color: $dialog-title-font-color;
+    }
+
+    @include e(confirm-content) {
+        margin: 8px 0 0 38px;
+        font-size: $dialog-content-font-size;
+        color: $dialog-content-font-color;
     }
 
     @include e(footer) {
@@ -71,6 +96,12 @@
         text-align: right;
         & > button + button {
             margin-left: 10px;
+        }
+    }
+
+    @include when(confirm) {
+        .km-dialog__footer {
+            border-top: none;
         }
     }
 

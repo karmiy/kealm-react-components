@@ -453,6 +453,10 @@ $dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
 $dialog-title-font-size: $font-size-large !default;
 $dialog-content-font-size: $font-size-base !default;
 
+
+$dialog-title-font-color: $color-text-primary !default;
+$dialog-content-font-color: $color-text-regular !default;
+
 $dialog-padding-primary: 20px !default;
 $dialog-padding-header: 20px 20px 10px !default;
 $dialog-padding-footer: 10px 20px !default;
@@ -460,3 +464,5 @@ $dialog-padding-footer: 10px 20px !default;
 $dialog-border: $border-width-base $border-style-base $border-color-light !default;
 
 $dialog-mask-background-color: rgba(0, 0, 0, .45) !default;
+
+$dialog-confirm-title-font-size: $font-size-medium !default;

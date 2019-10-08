@@ -22,9 +22,49 @@ function DialogDoc() {
 
     const showConfirm = useCallback(() => {
         Dialog.confirm({
-
+            title: 'Are you sure delete this task?',
+            content: 'This is a paragraph',
         });
-    }, [])
+    }, []);
+
+    const showDeleteConfirm = useCallback(() => {
+        Dialog.confirm({
+            title: 'Are you sure delete this task?',
+            content: 'This is a paragraph',
+            okButtonProps: {
+                type: 'danger',
+            },
+        });
+    }, []);
+
+    const showFooterConfirm = useCallback(() => {
+        const { close } = Dialog.confirm({
+            title: 'Are you sure delete this task?',
+            content: 'This is a paragraph',
+            footer: [
+                <Button key={'cancel'} onClick={() => close()}>Cancel</Button>,
+                <Button key={'ok'} type='success'>Delete</Button>
+            ]
+        });
+    }, []);
+
+    const showAsyncLogic = useCallback(() => {
+        const { close } = Dialog.confirm({
+            title: 'Are you sure delete this task?',
+            content: 'This is a paragraph',
+            onOk: () => {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve();
+                    }, 2000);
+                })
+            },
+            onCancel: () => {
+                close();
+            }
+        });
+    }, []);
+
     return (
         <div className='page-box'>
             <h1>Dialog 对话框</h1>
@@ -33,14 +73,14 @@ function DialogDoc() {
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>Dialog 弹出一个对话框，适合需要定制性更大的场景。</p>
-            <Button type={'primary'} onClick={() => setVisible(v => !v)}>弹出对话框</Button>
+            <Button type={'primary'} onClick={() => setVisible(v => !v)}>Open Dialog</Button>
             {
                 useMemo(() => {
                     return (
-                        <Dialog visible={visible} onCancel={() => setVisible(false)}>
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
+                        <Dialog title={'Basic'} visible={visible} onCancel={() => setVisible(false)}>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
                         </Dialog>
                     )
                 }, [visible, setVisible])
@@ -49,20 +89,20 @@ function DialogDoc() {
             {/* 异步关闭 */}
             <h2>异步关闭</h2>
             <p>点击确定后异步关闭对话框，例如提交表单。</p>
-            <Button type={'primary'} onClick={() => setVisibleAsync(v => !v)}>异步关闭</Button>
+            <Button type={'primary'} onClick={() => setVisibleAsync(v => !v)}>Async logic</Button>
             {
                 useMemo(() => {
                     return (
                         <Dialog
                             visible={visibleAsync}
-                            title={'异步关闭'}
+                            title={'Async Logic'}
                             confirmLoading={loading}
                             onCancel={() => setVisibleAsync(false)}
                             onOk={handleOk}
                         >
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
                         </Dialog>
                     )
                 }, [visibleAsync, setVisibleAsync, loading, handleOk])
@@ -72,22 +112,22 @@ function DialogDoc() {
             <h2>自定义页脚</h2>
             <p>通过配置 footer 自定义页脚的按钮。</p>
             <p>当不需要页脚时，可以将 footer 设为 null。</p>
-            <Button type={'primary'} onClick={() => setVisibleFooter(v => !v)}>自定义页脚</Button>
+            <Button type={'primary'} onClick={() => setVisibleFooter(v => !v)}>Customized footer</Button>
             {
                 useMemo(() => {
                     return (
                         <Dialog
                             visible={visibleFooter}
-                            title={'自定义页脚'}
+                            title={'Custom Footer'}
                             onCancel={() => setVisibleFooter(false)}
                             footer={[
                                 <Button key={'cancel'} onClick={() => setVisibleFooter(false)}>关闭</Button>,
                                 <Button key={'submit'} type='success' onClick={() => setVisibleFooter(false)}>提交</Button>
                             ]}
                         >
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
                         </Dialog>
                     )
                 }, [visibleFooter, setVisibleFooter])
@@ -96,20 +136,20 @@ function DialogDoc() {
             {/* 页脚按钮属性 */}
             <h2>页脚按钮属性</h2>
             <p>传入 okButtonProps 和 cancelButtonProps 可分别自定义确定按钮和取消按钮的 props。</p>
-            <Button type={'primary'} onClick={() => setVisibleBtnProps(v => !v)}>页脚按钮属性</Button>
+            <Button type={'primary'} onClick={() => setVisibleBtnProps(v => !v)}>Customized button props</Button>
             {
                 useMemo(() => {
                     return (
                         <Dialog
                             visible={visibleBtnProps}
-                            title={'页脚按钮属性'}
+                            title={'Customized Button Props'}
                             onCancel={() => setVisibleBtnProps(false)}
                             okButtonProps={{disabled: true}}
                             cancelButtonProps={{disabled: true}}
                         >
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
-                            <p>这是一段话</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
                         </Dialog>
                     )
                 }, [visibleBtnProps, setVisibleBtnProps])
@@ -118,7 +158,16 @@ function DialogDoc() {
             {/* 确认对话框 */}
             <h2>确认对话框</h2>
             <p>使用 confirm() 可以快捷地弹出确认框。</p>
-            <Button onClick={showConfirm}>Confirm</Button>
+            {useMemo(() => {
+                return (
+                    <>
+                        <Button onClick={showConfirm}>Confirm</Button>
+                        <Button type='danger' plain onClick={showDeleteConfirm}>Delete</Button>
+                        <Button type='primary' plain onClick={showFooterConfirm}>Customized footer</Button>
+                        <Button plain onClick={showAsyncLogic}>Async logic</Button>
+                    </>
+                )
+            }, [showConfirm, showDeleteConfirm, showFooterConfirm])}
 
             {/* API */}
             {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}

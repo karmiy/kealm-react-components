@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
+import React, { Children, cloneElement, useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
 import { DialogProps, DialogDefaultProps } from './interface';
 import Button from '../button';
 import Icon from '../icon';
@@ -9,6 +9,9 @@ import Mask from './mask';
 import { useContextConf, useClassName, useDidUpdate } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import KeyCode from 'utils/common/keyCode';
+
+/* 销毁对话框的函数 */
+export const destroyFns = [];
 
 let mousePosition = null;
 const getClickPosition = (e) => {
@@ -112,6 +115,8 @@ function Dialog(props) {
     // ---------------------------------- render mini chunk ----------------------------------
     // dialog-header
     const renderDialogHeader = useMemo(() => {
+        if(title === null) return null;
+
         return (
             <div className={`${componentCls}__header`}>
                 <span className={`${componentCls}__title`}>{title}</span>
@@ -165,13 +170,13 @@ function Dialog(props) {
     // render-dialog
     const renderDialog = useMemo(() => {
         return (
-            <div role="dialog" className={dialogClassNames} ref={dialogRef}>
+            <div role="dialog" className={dialogClassNames} ref={dialogRef} {...others}>
                 {renderDialogHeader}
                 {renderDialogBody}
                 {renderDialogFooter}
             </div>
         )
-    }, [dialogClassNames, renderDialogHeader, renderDialogBody, renderDialogFooter]);
+    }, [dialogClassNames, renderDialogHeader, renderDialogBody, renderDialogFooter, others]);
 
     // render-dialog-wrapper
     const renderWrapper = useMemo(() => {
