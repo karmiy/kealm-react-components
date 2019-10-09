@@ -6,11 +6,12 @@
     box-sizing: border-box;
     position: relative;
     width: 520px;
-    margin: 0 auto 50px;
+    margin: 0 auto;
     top: 100px;
     border-radius: $border-radius-base;
     background-color: $dialog-background-color;
     box-shadow: $dialog-box-shadow;
+    text-align: left;
 
     @include e(wrapper) {
         position: fixed;
@@ -21,6 +22,9 @@
         overflow: auto;
         margin: 0;
         z-index: $z-index-extremely-large;
+        text-align: center;
+
+        @include utils-vertical-center;
     }
 
     @include e(header) {
@@ -134,16 +138,9 @@
 
     // 内容居中布局
     @include m(center) {
-        text-align: center;
-
-        @include e(body) {
-            padding: 25px ($dialog-padding-primary + 5px) 30px;
-            text-align: initial;
-        }
-
-        @include e(footer) {
-            text-align: inherit;
-        }
+        display: inline-block;
+        top: 0;
+        vertical-align: middle;
     }
 }
 

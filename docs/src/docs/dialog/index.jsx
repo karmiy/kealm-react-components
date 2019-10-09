@@ -12,6 +12,9 @@ function DialogDoc() {
 
     const [visibleBtnProps, setVisibleBtnProps] = useState(false);
 
+    const [visibleCustomTop, setVisibleCustomTop] = useState(false);
+    const [visibleCenter, setVisibleCenter] = useState(false);
+
     const handleOk = useCallback(() => {
         setLoading(true);
         setTimeout(() => {
@@ -146,7 +149,7 @@ function DialogDoc() {
                     title: 'This is a notification message',
                     content: <Button plain onClick={Dialog.destroyAll}>Click to destroy all</Button>,
                 });
-            }, i * 500);
+            }, i * 500 + 100);
         }
     }, [])
 
@@ -238,6 +241,45 @@ function DialogDoc() {
                         </Dialog>
                     )
                 }, [visibleBtnProps, setVisibleBtnProps])
+            }
+
+            {/* 自定义位置 */}
+            <h2>自定义位置</h2>
+            <p>使用 center 或类似 style.top 的样式来设置对话框位置。</p>
+            <Button type={'primary'} onClick={() => setVisibleCustomTop(v => !v)}>Dialog at 20px to Top</Button>
+            <Button type={'primary'} onClick={() => setVisibleCenter(v => !v)}>Vertically centered dialog</Button>
+            {
+                useMemo(() => {
+                    return (
+                        <Dialog
+                            visible={visibleCustomTop}
+                            title={'20px to Top'}
+                            style={{top: '20px'}}
+                            onCancel={() => setVisibleCustomTop(false)}
+                        >
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                        </Dialog>
+                    )
+                }, [visibleCustomTop, setVisibleCustomTop])
+            }
+
+            {
+                useMemo(() => {
+                    return (
+                        <Dialog
+                            visible={visibleCenter}
+                            title={'Vertically centered dialog'}
+                            center
+                            onCancel={() => setVisibleCenter(false)}
+                        >
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                            <p>This is a paragraph</p>
+                        </Dialog>
+                    )
+                }, [visibleCenter, setVisibleCenter])
             }
 
             {/* 确认对话框 */}

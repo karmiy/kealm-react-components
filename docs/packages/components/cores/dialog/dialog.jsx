@@ -6,11 +6,11 @@ import { Portal } from '../../common';
 import { ZoomTransition, FadeTransition } from '../transition';
 import { RenderWrapper } from '../../common';
 import Mask from './mask';
-import { useContextConf, useClassName } from 'hooks';
+import { useContextConf, useClassName, useDidUpdate } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import KeyCode from 'utils/common/keyCode';
 
-/* 销毁对话框的函数 */
+/* Destroy dialog function */
 export const destroyFns = [];
 
 let mousePosition = null;
@@ -19,9 +19,8 @@ const getClickPosition = (e) => {
         x: e.pageX,
         y: e.pageY,
     };
-    // 100ms 内发生过点击事件，则从点击位置动画展示
-    // 否则直接 zoom 展示
-    // 这样可以兼容非点击方式展开
+    // Click event occurred within 100ms, then animation display from click position
+    // Otherwise, zoom displays
     setTimeout(() => (mousePosition = null), 100);
 };
 
@@ -33,10 +32,16 @@ function Dialog(props) {
         children,
         title,
         visible,
+        bodyStyle,
         destroyOnClose,
         keyboard,
         confirmLoading,
+        mask,
         maskClosable,
+        maskClassName,
+        wrapClassName,
+        closable,
+        closeIcon,
         footer,
         okText,
         cancelText,
@@ -45,6 +50,7 @@ function Dialog(props) {
         okButtonProps,
         cancelButtonProps,
         getContainer,
+        center,
         onOk,
         onCancel,
         afterClose,
@@ -55,8 +61,14 @@ function Dialog(props) {
     // ---------------------------------- class ----------------------------------
     const dialogClassNames = useClassName({
         [componentCls]: true,
+        [`${componentCls}--center`]: center,
         [className]: className,
-    }, [className, componentCls]);
+    }, [className, componentCls, center]);
+
+    const wrapperClassNames = useClassName({
+        [`${componentCls}__wrapper`]: true,
+        [wrapClassName]: wrapClassName,
+    }, [componentCls, wrapClassName]);
 
     // ---------------------------------- logic code ----------------------------------
 
@@ -65,40 +77,57 @@ function Dialog(props) {
 
     const wrapperRef = useRef(null);
     const dialogRef = useRef(null);
+    const lastFocusNode = useRef(null); // The element of the last focus
 
     useMemo(() => {
-        // 初始是隐藏，先不创建portal，打开后创建
-        // 初始是显示，按初始直接创建
+        // Initially hidden, don't create portal, and it's created when opened
+        // Initially display, the display is created directly
         if(visible && portalVisible !== visible) setPortalVisible(visible);
     }, [visible, setPortalVisible]);
 
     useMemo(() => {
-        // 状态变为可见时，立即显示wrapper
+        // When the state becomes visible, the wrapper is displayed immediately
         if(visible) setWrapperVisible(visible);
     }, [visible, setWrapperVisible]);
 
-    // 改变dialog入场位置
+    // Change the entry position of dialog
+    // Core: Here you can get the initial stage of animation preparation.
     useLayoutEffect(() => {
         if(visible) {
-            const wrapperNode = wrapperRef.current;
             const dialogNode = dialogRef.current;
-            // wrapper聚焦，使之可以触发keydown事件
-            keyboard && wrapperNode.focus();
 
-            // Did update可以拿到还未缩小的dialog
             if(mousePosition) {
-                // 如果是通过点击弹框，改变入场位置
+                // If you click the button to pop up dialog, change the entry position
                 const transformOrigin = {
                     x: mousePosition.x - dialogNode.offsetLeft,
                     y: mousePosition.y - dialogNode.offsetTop,
                 }
                 dialogNode.style.transformOrigin = `${transformOrigin.x}px ${transformOrigin.y}px`;
             }else {
-                // 如果是手动弹框，直接zoom入场
+                // If dialog is popped up manually, zoom enters directly
                 dialogNode.style.transformOrigin = '';
             }
         }
-    }, [visible, keyboard]);
+    }, [visible]);
+
+    // Dialog focus, storing the last focus element
+    useLayoutEffect(() => {
+        if(visible) {
+            const wrapperNode = wrapperRef.current;
+            lastFocusNode.current = document.activeElement;
+
+            // Used to trigger Keydown events
+            wrapperNode.focus();
+        }
+    }, [visible]);
+
+    // Focus on the last dialog when closed
+    useDidUpdate(() => {
+        if(!visible) {
+            const lastOutSideFocusNode = lastFocusNode.current;
+            lastOutSideFocusNode && lastOutSideFocusNode.focus && lastOutSideFocusNode.focus();
+        }
+    }, [visible])
 
     // ---------------------------------- event ----------------------------------
     const onZoomEnd = useCallback(v => {
@@ -115,6 +144,19 @@ function Dialog(props) {
     }, [onCancel]) : null;
 
     // ---------------------------------- render mini chunk ----------------------------------
+    // dialog-header-closable
+    const renderDialogHeaderClose = useMemo(() => {
+        if(!closable) return null;
+
+        const _closeIcon = closeIcon || <Icon type={'close'} />;
+
+        return (
+            <button className={`${componentCls}__header-btn`} onClick={onCancel}>
+                {_closeIcon}
+            </button>
+        )
+    }, [componentCls, closable, closeIcon, onCancel]);
+
     // dialog-header
     const renderDialogHeader = useMemo(() => {
         if(title === null) return null;
@@ -122,21 +164,19 @@ function Dialog(props) {
         return (
             <div className={`${componentCls}__header`}>
                 <span className={`${componentCls}__title`}>{title}</span>
-                <button className={`${componentCls}__header-btn`} onClick={onCancel}>
-                    <Icon type={'close'} />
-                </button>
+                {renderDialogHeaderClose}
             </div>
         )
-    }, [componentCls, title, onCancel]);
+    }, [componentCls, title]);
 
     // dialog-body
     const renderDialogBody = useMemo(() => {
         return (
-            <div className={`${componentCls}__body`}>
+            <div className={`${componentCls}__body`} style={bodyStyle}>
                 {children}
             </div>
         )
-    }, [componentCls, children]);
+    }, [componentCls, children, bodyStyle]);
 
     // dialog-footer-buttons-default
     const renderDefaultFooterButtons = useMemo(() => {
@@ -166,12 +206,14 @@ function Dialog(props) {
     // ---------------------------------- render chunk ----------------------------------
     // render-mask
     const renderMask = useMemo(() => {
+        if(!mask) return null;
+
         return (
             <FadeTransition visible={visible} appear unmountOnExit={destroyOnClose}>
-                <Mask />
+                <Mask className={maskClassName} />
             </FadeTransition>
         )
-    }, [visible, destroyOnClose]);
+    }, [mask, maskClassName, visible, destroyOnClose]);
 
     // render-dialog
     const renderDialog = useMemo(() => {
@@ -188,14 +230,14 @@ function Dialog(props) {
     const renderWrapper = useMemo(() => {
         return (
             <RenderWrapper visible={wrapperVisible} unmountOnExit={destroyOnClose}>
-                <div tabIndex={-1} ref={wrapperRef} className={`${componentCls}__wrapper`} onKeyDown={wrapperKeyDown} onClick={maskClick}>
+                <div tabIndex={-1} ref={wrapperRef} className={wrapperClassNames} onKeyDown={wrapperKeyDown} onClick={maskClick}>
                     <ZoomTransition visible={visible} appear visibleChange={onZoomEnd}>
                         {renderDialog}
                     </ZoomTransition>
                 </div>
             </RenderWrapper>
         )
-    }, [componentCls, wrapperVisible, destroyOnClose, wrapperKeyDown, maskClick, visible, onZoomEnd, renderDialog]);
+    }, [wrapperClassNames, wrapperVisible, destroyOnClose, wrapperKeyDown, maskClick, visible, onZoomEnd, renderDialog]);
 
     // ---------------------------------- render ----------------------------------
     return (
