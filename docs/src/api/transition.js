@@ -19,6 +19,13 @@ export const commonProps = [
         type: 'boolean',
         option: '--',
         default: 'false',
+    },
+    {
+        param: 'exclusive',
+        des: '是否只能有一组动画',
+        type: 'boolean',
+        option: '--',
+        default: 'true',
     }
 ]
 

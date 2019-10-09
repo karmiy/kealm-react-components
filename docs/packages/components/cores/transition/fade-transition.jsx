@@ -9,6 +9,7 @@ function FadeTransition(props) {
         visible,
         appear,
         unmountOnExit,
+        exclusive,
         visibleChange,
         transitionName
     } = props;
@@ -35,7 +36,7 @@ function FadeTransition(props) {
     return (
         <Motion
             showProp={'visible'}
-            exclusive
+            exclusive={exclusive}
             transitionName={transitionName}
             transitionAppear={appear}
             onEnd={onEnd}

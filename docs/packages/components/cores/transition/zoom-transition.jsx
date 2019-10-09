@@ -11,6 +11,7 @@ function ZoomTransition(props) {
         visible,
         appear,
         unmountOnExit,
+        exclusive,
         visibleChange,
         transitionName,
         position
@@ -41,7 +42,7 @@ function ZoomTransition(props) {
     return (
         <Motion
             showProp={'visible'}
-            exclusive
+            exclusive={exclusive}
             transitionName={_transitionName}
             transitionAppear={appear}
             onEnd={onEnd}

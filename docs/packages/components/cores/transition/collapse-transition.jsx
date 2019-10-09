@@ -172,6 +172,7 @@ function CollapseTransition(props) {
         visible,
         appear: isAppear,
         unmountOnExit,
+        exclusive,
         visibleChange
     } = props;
 
@@ -249,7 +250,7 @@ function CollapseTransition(props) {
             animation={animation}
             transitionAppear={isAppear}
             onEnd={onEnd}
-            exclusive
+            exclusive={exclusive}
         >
             {renderChildren}
         </Motion>

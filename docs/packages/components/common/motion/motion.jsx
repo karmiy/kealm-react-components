@@ -189,17 +189,7 @@ function Motion(props) {
         // Exclusive mode (only one set of animations at a time), stop the previous one directly
         if(exclusive) {
             Object.keys(currentlyAnimatingKeysRef.current).forEach((key) => {
-                // If the motion of the node, before and after the state unchanged, can not cancel
-                let stoppable = true;
-                const prevChild = prevChildren.find(child => child.key === key);
-                const nextChild = nextChildren.find(child => child.key === key);
-                if(showProp) {
-                    prevChild.props[prevChild] === nextChild.props[prevChild] && (stoppable = false);
-                }else {
-                    ((prevChild && nextChild) || (!prevChild && !nextChild)) && (stoppable = false);
-                }
-                stoppable && stop(key);
-                !stoppable && (currentlyAnimatingPropsRef.current[key] = propsStore.current);
+                stop(key);
             });
         }
 

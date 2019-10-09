@@ -7,6 +7,7 @@ export const CommonTransitionProps = {
     visible: PropTypes.bool, // Whether visible
     appear: PropTypes.bool, // Whether to enter perform an animation
     unmountOnExit: PropTypes.bool, // Whether unmount dom when component exit
+    exclusive: PropTypes.bool,
     visibleChange: PropTypes.func,
 }
 
@@ -14,6 +15,7 @@ export const CommonTransitionDefaultProps = {
     visible: false,
     appear: false,
     unmountOnExit: false,
+    exclusive: true,
     visibleChange: noop,
 }
 
