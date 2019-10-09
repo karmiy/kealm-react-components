@@ -148,7 +148,7 @@ function DialogDoc() {
                 });
             }, i * 500);
         }
-    })
+    }, [])
 
     return (
         <div className='page-box'>
