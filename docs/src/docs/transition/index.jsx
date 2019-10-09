@@ -38,12 +38,12 @@ function TransitionDoc() {
                         {useMemo(() => <div className="transition-demo" >fade-base</div>, [])}
                     </FadeTransition>
                 </Col>
-                <Col span={5}>
+                <Col span={5} className={'transition-demo-box'}>
                     <FadeTransition visible={fade} unmountOnExit>
                         {useMemo(() => <div className="transition-demo" >fade-unmount</div>, [])}
                     </FadeTransition>
                 </Col>
-                <Col span={5}>
+                <Col span={5} className={'transition-demo-box'}>
                     <FadeTransition visible={fade} appear>
                         {useMemo(() => <div className="transition-demo" >fade-appear</div>, [])}
                     </FadeTransition>
@@ -63,12 +63,12 @@ function TransitionDoc() {
                         {useMemo(() => <div className="transition-demo" >collapse-base</div>, [])}
                     </CollapseTransition>
                 </Col>
-                <Col span={5}>
+                <Col span={5} className={'transition-demo-box'}>
                     <CollapseTransition visible={collapse} unmountOnExit>
                         {useMemo(() => <div className="transition-demo" >collapse-unmount</div>, [])}
                     </CollapseTransition>
                 </Col>
-                <Col span={5}>
+                <Col span={5} className={'transition-demo-box'}>
                     <CollapseTransition visible={collapse} appear>
                         {useMemo(() => <div className="transition-demo" >collapse-appear</div>, [])}
                     </CollapseTransition>

@@ -98,9 +98,10 @@ const cssAnimation = (node, transitionName, endCallback) => {
 
         Event.removeEndEventListener(node, node.kmEndListener);
         node.kmEndListener = null;
-        // The end callback is executed only at the end of the transition
-        if (e && end) {
-            end(node);
+        // The end callback  // XX------ is executed only at the end of the transition
+        // The second parameter indicates whether it is triggered by the end of the animation
+        if (end) {
+            end(node, !!e);
         }
     };
 
