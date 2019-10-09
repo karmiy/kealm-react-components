@@ -14,6 +14,8 @@ export const DialogProps = {
     footer: PropTypes.node,
     okText: PropTypes.string,
     cancelText: PropTypes.string,
+    showOk: PropTypes.bool,
+    showCancel: PropTypes.bool,
     okButtonProps: PropTypes.object,
     cancelButtonProps: PropTypes.object,
     getContainer: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -31,7 +33,27 @@ export const DialogDefaultProps = {
     maskClosable: true,
     okText: '确定',
     cancelText: '取消',
+    showOk: true,
+    showCancel: true,
     onOk: noop,
     onCancel: noop,
     afterClose: noop,
+}
+
+/* confirm-props */
+export const ConfirmProps = {
+    ...DialogProps,
+    content: PropTypes.node,
+    icon: PropTypes.node,
+    type: PropTypes.string,
+    closeAfterOk: PropTypes.bool,
+    close: PropTypes.func,
+    afterOk: PropTypes.func,
+}
+
+export const ConfirmDefaultProps = {
+    ...DialogDefaultProps,
+    closeAfterOk: true,
+    close: noop,
+    afterOk: noop,
 }

@@ -8,7 +8,7 @@
     width: 520px;
     margin: 0 auto 50px;
     top: 100px;
-    border-radius: $border-radius-small;
+    border-radius: $border-radius-base;
     background-color: $dialog-background-color;
     box-shadow: $dialog-box-shadow;
 
@@ -66,13 +66,37 @@
 
     @include e(confirm) {
         padding: 0 10px;
+
+        & > .km-icon {
+            float: left;
+            margin-right: 16px;
+            font-size: 22px;
+            color: #faad14;
+        }
     }
 
-    @include e(confirm-icon) {
-        float: left;
-        margin-right: 16px;
-        font-size: 22px;
-        color: #faad14;
+    @include e(confirm-info) {
+        & > .km-icon {
+            color: $color-primary;
+        }
+    }
+
+    @include e(confirm-success) {
+        & > .km-icon {
+            color: $color-success;
+        }
+    }
+
+    @include e(confirm-error) {
+        & > .km-icon {
+            color: $color-danger;
+        }
+    }
+
+    @include e(confirm-warning) {
+        & > .km-icon {
+            color: $color-warning;
+        }
     }
 
     @include e(confirm-title) {
@@ -100,6 +124,9 @@
     }
 
     @include when(confirm) {
+        .km-dialog__body {
+            padding-bottom: 10px;
+        }
         .km-dialog__footer {
             border-top: none;
         }

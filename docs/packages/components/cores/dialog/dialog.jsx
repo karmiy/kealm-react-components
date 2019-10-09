@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
 import { DialogProps, DialogDefaultProps } from './interface';
 import Button from '../button';
 import Icon from '../icon';
@@ -6,7 +6,7 @@ import { Portal } from '../../common';
 import { ZoomTransition, FadeTransition } from '../transition';
 import { RenderWrapper } from '../../common';
 import Mask from './mask';
-import { useContextConf, useClassName, useDidUpdate } from 'hooks';
+import { useContextConf, useClassName } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import KeyCode from 'utils/common/keyCode';
 
@@ -40,6 +40,8 @@ function Dialog(props) {
         footer,
         okText,
         cancelText,
+        showOk,
+        showCancel,
         okButtonProps,
         cancelButtonProps,
         getContainer,
@@ -140,11 +142,15 @@ function Dialog(props) {
     const renderDefaultFooterButtons = useMemo(() => {
         return (
             <>
-                <Button onClick={onCancel} {...cancelButtonProps}>{cancelText}</Button>
-                <Button type='primary' loading={confirmLoading} onClick={onOk} {...okButtonProps}>{okText}</Button>
+                <RenderWrapper visible={showCancel} unmountOnExit>
+                    <Button onClick={onCancel} {...cancelButtonProps}>{cancelText}</Button>
+                </RenderWrapper>
+                <RenderWrapper visible={showOk} unmountOnExit>
+                    <Button type='primary' loading={confirmLoading} onClick={onOk} {...okButtonProps}>{okText}</Button>
+                </RenderWrapper>
             </>
         )
-    }, [onOk, onCancel, confirmLoading, okButtonProps, cancelButtonProps, okText, cancelText]);
+    }, [onOk, onCancel, confirmLoading, okButtonProps, cancelButtonProps, showOk, showCancel, okText, cancelText]);
 
     // dialog-footer
     const renderDialogFooter = useMemo(() => {
@@ -170,7 +176,7 @@ function Dialog(props) {
     // render-dialog
     const renderDialog = useMemo(() => {
         return (
-            <div role="dialog" className={dialogClassNames} ref={dialogRef} {...others}>
+            <div key={'dialog'} role="dialog" className={dialogClassNames} ref={dialogRef} {...others}>
                 {renderDialogHeader}
                 {renderDialogBody}
                 {renderDialogFooter}

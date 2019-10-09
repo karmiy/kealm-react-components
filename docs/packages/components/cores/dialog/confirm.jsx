@@ -2,30 +2,48 @@ import React, { useState, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import Dialog, { destroyFns } from './dialog';
 import Icon from '../icon';
-import { useContextConf, useWillUnMount } from 'hooks';
+import { useContextConf, useClassName, useWillUnMount } from 'hooks';
+import { ConfirmProps, ConfirmDefaultProps } from './interface';
 
-const noop = () => {}
 
 function ConfirmDialog(props) {
     const {
+        className,
         title,
-        content,
-        close,
+        content, //
+        close, //
         confirmLoading,
-        onOk = noop,
-        onCancel = noop,
+        icon, //
+        type, //
+        closeAfterOk, //
+        onOk,
+        onCancel,
+        afterOk, //
         ...others
     } = props;
 
     const { componentCls } = useContextConf(`dialog__confirm`);
 
+    // ---------------------------------- class ----------------------------------
+    const dialogClassNames = useClassName({
+        'is-confirm': true,
+        [className]: className,
+    }, [className]);
+
+    const confirmClassNames = useClassName({
+        [componentCls]: true,
+        [`${componentCls}-${type}`]: type,
+    }, [componentCls, type]);
+
+
     const [loading, setLoading] = useState(false);
 
     // ---------------------------------- event ----------------------------------
     let next = useCallback((e, info, status) => {
-        setLoading(false);
-        onCancel(e, info, status);
-    }, [setLoading, onCancel]);
+        status !== undefined && setLoading(false);
+        afterOk(e, info, status);
+        closeAfterOk && close();
+    }, [setLoading, afterOk, closeAfterOk]);
 
     const cancel = useCallback(e => {
         onCancel(e);
@@ -42,26 +60,30 @@ function ConfirmDialog(props) {
                 setLoading(false);
                 next && next(e, err, false);
             });
+        }else {
+            next();
         }
-    }, [onOk, onCancel, setLoading]);
+    }, [onOk, onCancel, setLoading, closeAfterOk]);
 
     // ---------------------------------- logic code ----------------------------------
     useWillUnMount(() => {
         next = null;
     });
 
+    const iconNode = icon || <Icon type={'question-circle'} />;
+
     // ---------------------------------- render ----------------------------------
     return (
         <Dialog
-            className={'is-confirm'}
+            className={dialogClassNames}
             title={null}
             confirmLoading={confirmLoading || loading}
             onOk={ok}
             onCancel={cancel}
             {...others}
         >
-            <div className={`${componentCls}`}>
-                <Icon type={'question-circle'} className={`${componentCls}-icon`} />
+            <div className={confirmClassNames}>
+                {iconNode}
                 <span className={`${componentCls}-title`}>{title}</span>
                 <div className={`${componentCls}-content`}>{content}</div>
             </div>
@@ -69,11 +91,14 @@ function ConfirmDialog(props) {
     )
 }
 
+ConfirmDialog.propTypes = ConfirmProps;
+ConfirmDialog.defaultProps = ConfirmDefaultProps;
+
 export default function confirm(config) {
     const div = document.createElement('div');
     document.body.appendChild(div);
     let currentConfig = { ...config, close, visible: true };
-    
+
     function destroy() {
         const unmountResult = ReactDOM.unmountComponentAtNode(div);
 
@@ -116,7 +141,7 @@ export default function confirm(config) {
     destroyFns.push(close);
 
     return {
-        close,
+        destroy: close,
         update,
     }
 }

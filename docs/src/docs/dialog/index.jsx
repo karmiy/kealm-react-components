@@ -38,32 +38,117 @@ function DialogDoc() {
     }, []);
 
     const showFooterConfirm = useCallback(() => {
-        const { close } = Dialog.confirm({
+        const { destroy } = Dialog.confirm({
             title: 'Are you sure delete this task?',
             content: 'This is a paragraph',
             footer: [
-                <Button key={'cancel'} onClick={() => close()}>Cancel</Button>,
+                <Button key={'cancel'} onClick={() => destroy()}>Cancel</Button>,
                 <Button key={'ok'} type='success'>Delete</Button>
             ]
         });
     }, []);
 
     const showAsyncLogic = useCallback(() => {
-        const { close } = Dialog.confirm({
+        Dialog.confirm({
             title: 'Are you sure delete this task?',
             content: 'This is a paragraph',
             onOk: () => {
                 return new Promise(resolve => {
                     setTimeout(() => {
-                        resolve();
+                        resolve('success');
                     }, 2000);
                 })
             },
-            onCancel: () => {
-                close();
+            afterOk: (e, info, status) => {
+                console.log(e, info, status);
             }
         });
     }, []);
+
+    const info = useCallback(() => {
+       Dialog.info({
+           title: 'This is a notification message',
+           content: (
+               <>
+                   <p>This is a paragraph</p>
+                   <p>This is a paragraph</p>
+                   <p>This is a paragraph</p>
+               </>
+           ),
+       });
+    }, []);
+
+    const success = useCallback(() => {
+        Dialog.success({
+            title: 'This is a notification message',
+            content: (
+                <>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                </>
+            ),
+        });
+    }, []);
+
+    const error = useCallback(() => {
+        Dialog.error({
+            title: 'This is a notification message',
+            content: (
+                <>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                </>
+            ),
+        });
+    }, []);
+
+    const warning = useCallback(() => {
+        Dialog.warning({
+            title: 'This is a notification message',
+            content: (
+                <>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                </>
+            ),
+        });
+    }, []);
+
+    const showCloseTimeout = useCallback(() => {
+        let seconds = 5;
+        const { destroy, update } = Dialog.success({
+            title: 'This is a notification message',
+            content: `It will be destroyed after ${seconds} second.`,
+            onOk: () => {
+                clearInterval(timer);
+                destroy();
+            }
+        });
+        const timer = setInterval(() => {
+            seconds--;
+            update({
+                content: `It will be destroyed after ${seconds} second.`,
+            })
+            if(seconds === 0) {
+                clearInterval(timer);
+                destroy();
+            }
+        }, 1000);
+    }, [])
+
+    const showDestroyAll = useCallback(() => {
+        for(let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                Dialog.confirm({
+                    title: 'This is a notification message',
+                    content: <Button plain onClick={Dialog.destroyAll}>Click to destroy all</Button>,
+                });
+            }, i * 500);
+        }
+    })
 
     return (
         <div className='page-box'>
@@ -161,13 +246,49 @@ function DialogDoc() {
             {useMemo(() => {
                 return (
                     <>
-                        <Button onClick={showConfirm}>Confirm</Button>
-                        <Button type='danger' plain onClick={showDeleteConfirm}>Delete</Button>
-                        <Button type='primary' plain onClick={showFooterConfirm}>Customized footer</Button>
+                        <Button plain onClick={showConfirm}>Confirm</Button>
+                        <Button plain onClick={showDeleteConfirm}>Delete</Button>
+                        <Button plain onClick={showFooterConfirm}>Customized footer</Button>
                         <Button plain onClick={showAsyncLogic}>Async logic</Button>
                     </>
                 )
             }, [showConfirm, showDeleteConfirm, showFooterConfirm])}
+
+            {/* 信息提示 */}
+            <h2>信息提示</h2>
+            <p>各种类型的信息提示，只提供一个按钮用于关闭。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <Button type={'primary'} plain onClick={info}>Info</Button>
+                        <Button type={'success'} plain onClick={success}>Success</Button>
+                        <Button type={'danger'} plain onClick={error}>Error</Button>
+                        <Button type={'warning'} plain onClick={warning}>Warning</Button>
+                    </>
+                )
+            }, [info, success, error, warning])}
+
+            {/* 手动更新和移除 */}
+            <h2>手动更新和移除</h2>
+            <p>手动更新和关闭 Dialog.method 方式创建的对话框。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <Button plain onClick={showCloseTimeout}>Close in 5s</Button>
+                    </>
+                )
+            }, [info, success, error, warning])}
+
+            {/* 销毁确认对话框 */}
+            <h2>销毁确认对话框</h2>
+            <p>使用 Dialog.destroyAll() 可以销毁弹出的确认窗。通常用于路由监听当中，处理路由前进、后退不能销毁确认对话框的问题。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <Button plain onClick={showDestroyAll}>Destroy all</Button>
+                    </>
+                )
+            }, [info, success, error, warning])}
 
             {/* API */}
             {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}
