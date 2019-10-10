@@ -1,44 +1,23 @@
 /* 基本用法 */
 export const CodeBasic =
-`    import { Button } from "@kealm/react-components";
+`    import { useState } from 'react';
+    import { Dialog, Button } from "@kealm/react-components";
     
-    ReactDom.render(
-        <div>
-            <div className="detail-box">
-                <Button>默认按钮</Button>
-                <Button type='primary'>基本按钮</Button>
-                <Button type='success'>成功按钮</Button>
-                <Button type='info'>信息按钮</Button>
-                <Button type='warning'>警告按钮</Button>
-                <Button type='danger'>危险按钮</Button>
+    
+    function Demo() {
+        const [visible, setVisible] = useState(false);
+        
+        return (
+            <div>
+                <Button type={'primary'} onClick={() => setVisible(v => !v)}>Open Dialog</Button>
+                <Dialog title={'Basic'} visible={visible} onCancel={() => setVisible(false)}>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                    <p>This is a paragraph</p>
+                </Dialog>
             </div>
-            <div className="detail-box">
-                <Button plain>默认按钮</Button>
-                <Button type='primary' plain>基本按钮</Button>
-                <Button type='success' plain>成功按钮</Button>
-                <Button type='info' plain>信息按钮</Button>
-                <Button type='warning' plain>警告按钮</Button>
-                <Button type='danger' plain>危险按钮</Button>
-            </div>
-            <div className="detail-box">
-                <Button round>默认按钮</Button>
-                <Button type='primary' round>基本按钮</Button>
-                <Button type='success' round>成功按钮</Button>
-                <Button type='info' round>信息按钮</Button>
-                <Button type='warning' round>警告按钮</Button>
-                <Button type='danger' round>危险按钮</Button>
-            </div>
-            <div className="detail-box">
-                <Button circle icon='star-full'></Button>
-                <Button type='primary' circle icon='droplet'></Button>
-                <Button type='success' circle icon='phone'></Button>
-                <Button type='info' circle icon='alarm'></Button>
-                <Button type='warning' circle icon='power'></Button>
-                <Button type='danger' circle icon='heart'></Button>
-            </div>
-        <div/>,
-        mountNode
-    );`
+        )
+    }`
 
 
 /* 按钮尺寸 */

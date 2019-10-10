@@ -14,7 +14,7 @@ function HighLight(props) {
 
     (!collapsible || expand ? useLayoutEffect : useEffect)(() => {
         hljs.highlightBlock(ref.current);
-    }, [])
+    }, []);
 
     const hocWrap = useCallback((children) => {
         return collapsible ?

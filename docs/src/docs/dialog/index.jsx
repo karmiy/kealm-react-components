@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useLayoutEffect } from 'react';
 import { Dialog, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { dialogProps, dialogEvents, confirmProps, confirmEvents } from 'api/dialog';
-import { CodeMethod } from 'demos/dialog';
+import { CodeBasic, CodeMethod } from 'demos/dialog';
 
 function DialogDoc() {
     const [visible, setVisible] = useState(false);
@@ -163,18 +163,22 @@ function DialogDoc() {
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>Dialog 弹出一个对话框，适合需要定制性更大的场景。</p>
+            <div className="detail-box">
             <Button type={'primary'} onClick={() => setVisible(v => !v)}>Open Dialog</Button>
-            {
-                useMemo(() => {
-                    return (
-                        <Dialog title={'Basic'} visible={visible} onCancel={() => setVisible(false)}>
-                            <p>This is a paragraph</p>
-                            <p>This is a paragraph</p>
-                            <p>This is a paragraph</p>
-                        </Dialog>
-                    )
-                }, [visible, setVisible])
-            }
+                {
+                    useMemo(() => {
+                        return (
+                            <Dialog title={'Basic'} visible={visible} onCancel={() => setVisible(false)}>
+                                <p>This is a paragraph</p>
+                                <p>This is a paragraph</p>
+                                <p>This is a paragraph</p>
+                            </Dialog>
+                        )
+                    }, [visible, setVisible])
+                }
+            </div>
+            {useMemo(() => <HighLight code={CodeBasic} />, [])}
+
 
             {/* 异步关闭 */}
             <h2>异步关闭</h2>

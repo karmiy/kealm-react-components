@@ -1,8 +1,9 @@
-import React, { Children, useMemo, useCallback } from 'react';
+import React, { Children, useMemo, useCallback, useRef } from 'react';
 import { addClass, getStyle, removeClass } from 'utils/common/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
 import { Motion, RenderWrapper } from '../../common';
 import { motionAnimation } from 'utils/css-animation';
+import { useDidMount } from 'hooks';
 
 function calActualScrollHeight(el) {
     const invisible = getStyle(el, 'display') === 'none';
@@ -13,6 +14,22 @@ function calActualScrollHeight(el) {
     const scrollHeight = _el.scrollHeight;
     document.body.removeChild(_el);
     return scrollHeight;
+}
+
+const _MotionTail = (el) => {
+    if(el._motionTail) return el._motionTail;
+
+    return el._motionTail = {
+        get isEntering() {
+            return el._inEnter;
+        },
+        get isExiting() {
+            return el._inExit;
+        },
+        toEnter: () => el._inEnter = true,
+        toExit: () => el._inExit = true,
+        stop: () => {el._inEnter = false; el._inExit = false},
+    }
 }
 
 // ---------------------------------- transition action ----------------------------------
@@ -50,7 +67,7 @@ const _Transition = {
         el.dataset.oldBorderBottom = el.style.borderBottomWidth;
 
         // spec store: real paddingTop、paddingBottom、borderTopWidth、borderBottomWidth、box-sizing
-        // It's good that even display: none can get the correct value
+        // Prevent getting the wrong value when it's display: none
         // The actual scrollHeight is stored to prevent quick switching during the rolling process, resulting in the wrong instant of scrollHeight obtained at enter
         el._scrollHeight = calActualScrollHeight(el);
         el._paddingTop = getStyle(el, 'padding-top');
@@ -65,7 +82,7 @@ const _Transition = {
         _Transition.validateStore(el);
 
         // console.log('onEnter');
-        el.inMotion = true;
+        _MotionTail(el).toEnter();
 
         el.style.height = '0';
         el.style.paddingTop = '0';
@@ -81,6 +98,29 @@ const _Transition = {
     onEntering(el) {
         // console.log('onEntering');
         if (el.scrollHeight !== 0) {
+            let height = 0;
+            // If it's exiting, the scrollHeight is wrong, because it's instant height
+            // Preventing changes in content height before deployment should not be limited to _scrollHeight
+            if(_MotionTail(el).isExiting) {
+                height = el._isBorderBox ?
+                    el._scrollHeight
+                    + parseFloat(el._borderTop)
+                    + parseFloat(el._borderBottom)
+                    :
+                    el._scrollHeight
+                    - parseFloat(el._paddingTop)
+                    - parseFloat(el._paddingBottom);
+                el.style.height = `${height}px`;
+            }else {
+                height = el._isBorderBox ?
+                    el.scrollHeight
+                    + parseFloat(el._paddingTop)
+                    + parseFloat(el._paddingBottom)
+                    + parseFloat(el._borderTop)
+                    + parseFloat(el._borderBottom)
+                    :
+                    el.scrollHeight;
+            }
             /*const height = el._isBorderBox ?
                 el.scrollHeight
                 + parseFloat(el._paddingTop)
@@ -89,14 +129,14 @@ const _Transition = {
                 + parseFloat(el._borderBottom)
                 :
                 el.scrollHeight;*/
-            const height = el._isBorderBox ?
+            /*const height = el._isBorderBox ?
                 el._scrollHeight
                 + parseFloat(el._borderTop)
                 + parseFloat(el._borderBottom)
                 :
                 el._scrollHeight
                 - parseFloat(el._paddingTop)
-                - parseFloat(el._paddingBottom);
+                - parseFloat(el._paddingBottom);*/
             el.style.height = `${height}px`;
         } else {
             el.style.height = '';
@@ -117,7 +157,7 @@ const _Transition = {
         el.style.borderBottomWidth = el.dataset.oldBorderBottom;
         el.style.overflow = el.dataset.oldOverflow;
 
-        el.inMotion = false;
+        _MotionTail(el).stop();
     },
     onExit(el) {
         // prevent props of unmountOnExit
@@ -126,9 +166,9 @@ const _Transition = {
         // console.log('onExit');
 
         // Before each complete exit, record the current scrollHeight to prevent child element height from changing
-        if(!el.inMotion) el._scrollHeight = el.scrollHeight;
+        if(!_MotionTail(el).isEntering) el._scrollHeight = el.scrollHeight;
 
-        el.inMotion = true;
+        _MotionTail(el).toExit();
 
         const height = el._isBorderBox ?
             el.scrollHeight
@@ -162,7 +202,7 @@ const _Transition = {
         el.style.borderTopWidth = el.dataset.oldBorderTop;
         el.style.borderBottomWidth = el.dataset.oldBorderBottom;
 
-        el.inMotion = false;
+        _MotionTail(el).stop();
     },
 }
 
@@ -173,7 +213,8 @@ function CollapseTransition(props) {
         appear: isAppear,
         unmountOnExit,
         exclusive,
-        visibleChange
+        visibleChange,
+        handler
     } = props;
 
     const {
@@ -183,12 +224,28 @@ function CollapseTransition(props) {
         onEntered,
         onExit,
         onExiting,
-        onExited
+        onExited,
+        initStore
     } = _Transition;
 
+    // ---------------------------------- logic code ----------------------------------
+    const elRef = useRef(null);
+
+    useDidMount(() => {
+        handler && (handler.current = {
+            getEle() {
+              return elRef.current;
+            },
+            refreshEle() {
+                initStore(this.getEle());
+            }
+        });
+    });
 
     // ---------------------------------- event ----------------------------------
     const init = useCallback(el => {
+        // store nativeElement
+        elRef.current = el;
         onInit(el, unmountOnExit);
     }, [unmountOnExit]);
 
