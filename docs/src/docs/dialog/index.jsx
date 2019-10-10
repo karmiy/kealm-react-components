@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { Dialog, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { dialogProps, dialogEvents, confirmProps, confirmEvents } from 'api/dialog';
+import { CodeMethod } from 'demos/dialog';
 
 function DialogDoc() {
     const [visible, setVisible] = useState(false);
@@ -333,7 +335,26 @@ function DialogDoc() {
             }, [info, success, error, warning])}
 
             {/* API */}
-            {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}
+            {useMemo(() => <ApiTable title='Dialog' propsList={dialogProps} eventsList={dialogEvents} />, [])}
+            <h2>Dialog methods</h2>
+            <p>包括：</p>
+            <ul>
+                <li>Dialog.confirm</li>
+                <li>Dialog.info</li>
+                <li>Dialog.success</li>
+                <li>Dialog.error</li>
+                <li>Dialog.warning</li>
+            </ul>
+            <p>Dialog methods 均为一个函数，参数为Object</p>
+            <p>Dialog methods 的参数与 Dialog 的 API一致，并有如下补充：</p>
+            {useMemo(() => <ApiTable title='Dialog Method' propsList={confirmProps} eventsList={confirmEvents} />, [])}
+            <p>Dialog methods 调用后，会返回一个引用，可以通过该引用更新和销毁弹窗。</p>
+            <p>当打开多个窗口，需要全部销毁时，可以调用 Dialog.destroyAll 一次性销毁所有对话框。</p>
+            {useMemo(() => {
+                return (
+                    <HighLight collapsible={false} code={CodeMethod} />
+                )
+            }, [])}
         </div>
     )
 }

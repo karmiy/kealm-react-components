@@ -6,7 +6,7 @@ function ApiTable(props) {
     const { title, propsList, eventsList } = props;
     const propsTable = propsList && (
         <>
-            <h2>{title} Props</h2>
+            {title ? <h2>{title} Props</h2> : null}
             <table>
                 <thead>
                     <tr>
@@ -24,14 +24,21 @@ function ApiTable(props) {
                             <td>{prop.des}</td>
                             <td>{prop.type}</td>
                             <td>
-                            {
-                                isString(prop.option) ?
-                                    prop.option
-                                    :
-                                    <Link to={prop.option.link}>{prop.option.info}</Link>
-                            }
+                                {
+                                    isString(prop.option) ?
+                                        prop.option
+                                        :
+                                        <Link to={prop.option.link}>{prop.option.info}</Link>
+                                }
                             </td>
-                            <td>{prop.default}</td>
+                            <td>
+                                {
+                                    isString(prop.default) ?
+                                        prop.default
+                                        :
+                                        <Link to={prop.default.link}>{prop.default.info}</Link>
+                                }
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -40,7 +47,7 @@ function ApiTable(props) {
     );
     const eventsTable = eventsList && (
         <>
-            <h2>{title} Events</h2>
+            {title ? <h2>{title} Events</h2> : null}
             <table>
                 <thead>
                 <tr>

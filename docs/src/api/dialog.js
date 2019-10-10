@@ -70,25 +70,144 @@ export const dialogProps = [
         default: '--',
     },
     {
-        param: 'size',
-        des: '尺寸',
-        type: 'string',
-        option: 'large / small',
+        param: 'closable',
+        des: '是否显示右上角的关闭按钮',
+        type: 'boolean',
+        option: '--',
+        default: 'true',
+    },
+    {
+        param: 'closeIcon',
+        des: '自定义关闭图标',
+        type: 'ReactNode',
+        option: '--',
+        default: {
+            link: '/component/icon',
+            info: '<Icon type="close" />',
+        },
+    },
+    {
+        param: 'footer',
+        des: '底部内容，当不需要默认底部按钮时，可以设为 footer={null}',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '确定取消按钮',
+    },
+    {
+        param: 'okText',
+        des: '确认按钮文字',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '确定 / 知道了(信息提示)',
+    },
+    {
+        param: 'cancelText',
+        des: '取消按钮文字',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '取消',
+    },
+    {
+        param: 'showOk',
+        des: '是否显示确定按钮',
+        type: 'boolean',
+        option: '--',
+        default: 'true',
+    },
+    {
+        param: 'showCancel',
+        des: '是否显示取消按钮',
+        type: 'boolean',
+        option: '--',
+        default: 'true',
+    },
+    {
+        param: 'okButtonProps',
+        des: 'ok 按钮 props',
+        type: 'object',
+        option: {
+            link: '/component/button',
+            info: 'Button',
+        },
         default: '--',
     },
     {
-        param: 'nativeType',
-        des: '原生type',
-        type: 'string',
-        option: 'button / submit / reset',
-        default: 'button'
+        param: 'cancelButtonProps',
+        des: 'cancel 按钮 props',
+        type: 'object',
+        option: {
+            link: '/component/button',
+            info: 'Button',
+        },
+        default: '--',
+    },
+    {
+        param: 'getContainer',
+        des: '指定 Dialog 挂载的 HTML 节点, null 为挂载在当前 dom',
+        type: 'HTMLElement | () => HTMLElement',
+        option: '--',
+        default: 'document.body',
+    },
+    {
+        param: 'center',
+        des: '垂直居中展示',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
     }
 ]
 
 export const dialogEvents = [
     {
-        name: 'click',
-        des: '点击事件',
-        callback: '--',
+        name: 'onOk',
+        des: '点击确定回调',
+        callback: '(e: Event)',
+    },
+    {
+        name: 'onCancel',
+        des: '点击遮罩层或右上角叉或取消按钮的回调',
+        callback: '(e: Event)',
+    },
+    {
+        name: 'afterClose',
+        des: 'Dialog 完全关闭后的回调',
+        callback: '() => void',
+    }
+]
+
+export const confirmProps = [
+    {
+        param: 'content',
+        des: '内容',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'icon',
+        des: '自定义图标',
+        type: 'string / ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'closeAfterOk',
+        des: '点击确定后关闭窗口',
+        type: 'boolean',
+        option: '--',
+        default: 'true',
+    }
+]
+
+export const confirmEvents = [
+    {
+        name: 'onOk',
+        des: '点击确定回调，可以返回Promise',
+        callback: '(e: Event) => void / Promise',
+    },
+    {
+        name: 'afterOk',
+        des: 'onOk执行回调完成后触发，通常用于配合返回Promise的onOk',
+        callback: '(e: Event, info?: any, status?: Boolean)',
     }
 ]

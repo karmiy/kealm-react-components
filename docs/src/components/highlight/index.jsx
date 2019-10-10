@@ -20,7 +20,7 @@ function HighLight(props) {
         return collapsible ?
                 (
                     <Collapse defaultValue={expand ? 1 : 0}>
-                        <Item name={1} title={title} wrapClass={'hljs-wrap'}>
+                        <Item name={1} title={title} wrapClass={'hljs-wrapper'}>
                             <pre>
                                 {children}
                             </pre>
@@ -29,9 +29,11 @@ function HighLight(props) {
                 )
                 :
                 (
-                    <pre className={'hljs-container'}>
-                        {children}
-                    </pre>
+                    <div className={'hljs-container'}>
+                        <pre>
+                            {children}
+                        </pre>
+                    </div>
                 )
     }, [collapsible, expand, title]);
 
