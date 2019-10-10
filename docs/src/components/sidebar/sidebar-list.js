@@ -47,6 +47,15 @@ const sidebarList = [
         ]
     },
     {
+        title: 'Navigation',
+        children: [
+            {
+                name: 'Breadcrumb 面包屑',
+                link: 'breadcrumb',
+            },
+        ]
+    },
+    {
         title: 'Others',
         children: [
             {
