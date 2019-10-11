@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?y1oxwo');
-  src:  url('kealm-icon.eot?y1oxwo#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?y1oxwo') format('truetype'),
-    url('kealm-icon.woff?y1oxwo') format('woff'),
-    url('kealm-icon.svg?y1oxwo#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?kei771');
+  src:  url('kealm-icon.eot?kei771#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?kei771') format('truetype'),
+    url('kealm-icon.woff?kei771') format('woff'),
+    url('kealm-icon.svg?kei771#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.km-icon-music:before {
+  content: "\e622";
+}
+.km-icon-home:before {
+  content: "\e722";
+}
 .km-icon-loading:before {
   content: "\e61c";
 }
@@ -223,9 +229,6 @@
 .km-icon-eye-o:before {
   content: "\e902";
 }
-.km-icon-home:before {
-  content: "\e903";
-}
 .km-icon-droplet:before {
   content: "\e90b";
 }
@@ -237,9 +240,6 @@
 }
 .km-icon-camera:before {
   content: "\e90f";
-}
-.km-icon-music:before {
-  content: "\e911";
 }
 .km-icon-film:before {
   content: "\e913";

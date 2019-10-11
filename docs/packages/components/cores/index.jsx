@@ -8,6 +8,7 @@ import Input from './input';
 import Card from './card';
 import { CollapseTransition, FadeTransition, ZoomTransition } from './transition';
 import Dialog from './dialog';
+import Breadcrumb from './Breadcrumb';
 
 export {
     Icon,
@@ -23,4 +24,5 @@ export {
     FadeTransition,
     ZoomTransition,
     Dialog,
+    Breadcrumb,
 }
