@@ -3,6 +3,7 @@ import { ButtonProps, ButtonDefaultProps } from "./interface";
 import Icon from '../icon';
 import { RenderWrapper, Motion } from '../../common';
 import { useContextConf, useClassName } from 'hooks';
+import { isEmpty } from 'utils/common/base'
 
 function Button(props) {
     const { componentCls } = useContextConf('button');
@@ -50,8 +51,10 @@ function Button(props) {
 
     // loading
     const renderLoading = useMemo(() => {
+        if(isEmpty(loading)) return null;
+
         return (
-            <Motion showProp={'visible'} transitionName={`${componentCls}-loading`}>
+            <Motion exclusive showProp={'visible'} transitionName={`${componentCls}-loading`}>
                 <RenderWrapper visible={loading} unmountOnExit>
                     <Icon type={'loading'} />
                 </RenderWrapper>

@@ -127,27 +127,34 @@ export const CodeGroup =
 
 /* 加载中 */
 export const CodeLoading =
-`    import { Button } from "@kealm/react-components";
+`    import { useState } from 'react';
+    import { Button } from "@kealm/react-components";
     
-    ReactDom.render(
-        <div>
-            <div className="detail-box">
-                <Button type='primary' loading>加载中</Button>
-                <Button type='success' loading>加载中</Button>
-                <Button type='info' loading>加载中</Button>
-                <Button type='warning' loading>加载中</Button>
-                <Button type='danger' loading>加载中</Button>
+    function Demo() {
+        const [loading, setLoading] = useState(true);
+        
+        return (
+            <div>
+                <div className="detail-box">
+                    <Button plain onClick={() => setLoading(v => !v)}>Toggle Loading</Button>
+                </div>
+                <div className="detail-box">
+                    <Button type='primary' loading={loading}>加载中</Button>
+                    <Button type='success' loading={loading}>加载中</Button>
+                    <Button type='info' loading={loading}>加载中</Button>
+                    <Button type='warning' loading={loading}>加载中</Button>
+                    <Button type='danger' loading={loading}>加载中</Button>
+                </div>
+                <div className="detail-box">
+                    <Button type='primary' plain loading={loading}>加载中</Button>
+                    <Button type='success' plain loading={loading}>加载中</Button>
+                    <Button type='info' plain loading={loading}>加载中</Button>
+                    <Button type='warning' plain loading={loading}>加载中</Button>
+                    <Button type='danger' plain loading={loading}>加载中</Button>
+                </div>
             </div>
-            <div className="detail-box">
-                <Button type='primary' plain loading>加载中</Button>
-                <Button type='success' plain loading>加载中</Button>
-                <Button type='info' plain loading>加载中</Button>
-                <Button type='warning' plain loading>加载中</Button>
-                <Button type='danger' plain loading>加载中</Button>
-            </div>
-        </div>,
-        mountNode
-    );`
+        )
+    }`
 
 /* 按钮尺寸 */
 export const CodeSize =

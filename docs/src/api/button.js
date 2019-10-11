@@ -60,10 +60,10 @@ export const buttonProps = [
     },
     {
         param: 'loading',
-        des: '是否加载状态',
+        des: '是否加载状态，在 true / false 切换时会有动画效果，与 icon 不能同时配置',
         type: 'boolean',
         option: '--',
-        default: 'false',
+        default: '--',
     },
     {
         param: 'active',

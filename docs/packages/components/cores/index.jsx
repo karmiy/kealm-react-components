@@ -9,6 +9,7 @@ import Card from './card';
 import { CollapseTransition, FadeTransition, ZoomTransition } from './transition';
 import Dialog from './dialog';
 import Breadcrumb from './Breadcrumb';
+import Steps from './steps';
 
 export {
     Icon,
@@ -25,4 +26,5 @@ export {
     ZoomTransition,
     Dialog,
     Breadcrumb,
+    Steps,
 }

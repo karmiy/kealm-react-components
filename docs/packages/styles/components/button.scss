@@ -235,22 +235,12 @@
 }
 
 
-/* button loading animation */
-.km-button-loading-enter-active {
-    animation: loadingMoveIn .2s $ease-out;
+.km-button-loading-enter-active, .km-button-loading-leave-active {
+    transition: margin-right .2s $ease-in-out, opacity .2s $ease-in-out;
+    //transition: opacity 2s;
+}
+.km-button-loading-enter, .km-button-loading-leave-to {
+    margin-right: -19px;
+    opacity: 0;
 }
 
-.km-button-loading-leave-active {
-    animation: loadingMoveIn .2s $ease-in reverse;
-}
-
-@keyframes loadingMoveIn {
-    0% {
-        margin-right: -19px;
-        opacity: 0;
-    }
-    100% {
-        margin-right: 0;
-        opacity: 1;
-    }
-}

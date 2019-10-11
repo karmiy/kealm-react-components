@@ -23,7 +23,6 @@ export const ButtonDefaultProps = {
     circle: false,
     iconRight: false,
     disabled: false,
-    loading: false,
     active: false,
     nativeType: 'button',
 }

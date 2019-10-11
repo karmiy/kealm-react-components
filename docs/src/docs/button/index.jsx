@@ -8,6 +8,8 @@ const Group = Button.Group;
 
 function ButtonDoc() {
     const [size, setSize] = useState('');
+    const [loading, setLoading] = useState(true);
+
     return (
         <div className='page-box'>
             <h1>Button 按钮</h1>
@@ -156,23 +158,26 @@ function ButtonDoc() {
                 return (
                     <>
                         <div className="detail-box">
-                            <Button type='primary' loading>加载中</Button>
-                            <Button type='success' loading>加载中</Button>
-                            <Button type='info' loading>加载中</Button>
-                            <Button type='warning' loading>加载中</Button>
-                            <Button type='danger' loading>加载中</Button>
+                            <Button plain onClick={() => setLoading(v => !v)}>Toggle Loading</Button>
                         </div>
                         <div className="detail-box">
-                            <Button type='primary' plain loading>加载中</Button>
-                            <Button type='success' plain loading>加载中</Button>
-                            <Button type='info' plain loading>加载中</Button>
-                            <Button type='warning' plain loading>加载中</Button>
-                            <Button type='danger' plain loading>加载中</Button>
+                            <Button type='primary' loading={loading}>加载中</Button>
+                            <Button type='success' loading={loading}>加载中</Button>
+                            <Button type='info' loading={loading}>加载中</Button>
+                            <Button type='warning' loading={loading}>加载中</Button>
+                            <Button type='danger' loading={loading}>加载中</Button>
+                        </div>
+                        <div className="detail-box">
+                            <Button type='primary' plain loading={loading}>加载中</Button>
+                            <Button type='success' plain loading={loading}>加载中</Button>
+                            <Button type='info' plain loading={loading}>加载中</Button>
+                            <Button type='warning' plain loading={loading}>加载中</Button>
+                            <Button type='danger' plain loading={loading}>加载中</Button>
                         </div>
                         <HighLight code={CodeLoading} />
                     </>
                 )
-            }, [])}
+            }, [loading, setLoading])}
 
             {/* 按钮尺寸 */}
             <h2>按钮尺寸</h2>
