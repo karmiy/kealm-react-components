@@ -16,7 +16,7 @@ function IconDoc() {
                         <ul className="icon-list">
                             {iconGroup.icons.map((type, _index) => {
                                 return (
-                                    <li key={_index}>
+                                    <li key={_index} className="icon-item">
                                         <Icon type={type} />
                                         <span>{type}</span>
                                     </li>

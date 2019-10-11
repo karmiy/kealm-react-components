@@ -7,18 +7,21 @@ ul.icon-list {
     border-radius: 4px;
     overflow: hidden;
     color: #5e6d82;
-    li {
+    li.icon-item {
         display: flex;
         float: left;
         width: 16.66%;
         height: 120px;
+        line-height: inherit;
         border-right: 1px solid #eee;
         border-bottom: 1px solid #eee;
+        margin-left: 0;
         margin-right: -1px;
         margin-bottom: -1px;
         flex-direction: column;
         justify-content: center;
         transition: color .3s;
+        list-style: none;
         text-align: center;
         color: #666;
         cursor: pointer;
