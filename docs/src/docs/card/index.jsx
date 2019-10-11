@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Icon } from '@kealm/react-components';
-import HuoKe from '@/assets/imgs/huoke.png';
+import Hawk from '@/assets/imgs/hawk.png';
 import PeiQi from '@/assets/imgs/peiqi.png';
 import QiaoZhi from '@/assets/imgs/qiaozhi.png';
 import { ApiTable, HighLight } from '@/components';
@@ -63,8 +63,8 @@ function CardDoc() {
             <h2>带图片</h2>
             <p>可以利用 Card.Meta 支持更灵活的内容。</p>
             <div className='detail-box'>
-                <Card cover={<img src={HuoKe} alt="pig"/>} shadow={'hover'}>
-                    <Card.Meta title={'Huo Ke'} desc={'This is an unusual pig'} />
+                <Card cover={<img src={Hawk} alt="pig"/>} shadow={'hover'}>
+                    <Card.Meta title={'Hawk'} desc={'This is an unusual pig'} />
                 </Card>
             </div>
             <HighLight code={CodeImg} />

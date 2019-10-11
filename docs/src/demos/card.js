@@ -60,8 +60,8 @@ export const CodeImg =
 `    import { Card } from "@kealm/react-components";
     
     ReactDom.render(
-        <Card cover={<img src={HuoKe} alt="pig"></img>} shadow={'hover'}>
-            <Card.Meta title={'Huo Ke'} desc={'This is an unusual pig'} />
+        <Card cover={<img src={Hawk} alt="pig"></img>} shadow={'hover'}>
+            <Card.Meta title={'Hawk'} desc={'This is an unusual pig'} />
         </Card>,
         mountNode
     );`

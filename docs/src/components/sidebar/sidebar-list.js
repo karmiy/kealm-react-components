@@ -53,6 +53,10 @@ const sidebarList = [
                 name: 'Breadcrumb 面包屑',
                 link: 'breadcrumb',
             },
+            {
+                name: 'Steps 步骤条',
+                link: 'steps',
+            },
         ]
     },
     {
