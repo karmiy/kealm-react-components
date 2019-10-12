@@ -2,6 +2,7 @@
 
 @include b(steps) {
     display: flex;
+    line-height: 1.5;
 
     @include m(simple) {
         padding: 13px 8%;
@@ -11,16 +12,55 @@
 
     @include m(horizontal) {
         white-space: nowrap;
-        .km-step__line {
-            height: 2px;
-            top: 11px;
-            left: 0;
-            right: 0;
+        .km-step__tail {
+            display: none;
         }
     }
 
     @include m(vertical) {
-        height: 100%;
-        flex-flow: column;
+        display: block;
+        .km-step {
+            display: block;
+            overflow: visible;
+        }
+        .km-step__tail {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            top: 0;
+            left: 16px;
+            padding: 38px 0 6px;
+        }
+        .km-step__icon {
+            float: left;
+            margin-right: 16px;
+        }
+        .km-step__content {
+            display: block;
+            min-height: 48px;
+            overflow: hidden;
+        }
+        .km-step__title:after {
+            display: none;
+        }
+        .km-step__description {
+            max-width: none;
+            padding-bottom: 12px;
+        }
+    }
+
+    @include m(small) {
+        .km-step__icon {
+            width: $step-icon-width-small;
+            height: $step-icon-height-small;
+            line-height: $step-icon-height-small;
+            font-size: $step-icon-font-size-small;
+            text-align: center;
+        }
+        .km-step__title {
+            line-height: $step-title-height-small;
+            padding-right: 12px;
+            font-size: $step-title-font-size-small;
+        }
     }
 }

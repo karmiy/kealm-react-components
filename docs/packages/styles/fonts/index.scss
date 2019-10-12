@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?kei771');
-  src:  url('kealm-icon.eot?kei771#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?kei771') format('truetype'),
-    url('kealm-icon.woff?kei771') format('woff'),
-    url('kealm-icon.svg?kei771#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?u3vond');
+  src:  url('kealm-icon.eot?u3vond#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?u3vond') format('truetype'),
+    url('kealm-icon.woff?u3vond') format('woff'),
+    url('kealm-icon.svg?u3vond#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,20 +25,53 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.km-icon-frown:before {
+  content: "\e77e";
+}
+.km-icon-smile:before {
+  content: "\e783";
+}
+.km-icon-add-user:before {
+  content: "\e7ae";
+}
+.km-icon-delete-team:before {
+  content: "\e7af";
+}
+.km-icon-delete-user:before {
+  content: "\e7b0";
+}
+.km-icon-add-team:before {
+  content: "\e7b1";
+}
+.km-icon-user:before {
+  content: "\e7b2";
+}
+.km-icon-team:before {
+  content: "\e7b3";
+}
+.km-icon-solution:before {
+  content: "\e7b5";
+}
+.km-icon-frown-fill:before {
+  content: "\e846";
+}
+.km-icon-smile-fill:before {
+  content: "\e847";
+}
+.km-icon-loading:before {
+  content: "\e61c";
+}
 .km-icon-music:before {
   content: "\e622";
 }
 .km-icon-home:before {
   content: "\e722";
 }
-.km-icon-loading:before {
-  content: "\e61c";
-}
 .km-icon-check-circle:before {
   content: "\e77d";
 }
 .km-icon-close-circle:before {
-  content: "\e77e";
+  content: "\e900";
 }
 .km-icon-info-circle:before {
   content: "\e77f";
@@ -53,7 +86,7 @@
   content: "\e782";
 }
 .km-icon-pause-circle:before {
-  content: "\e783";
+  content: "\e901";
 }
 .km-icon-time-circle:before {
   content: "\e784";
@@ -221,13 +254,13 @@
   content: "\e8ff";
 }
 .km-icon-key:before {
-  content: "\e900";
+  content: "\e902";
 }
 .km-icon-caret-right:before {
-  content: "\e901";
+  content: "\e903";
 }
 .km-icon-eye-o:before {
-  content: "\e902";
+  content: "\e904";
 }
 .km-icon-droplet:before {
   content: "\e90b";
@@ -351,15 +384,6 @@
 }
 .km-icon-reply:before {
   content: "\e96a";
-}
-.km-icon-user:before {
-  content: "\e971";
-}
-.km-icon-user-plus:before {
-  content: "\e973";
-}
-.km-icon-user-minus:before {
-  content: "\e974";
 }
 .km-icon-spinner:before {
   content: "\e984";

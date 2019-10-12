@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { StepProps, StepDefaultProps } from './interface';
 import Icon from '../icon';
@@ -9,33 +9,51 @@ function Step(props) {
         children,
         className,
         title,
+        subTitle,
         description,
+        status,
+        stepNum,
+        icon,
         ...others
     } = props;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [componentCls]: true,
+        [`is-${status}`]: status,
+        [`is-custom`]: icon,
         [className]: className,
-    }, [className, componentCls]);
+    }, [className, componentCls, status, icon]);
+
+    // ---------------------------------- render mini chunk ----------------------------------
+    const renderIconContent = useMemo(() => {
+        if(icon) return icon;
+
+        return status === 'finish'
+            ? <Icon type={'check'} className={`${componentCls}__icon-inner`} />
+            : stepNum;
+    }, [componentCls, icon, status, stepNum]);
 
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
-            <div className={`${componentCls}__head`}>
-                <div className={`${componentCls}__line`}>
-                    <i className={`${componentCls}__line-inner`} />
-                </div>
+            <div className={`${componentCls}__container`}>
+                <div className={`${componentCls}__tail`} />
                 <div className={`${componentCls}__icon`}>
-                    <Icon type={'check'} className={`${componentCls}__icon-inner`} />
+                    <span className={`${componentCls}__icon-wrap`}>
+                        {renderIconContent}
+                    </span>
                 </div>
-            </div>
-            <div className={`${componentCls}__main`}>
-                <div className={`${componentCls}__title`}>
-                    {title}
-                </div>
-                <div className={`${componentCls}__description`}>
-                    {description}
+                <div className={`${componentCls}__content`}>
+                    <div className={`${componentCls}__title`}>
+                        {title}
+                        <div className={`${componentCls}__subtitle`}>
+                            {subTitle}
+                        </div>
+                    </div>
+                    <div className={`${componentCls}__description`}>
+                        {description}
+                    </div>
                 </div>
             </div>
         </div>

@@ -66,16 +66,18 @@ function Collapse(props) {
     // 激活选中的collapse-item
     const renderChildren = useMemo(() => {
         return Children.map(_children, (child, index) => {
-            const name = child.props.name || `collapse-item-${index}`;
-            const isDisabled = child.props.disabled;
-            return cloneElement(child, {
-                expand: activeNames.includes(name) && !isDisabled,
-                name,
-                iconLeft: !!iconLeft,
-                unmountOnExit: !!unmountOnExit,
-                onExpandChange: isDisabled ? noop : onExpandChange,
-                showArrow,
-            })
+            if(child) {
+                const name = child.props.name || `collapse-item-${index}`;
+                const isDisabled = child.props.disabled;
+                return cloneElement(child, {
+                    expand: activeNames.includes(name) && !isDisabled,
+                    name,
+                    iconLeft: !!iconLeft,
+                    unmountOnExit: !!unmountOnExit,
+                    onExpandChange: isDisabled ? noop : onExpandChange,
+                    showArrow,
+                })
+            }
         })
     }, [_children, activeNames, onExpandChange, iconLeft, unmountOnExit, showArrow]);
 

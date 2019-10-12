@@ -24,9 +24,11 @@ function Breadcrumb(props) {
     // ---------------------------------- render chunk ----------------------------------
     const renderChildren = useMemo(() => {
         return Children.map(_children, child => {
-            return cloneElement(child, {
-                separator,
-            })
+            if(child) {
+                return cloneElement(child, {
+                    separator,
+                })
+            }
         })
     }, [_children, separator]);
 

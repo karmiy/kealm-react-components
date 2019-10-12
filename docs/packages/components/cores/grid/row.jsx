@@ -50,12 +50,14 @@ function Row(props) {
         if(!gap) return _children;
 
         return Children.map(_children, child => {
-            return cloneElement(child, {
-                style: {
-                    paddingLeft: gap ? `${gap}px` : null,
-                    paddingRight: gap ? `${gap}px` : null,
-                },
-            })
+            if(child) {
+                return cloneElement(child, {
+                    style: {
+                        paddingLeft: gap ? `${gap}px` : null,
+                        paddingRight: gap ? `${gap}px` : null,
+                    },
+                })
+            }
         })
     }, [_children, gap]);
 
