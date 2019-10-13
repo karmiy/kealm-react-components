@@ -47,6 +47,9 @@
             max-width: none;
             padding-bottom: 12px;
         }
+        .km-step.is-custom .km-step__icon {
+            width: $step-icon-width;
+        }
     }
 
     @include m(small) {
@@ -61,6 +64,11 @@
             line-height: $step-title-height-small;
             padding-right: 12px;
             font-size: $step-title-font-size-small;
+        }
+        &.km-steps--vertical .km-step__tail{
+            top: 0;
+            left: 12px;
+            padding: 30px 0 6px;
         }
     }
 }

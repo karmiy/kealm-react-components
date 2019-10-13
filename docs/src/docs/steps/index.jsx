@@ -114,7 +114,41 @@ function StepsDoc() {
                         <div className="detail-box">
                             <Row gutter={16}>
                                 <Col span={10}>
-                                    <Steps current={1} direction={'vertical'}>
+                                    <Steps current={current} direction={'vertical'}>
+                                        <Step title={'First'} description={'This is a description.'} />
+                                        <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                        <Step title={'Third'} description={'This is a description.'} />
+                                        <Step title={'Last'} description={'This is a description.'} />
+                                    </Steps>
+                                </Col>
+                                <Col span={10}>
+                                    <Steps current={current} direction={'vertical'}>
+                                        <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
+                                        <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
+                                        <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
+                                        <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                    </Steps>
+                                </Col>
+                            </Row>
+                            <Row gutter={8}>
+                                <Col><Button disabled={current === 0} onClick={() => setCurrent(v => --v)}>Previous</Button></Col>
+                                <Col><Button type={'primary'} disabled={current === 3} onClick={() => setCurrent(v => ++v)}>Next</Button></Col>
+                            </Row>
+                        </div>
+                    )
+                }, [current, setCurrent])
+            }
+
+            {/* 垂直方向的步骤条 */}
+            <h2>垂直方向的小型步骤条</h2>
+            <p>简单的竖直方向的小型步骤条。</p>
+            {
+                useMemo(() => {
+                    return (
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col span={10}>
+                                    <Steps current={1} direction={'vertical'} size={'small'}>
                                         <Step title={'First'} description={'This is a description.'} />
                                         <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
                                         <Step title={'Third'} description={'This is a description.'} />
@@ -127,6 +161,27 @@ function StepsDoc() {
                                         <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
                                         <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
                                         <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                    </Steps>
+                                </Col>
+                            </Row>
+                        </div>
+                    )
+                }, [])
+            }
+
+            {/* 步骤运行错误 */}
+            <h2>步骤运行错误</h2>
+            <p>使用 Steps 的 status 属性来指定当前步骤的状态。</p>
+            {
+                useMemo(() => {
+                    return (
+                        <div className="detail-box">
+                            <Row>
+                                <Col span={22}>
+                                    <Steps current={1}>
+                                        <Step title={'Finished'} description={'This is a description.'} />
+                                        <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                        <Step title={'Waiting'} description={'This is a description.'} />
                                     </Steps>
                                 </Col>
                             </Row>

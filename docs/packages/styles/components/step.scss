@@ -35,9 +35,9 @@
 
     @include e(icon) {
         display: inline-block;
-        width: 32px;
-        height: 32px;
-        line-height: 32px;
+        width: $step-icon-width;
+        height: $step-icon-height;
+        line-height: $step-icon-height;
         border: $border-base;
         border-radius: $border-radius-circle;
         margin-right: 8px;
