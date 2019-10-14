@@ -82,6 +82,7 @@
     }
 
     @include e(icon-wrap) {
+        display: inline-block; // k
         position: relative;
         top: 1px;
     }
@@ -91,6 +92,7 @@
         float: left;
         width: 100%;
         height: 100%;
+        top: -1px;
         border-radius: 100px;
         transition: all .3s;
         @include pseudo(after) {
@@ -212,7 +214,8 @@
         }
         .km-step__icon {
             width: auto;
-            height: auto;
+            //height: auto;
+            //height: auto; // k
             border: 0;
             background: none;
         }

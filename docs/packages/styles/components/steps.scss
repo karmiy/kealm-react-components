@@ -5,12 +5,6 @@
     line-height: 1.5;
     font-size: $font-size-base;
 
-    @include m(simple) {
-        padding: 13px 8%;
-        border-radius: 4px;
-        background: $background-color-base;
-    }
-
     @include m(horizontal) {
         white-space: nowrap;
         .km-step__tail {
@@ -54,6 +48,9 @@
     }
 
     @include m(small) {
+        .km-step {
+            margin-right: 12px;
+        }
         .km-step__icon {
             width: $step-icon-width-small;
             height: $step-icon-height-small;
@@ -65,11 +62,23 @@
             line-height: $step-title-height-small;
             padding-right: 12px;
             font-size: $step-title-font-size-small;
+            @include pseudo(after) {
+                top: $step-title-height-small / 2;
+            }
+        }
+        .km-step.is-custom .km-step__icon-wrap {
+            width: $step-icon-width-custom-small;
+            height: $step-icon-height-custom-small;
+            line-height: $step-icon-height-custom-small;
+            font-size: $step-icon-font-size-custom-small;
         }
         &.km-steps--vertical .km-step__tail{
             top: 0;
             left: 12px;
             padding: 30px 0 6px;
+        }
+        &.km-steps--vertical .km-step.is-custom .km-step__icon {
+            width: $step-icon-width-small;
         }
     }
 
@@ -98,6 +107,9 @@
             margin-left: $step-content-width-dotted / 2 + $step-dot-offset-left;
             padding-right: 0;
             background: transparent;
+        }
+        .km-step__icon-wrap {
+            display: initial;
         }
         .km-step__icon-dot {
             transform: translate(-50%);

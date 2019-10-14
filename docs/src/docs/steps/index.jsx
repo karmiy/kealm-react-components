@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { Steps, Row, Col, Icon, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { stepsProps, stepsEvents, stepProps } from 'api/steps';
+import { CodeBasic, CodeIcon, CodeMini, CodeToggle, CodeVertical, CodeMiniVertical } from 'demos/steps';
 
 const Step = Steps.Step;
 
@@ -36,25 +37,7 @@ function StepsDoc() {
                     )
                 }, [])
             }
-
-            {/* 迷你版 */}
-            <h2>迷你版</h2>
-            <p>迷你版的步骤条，通过设置 size="small" 启用。</p>
-            {useMemo(() => {
-                return (
-                    <div className="detail-box">
-                        <Row>
-                            <Col span={22}>
-                                <Steps current={1} size={'small'}>
-                                    <Step title={'Finished'} description={'This is a description.'} />
-                                    <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
-                                    <Step title={'Waiting'} description={'This is a description.'} />
-                                </Steps>
-                            </Col>
-                        </Row>
-                    </div>
-                )
-            }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 带图标的步骤条 */}
             <h2>带图标的步骤条</h2>
@@ -75,6 +58,37 @@ function StepsDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeIcon} />
+
+            {/* 迷你版 */}
+            <h2>迷你版</h2>
+            <p>迷你版的步骤条，通过设置 size="small" 启用。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={1} size={'small'}>
+                                    <Step title={'Finished'} description={'This is a description.'} />
+                                    <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Waiting'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={2} size={'small'}>
+                                    <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
+            <HighLight code={CodeMini} />
 
             {/* 步骤切换 */}
             <h2>步骤切换</h2>
@@ -109,6 +123,7 @@ function StepsDoc() {
                     </div>
                 )
             }, [current, setCurrent])}
+            <HighLight code={CodeToggle} />
 
             {/* 垂直方向的步骤条 */}
             <h2>垂直方向的步骤条</h2>
@@ -143,8 +158,9 @@ function StepsDoc() {
                     )
                 }, [current, setCurrent])
             }
+            <HighLight code={CodeVertical} />
 
-            {/* 垂直方向的步骤条 */}
+            {/* 垂直方向的小型步骤条 */}
             <h2>垂直方向的小型步骤条</h2>
             <p>简单的竖直方向的小型步骤条。</p>
             {
@@ -161,7 +177,7 @@ function StepsDoc() {
                                     </Steps>
                                 </Col>
                                 <Col span={10}>
-                                    <Steps current={1} direction={'vertical'}>
+                                    <Steps current={1} direction={'vertical'} size={'small'}>
                                         <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
                                         <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
                                         <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
@@ -173,6 +189,7 @@ function StepsDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeMiniVertical} />
 
             {/* 步骤运行错误 */}
             <h2>步骤运行错误</h2>
@@ -254,7 +271,7 @@ function StepsDoc() {
                                     <Step title={'First'} description={'This is a description.'} />
                                     <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
                                     <Step title={'Third'} description={'This is a description.'} />
-                                    <Step title={'Last'} description={'This is a description.'} status={'error'} />
+                                    <Step title={'Last'} description={'This is a description.'} />
                                 </Steps>
                             </Col>
                         </Row>
