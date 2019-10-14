@@ -92,6 +92,6 @@ export const buttonEvents = [
     {
         name: 'click',
         des: '点击事件',
-        callback: '--',
+        callback: '(e: Event)',
     }
 ]

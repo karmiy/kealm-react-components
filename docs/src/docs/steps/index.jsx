@@ -1,11 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Steps, Row, Col, Icon, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { stepsProps, stepsEvents, stepProps } from 'api/steps';
 
 const Step = Steps.Step;
 
 function StepsDoc() {
-    const [current, setCurrent] = useState(0);
+    const [current, setCurrent] = useState(1);
+    const change = useCallback(cur => {
+        setCurrent(cur);
+    }, []);
+
     return (
         <div className='page-box'>
             <h1>Steps 步骤条</h1>
@@ -172,26 +177,104 @@ function StepsDoc() {
             {/* 步骤运行错误 */}
             <h2>步骤运行错误</h2>
             <p>使用 Steps 的 status 属性来指定当前步骤的状态。</p>
-            {
-                useMemo(() => {
-                    return (
-                        <div className="detail-box">
-                            <Row>
-                                <Col span={22}>
-                                    <Steps current={1}>
-                                        <Step title={'Finished'} description={'This is a description.'} />
-                                        <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
-                                        <Step title={'Waiting'} description={'This is a description.'} />
-                                    </Steps>
-                                </Col>
-                            </Row>
-                        </div>
-                    )
-                }, [])
-            }
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={current} status={'error'}>
+                                    <Step title={'First'} description={'This is a description.'} />
+                                    <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Third'} description={'This is a description.'} />
+                                    <Step title={'Last'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '40px'}}>
+                            <Col span={22}>
+                                <Steps current={current} status={'error'}>
+                                    <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row gutter={8}>
+                            <Col><Button disabled={current === 0} onClick={() => setCurrent(v => --v)}>Previous</Button></Col>
+                            <Col><Button type={'primary'} disabled={current === 3} onClick={() => setCurrent(v => ++v)}>Next</Button></Col>
+                        </Row>
+                    </div>
+                )
+            }, [current, setCurrent])}
+
+            {/* 点状步骤条 */}
+            <h2>点状步骤条</h2>
+            <p>包含步骤点的进度条。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={current} progressDot>
+                                    <Step title={'First'} description={'This is a description.'} />
+                                    <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Third'} description={'This is a description.'} />
+                                    <Step title={'Last'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '40px'}}>
+                            <Col span={22}>
+                                <Steps current={current} progressDot direction={'vertical'}>
+                                    <Step title={'First'} description={'This is a description.'} />
+                                    <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Third'} description={'This is a description.'} />
+                                    <Step title={'Last'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row gutter={8}>
+                            <Col><Button disabled={current === 0} onClick={() => setCurrent(v => --v)}>Previous</Button></Col>
+                            <Col><Button type={'primary'} disabled={current === 3} onClick={() => setCurrent(v => ++v)}>Next</Button></Col>
+                        </Row>
+                    </div>
+                )
+            }, [current, setCurrent])}
+
+            {/* 可点击 */}
+            <h2>可点击</h2>
+            <p>设置 onChange 后，Steps 变为可点击状态。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={current} onChange={change}>
+                                    <Step title={'First'} description={'This is a description.'} />
+                                    <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Third'} description={'This is a description.'} />
+                                    <Step title={'Last'} description={'This is a description.'} status={'error'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '40px'}}>
+                            <Col span={22}>
+                                <Steps current={current} direction={'vertical'} onChange={change}>
+                                    <Step title={'First'} description={'This is a description.'} />
+                                    <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Third'} description={'This is a description.'} />
+                                    <Step title={'Last'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [current, setCurrent])}
 
             {/* API */}
-            {/*<ApiTable title='Breadcrumb' propsList={breadcrumbProps} />*/}
+            {useMemo(() => <ApiTable title='Steps' propsList={stepsProps} eventsList={stepsEvents} />)}
+            {useMemo(() => <ApiTable title='Step' propsList={stepProps} />)}
         </div>
     )
 }

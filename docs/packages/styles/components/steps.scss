@@ -3,6 +3,7 @@
 @include b(steps) {
     display: flex;
     line-height: 1.5;
+    font-size: $font-size-base;
 
     @include m(simple) {
         padding: 13px 8%;
@@ -69,6 +70,110 @@
             top: 0;
             left: 12px;
             padding: 30px 0 6px;
+        }
+    }
+
+    @include m(dotted) {
+        .km-step {
+            overflow: visible;
+        }
+        .km-step__tail{
+            display: block;
+            width: 100%;
+            top: 2px;
+            margin: 0 0 0 $step-content-width-dotted / 2;
+            padding: 0;
+            @include pseudo(after) {
+                width: calc(100% - #{$step-tail-width-gap});
+                height: 3px;
+                margin-left: $step-tail-margin-left-dotted;
+            }
+        }
+        .km-step__icon {
+            display: block;
+            width: 8px;
+            height: 8px;
+            line-height: 8px;
+            border: 0;
+            margin-left: $step-content-width-dotted / 2 + $step-dot-offset-left;
+            padding-right: 0;
+            background: transparent;
+        }
+        .km-step__icon-dot {
+            transform: translate(-50%);
+        }
+        .km-step.is-finish .km-step__icon,
+        .km-step.is-process .km-step__icon,
+        .km-step.is-finish .km-step__icon,
+        .km-step.is-error .km-step__icon{
+            background-color: transparent;
+        }
+
+        .km-step.is-process .km-step__icon-dot,
+        .km-step.is-finish .km-step__icon-dot{
+            background-color: $color-primary;
+        }
+        .km-step.is-wait .km-step__icon-dot {
+            background-color: $color-text-thin-dark-2;
+        }
+        .km-step.is-error .km-step__icon-dot {
+            background-color: $step-error-color;
+        }
+
+        .km-step.is-process .km-step__icon-dot {
+            transform: translate(-50%) scale(1.2);
+        }
+        .km-step__content {
+            width: $step-content-width-dotted;
+        }
+        .km-step__title {
+            line-height: 1.5;
+            @include pseudo(after) {
+                display: none;
+            }
+        }
+        .km-step__subtitle {
+            position: absolute;
+            top: 1px;
+            white-space: nowrap;
+        }
+
+        &.km-steps--vertical {
+            .km-step__tail {
+                width: 1px;
+                top: 2px;
+                left: -9px;
+                margin: 0;
+                padding: 22px 0 4px;
+                @include pseudo(after) {
+                    width: 1px;
+                    height: 100%;
+                }
+            }
+            .km-step__icon {
+                margin-top: 8px;
+                margin-left: 4px;
+            }
+            .km-step__content {
+                width: auto;
+            }
+        }
+    }
+}
+
+@include b(steps-label) {
+    @include m(horizontal) {
+        .km-step {
+            margin-right: 0;
+            white-space: normal;
+        }
+        .km-step__title {
+            padding-right: 0;
+        }
+        .km-step__content {
+            display: block;
+            margin-top: 8px;
+            text-align: center;
         }
     }
 }

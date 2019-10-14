@@ -8,6 +8,7 @@ $color-success: #33CC33 !default;
 $color-info: #909399 !default;
 $color-warning: #FF9933 !default;
 $color-danger: #FF6666 !default;
+$color-hazard: #f5222d !default;
 
 // theme color lightness
 $color-primary-light-1: mix($color-white, $color-primary, 10%) !default;
@@ -510,5 +511,15 @@ $step-subtitle-font-color: $step-description-font-color !default;
 
 // line
 $step-line-color: $color-text-placeholder !default;
+
+// error
+$step-error-color: $color-hazard;
+
+// dotted
+// need to: $step-tail-width-gap = 2 * $step-tail-margin-left-dotted - 2 * $step-dot-offset-left
+$step-content-width-dotted: 140px !default;
+$step-tail-margin-left-dotted: 12px !default;
+$step-dot-offset-left: 2px;
+$step-tail-width-gap: 20px;
 
 

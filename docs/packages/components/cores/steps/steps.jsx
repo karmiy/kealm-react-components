@@ -1,6 +1,6 @@
 import React, { Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
-import { StepsProps, StepsDefaultProps } from './interface';
+import { StepsProps, StepsDefaultProps, noop } from './interface';
 import { transChildren } from 'utils/common/react-util';
 
 function Steps(props) {
@@ -11,6 +11,9 @@ function Steps(props) {
         direction,
         current,
         size,
+        status,
+        progressDot,
+        onChange,
         ...others
     } = props;
 
@@ -19,8 +22,10 @@ function Steps(props) {
         [componentCls]: true,
         [`${componentCls}--${direction}`]: direction,
         [`${componentCls}--${size}`]: size,
+        [`${componentCls}--dotted`]: progressDot,
+        [`${componentCls}-label--${direction}`]: progressDot,
         [className]: className,
-    }, [className, componentCls, direction, size]);
+    }, [className, componentCls, direction, size, progressDot]);
 
     // ---------------------------------- logic code ----------------------------------
     // 转化children
@@ -29,14 +34,21 @@ function Steps(props) {
     // ---------------------------------- render chunk ----------------------------------
     const renderChildren = useMemo(() => {
         return Children.map(_children, (child, index) => {
+            const currentStatus = child.props.status || status || 'process';
+            const finishStatus = child.props.status || 'finish';
+            const waitStatus = child.props.status || 'wait';
+
             if(child) {
                 return cloneElement(child, {
+                    current,
                     stepNum: index + 1,
-                    status: index === current ? 'process' : (index < current ? 'finish' : child.props.status),
+                    status: index === current ? currentStatus : (index < current ? finishStatus : waitStatus),
+                    progressDot,
+                    onChange,
                 });
             }
         })
-    }, [current]);
+    }, [current, status, progressDot, onChange]);
 
     // ---------------------------------- render ----------------------------------
     return (

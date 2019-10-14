@@ -11,6 +11,35 @@
     white-space: nowrap;
     vertical-align: top;
 
+    &[role=button] {
+        cursor: pointer;
+        @include pseudo(hover) {
+            &:not([class~=is-error]) {
+                .km-step__icon {
+                    border-color: $color-primary;
+                }
+                .km-step__icon, .km-step__title, .km-step__subtitle, .km-step__description {
+                    color: $color-primary;
+                }
+            }
+            /*.km-step__icon {
+                border-color: $color-primary;
+            }
+            .km-step__icon, .km-step__title, .km-step__subtitle, .km-step__description {
+                color: $color-primary;
+            }*/
+            /*@include when(error) {
+                .km-step__icon {
+                    border-color: $step-error-color;
+                    background-color: $color-white;
+                }
+                .km-step__icon, .km-step__title, .km-step__subtitle, .km-step__description {
+                    color: $step-error-color;
+                }
+            }*/
+        }
+    }
+
     @include e(container) {
         outline: none;
     }
@@ -22,6 +51,7 @@
         top: 12px;
         left: 0;
         padding: 0 10px;
+        font-size: 0;
         @include pseudo(after) {
             content: '';
             display: inline-block;
@@ -41,7 +71,10 @@
         border: $border-base;
         border-radius: $border-radius-circle;
         margin-right: 8px;
-        transition: background-color $transition-duration-base,border-color $transition-duration-base;
+        transition:
+            background-color $transition-duration-base,
+            border-color $transition-duration-base,
+            color $transition-duration-base;
         font-size: $step-icon-font-size;
         color: $color-primary;
         text-align: center;
@@ -51,6 +84,24 @@
     @include e(icon-wrap) {
         position: relative;
         top: 1px;
+    }
+
+    @include e(icon-dot) {
+        position: relative;
+        float: left;
+        width: 100%;
+        height: 100%;
+        border-radius: 100px;
+        transition: all .3s;
+        @include pseudo(after) {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -26px;
+            width: 60px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.001);
+        }
     }
 
     @include e(content) {
@@ -63,6 +114,7 @@
         display: inline-block;
         line-height: $step-title-height;
         padding-right: 16px;
+        transition: color $transition-duration-base;
         font-size: $step-title-font-size;
         color: $step-title-font-color;
         @include pseudo(after) {
@@ -100,6 +152,7 @@
     @include e(description) {
         max-width: $step-description-max-width;
         white-space: normal;
+        transition: color $transition-duration-base;
         font-size: 14px;
         color: $step-description-font-color;
     }
@@ -115,7 +168,7 @@
     @include when(finish) {
         .km-step__icon {
             border-color: $color-primary;
-            background-color: #fff;
+            background-color: $color-white;
             color: $color-primary;
         }
         .km-step__title:after {
@@ -138,6 +191,16 @@
         }
         .km-step__description {
             color: $color-text-thin-dark-6;
+        }
+    }
+
+    @include when(error) {
+        .km-step__icon {
+            border-color: $step-error-color;
+            background-color: $color-white;
+        }
+        .km-step__icon, .km-step__title, .km-step__subtitle, .km-step__description {
+            color: $step-error-color;
         }
     }
 

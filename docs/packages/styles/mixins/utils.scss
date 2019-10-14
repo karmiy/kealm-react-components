@@ -40,6 +40,6 @@
   white-space: nowrap;
 }
 
-@mixin utils-little-bold {
-  text-shadow: 0 0 0 $color-black;
+@mixin utils-little-bold($shadow-color: $color-black) {
+  text-shadow: 0 0 0 $shadow-color;
 }
