@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { Steps, Row, Col, Icon, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { stepsProps, stepsEvents, stepProps } from 'api/steps';
-import { CodeBasic, CodeIcon, CodeMini, CodeToggle, CodeVertical, CodeMiniVertical } from 'demos/steps';
+import { CodeBasic, CodeIcon, CodeMini, CodeToggle, CodeVertical, CodeMiniVertical, CodeError, CodeDot, CodeClick } from 'demos/steps';
 
 const Step = Steps.Step;
 
@@ -224,6 +224,7 @@ function StepsDoc() {
                     </div>
                 )
             }, [current, setCurrent])}
+            <HighLight code={CodeError} />
 
             {/* 点状步骤条 */}
             <h2>点状步骤条</h2>
@@ -258,6 +259,7 @@ function StepsDoc() {
                     </div>
                 )
             }, [current, setCurrent])}
+            <HighLight code={CodeDot} />
 
             {/* 可点击 */}
             <h2>可点击</h2>
@@ -288,6 +290,7 @@ function StepsDoc() {
                     </div>
                 )
             }, [current, setCurrent])}
+            <HighLight code={CodeClick} />
 
             {/* API */}
             {useMemo(() => <ApiTable title='Steps' propsList={stepsProps} eventsList={stepsEvents} />)}
