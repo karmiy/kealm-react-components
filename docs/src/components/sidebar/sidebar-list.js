@@ -50,6 +50,10 @@ const sidebarList = [
         title: 'Navigation',
         children: [
             {
+                name: 'Tabs 标签页',
+                link: 'tabs',
+            },
+            {
                 name: 'Breadcrumb 面包屑',
                 link: 'breadcrumb',
             },

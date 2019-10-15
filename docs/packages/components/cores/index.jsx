@@ -10,6 +10,7 @@ import { CollapseTransition, FadeTransition, ZoomTransition } from './transition
 import Dialog from './dialog';
 import Breadcrumb from './Breadcrumb';
 import Steps from './steps';
+import Tabs from './tabs';
 
 export {
     Icon,
@@ -27,4 +28,5 @@ export {
     Dialog,
     Breadcrumb,
     Steps,
+    Tabs,
 }
