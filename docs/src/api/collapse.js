@@ -2,14 +2,14 @@ export const collapseProps = [
     {
         param: 'value',
         des: '当前激活的面板',
-        type: 'string / array',
+        type: 'string / number / array',
         option: '--',
         default: '--',
     },
     {
         param: 'defaultValue',
         des: '默认激活的面板',
-        type: 'string / array',
+        type: 'string / number / array',
         option: '--',
         default: '--',
     },

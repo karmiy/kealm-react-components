@@ -17,6 +17,7 @@ import {
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
+    useTabsValue,
 } from './components';
 
 export {
@@ -37,4 +38,5 @@ export {
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
+    useTabsValue,
 }

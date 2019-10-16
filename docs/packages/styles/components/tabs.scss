@@ -1,0 +1,507 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(tabs) {
+    @include e(header) {
+        position: relative;
+        padding: 0;
+        margin: 0 0 15px;
+    }
+    @include e(active-bar) {
+        position: absolute;
+        height: 2px;
+        left: 0;
+        bottom: 0;
+        background-color: $color-primary;
+        z-index: $z-index-base;
+        transition: transform $transition-duration-base $ease-in-out;
+        list-style: none;
+    }
+    @include e(new-tab) {
+        float: right;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        border: 1px solid #d3dce6;
+        border-radius: 3px;
+        margin: 12px 0 9px 10px;
+        font-size: 12px;
+        color: #d3dce6;
+        text-align: center;
+        cursor: pointer;
+        transition: all $transition-duration-fast;
+
+        .km-icon-plus {
+            transform: scale(0.8, 0.8);
+        }
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+    @include e(nav-wrap) {
+        position: relative;
+        margin-bottom: -1px;
+        overflow: hidden;
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            left: 0;
+            bottom: 0;
+            z-index: $z-index-base;
+            background-color: $border-color-light;
+        }
+
+        @include when(scrollable) {
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
+    }
+    @include e(nav-scroll) {
+        overflow: hidden;
+    }
+    @include e((nav-next, nav-prev)) {
+        position: absolute;
+        line-height: 44px;
+        font-size: 12px;
+        color: $color-text-secondary;
+        cursor: pointer;
+    }
+    @include e(nav-next) {
+        right: 0;
+    }
+    @include e(nav-prev) {
+        left: 0;
+    }
+    @include e(nav) {
+        position: relative;
+        float: left;
+        z-index: #{$z-index-base + 1};
+        transition: transform $transition-duration-base;
+        white-space: nowrap;
+
+        @include when(stretch) {
+            display: flex;
+            min-width: 100%;
+            & > * {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    }
+    @include e(item) {
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        line-height: 1.5;
+        margin-right: 20px;
+        padding: 12px 16px;
+        list-style: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: $color-text-primary;
+        transition: $all-transition;
+
+        &:focus, &:focus:active {
+            outline: none;
+        }
+
+        &:focus.is-active.is-focus:not(:active) {
+            border-radius: 3px;
+            box-shadow: 0 0 2px 2px $color-primary inset;
+        }
+
+        & .km-icon-close {
+            margin-left: 5px;
+            border-radius: 50%;
+            transition: all $transition-duration-base $ease-in-out;
+            text-align: center;
+            &:before {
+                display: inline-block;
+                transform: scale(.9);
+            }
+
+            &:hover {
+                background-color: $color-text-placeholder;
+                color: $color-white;
+            }
+        }
+
+        @include when(active) {
+            color: $color-primary;
+        }
+
+        &:hover {
+            color: $color-primary;
+            cursor: pointer;
+        }
+
+        @include when(disabled) {
+            color: $disabled-color-base;
+            cursor: default;
+        }
+    }
+    @include e(content) {
+        position: relative;
+        overflow: hidden;
+    }
+    @include m(card) {
+        > .km-tabs__header {
+            border-bottom: 1px solid $border-color-light;
+        }
+        > .km-tabs__header .km-tabs__nav-wrap::after {
+            content: none;
+        }
+        > .km-tabs__header .km-tabs__nav {
+            box-sizing: border-box;
+            border: 1px solid $border-color-light;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+        > .km-tabs__header .km-tabs__active-bar {
+            display: none;
+        }
+        > .km-tabs__header .km-tabs__item .km-icon-close {
+            position: relative;
+            width: 0;
+            height: 14px;
+            line-height: 15px;
+            top: -1px;
+            right: -2px;
+            overflow: hidden;
+            transform-origin: 100% 50%;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+        > .km-tabs__header .km-tabs__item {
+            border-bottom: 1px solid transparent;
+            border-left: 1px solid $border-color-light;
+            transition: color $transition-duration-base $ease-in-out, padding $transition-duration-base $ease-in-out;
+            &:first-child {
+                border-left: none;
+            }
+            &.is-closable {
+                &:hover {
+                    padding-left: 13px;
+                    padding-right: 13px;
+
+                    & .km-icon-close {
+                        width: 14px;
+                    }
+                }
+            }
+            &.is-active {
+                border-bottom-color: $color-white;
+
+                &.is-closable {
+                    padding-left: 20px;
+                    padding-right: 20px;
+
+                    .km-icon-close {
+                        width: 14px;
+                    }
+                }
+            }
+        }
+    }
+    @include m(border-card) {
+        border: 1px solid $border-color-base;
+        background-color: $color-white;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12), 0 0 6px 0 rgba(0,0,0,0.04);
+
+        > .km-tabs__content {
+            padding: 15px;
+        }
+        > .km-tabs__header {
+            margin: 0;
+            border-bottom: 1px solid $border-color-light;
+            background-color: $background-color-base;
+        }
+        > .km-tabs__header .km-tabs__nav-wrap::after {
+            content: none;
+        }
+        > .km-tabs__header .km-tabs__item {
+            margin-top: -1px;
+            border: 1px solid transparent;
+            transition: all $transition-duration-base $ease-in-out;
+            color: $color-text-secondary;
+
+            &:first-child {
+                margin-left: -1px;
+            }
+
+            & + .km-tabs__item {
+                margin-left: -1px;
+            }
+
+            &.is-active {
+                border-left-color: $border-color-base;
+                border-right-color: $border-color-base;
+                background-color: $color-white;
+                color: $color-primary;
+            }
+            &:not(.is-disabled):hover {
+                color: $color-primary;
+            }
+            &.is-disabled {
+                color: $disabled-color-base;
+            }
+        }
+
+        > .km-tabs__header .is-scrollable .km-tabs__item:first-child {
+            margin-left: 0;
+        }
+    }
+    @include m((top, bottom)) {
+        .km-tabs__item.is-top:last-child,
+        .km-tabs__item.is-bottom:last-child {
+            margin-right: 0;
+        }
+
+        &.km-tabs--border-card, &.km-tabs--card,
+        .km-tabs--left, .km-tabs--right {
+            > .km-tabs__header {
+                .km-tabs__item:nth-child(2) {
+                    padding-left: 20px;
+                }
+                .km-tabs__item:last-child {
+                    padding-right: 20px;
+                }
+            }
+        }
+    }
+    @include m(bottom) {
+        .km-tabs__header.is-bottom {
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+        &.km-tabs--border-card {
+            .km-tabs__header.is-bottom {
+                border-top: 1px solid $border-color-base;
+                border-bottom: 0;
+            }
+            .km-tabs__nav-wrap.is-bottom {
+                margin-top: -1px;
+                margin-bottom: 0;
+            }
+            .km-tabs__item.is-bottom:not(.is-active) {
+                border: 1px solid transparent;
+            }
+            .km-tabs__item.is-bottom {
+                margin: 0 -1px -1px -1px;
+            }
+        }
+    }
+    @include m((left, right)) {
+        overflow: hidden;
+
+        .km-tabs__header.is-left,
+        .km-tabs__header.is-right,
+        .km-tabs__nav-wrap.is-left,
+        .km-tabs__nav-wrap.is-right,
+        .km-tabs__nav-scroll {
+            height: 100%;
+        }
+
+        .km-tabs__active-bar.is-left,
+        .km-tabs__active-bar.is-right {
+            top: 0;
+            bottom: auto;
+            width: 2px;
+            height: auto;
+        }
+
+        .km-tabs__nav-wrap.is-left,
+        .km-tabs__nav-wrap.is-right {
+            margin-bottom: 0;
+
+            > .km-tabs__nav-prev,
+            > .km-tabs__nav-next {
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                cursor: pointer;
+
+                i {
+                    transform: rotateZ(90deg);
+                }
+            }
+            > .km-tabs__nav-prev {
+                left: auto;
+                top: 0;
+            }
+            > .km-tabs__nav-next {
+                right: auto;
+                bottom: 0;
+            }
+
+            &.is-scrollable {
+                padding: 30px 0;
+            }
+
+            &::after {
+                width: 2px;
+                height: 100%;
+                top: 0;
+                bottom: auto;
+            }
+        }
+
+        .km-tabs__nav.is-left,
+        .km-tabs__nav.is-right {
+            float: none;
+        }
+        .km-tabs__item.is-left,
+        .km-tabs__item.is-right {
+            display: block;
+        }
+    }
+    @include m(left) {
+        .km-tabs__header.is-left {
+            float: left;
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+        .km-tabs__nav-wrap.is-left {
+            margin-right: -1px;
+            &::after {
+                left: auto;
+                right: 0;
+            }
+        }
+        .km-tabs__active-bar.is-left {
+            right: 0;
+            left: auto;
+        }
+        .km-tabs__item.is-left {
+            text-align: right;
+        }
+
+        &.km-tabs--card {
+            .km-tabs__active-bar.is-left {
+                display: none;
+            }
+            .km-tabs__item.is-left {
+                border-left: none;
+                border-right: 1px solid $border-color-light;
+                border-bottom: none;
+                border-top: 1px solid $border-color-light;
+                text-align: left;
+            }
+            .km-tabs__item.is-left:first-child {
+                border-right: 1px solid $border-color-light;
+                border-top: none;
+            }
+            .km-tabs__item.is-left.is-active {
+                border: 1px solid $border-color-light;
+                border-right-color: #fff;
+                border-left: none;
+                border-bottom: none;
+
+                &:first-child {
+                    border-top: none;
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            .km-tabs__nav {
+                border-radius: 4px 0 0 4px;
+                border-bottom: 1px solid $border-color-light;
+                border-right: none;
+            }
+
+            .km-tabs__new-tab {
+                float: none;
+            }
+        }
+
+        &.km-tabs--border-card {
+            .km-tabs__header.is-left {
+                border-right: 1px solid #dfe4ed;
+            }
+            .km-tabs__item.is-left {
+                border: 1px solid transparent;
+                margin: -1px 0 -1px -1px;
+
+                &.is-active {
+                    border-color: transparent;
+                    border-top-color: rgb(209, 219, 229);
+                    border-bottom-color: rgb(209, 219, 229);
+                }
+            }
+        }
+    }
+    @include m(right) {
+        .km-tabs__header.is-right {
+            float: right;
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+
+        .km-tabs__nav-wrap.is-right {
+            margin-left: -1px;
+            &::after {
+                left: 0;
+                right: auto;
+            }
+        }
+
+        .km-tabs__active-bar.is-right {
+            left: 0;
+        }
+
+        &.km-tabs--card {
+            .km-tabs__active-bar.is-right {
+                display: none;
+            }
+            .km-tabs__item.is-right {
+                border-bottom: none;
+                border-top: 1px solid $border-color-light;
+            }
+            .km-tabs__item.is-right:first-child {
+                border-left: 1px solid $border-color-light;
+                border-top: none;
+            }
+            .km-tabs__item.is-right.is-active {
+                border: 1px solid $border-color-light;
+                border-left-color: #fff;
+                border-right: none;
+                border-bottom: none;
+
+                &:first-child {
+                    border-top: none;
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            .km-tabs__nav {
+                border-radius: 0 4px 4px 0;
+                border-bottom: 1px solid $border-color-light;
+                border-left: none;
+            }
+        }
+        &.km-tabs--border-card {
+            .km-tabs__header.is-right {
+                border-left: 1px solid #dfe4ed;
+            }
+            .km-tabs__item.is-right {
+                border: 1px solid transparent;
+                margin: -1px -1px -1px 0;
+
+                &.is-active {
+                    border-color: transparent;
+                    border-top-color: rgb(209, 219, 229);
+                    border-bottom-color: rgb(209, 219, 229);
+                }
+            }
+        }
+    }
+}

@@ -1,17 +1,12 @@
 import React, { useMemo } from 'react';
+import { mergeStr } from 'utils/common/base';
 
 /**
  * Build root className
  */
 function useClassName(obj = {}, dependencies) {
     return useMemo(() => {
-        let className = '';
-        for(let cls in obj) {
-            if(obj.hasOwnProperty(cls)) {
-                obj[cls] && (className += `${cls} `);
-            }
-        }
-        return className.slice(0, -1);
+        return mergeStr(obj);
     }, dependencies);
 }
 

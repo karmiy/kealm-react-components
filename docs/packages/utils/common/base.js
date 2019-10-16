@@ -150,3 +150,18 @@ export const throttle = function (func, wait, options = {}) {
     }
     return throttled;
 }
+
+/**
+ * merge String from object
+ * @param obj
+ * @returns {string}
+ */
+export const mergeStr = function (obj = {}) {
+    let className = '';
+    for(let cls in obj) {
+        if(obj.hasOwnProperty(cls)) {
+            obj[cls] && (className += `${cls} `);
+        }
+    }
+    return className.slice(0, -1);
+}
