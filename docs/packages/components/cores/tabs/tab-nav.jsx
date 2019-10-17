@@ -19,7 +19,7 @@ function TabNav(props) {
 
     // ---------------------------------- logic code: variable ----------------------------------
     const [isScroll, setIsScroll] = useStateCallable(false);
-    const [tabDisabled, setTabDisabled] = useState({prev: false, next: false});
+    const [tabDisabled, setTabDisabled] = useState({prev: true, next: false});
     // const [prevDisabled, setPrevDisabled] = useState(false);
     // const [nextDisabled, setNextDisabled] = useState(false);
 
@@ -85,7 +85,7 @@ function TabNav(props) {
             return navInnerRef.current[`offset${_attr}`] - navWrapRef.current[`client${_attr}`] > 0;
         },
         get speed() {
-            return 70;
+            return 100;
         },
     }
 
@@ -128,10 +128,9 @@ function TabNav(props) {
     /*useDidUpdate(() => {
         console.log(1);
     }, [isScroll]);*/
-
     // ---------------------------------- event ----------------------------------
     const onPrevClick = useCallback(() => {
-        if(tabDisabled.rev) return;
+        if(tabDisabled.prev) return;
 
         const inner_wrap = navInnerRef.current;
         const _value = Math.min(getTranslate(inner_wrap)[isHoriz ? 'x' : 'y'] + scope.speed, scope.max);
