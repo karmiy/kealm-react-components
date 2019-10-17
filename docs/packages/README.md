@@ -4,6 +4,8 @@
 
 - logic code
 
+- logic code: description
+
 - class
 
 - style

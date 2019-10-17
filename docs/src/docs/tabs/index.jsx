@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
 const TabPane = Tabs.TabPane;
 
 function TabsDoc() {
+    const [count, setCount] = useState(6);
     return (
         <div className='page-box'>
             <h1>Tabs 标签页</h1>
@@ -13,11 +14,13 @@ function TabsDoc() {
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>基础的、简洁的标签页。</p>
-            <div className="detail-box">
-                <Tabs>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+            <div className="detail-box" style={{width: '400px'}}>
+                <Tabs defaultValue={'6'}>
+                    {
+                        Array(count).fill('').map((_, index) => {
+                            return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
+                        })
+                    }
                 </Tabs>
             </div>
             {/* API */}

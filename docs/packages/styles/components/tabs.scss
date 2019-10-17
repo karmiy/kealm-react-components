@@ -43,6 +43,7 @@
         position: relative;
         margin-bottom: -1px;
         overflow: hidden;
+        transition: padding $transition-duration-base;
 
         &::after {
             content: "";
@@ -65,10 +66,17 @@
     }
     @include e((nav-next, nav-prev)) {
         position: absolute;
-        line-height: 44px;
-        font-size: 12px;
-        color: $color-text-secondary;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: $font-size-base;
+        color: $color-text-regular;
         cursor: pointer;
+        transition: color $transition-duration-base;
+
+        @include when(disabled) {
+            color: $color-text-disabled;
+            cursor: not-allowed;
+        }
     }
     @include e(nav-next) {
         right: 0;

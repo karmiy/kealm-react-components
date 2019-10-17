@@ -105,3 +105,30 @@ export const getStyle = ieVersion < 9 ? function(element, styleName) {
         return element.style[styleName];
     }
 };
+
+/**
+ * get translate of dom
+ * @param dom
+ * @returns {{x: number, y: number}}
+ */
+export const getTranslate = function (dom) {
+    const transform = getStyle(dom, 'transform');
+    if(transform === 'none') return {x: 0, y: 0};
+    const trans = transform.slice(7, -1).split(',');
+    return {
+        x: +trans[4],
+        y: +trans[5],
+    }
+}
+
+export const setTranslate = function (dom, options = {}) {
+    const { x, y } = options;
+    const transform = getStyle(dom, 'transform');
+    const trans = transform === 'none' ?
+        [1, 0, 0, 1, 0, 0]
+        :
+        transform.slice(7, -1).split(',');
+    x !== undefined && (trans[4] = x);
+    y !== undefined && (trans[5] = y);
+    dom.style.transform = `matrix(${trans.toString()})`;
+}
