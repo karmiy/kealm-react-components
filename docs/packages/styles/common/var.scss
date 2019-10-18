@@ -526,4 +526,18 @@ $step-tail-margin-left-dotted: 12px !default;
 $step-dot-offset-left: 2px;
 $step-tail-width-gap: 20px;
 
+/* --------------------------Tabs-------------------------- */
+$tabs-item-padding-horizontal: 12px 16px !default;
+$tabs-item-padding-vertical: 8px 24px !default;
+$tabs-item-margin-right: 20px !default;
+$tabs-item-margin-bottom: 10px !default;
+
+// card
+$tab-card-item-padding-horizontal: 12px 20px !default;
+$tab-card-item-padding-vertical: 12px 24px !default;
+$tab-card-item-margin-right: 0 !default;
+
+// border-card
+$tab-border-card-item-padding-horizontal: $tab-card-item-padding-horizontal !default;
+$tab-border-card-item-margin-right: $tab-card-item-margin-right !default;
 

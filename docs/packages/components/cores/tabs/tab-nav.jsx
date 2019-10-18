@@ -1,9 +1,10 @@
-import React, { Children, useMemo, useRef, useLayoutEffect, useState, useCallback } from 'react';
+import React, { Children, useMemo, useRef, useLayoutEffect, useEffect, useState, useCallback } from 'react';
 import { useContextConf, useClassName, useDidMount, useDidUpdate, useStateCallable } from 'hooks';
 import { TabNavProps, TabNavDefaultProps } from './interface';
 import { mergeStr } from 'utils/common/base';
 import { getTranslate, setTranslate, getStyle } from 'utils/common/dom';
 import Icon from '../icon';
+import { FadeTransition } from '../transition'
 import { RenderWrapper } from '../../common';
 
 function TabNav(props) {
@@ -14,6 +15,7 @@ function TabNav(props) {
         position,
         value,
         onChange,
+        type,
         ...others
     } = props;
 
@@ -59,20 +61,43 @@ function TabNav(props) {
     const navNextRef = useRef(null);
 
     // ---------------------------------- logic code: active-bar ----------------------------------
-    // 定位active-bar的位置
-    useLayoutEffect(() => {
+    const isHoriz = position === 'top' || position === 'bottom';
+    const _direct = isHoriz ? 'Left' : 'Top',
+        _attr = isHoriz ? 'Width' : 'Height';
+
+
+    const positionActiveBar = useCallback((activeNavItem, activeBar, isHoriz) => {
+        if(activeNavItem && activeBar) {
+            if(isHoriz) {
+                activeBar.style.width = `${activeNavItem.offsetWidth}px`;
+                activeBar.style.height = '';
+                activeBar.style.transform = `translateX(${activeNavItem.offsetLeft}px)`;
+            }else {
+                activeBar.style.width = '';
+                activeBar.style.height = `${activeNavItem.offsetHeight}px`;
+                activeBar.style.transform = `translateY(${activeNavItem.offsetTop}px)`;
+            }
+        }
+    }, []);
+
+    // 定位active-bar的位置 -- value驱动
+    useEffect(() => {
         const activeNavItem = tabNavItemRefs.current[value],
             activeBar = barRef.current;
-        if(activeNavItem) {
-            activeBar.style.width = `${activeNavItem.offsetWidth}px`;
-            activeBar.style.transform = `translate(${activeNavItem.offsetLeft}px)`;
-        }
+        positionActiveBar(activeNavItem, activeBar, isHoriz);
     }, [value]);
 
+    // 定位active-bar的位置 -- postion驱动
+    useEffect(() => {
+        const activeNavItem = tabNavItemRefs.current[value],
+            activeBar = barRef.current;
+        // delay 300ms for transition
+        setTimeout(() => {
+            positionActiveBar(activeNavItem, activeBar, isHoriz);
+        }, 300);
+    }, [isHoriz]);
+
     // ---------------------------------- logic code: scroll ----------------------------------
-    const isHoriz = position === 'top' || position === 'bottom';
-    const _direct = isHoriz ? ['Left', 'Right'] : ['Top', 'Button'],
-        _attr = isHoriz ? 'Width' : 'Height';
 
     const scope = {
         get max() {
@@ -89,6 +114,33 @@ function TabNav(props) {
         },
     }
 
+    // 滚动到激活项
+    const scrollToActive = useCallback(() => {
+        const inner_wrap = navInnerRef.current;
+        const scroll_wrap = navScrollRef.current;
+        const activeItem = tabNavItemRefs.current[value];
+        if(!activeItem) return;
+
+        // 当前激活tab是第一个，prev tab 禁用
+        if(activeItem[`offset${_direct}`] === 0) {
+            setTabDisabled({prev: true, next: false});
+            return;
+        }
+
+        // 当前激活tab不完全在视野内，滑动至视野内
+        if(activeItem[`offset${_direct}`] > scroll_wrap[`offset${_attr}`] - activeItem[`offset${_attr}`]) {
+            const _value = -(activeItem[`offset${_direct}`] - scroll_wrap[`offset${_attr}`] + activeItem[`offset${_attr}`]);
+            setTranslate(inner_wrap, {
+                x: isHoriz ? _value : 0,
+                y: !isHoriz ? _value : 0,
+            });
+            setTabDisabled({
+                prev: false,
+                next: _value === scope.min,
+            });
+        }
+    }, [value, _direct, _attr, isHoriz, scope]);
+
     // 初始化时控制是否出现箭头滑动
     useDidMount(() => {
         if(scope.hasScroll) {
@@ -96,33 +148,15 @@ function TabNav(props) {
                 const transitionTime = parseFloat(getStyle(navWrapRef.current, 'transitionDuration')) * 1000;
                 // waiting padding-transition
                 setTimeout(() => {
-                    const inner_wrap = navInnerRef.current;
-                    const scroll_wrap = navScrollRef.current;
-                    const activeItem = tabNavItemRefs.current[value];
-                    if(!activeItem) return;
-
-                    // 当前激活tab是第一个，prev tab 禁用
-                    if(activeItem.offsetLeft === 0) {
-                        setTabDisabled({prev: true, next: false});
-                        return;
-                    }
-
-                    // 当前激活tab不完全在视野内，滑动至视野内
-                    if(activeItem.offsetLeft > scroll_wrap.offsetWidth - activeItem.offsetWidth) {
-                        const _value = -(activeItem.offsetLeft - scroll_wrap.offsetWidth + activeItem.offsetWidth);
-                        setTranslate(inner_wrap, {
-                            x: isHoriz ? _value : 0,
-                            y: !isHoriz ? _value : 0,
-                        });
-                        setTabDisabled({
-                            prev: false,
-                            next: _value === scope.min,
-                        });
-                    }
+                    scrollToActive();
                 }, transitionTime + 200);
             });
         }
     });
+
+    useDidUpdate(() => {
+        scrollToActive();
+    }, [isHoriz], true);
 
     // 初始化结束后如果isScroll，判断disabled与当前激活nav的位置
     /*useDidUpdate(() => {
@@ -149,7 +183,7 @@ function TabNav(props) {
                 next: false,
             })
         }
-    }, [tabDisabled]);
+    }, [tabDisabled, scope]);
 
     const onNextClick = useCallback(() => {
         if(tabDisabled.next) return;
@@ -171,7 +205,7 @@ function TabNav(props) {
                 next: false,
             })
         }
-    }, [tabDisabled]);
+    }, [tabDisabled, scope]);
 
     const onWrapClick = useCallback(() => {
         if(scope.hasScroll && !isScroll) {
@@ -182,17 +216,18 @@ function TabNav(props) {
             setTabDisabled({prev: false, next: false});
             setTranslate(navInnerRef.current, {x: 0, y: 0});
         }
-    }, [isScroll]);
+    }, [isScroll, scope]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderItems = useMemo(() => {
         return Children.map(children, child => {
-            const { label, name, active } = child.props;
+            const { label, name, active, disabled } = child.props;
 
             const clsName = mergeStr({
                 [`${componentCls}__item`]: true,
                 [`is-${position}`]: true,
                 'is-active': active,
+                'is-disabled': disabled,
             });
 
             return (
@@ -201,7 +236,9 @@ function TabNav(props) {
                     role={'tab'}
                     tabIndex={active ? 0 : -1}
                     className={clsName}
-                    onClick={() => onChange(name)}
+                    onClick={() => {
+                        !disabled && onChange(name);
+                    }}
                 >{label}</div>
             );
         });
@@ -210,19 +247,21 @@ function TabNav(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others} ref={navWrapRef} onClick={onWrapClick}>
-            <RenderWrapper visible={isScroll} unmountOnExit>
+            <FadeTransition visible={isScroll} unmountOnExit>
                 <div className={prevTabClassNames} ref={navPrevRef} onClick={onPrevClick}>
                     <Icon type={'left'} />
                 </div>
-            </RenderWrapper>
-            <RenderWrapper visible={isScroll} unmountOnExit>
+            </FadeTransition>
+            <FadeTransition visible={isScroll} unmountOnExit>
                 <div className={nextTabClassNames} ref={navNextRef} onClick={onNextClick}>
                     <Icon type={'right'} />
                 </div>
-            </RenderWrapper>
+            </FadeTransition>
             <div className={`${componentCls}__nav-scroll`} ref={navScrollRef}>
                 <div role={'tablist'} className={`${componentCls}__nav is-${position}`} ref={navInnerRef}>
-                    <div ref={barRef} className={`${componentCls}__active-bar is-${position}`} style={{width: '62px'}} />
+                    <RenderWrapper visible={type !== 'card' && type !== 'border-card'} unmountOnExit>
+                        <div ref={barRef} className={`${componentCls}__active-bar is-${position}`} />
+                    </RenderWrapper>
                     {renderItems}
                 </div>
             </div>

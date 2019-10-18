@@ -3,6 +3,7 @@ import { useContextConf, useClassName, useTabsValue } from 'hooks';
 import { TabsProps, TabsDefaultProps } from './interface';
 import TabNav from './tab-nav';
 import { transChildren } from 'utils/common/react-util';
+import { mergeStr } from 'utils/common/base';
 
 function Tabs(props) {
     const { componentCls } = useContextConf('tabs');
@@ -13,6 +14,11 @@ function Tabs(props) {
         defaultValue,
         value,
         onChange,
+        type,
+        headerClass,
+        contentClass,
+        headerStyle,
+        contentStyle,
         ...others
     } = props;
 
@@ -20,8 +26,9 @@ function Tabs(props) {
     const classNames = useClassName({
         [componentCls]: true,
         [`${componentCls}--${position}`]: position,
+        [`${componentCls}--${type}`]: type,
         [className]: className,
-    }, [className, componentCls, position]);
+    }, [className, componentCls, position, type]);
 
     // ---------------------------------- logic code ----------------------------------
     const {
@@ -31,7 +38,7 @@ function Tabs(props) {
 
     const _children = transChildren(children);
 
-    // ---------------------------------- render chunk ----------------------------------
+    // ---------------------------------- render mini chunk ----------------------------------
     const renderChildren = useMemo(() => {
         return Children.map(_children, child => {
             if(child) {
@@ -42,17 +49,45 @@ function Tabs(props) {
         })
     }, [_children, tabsValue]);
 
-    // ---------------------------------- render ----------------------------------
-    return (
-        <div className={classNames} {...others}>
-            <div className={`${componentCls}__header is-${position}`}>
-                <TabNav position={position} value={tabsValue} onChange={tabsChange}>
+    // ---------------------------------- render chunk ----------------------------------
+    const renderHeader = useMemo(() => {
+        const clsName = mergeStr({
+            [`${componentCls}__header`]: true,
+            [`is-${position}`]: position,
+            [headerClass]: headerClass,
+        });
+        return (
+            <div className={clsName} style={headerStyle}>
+                <TabNav position={position} value={tabsValue} onChange={tabsChange} type={type}>
                     {renderChildren}
                 </TabNav>
             </div>
-            <div className={`${componentCls}__content`}>
+        )
+    }, [componentCls, position, tabsValue, tabsChange, type, renderChildren, headerClass, headerStyle]);
+
+    const renderContent = useMemo(() => {
+        const clsName = mergeStr({
+            [`${componentCls}__content`]: true,
+            [contentClass]: contentClass,
+        });
+        return (
+            <div className={clsName} style={contentStyle}>
                 {renderChildren}
             </div>
+        )
+    }, [componentCls, renderChildren, contentClass, contentStyle]);
+
+    const renderTabs = useMemo(() => {
+        if(position !== 'bottom')
+            return <>{renderHeader}{renderContent}</>;
+
+        return <>{renderContent}{renderHeader}</>;
+    }, [position, renderHeader, renderContent]);
+
+    // ---------------------------------- render ----------------------------------
+    return (
+        <div className={classNames} {...others}>
+            {renderTabs}
         </div>
     );
 };

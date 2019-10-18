@@ -8,6 +8,7 @@ export const commonProps = {
     position: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
+    type: PropTypes.string,
 }
 
 export const commonDefaultProps = {
@@ -19,6 +20,10 @@ export const commonDefaultProps = {
 export const TabsProps = {
     ...commonProps,
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    headerClass: PropTypes.string,
+    contentClass: PropTypes.string,
+    headerStyle: PropTypes.object,
+    contentStyle: PropTypes.object,
 }
 
 export const TabsDefaultProps = {
@@ -34,14 +39,16 @@ export const TabNavDefaultProps = {
     ...commonDefaultProps,
 }
 
-/* tab-panel-props */
-export const TabPanelProps = {
+/* tab-pane-props */
+export const TabPaneProps = {
     className: PropTypes.string,
     name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.node,
     active: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
-export const TabPanelDefaultProps = {
+export const TabPaneDefaultProps = {
     active: false,
+    disabled: false,
 }

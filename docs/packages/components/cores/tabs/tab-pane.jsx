@@ -1,16 +1,17 @@
 import React from 'react';
 import { useContextConf, useClassName } from 'hooks';
-import { TabPanelProps, TabPanelDefaultProps } from './interface';
+import { TabPaneProps, TabPaneDefaultProps } from './interface';
 import RenderWrapper from '../../common/renderWrapper';
 
-function TabPanel(props) {
-    const {componentCls} = useContextConf('tab-panel');
+function TabPane(props) {
+    const {componentCls} = useContextConf('tab-pane');
     const {
         children,
         className,
         name,
         label,
         active,
+        disabled,
         ...others
     } = props;
 
@@ -30,7 +31,7 @@ function TabPanel(props) {
     );
 };
 
-TabPanel.propTypes = TabPanelProps;
-TabPanel.defaultProps = TabPanelDefaultProps;
+TabPane.propTypes = TabPaneProps;
+TabPane.defaultProps = TabPaneDefaultProps;
 
-export default TabPanel;
+export default TabPane;

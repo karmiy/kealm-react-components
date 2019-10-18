@@ -75,7 +75,7 @@
 
         @include when(disabled) {
             color: $color-text-disabled;
-            cursor: not-allowed;
+            cursor: not-allowed !important;
         }
     }
     @include e(nav-next) {
@@ -105,8 +105,8 @@
         display: inline-block;
         position: relative;
         line-height: 1.5;
-        margin-right: 20px;
-        padding: 12px 16px;
+        margin-right: $tabs-item-margin-right;
+        padding: $tabs-item-padding-horizontal;
         list-style: none;
         font-size: 14px;
         font-weight: 500;
@@ -149,7 +149,7 @@
 
         @include when(disabled) {
             color: $disabled-color-base;
-            cursor: default;
+            cursor: not-allowed;
         }
     }
     @include e(content) {
@@ -185,6 +185,8 @@
             vertical-align: middle;
         }
         > .km-tabs__header .km-tabs__item {
+            margin-right: $tab-card-item-margin-right;
+            padding: $tab-card-item-padding-horizontal;
             border-bottom: 1px solid transparent;
             border-left: 1px solid $border-color-light;
             transition: color $transition-duration-base $ease-in-out, padding $transition-duration-base $ease-in-out;
@@ -233,9 +235,11 @@
         }
         > .km-tabs__header .km-tabs__item {
             margin-top: -1px;
+            margin-right: $tab-border-card-item-margin-right;
+            padding: $tab-border-card-item-padding-horizontal;
             border: 1px solid transparent;
             transition: all $transition-duration-base $ease-in-out;
-            color: $color-text-secondary;
+            color: $color-text-regular;
 
             &:first-child {
                 margin-left: -1px;
@@ -341,10 +345,13 @@
             > .km-tabs__nav-prev {
                 left: auto;
                 top: 0;
+                transform: translateY(0);
             }
             > .km-tabs__nav-next {
+                top: auto;
                 right: auto;
                 bottom: 0;
+                transform: translateY(0);
             }
 
             &.is-scrollable {
@@ -352,7 +359,7 @@
             }
 
             &::after {
-                width: 2px;
+                width: 1px;
                 height: 100%;
                 top: 0;
                 bottom: auto;
@@ -366,13 +373,27 @@
         .km-tabs__item.is-left,
         .km-tabs__item.is-right {
             display: block;
+            margin-right: 0;
+            margin-bottom: $tabs-item-margin-bottom;
+            padding: $tabs-item-padding-vertical;
+        }
+        .km-tabs__item.is-left:last-child,
+        .km-tabs__item.is-right:last-child {
+            margin-bottom: 0;
+        }
+
+        &.km-tabs--card, &.km-tabs--border-card {
+            .km-tabs__item {
+                margin-bottom: 0;
+                padding: $tab-card-item-padding-vertical;
+            }
         }
     }
     @include m(left) {
         .km-tabs__header.is-left {
             float: left;
             margin-bottom: 0;
-            margin-right: 10px;
+            margin-right: 20px;
         }
         .km-tabs__nav-wrap.is-left {
             margin-right: -1px;
@@ -449,7 +470,7 @@
         .km-tabs__header.is-right {
             float: right;
             margin-bottom: 0;
-            margin-left: 10px;
+            margin-left: 20px;
         }
 
         .km-tabs__nav-wrap.is-right {

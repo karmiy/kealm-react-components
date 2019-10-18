@@ -1,5 +1,5 @@
 import Tabs from './tabs';
-import TabPane from './tab-panel';
+import TabPane from './tab-pane';
 
 Tabs.TabPane = TabPane;
 
