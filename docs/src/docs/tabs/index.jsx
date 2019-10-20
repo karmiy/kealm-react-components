@@ -13,15 +13,11 @@ function TabsDoc() {
 
 
     /*const cb = useCallback(() => {
-        console.log(total);
+        console.log(total, count);
     }, [total]);
 
-    useWatch((prev) => {
-        // console.log(total);
-    }, [count],true)
-
     useEffect(() => {
-        console.log(total);
+        console.log(total, count);
     }, [count]);*/
 
     return (
@@ -29,7 +25,8 @@ function TabsDoc() {
             <h1>Tabs 标签页</h1>
             <p>分隔内容上有关联但属于不同类别的数据集合。</p>
             {/*<button onClick={()=>setCount(c => ++c)}>C按钮{count}</button>
-            <button onClick={()=>setTotal(t => ++t)}>T按钮{count}</button>*/}
+            <button onClick={()=>setTotal(t => ++t)}>T按钮{total}</button>
+            <button onClick={cb}>B按钮{count}, {total}</button>*/}
 
             {/* 基本用法 */}
             <h2>基本用法</h2>
