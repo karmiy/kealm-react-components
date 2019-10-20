@@ -11,6 +11,8 @@ import {
     useThrottle,
     usePrevProps,
     usePropsStore,
+    useConsistentFunc,
+    useWatch,
 } from './common';
 
 import {
@@ -34,6 +36,8 @@ export {
     useThrottle,
     usePrevProps,
     usePropsStore,
+    useConsistentFunc,
+    useWatch,
     /* components */
     useCheckValue,
     useCheckGroupValue,

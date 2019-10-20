@@ -1,11 +1,24 @@
 import React, { Children, useMemo, useRef, useLayoutEffect, useEffect, useState, useCallback } from 'react';
-import { useContextConf, useClassName, useDidMount, useDidUpdate, useStateCallable } from 'hooks';
+import { useContextConf, useClassName, useDidMount, useDidUpdate, useStateCallable, useConsistentFunc, useWatch } from 'hooks';
 import { TabNavProps, TabNavDefaultProps } from './interface';
 import { mergeStr } from 'utils/common/base';
 import { getTranslate, setTranslate, getStyle } from 'utils/common/dom';
 import Icon from '../icon';
 import { FadeTransition } from '../transition'
 import { RenderWrapper } from '../../common';
+
+const setMargin = function(dom, options = {}) {
+    const { x, y } = options;
+    x !== undefined && (dom.style.marginLeft = `${x}px`);
+    y !== undefined && (dom.style.marginTop = `${y}px`);
+}
+
+const getMargin = function (dom) {
+    return {
+        x: parseFloat(getStyle(dom, 'marginLeft')),
+        y: parseFloat(getStyle(dom, 'marginTop')),
+    }
+}
 
 function TabNav(props) {
     const {componentCls} = useContextConf('tabs');
@@ -60,62 +73,50 @@ function TabNav(props) {
     // nav-next
     const navNextRef = useRef(null);
 
-    // ---------------------------------- logic code: active-bar ----------------------------------
+    // ---------------------------------- logic code: variable ----------------------------------
     const isHoriz = position === 'top' || position === 'bottom';
     const _direct = isHoriz ? 'Left' : 'Top',
         _attr = isHoriz ? 'Width' : 'Height';
 
+    const scope = useMemo(() => {
+        return {
+            get max() {
+                return 0;
+            },
+            get min() {
+                return navScrollRef.current[`client${_attr}`] - navInnerRef.current[`offset${_attr}`];
+            },
+            get hasScroll() {
+                return navInnerRef.current[`offset${_attr}`] - navWrapRef.current[`client${_attr}`] > 0;
+            },
+            get speed() {
+                return 100;
+            },
+        }
+    }, [_attr]);
 
-    const positionActiveBar = useCallback((activeNavItem, activeBar, isHoriz) => {
+    // ---------------------------------- function ----------------------------------
+    const scrollBarToView = useCallback(() => {
+        const activeNavItem = tabNavItemRefs.current[value],
+            activeBar = barRef.current;
         if(activeNavItem && activeBar) {
             if(isHoriz) {
                 activeBar.style.width = `${activeNavItem.offsetWidth}px`;
                 activeBar.style.height = '';
-                activeBar.style.transform = `translateX(${activeNavItem.offsetLeft}px)`;
+                // activeBar.style.transform = `translateX(${activeNavItem.offsetLeft}px)`;
+                activeBar.style.marginLeft = `${activeNavItem.offsetLeft}px`;
+                activeBar.style.marginTop = '0';
             }else {
                 activeBar.style.width = '';
                 activeBar.style.height = `${activeNavItem.offsetHeight}px`;
-                activeBar.style.transform = `translateY(${activeNavItem.offsetTop}px)`;
+                // activeBar.style.transform = `translateY(${activeNavItem.offsetTop}px)`;
+                activeBar.style.marginTop = `${activeNavItem.offsetTop}px`;
+                activeBar.style.marginLeft = `0`;
             }
         }
-    }, []);
+    }, [isHoriz, value]);
 
-    // 定位active-bar的位置 -- value驱动
-    useEffect(() => {
-        const activeNavItem = tabNavItemRefs.current[value],
-            activeBar = barRef.current;
-        positionActiveBar(activeNavItem, activeBar, isHoriz);
-    }, [value]);
-
-    // 定位active-bar的位置 -- postion驱动
-    useEffect(() => {
-        const activeNavItem = tabNavItemRefs.current[value],
-            activeBar = barRef.current;
-        // delay 300ms for transition
-        setTimeout(() => {
-            positionActiveBar(activeNavItem, activeBar, isHoriz);
-        }, 300);
-    }, [isHoriz]);
-
-    // ---------------------------------- logic code: scroll ----------------------------------
-
-    const scope = {
-        get max() {
-            return 0;
-        },
-        get min() {
-            return navScrollRef.current[`client${_attr}`] - navInnerRef.current[`offset${_attr}`];
-        },
-        get hasScroll() {
-            return navInnerRef.current[`offset${_attr}`] - navWrapRef.current[`client${_attr}`] > 0;
-        },
-        get speed() {
-            return 100;
-        },
-    }
-
-    // 滚动到激活项
-    const scrollToActive = useCallback(() => {
+    const scrollActiveToView = useCallback(() => {
         const inner_wrap = navInnerRef.current;
         const scroll_wrap = navScrollRef.current;
         const activeItem = tabNavItemRefs.current[value];
@@ -124,22 +125,57 @@ function TabNav(props) {
         // 当前激活tab是第一个，prev tab 禁用
         if(activeItem[`offset${_direct}`] === 0) {
             setTabDisabled({prev: true, next: false});
+            scrollToView(0);
             return;
         }
 
-        // 当前激活tab不完全在视野内，滑动至视野内
-        if(activeItem[`offset${_direct}`] > scroll_wrap[`offset${_attr}`] - activeItem[`offset${_attr}`]) {
-            const _value = -(activeItem[`offset${_direct}`] - scroll_wrap[`offset${_attr}`] + activeItem[`offset${_attr}`]);
-            setTranslate(inner_wrap, {
+        const activeSize = activeItem[`offset${_attr}`],
+            activeOffset = activeItem[`offset${_direct}`],
+            scrollWrapSize = scroll_wrap[`offset${_attr}`],
+            innerWrapOffset = Math.abs(getMargin(inner_wrap)[isHoriz ? 'x' : 'y']);
+
+        // 当前激活tab不完全在视野内，且在视野右侧，滑动至视野内
+        if(activeOffset + activeSize > scrollWrapSize + innerWrapOffset) {
+            const _value = -(activeOffset + activeSize - scrollWrapSize);
+            scrollToView(_value);
+        }
+
+        // 当前激活tab不完全在视野内，且在视野左侧，滑动至视野内
+        if(activeOffset < innerWrapOffset) {
+            const _value = -activeOffset;
+            scrollToView(_value);
+        }
+
+        function scrollToView(_value) {
+            setMargin(inner_wrap, {
                 x: isHoriz ? _value : 0,
                 y: !isHoriz ? _value : 0,
             });
             setTabDisabled({
-                prev: false,
+                prev: _value === scope.max,
                 next: _value === scope.min,
             });
         }
     }, [value, _direct, _attr, isHoriz, scope]);
+
+    // ---------------------------------- logic code: active-bar ----------------------------------
+    // 初始化定位active-bar
+    useDidMount(() => {
+        scrollBarToView();
+    });
+
+    // 定位active-bar的位置 -- value驱动
+    useDidUpdate(() => {
+        scrollBarToView();
+    }, [value], true);
+
+    // 定位active-bar的位置 -- position驱动
+    useDidUpdate(() => {
+        // delay 300ms for transition
+        setTimeout(scrollBarToView, 300);
+    }, [isHoriz], true);
+
+    // ---------------------------------- logic code: scroll ----------------------------------
 
     // 初始化时控制是否出现箭头滑动
     useDidMount(() => {
@@ -148,27 +184,38 @@ function TabNav(props) {
                 const transitionTime = parseFloat(getStyle(navWrapRef.current, 'transitionDuration')) * 1000;
                 // waiting padding-transition
                 setTimeout(() => {
-                    scrollToActive();
+                    scrollActiveToView();
                 }, transitionTime + 200);
             });
         }
     });
 
+    // 滑动激活项至视野内 -- value驱动
     useDidUpdate(() => {
-        scrollToActive();
+        scrollActiveToView();
+    }, [value], true);
+
+    // 滑动激活项至视野内 -- position驱动
+    useDidUpdate(() => {
+        // 先会到原位
+        setMargin(navInnerRef.current, {x: 0, y: 0});
+        setTimeout(() => {
+            scrollActiveToView();
+        }, 300);
     }, [isHoriz], true);
 
-    // 初始化结束后如果isScroll，判断disabled与当前激活nav的位置
-    /*useDidUpdate(() => {
-        console.log(1);
-    }, [isScroll]);*/
     // ---------------------------------- event ----------------------------------
     const onPrevClick = useCallback(() => {
         if(tabDisabled.prev) return;
 
         const inner_wrap = navInnerRef.current;
-        const _value = Math.min(getTranslate(inner_wrap)[isHoriz ? 'x' : 'y'] + scope.speed, scope.max);
-        setTranslate(inner_wrap, {
+        // const _value = Math.min(getTranslate(inner_wrap)[isHoriz ? 'x' : 'y'] + scope.speed, scope.max);
+        const _value = Math.min(getMargin(inner_wrap)[isHoriz ? 'x' : 'y'] + scope.speed, scope.max);
+        /*setTranslate(inner_wrap, {
+            x: isHoriz ? _value : 0,
+            y: !isHoriz ? _value : 0,
+        });*/
+        setMargin(inner_wrap, {
             x: isHoriz ? _value : 0,
             y: !isHoriz ? _value : 0,
         });
@@ -189,8 +236,13 @@ function TabNav(props) {
         if(tabDisabled.next) return;
 
         const inner_wrap = navInnerRef.current;
-        const _value = Math.max(getTranslate(inner_wrap)[isHoriz ? 'x' : 'y'] - scope.speed, scope.min);
-        setTranslate(inner_wrap, {
+        // const _value = Math.max(getTranslate(inner_wrap)[isHoriz ? 'x' : 'y'] - scope.speed, scope.min);
+        const _value = Math.max(getMargin(inner_wrap)[isHoriz ? 'x' : 'y'] - scope.speed, scope.min);
+        /*setTranslate(inner_wrap, {
+            x: isHoriz ? _value : 0,
+            y: !isHoriz ? _value : 0,
+        });*/
+        setMargin(inner_wrap, {
             x: isHoriz ? _value : 0,
             y: !isHoriz ? _value : 0,
         });
@@ -214,7 +266,8 @@ function TabNav(props) {
         } else if(!scope.hasScroll && isScroll) {
             setIsScroll(false);
             setTabDisabled({prev: false, next: false});
-            setTranslate(navInnerRef.current, {x: 0, y: 0});
+            // setTranslate(navInnerRef.current, {x: 0, y: 0});
+            setMargin(navInnerRef.current, {x: 0, y: 0});
         }
     }, [isScroll, scope]);
 

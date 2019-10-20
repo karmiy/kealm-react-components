@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Tabs, Icon, Radio } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { useWatch } from 'hooks';
 
 const TabPane = Tabs.TabPane;
 
 function TabsDoc() {
     const [count, setCount] = useState(20);
+    const [total, setTotal] = useState(100);
     const [position, setPosition] = useState('top');
     const [direction, setDirection] = useState('top');
+
+
+    /*const cb = useCallback(() => {
+        console.log(total);
+    }, [total]);
+
+    useWatch((prev) => {
+        // console.log(total);
+    }, [count],true)
+
+    useEffect(() => {
+        console.log(total);
+    }, [count]);*/
 
     return (
         <div className='page-box'>
             <h1>Tabs 标签页</h1>
             <p>分隔内容上有关联但属于不同类别的数据集合。</p>
+            {/*<button onClick={()=>setCount(c => ++c)}>C按钮{count}</button>
+            <button onClick={()=>setTotal(t => ++t)}>T按钮{count}</button>*/}
 
             {/* 基本用法 */}
             <h2>基本用法</h2>
@@ -106,11 +123,11 @@ function TabsDoc() {
             </div>
             <div className="detail-box">
                 <Tabs
-                    defaultValue={'12'}
+                    defaultValue={'1'}
                     position={direction}
                     headerStyle={{
-                        width: direction === 'top' ? '500px' : 'auto',
-                        height: direction === 'left' ? '300px' : 'auto'
+                        width: direction === 'top' ? '480px' : 'auto',
+                        height: direction === 'left' ? '310px' : 'auto'
                     }}>
                     {
                         Array(20).fill('').map((_, index) => {

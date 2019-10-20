@@ -10,6 +10,8 @@ import useStateCallable from './useStateCallable';
 import useThrottle from './useThrottle';
 import usePrevProps from './usePrevProps';
 import usePropsStore from './usePropsStore';
+import useConsistentFunc from './useConsistentFunc';
+import useWatch from './useWatch';
 
 export {
     useClassName,
@@ -24,4 +26,6 @@ export {
     useThrottle,
     usePrevProps,
     usePropsStore,
+    useConsistentFunc,
+    useWatch,
 }

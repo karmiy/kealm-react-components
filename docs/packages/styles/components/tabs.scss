@@ -14,8 +14,23 @@
         bottom: 0;
         background-color: $color-primary;
         z-index: $z-index-base;
-        transition: transform $transition-duration-base $ease-in-out;
+        //transition: transform $transition-duration-base $ease-in-out;
         list-style: none;
+        @include when(top) {
+            transition: margin-left $transition-duration-base $ease-in-out;
+        }
+
+        @include when(bottom) {
+            transition: margin-left $transition-duration-base $ease-in-out;
+        }
+
+        @include when(left) {
+            transition: margin-top $transition-duration-base $ease-in-out;
+        }
+
+        @include when(right) {
+            transition: margin-top $transition-duration-base;
+        }
     }
     @include e(new-tab) {
         float: right;
@@ -88,8 +103,24 @@
         position: relative;
         float: left;
         z-index: #{$z-index-base + 1};
-        transition: transform $transition-duration-base;
+        //transition: transform $transition-duration-base;
         white-space: nowrap;
+
+        @include when(top) {
+            transition: margin-left $transition-duration-base $ease-in-out;
+        }
+
+        @include when(bottom) {
+            transition: margin-left $transition-duration-base $ease-in-out;
+        }
+
+        @include when(left) {
+            transition: margin-top $transition-duration-base $ease-in-out;
+        }
+
+        @include when(right) {
+            transition: margin-top $transition-duration-base $ease-in-out;
+        }
 
         @include when(stretch) {
             display: flex;
