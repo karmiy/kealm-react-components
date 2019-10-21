@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { Tabs, Icon, Radio } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { useWatch } from 'hooks';
@@ -39,98 +39,187 @@ function TabsDoc() {
                         })
                     }
                 </Tabs>*/}
-                <Tabs defaultValue={'1'}>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                </Tabs>
+                {useMemo(() => {
+                    return (
+                        <Tabs defaultValue={'1'}>
+                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                            <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                        </Tabs>
+                    )
+                }, [])}
             </div>
 
             {/* 禁用 */}
             <h2>禁用</h2>
             <p>禁用某一项。</p>
             <div className="detail-box">
-                <Tabs defaultValue={'1'}>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                </Tabs>
+                {useMemo(() => {
+                    return (
+                        <Tabs defaultValue={'1'}>
+                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                            <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                        </Tabs>
+                    )
+                }, [])}
             </div>
 
             {/* 带图标 */}
             <h2>带图标</h2>
             <p>有图标的标签。</p>
             <div className="detail-box">
-                <Tabs defaultValue={'1'}>
-                    <TabPane name={'1'} label={<span><Icon type={'home'} /> Tab1</span>}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={<span><Icon type={'config'} /> Tab3</span>}>Content of Tab Pane 3</TabPane>
-                </Tabs>
+                {useMemo(() => {
+                    return (
+                        <Tabs defaultValue={'1'}>
+                            <TabPane name={'1'} label={<span><Icon type={'home'} /> Tab1</span>}>Content of Tab Pane 1</TabPane>
+                            <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                            <TabPane name={'3'} label={<span><Icon type={'config'} /> Tab3</span>}>Content of Tab Pane 3</TabPane>
+                        </Tabs>
+                    )
+                }, [])}
             </div>
 
             {/* 选项卡样式 */}
             <h2>选项卡样式</h2>
             <p>选项卡样式的标签页。</p>
             <div className="detail-box">
-                <Tabs defaultValue={'1'} type={'card'}>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                </Tabs>
+                {useMemo(() => {
+                    return (
+                        <Tabs defaultValue={'1'} type={'card'}>
+                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                            <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                        </Tabs>
+                    )
+                }, [])}
             </div>
 
             {/* 卡片化 */}
             <h2>卡片化</h2>
             <p>卡片化的标签页。</p>
             <div className="detail-box">
-                <Tabs defaultValue={'1'} type={'border-card'}>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                </Tabs>
+                {useMemo(() => {
+                    return (
+                        <Tabs defaultValue={'1'} type={'border-card'}>
+                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                            <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                        </Tabs>
+                    )
+                }, [])}
             </div>
 
             {/* 位置 */}
             <h2>位置</h2>
             <p>可以通过 position 设置标签的位置。</p>
-            <div className="detail-box">
-                <Radio.Group value={position} onChange={e => setPosition(e.target.value)} solid>
-                    <Radio.Button value={'top'}>Top</Radio.Button>
-                    <Radio.Button value={'bottom'}>Bottom</Radio.Button>
-                    <Radio.Button value={'left'}>Left</Radio.Button>
-                    <Radio.Button value={'right'}>Right</Radio.Button>
-                </Radio.Group>
-            </div>
-            <div className="detail-box" style={{marginTop: '45px'}}>
-                <Tabs defaultValue={'1'} position={position}>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                </Tabs>
-            </div>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Radio.Group value={position} onChange={e => setPosition(e.target.value)} solid>
+                                <Radio.Button value={'top'}>Top</Radio.Button>
+                                <Radio.Button value={'bottom'}>Bottom</Radio.Button>
+                                <Radio.Button value={'left'}>Left</Radio.Button>
+                                <Radio.Button value={'right'}>Right</Radio.Button>
+                            </Radio.Group>
+                        </div>
+                        <div className="detail-box" style={{marginTop: '45px'}}>
+                            <Tabs defaultValue={'1'} position={position}>
+                                <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                                <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                                <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                            </Tabs>
+                        </div>
+                        <div className="detail-box" style={{marginTop: '45px'}}>
+                            <Tabs defaultValue={'1'} position={position} type={'card'}>
+                                <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                                <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                                <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                            </Tabs>
+                        </div>
+                        <div className="detail-box" style={{marginTop: '45px'}}>
+                            <Tabs defaultValue={'1'} position={position} type={'border-card'}>
+                                <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                                <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                                <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                            </Tabs>
+                        </div>
+                    </>
+                )
+            }, [position, setPosition])}
 
             {/* 滑动 */}
             <h2>滑动</h2>
             <p>可以左右、上下滑动，容纳更多标签。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Radio.Group value={direction} onChange={e => setDirection(e.target.value)} solid>
+                                <Radio.Button value={'top'}>Horizontal</Radio.Button>
+                                <Radio.Button value={'left'}>Vertical</Radio.Button>
+                            </Radio.Group>
+                        </div>
+                        <div className="detail-box">
+                            <Tabs
+                                defaultValue={'1'}
+                                position={direction}
+                                headerStyle={{
+                                    width: direction === 'top' ? '480px' : 'auto',
+                                    height: direction === 'left' ? '310px' : 'auto'
+                                }}>
+                                {
+                                    Array(20).fill('').map((_, index) => {
+                                        return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                        <div className="detail-box">
+                            <Tabs
+                                defaultValue={'1'}
+                                position={direction}
+                                type={'card'}
+                                headerStyle={{
+                                    width: direction === 'top' ? '480px' : 'auto',
+                                    height: direction === 'left' ? '310px' : 'auto'
+                                }}>
+                                {
+                                    Array(20).fill('').map((_, index) => {
+                                        return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                        <div className="detail-box">
+                            <Tabs
+                                defaultValue={'1'}
+                                position={direction}
+                                type={'border-card'}
+                                headerStyle={{
+                                    width: direction === 'top' ? '480px' : 'auto',
+                                    height: direction === 'left' ? '310px' : 'auto'
+                                }}>
+                                {
+                                    Array(20).fill('').map((_, index) => {
+                                        return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                    </>
+                )
+            }, [direction, setDirection])}
+
+            {/* 动态增减标签页 */}
+            <h2>动态增减标签页</h2>
+            <p>可以通过 editable 让选项卡支持新增和关闭选项。</p>
             <div className="detail-box">
-                <Radio.Group value={direction} onChange={e => setDirection(e.target.value)} solid>
-                    <Radio.Button value={'top'}>Horizontal</Radio.Button>
-                    <Radio.Button value={'left'}>Vertical</Radio.Button>
-                </Radio.Group>
-            </div>
-            <div className="detail-box">
-                <Tabs
-                    defaultValue={'1'}
-                    position={direction}
-                    headerStyle={{
-                        width: direction === 'top' ? '480px' : 'auto',
-                        height: direction === 'left' ? '310px' : 'auto'
-                    }}>
-                    {
-                        Array(20).fill('').map((_, index) => {
-                            return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
-                        })
-                    }
+                <Tabs defaultValue={'1'} editable>
+                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
                 </Tabs>
             </div>
             {/* API */}

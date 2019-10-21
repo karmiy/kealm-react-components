@@ -4,6 +4,7 @@
 @include b(tabs) {
     @include e(header) {
         position: relative;
+        border-bottom: 1px solid $border-color-light;
         padding: 0;
         margin: 0 0 15px;
     }
@@ -60,7 +61,7 @@
         overflow: hidden;
         transition: padding $transition-duration-base;
 
-        &::after {
+        /*&::after {
             content: "";
             position: absolute;
             width: 100%;
@@ -69,7 +70,7 @@
             bottom: 0;
             z-index: $z-index-base;
             background-color: $border-color-light;
-        }
+        }*/
 
         @include when(scrollable) {
             box-sizing: border-box;
@@ -121,15 +122,6 @@
         @include when(right) {
             transition: margin-top $transition-duration-base $ease-in-out;
         }
-
-        @include when(stretch) {
-            display: flex;
-            min-width: 100%;
-            & > * {
-                flex: 1;
-                text-align: center;
-            }
-        }
     }
     @include e(item) {
         box-sizing: border-box;
@@ -148,27 +140,6 @@
             outline: none;
         }
 
-        &:focus.is-active.is-focus:not(:active) {
-            border-radius: 3px;
-            box-shadow: 0 0 2px 2px $color-primary inset;
-        }
-
-        & .km-icon-close {
-            margin-left: 5px;
-            border-radius: 50%;
-            transition: all $transition-duration-base $ease-in-out;
-            text-align: center;
-            &:before {
-                display: inline-block;
-                transform: scale(.9);
-            }
-
-            &:hover {
-                background-color: $color-text-placeholder;
-                color: $color-white;
-            }
-        }
-
         @include when(active) {
             color: $color-primary;
         }
@@ -183,27 +154,39 @@
             cursor: not-allowed;
         }
     }
+
+    @include e(close) {
+        margin-left: 5px;
+        border-radius: 50%;
+        //transition: all $transition-duration-base;
+        text-align: center;
+        vertical-align: middle;
+        transform-origin: center;
+        transform: scale(.9);
+
+        @include pseudo(hover) {
+            @include utils-little-bold;
+        }
+    }
+
     @include e(content) {
         position: relative;
         overflow: hidden;
     }
     @include m(card) {
-        > .km-tabs__header {
-            border-bottom: 1px solid $border-color-light;
-        }
-        > .km-tabs__header .km-tabs__nav-wrap::after {
+        /*> .km-tabs__header .km-tabs__nav-wrap::after {
             content: none;
-        }
-        > .km-tabs__header .km-tabs__nav {
+        }*/
+        .km-tabs__nav {
             box-sizing: border-box;
             border: 1px solid $border-color-light;
             border-bottom: none;
             border-radius: 4px 4px 0 0;
         }
-        > .km-tabs__header .km-tabs__active-bar {
+        .km-tabs__active-bar {
             display: none;
         }
-        > .km-tabs__header .km-tabs__item .km-icon-close {
+        .km-tabs__close {
             position: relative;
             width: 0;
             height: 14px;
@@ -215,7 +198,7 @@
             font-size: 12px;
             vertical-align: middle;
         }
-        > .km-tabs__header .km-tabs__item {
+        .km-tabs__item {
             margin-right: $tab-card-item-margin-right;
             padding: $tab-card-item-padding-horizontal;
             border-bottom: 1px solid transparent;
@@ -229,7 +212,7 @@
                     padding-left: 13px;
                     padding-right: 13px;
 
-                    & .km-icon-close {
+                    & .km-tabs__close {
                         width: 14px;
                     }
                 }
@@ -241,7 +224,7 @@
                     padding-left: 20px;
                     padding-right: 20px;
 
-                    .km-icon-close {
+                    .km-tabs__close {
                         width: 14px;
                     }
                 }
@@ -253,18 +236,17 @@
         background-color: $color-white;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12), 0 0 6px 0 rgba(0,0,0,0.04);
 
-        > .km-tabs__content {
+        .km-tabs__content {
             padding: 15px;
         }
-        > .km-tabs__header {
+        .km-tabs__header {
             margin: 0;
-            border-bottom: 1px solid $border-color-light;
             background-color: $background-color-base;
         }
-        > .km-tabs__header .km-tabs__nav-wrap::after {
+        /*> .km-tabs__header .km-tabs__nav-wrap::after {
             content: none;
-        }
-        > .km-tabs__header .km-tabs__item {
+        }*/
+        .km-tabs__item {
             margin-top: -1px;
             margin-right: $tab-border-card-item-margin-right;
             padding: $tab-border-card-item-padding-horizontal;
@@ -272,30 +254,28 @@
             transition: all $transition-duration-base $ease-in-out;
             color: $color-text-regular;
 
-            &:first-child {
-                margin-left: -1px;
-            }
-
             & + .km-tabs__item {
                 margin-left: -1px;
             }
 
-            &.is-active {
+            @include when(active) {
                 border-left-color: $border-color-base;
                 border-right-color: $border-color-base;
                 background-color: $color-white;
                 color: $color-primary;
             }
+
+            @include when(disabled) {
+                color: $disabled-color-base;
+            }
+
+            &:first-child {
+                border-left-color: transparent;
+            }
+
             &:not(.is-disabled):hover {
                 color: $color-primary;
             }
-            &.is-disabled {
-                color: $disabled-color-base;
-            }
-        }
-
-        > .km-tabs__header .is-scrollable .km-tabs__item:first-child {
-            margin-left: 0;
         }
     }
     @include m((top, bottom)) {
@@ -304,7 +284,7 @@
             margin-right: 0;
         }
 
-        &.km-tabs--border-card, &.km-tabs--card,
+        /*&.km-tabs--border-card, &.km-tabs--card,
         .km-tabs--left, .km-tabs--right {
             > .km-tabs__header {
                 .km-tabs__item:nth-child(2) {
@@ -314,40 +294,41 @@
                     padding-right: 20px;
                 }
             }
-        }
+        }*/
     }
     @include m(bottom) {
-        .km-tabs__header.is-bottom {
+        .km-tabs__header {
             margin-top: 10px;
             margin-bottom: 0;
         }
         &.km-tabs--border-card {
-            .km-tabs__header.is-bottom {
+            .km-tabs__header {
                 border-top: 1px solid $border-color-base;
                 border-bottom: 0;
             }
-            .km-tabs__nav-wrap.is-bottom {
+            .km-tabs__nav-wrap {
                 margin-top: -1px;
                 margin-bottom: 0;
             }
-            .km-tabs__item.is-bottom:not(.is-active) {
+            .km-tabs__item:not(.is-active) {
                 border: 1px solid transparent;
             }
-            .km-tabs__item.is-bottom {
-                margin: 0 -1px -1px -1px;
+            .km-tabs__item {
+                //margin: 0 -1px -1px -1px;
+                margin-bottom: -1px;
             }
         }
     }
     @include m((left, right)) {
         overflow: hidden;
 
-        .km-tabs__header.is-left,
-        .km-tabs__header.is-right,
-        .km-tabs__nav-wrap.is-left,
-        .km-tabs__nav-wrap.is-right,
+        .km-tabs__header,
+        .km-tabs__nav-wrap,
         .km-tabs__nav-scroll {
             height: 100%;
         }
+
+        // kkkkkkkkkkkkk
 
         .km-tabs__active-bar.is-left,
         .km-tabs__active-bar.is-right {
@@ -413,10 +394,28 @@
             margin-bottom: 0;
         }
 
+        &.km-tabs--card .km-tabs__header {
+            border-bottom: none;
+        }
+
         &.km-tabs--card, &.km-tabs--border-card {
             .km-tabs__item {
                 margin-bottom: 0;
                 padding: $tab-card-item-padding-vertical;
+            }
+        }
+
+        &.km-tabs--border-card {
+            .km-tabs__header {
+                border-bottom: none;
+            }
+            .km-tabs__item.is-left:first-child, .km-tabs__item.is-right:first-child {
+                border-top-color: transparent;
+                margin-top: 0;
+            }
+            .km-tabs__item.is-left:last-child, .km-tabs__item.is-right:last-child {
+                border-bottom-color: transparent;
+                margin-bottom: 0;
             }
         }
     }

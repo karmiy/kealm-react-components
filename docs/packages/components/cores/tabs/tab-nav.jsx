@@ -29,6 +29,7 @@ function TabNav(props) {
         value,
         onChange,
         type,
+        editable,
         ...others
     } = props;
 
@@ -281,6 +282,7 @@ function TabNav(props) {
                 [`is-${position}`]: true,
                 'is-active': active,
                 'is-disabled': disabled,
+                'is-closable': editable,
             });
 
             return (
@@ -292,10 +294,15 @@ function TabNav(props) {
                     onClick={() => {
                         !disabled && onChange(name);
                     }}
-                >{label}</div>
+                >
+                    {label}
+                    <RenderWrapper visible={editable} unmountOnExit>
+                        <Icon type={'close'} className={`${componentCls}__close`} />
+                    </RenderWrapper>
+                </div>
             );
         });
-    }, [children, componentCls, position, onChange]);
+    }, [children, componentCls, position, onChange, editable]);
 
     // ---------------------------------- render ----------------------------------
     return (

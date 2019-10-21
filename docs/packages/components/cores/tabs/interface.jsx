@@ -9,11 +9,13 @@ export const commonProps = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
     type: PropTypes.string,
+    editable: PropTypes.bool,
 }
 
 export const commonDefaultProps = {
     position: 'top',
     onChange: noop,
+    editable: false,
 }
 
 /* tabs-props */

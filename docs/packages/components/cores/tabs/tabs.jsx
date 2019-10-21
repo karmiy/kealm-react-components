@@ -2,8 +2,10 @@ import React, { Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName, useTabsValue } from 'hooks';
 import { TabsProps, TabsDefaultProps } from './interface';
 import TabNav from './tab-nav';
+import Icon from '../icon';
 import { transChildren } from 'utils/common/react-util';
 import { mergeStr } from 'utils/common/base';
+import { RenderWrapper } from '../../common';
 
 function Tabs(props) {
     const { componentCls } = useContextConf('tabs');
@@ -19,6 +21,7 @@ function Tabs(props) {
         contentClass,
         headerStyle,
         contentStyle,
+        editable,
         ...others
     } = props;
 
@@ -58,12 +61,17 @@ function Tabs(props) {
         });
         return (
             <div className={clsName} style={headerStyle}>
-                <TabNav position={position} value={tabsValue} onChange={tabsChange} type={type}>
+                <RenderWrapper visible={editable} unmountOnExit>
+                    <span tabIndex={0} className={`${componentCls}__new-tab`}>
+                        <Icon type={'plus'} />
+                    </span>
+                </RenderWrapper>
+                <TabNav position={position} value={tabsValue} onChange={tabsChange} type={type} editable={editable}>
                     {renderChildren}
                 </TabNav>
             </div>
         )
-    }, [componentCls, position, tabsValue, tabsChange, type, renderChildren, headerClass, headerStyle]);
+    }, [componentCls, position, tabsValue, tabsChange, type, renderChildren, headerClass, headerStyle, editable]);
 
     const renderContent = useMemo(() => {
         const clsName = mergeStr({
