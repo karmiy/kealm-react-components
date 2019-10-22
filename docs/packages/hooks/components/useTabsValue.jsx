@@ -3,7 +3,8 @@ import { isEmpty } from 'utils/common/base';
 
 function findFirstName(children = []) {
     let name = null;
-    if(Children.count(children) === 0) throw new Error('missing panels');
+    // if(Children.count(children) === 0) throw new Error('missing panels');
+    if(Children.count(children) === 0) return null;
 
     const _children = Children.toArray(children),
         length = _children.length;
@@ -14,7 +15,7 @@ function findFirstName(children = []) {
             break;
         }
     }
-    if(name === null) throw new Error('can\'t find the first panel with name');
+    // if(name === null) throw new Error('can\'t find the first panel with name');
 
     return name;
 }

@@ -10,12 +10,14 @@ export const commonProps = {
     onChange: PropTypes.func,
     type: PropTypes.string,
     editable: PropTypes.bool,
+    onEdit: PropTypes.func,
 }
 
 export const commonDefaultProps = {
     position: 'top',
     onChange: noop,
     editable: false,
+    onEdit: noop,
 }
 
 /* tabs-props */
@@ -26,6 +28,8 @@ export const TabsProps = {
     contentClass: PropTypes.string,
     headerStyle: PropTypes.object,
     contentStyle: PropTypes.object,
+    wrapClass: PropTypes.string,
+    wrapStyle: PropTypes.object,
 }
 
 export const TabsDefaultProps = {

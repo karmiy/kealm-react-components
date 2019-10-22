@@ -30,6 +30,7 @@ function TabNav(props) {
         onChange,
         type,
         editable,
+        onEdit,
         ...others
     } = props;
 
@@ -73,6 +74,11 @@ function TabNav(props) {
     const navPrevRef = useRef(null);
     // nav-next
     const navNextRef = useRef(null);
+    // timer
+    const timer = useRef({
+       bar: null,
+       nav: null,
+    });
 
     // ---------------------------------- logic code: variable ----------------------------------
     const isHoriz = position === 'top' || position === 'bottom';
@@ -97,7 +103,8 @@ function TabNav(props) {
     }, [_attr]);
 
     // ---------------------------------- function ----------------------------------
-    const scrollBarToView = useCallback(() => {
+    // 下滑块滚动至激活项
+    const scrollBarToActive = useCallback(() => {
         const activeNavItem = tabNavItemRefs.current[value],
             activeBar = barRef.current;
         if(activeNavItem && activeBar) {
@@ -116,12 +123,20 @@ function TabNav(props) {
             }
         }
     }, [isHoriz, value]);
-
+    
+    // 激活项滚动到视野内
     const scrollActiveToView = useCallback(() => {
         const inner_wrap = navInnerRef.current;
         const scroll_wrap = navScrollRef.current;
         const activeItem = tabNavItemRefs.current[value];
         if(!activeItem) return;
+
+        // 如果不需要滚动，回到原点
+        if(!scope.hasScroll) {
+            setTabDisabled({prev: false, next: false});
+            scrollToView(0);
+            return;
+        }
 
         // 当前激活tab是第一个，prev tab 禁用
         if(activeItem[`offset${_direct}`] === 0) {
@@ -147,6 +162,11 @@ function TabNav(props) {
             scrollToView(_value);
         }
 
+        // close时如果滚动已经低于最小值，需要调整
+        if(-innerWrapOffset < scope.min) {
+            scrollToView(scope.min);
+        }
+
         function scrollToView(_value) {
             setMargin(inner_wrap, {
                 x: isHoriz ? _value : 0,
@@ -159,51 +179,21 @@ function TabNav(props) {
         }
     }, [value, _direct, _attr, isHoriz, scope]);
 
-    // ---------------------------------- logic code: active-bar ----------------------------------
-    // 初始化定位active-bar
-    useDidMount(() => {
-        scrollBarToView();
-    });
-
-    // 定位active-bar的位置 -- value驱动
-    useDidUpdate(() => {
-        scrollBarToView();
-    }, [value], true);
-
-    // 定位active-bar的位置 -- position驱动
-    useDidUpdate(() => {
-        // delay 300ms for transition
-        setTimeout(scrollBarToView, 300);
-    }, [isHoriz], true);
-
-    // ---------------------------------- logic code: scroll ----------------------------------
-
-    // 初始化时控制是否出现箭头滑动
-    useDidMount(() => {
-        if(scope.hasScroll) {
-            setIsScroll(true, () => {
-                const transitionTime = parseFloat(getStyle(navWrapRef.current, 'transitionDuration')) * 1000;
-                // waiting padding-transition
-                setTimeout(() => {
-                    scrollActiveToView();
-                }, transitionTime + 200);
-            });
+    // 校验滚动状态，返回是否发生变化
+    const validateScrollStatus = useCallback(() => {
+        if(scope.hasScroll && !isScroll) {
+            setIsScroll(true);
+            setTabDisabled({prev: true, next: false});
+            return true;
+        } else if(!scope.hasScroll && isScroll) {
+            setIsScroll(false);
+            setTabDisabled({prev: false, next: false});
+            // setTranslate(navInnerRef.current, {x: 0, y: 0});
+            setMargin(navInnerRef.current, {x: 0, y: 0});
+            return true;
         }
-    });
-
-    // 滑动激活项至视野内 -- value驱动
-    useDidUpdate(() => {
-        scrollActiveToView();
-    }, [value], true);
-
-    // 滑动激活项至视野内 -- position驱动
-    useDidUpdate(() => {
-        // 先会到原位
-        setMargin(navInnerRef.current, {x: 0, y: 0});
-        setTimeout(() => {
-            scrollActiveToView();
-        }, 300);
-    }, [isHoriz], true);
+        return false;
+    }, [isScroll, scope]);
 
     // ---------------------------------- event ----------------------------------
     const onPrevClick = useCallback(() => {
@@ -261,16 +251,87 @@ function TabNav(props) {
     }, [tabDisabled, scope]);
 
     const onWrapClick = useCallback(() => {
-        if(scope.hasScroll && !isScroll) {
+        validateScrollStatus();
+    }, [validateScrollStatus]);
+
+    // ---------------------------------- logic code: active-bar ----------------------------------
+    // 初始化定位active-bar
+    useDidMount(() => {
+        scrollBarToActive();
+    });
+
+    // 定位active-bar的位置 -- value驱动
+    useDidUpdate(() => {
+        clearTimeout(timer.current.bar);
+        timer.current.bar = setTimeout(scrollBarToActive);
+    }, [value], true);
+
+    // 定位active-bar的位置 -- position驱动
+    useDidUpdate(() => {
+        // delay 300ms for transition
+        clearTimeout(timer.current.bar);
+        timer.current.bar = setTimeout(scrollBarToActive, 300);
+    }, [isHoriz], true);
+
+    // 定位active-bar的位置 -- count驱动
+    useDidUpdate(() => {
+        // delay 300ms for transition
+        clearTimeout(timer.current.bar);
+        timer.current.bar = setTimeout(scrollBarToActive, 300);
+    }, [children.length], true);
+
+    // ---------------------------------- logic code: scroll ----------------------------------
+
+    // 初始化时控制是否出现箭头滑动
+    useDidMount(() => {
+        if(scope.hasScroll) {
+            /*setIsScroll(true, () => {
+                const transitionTime = parseFloat(getStyle(navWrapRef.current, 'transitionDuration')) * 1000;
+                // waiting padding-transition
+                setTimeout(() => {
+                    scrollActiveToView();
+                }, transitionTime + 200);
+            });*/
             setIsScroll(true);
-            setTabDisabled({prev: true, next: false});
-        } else if(!scope.hasScroll && isScroll) {
-            setIsScroll(false);
-            setTabDisabled({prev: false, next: false});
-            // setTranslate(navInnerRef.current, {x: 0, y: 0});
-            setMargin(navInnerRef.current, {x: 0, y: 0});
         }
-    }, [isScroll, scope]);
+    });
+
+    // 滑动激活项至视野内 -- value驱动
+    useDidUpdate(() => {
+        clearTimeout(timer.current.nav);
+        timer.current.nav = setTimeout(scrollActiveToView);
+    }, [value], true);
+
+    // 滑动激活项至视野内 -- position驱动
+    useDidUpdate(() => {
+        clearTimeout(timer.current.nav);
+        // 先回到原位
+        setMargin(navInnerRef.current, {x: 0, y: 0});
+        timer.current.nav = setTimeout(() => {
+            scrollActiveToView();
+        }, 300);
+    }, [isHoriz], true);
+
+    // 滑动激活项至视野内 -- isScroll驱动
+    useDidUpdate(() => {
+        clearTimeout(timer.current.nav);
+        timer.current.nav = setTimeout(() => {
+            scrollActiveToView();
+        }, 300);
+        // scrollActiveToView();
+    }, [isScroll], true);
+
+    // 滑动激活项至视野内 -- count驱动
+    useDidUpdate(() => {
+        // onWrapClick();
+        clearTimeout(timer.current.nav);
+        timer.current.nav = setTimeout(() => {
+            // 如果滚动状态没有变化，滚动激活项到视野内
+            if(!validateScrollStatus()) {
+                scrollActiveToView();
+            }
+        }, 300);
+    }, [children.length], true);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderItems = useMemo(() => {
@@ -297,12 +358,19 @@ function TabNav(props) {
                 >
                     {label}
                     <RenderWrapper visible={editable} unmountOnExit>
-                        <Icon type={'close'} className={`${componentCls}__close`} />
+                        <Icon
+                            type={'close'}
+                            className={`${componentCls}__close`}
+                            onClick={e => {
+                                e.stopPropagation();
+                                onEdit('remove', name);
+                            }}
+                        />
                     </RenderWrapper>
                 </div>
             );
         });
-    }, [children, componentCls, position, onChange, editable]);
+    }, [children, componentCls, position, onChange, editable, onEdit]);
 
     // ---------------------------------- render ----------------------------------
     return (

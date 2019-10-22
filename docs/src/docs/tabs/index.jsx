@@ -10,7 +10,21 @@ function TabsDoc() {
     const [total, setTotal] = useState(100);
     const [position, setPosition] = useState('top');
     const [direction, setDirection] = useState('top');
-
+    const [tabIndex, setTabIndex] = useState('1');
+    const [tabs, setTabs] = useState([
+        {
+            id: '1',
+            title: 'Tab1',
+            name: '1',
+            content: 'Content of Tab Pane 1',
+        },
+        {
+            id: '2',
+            title: 'Tab2',
+            name: '2',
+            content: 'Content of Tab Pane 2',
+        }
+    ]);
 
     /*const cb = useCallback(() => {
         console.log(total, count);
@@ -19,6 +33,39 @@ function TabsDoc() {
     useEffect(() => {
         console.log(total, count);
     }, [count]);*/
+
+    const edit = useCallback((action, targetName) => {
+        if(action === 'remove') {
+            let activeName = tabIndex;
+            if (activeName === targetName) {
+                tabs.forEach((tab, index) => {
+                    if (tab.name === targetName) {
+                        let nextTab = tabs[index + 1] || tabs[index - 1];
+                        if (nextTab) {
+                            activeName = nextTab.name;
+                        }
+                    }
+                });
+            }
+
+            setTabIndex(activeName);
+            setTabs(tabs.filter(tab => tab.name !== targetName));
+        } else if(action === 'add') {
+            const len = tabs.length;
+            const lastTab = len ? tabs[len - 1] : null;
+            const nextIndex = lastTab ? +lastTab.id + 1 : 1;
+            setTabs([
+                ...tabs,
+                {
+                    id: `${nextIndex}`,
+                    title: `Tab${nextIndex}`,
+                    name: `${nextIndex}`,
+                    content: `Content of Tab Pane ${nextIndex}`,
+                }
+            ]);
+            setTabIndex(`${nextIndex}`);
+        }
+    }, [tabs, tabIndex]);
 
     return (
         <div className='page-box'>
@@ -32,7 +79,7 @@ function TabsDoc() {
             <h2>基本用法</h2>
             <p>基础的、简洁的标签页。</p>
             <div className="detail-box">
-                {/*<Tabs defaultValue={'12'} position={'left'} headerStyle={{height: '200px'}}>
+                {/*<Tabs defaultValue={'12'} position={'left'} wrapStyle={{height: '200px'}}>
                     {
                         Array(count).fill('').map((_, index) => {
                             return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
@@ -165,10 +212,8 @@ function TabsDoc() {
                             <Tabs
                                 defaultValue={'1'}
                                 position={direction}
-                                headerStyle={{
-                                    width: direction === 'top' ? '480px' : 'auto',
-                                    height: direction === 'left' ? '310px' : 'auto'
-                                }}>
+                                style={{width: direction === 'top' ? '480px' : 'auto'}}
+                                wrapStyle={{height: direction === 'left' ? '310px' : 'auto'}}>
                                 {
                                     Array(20).fill('').map((_, index) => {
                                         return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
@@ -176,15 +221,13 @@ function TabsDoc() {
                                 }
                             </Tabs>
                         </div>
-                        <div className="detail-box">
+                        <div className="detail-box" style={{marginTop: '45px'}}>
                             <Tabs
                                 defaultValue={'1'}
                                 position={direction}
                                 type={'card'}
-                                headerStyle={{
-                                    width: direction === 'top' ? '480px' : 'auto',
-                                    height: direction === 'left' ? '310px' : 'auto'
-                                }}>
+                                style={{width: direction === 'top' ? '480px' : 'auto'}}
+                                wrapStyle={{height: direction === 'left' ? '310px' : 'auto'}}>
                                 {
                                     Array(20).fill('').map((_, index) => {
                                         return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
@@ -192,15 +235,13 @@ function TabsDoc() {
                                 }
                             </Tabs>
                         </div>
-                        <div className="detail-box">
+                        <div className="detail-box" style={{marginTop: '45px'}}>
                             <Tabs
                                 defaultValue={'1'}
                                 position={direction}
                                 type={'border-card'}
-                                headerStyle={{
-                                    width: direction === 'top' ? '480px' : 'auto',
-                                    height: direction === 'left' ? '310px' : 'auto'
-                                }}>
+                                style={{width: direction === 'top' ? '480px' : 'auto'}}
+                                wrapStyle={{height: direction === 'left' ? '310px' : 'auto'}}>
                                 {
                                     Array(20).fill('').map((_, index) => {
                                         return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
@@ -216,10 +257,15 @@ function TabsDoc() {
             <h2>动态增减标签页</h2>
             <p>可以通过 editable 让选项卡支持新增和关闭选项。</p>
             <div className="detail-box">
-                <Tabs defaultValue={'1'} editable>
-                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                <Tabs value={tabIndex} onChange={name => setTabIndex(name)} editable onEdit={edit} type={'card'}>
+                    {
+                        tabs.map((pane, index) => {
+                            return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
+                        })
+                    }
+                    {/*<TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
                     <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>*/}
                 </Tabs>
             </div>
             {/* API */}

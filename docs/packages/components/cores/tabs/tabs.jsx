@@ -21,7 +21,10 @@ function Tabs(props) {
         contentClass,
         headerStyle,
         contentStyle,
+        wrapClass,
+        wrapStyle,
         editable,
+        onEdit,
         ...others
     } = props;
 
@@ -52,7 +55,36 @@ function Tabs(props) {
         })
     }, [_children, tabsValue]);
 
+    const renderPlusIcon = useMemo(() => {
+        return (
+            <RenderWrapper visible={editable} unmountOnExit>
+                    <span tabIndex={0} className={`${componentCls}__new-tab`} onClick={() => onEdit('add')}>
+                        <Icon type={'plus'}/>
+                    </span>
+            </RenderWrapper>
+        )
+    }, [editable, componentCls, onEdit]);
+
+    const renderTabNav = useMemo(() => {
+        const tabNavProps = {
+            className: wrapClass,
+            style: wrapStyle,
+            position,
+            value: tabsValue,
+            onChange: tabsChange,
+            type,
+            editable,
+            onEdit,
+        }
+        return (
+            <TabNav {...tabNavProps}>
+                {renderChildren}
+            </TabNav>
+        )
+    }, [wrapClass, wrapStyle, position, tabsValue, tabsChange, type, editable, onEdit, renderChildren]);
+
     // ---------------------------------- render chunk ----------------------------------
+
     const renderHeader = useMemo(() => {
         const clsName = mergeStr({
             [`${componentCls}__header`]: true,
@@ -61,17 +93,11 @@ function Tabs(props) {
         });
         return (
             <div className={clsName} style={headerStyle}>
-                <RenderWrapper visible={editable} unmountOnExit>
-                    <span tabIndex={0} className={`${componentCls}__new-tab`}>
-                        <Icon type={'plus'} />
-                    </span>
-                </RenderWrapper>
-                <TabNav position={position} value={tabsValue} onChange={tabsChange} type={type} editable={editable}>
-                    {renderChildren}
-                </TabNav>
+                {renderPlusIcon}
+                {renderTabNav}
             </div>
         )
-    }, [componentCls, position, tabsValue, tabsChange, type, renderChildren, headerClass, headerStyle, editable]);
+    }, [componentCls, position, headerClass, headerStyle, renderTabNav]);
 
     const renderContent = useMemo(() => {
         const clsName = mergeStr({

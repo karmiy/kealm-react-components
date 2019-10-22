@@ -40,6 +40,7 @@
         line-height: 18px;
         border: 1px solid #d3dce6;
         border-radius: 3px;
+        outline: none;
         margin: 12px 0 9px 10px;
         font-size: 12px;
         color: #d3dce6;
@@ -74,7 +75,7 @@
 
         @include when(scrollable) {
             box-sizing: border-box;
-            padding: 0 20px;
+            padding: 0 30px;
         }
     }
     @include e(nav-scroll) {
@@ -95,10 +96,10 @@
         }
     }
     @include e(nav-next) {
-        right: 0;
+        right: 8px;
     }
     @include e(nav-prev) {
-        left: 0;
+        left: 8px;
     }
     @include e(nav) {
         position: relative;
@@ -174,7 +175,10 @@
         overflow: hidden;
     }
     @include m(card) {
-        /*> .km-tabs__header .km-tabs__nav-wrap::after {
+        /*.km-tabs__header {
+            border-bottom: 1px solid $border-color-light;
+        }*/
+        /*.km-tabs__nav-wrap::after {
             content: none;
         }*/
         .km-tabs__nav {
@@ -186,48 +190,23 @@
         .km-tabs__active-bar {
             display: none;
         }
-        .km-tabs__close {
-            position: relative;
-            width: 0;
-            height: 14px;
-            line-height: 15px;
-            top: -1px;
-            right: -2px;
-            overflow: hidden;
-            transform-origin: 100% 50%;
-            font-size: 12px;
-            vertical-align: middle;
-        }
         .km-tabs__item {
+            margin-left: -1px;
             margin-right: $tab-card-item-margin-right;
             padding: $tab-card-item-padding-horizontal;
             border-bottom: 1px solid transparent;
             border-left: 1px solid $border-color-light;
+            border-right: 1px solid $border-color-light;
             transition: color $transition-duration-base $ease-in-out, padding $transition-duration-base $ease-in-out;
             &:first-child {
+                margin-left: 0;
                 border-left: none;
             }
-            &.is-closable {
-                &:hover {
-                    padding-left: 13px;
-                    padding-right: 13px;
-
-                    & .km-tabs__close {
-                        width: 14px;
-                    }
-                }
+            &:last-child {
+                border-right: none;
             }
             &.is-active {
                 border-bottom-color: $color-white;
-
-                &.is-closable {
-                    padding-left: 20px;
-                    padding-right: 20px;
-
-                    .km-tabs__close {
-                        width: 14px;
-                    }
-                }
             }
         }
     }
@@ -240,10 +219,20 @@
             padding: 15px;
         }
         .km-tabs__header {
+            //border-bottom: 1px solid $border-color-light;
             margin: 0;
             background-color: $background-color-base;
         }
-        /*> .km-tabs__header .km-tabs__nav-wrap::after {
+        /*.is-scrollable {
+            padding: 0 30px;
+            .km-tabs__nav-prev {
+                left: 8px;
+            }
+            .km-tabs__nav-next {
+                right: 8px;
+            }
+        }*/
+        /*.km-tabs__nav-wrap::after {
             content: none;
         }*/
         .km-tabs__item {
@@ -276,6 +265,20 @@
             &:not(.is-disabled):hover {
                 color: $color-primary;
             }
+        }
+
+        .km-tabs__nav-wrap {
+            @include when(scrollable) {
+                .km-tabs__item {
+                    @include when(active) {
+                        border-left-color: $border-color-base;
+                        border-top-color: transparent;
+                    }
+                }
+            }
+        }
+        .km-tabs__new-tab {
+            margin-right: 10px;
         }
     }
     @include m((top, bottom)) {
@@ -330,67 +333,63 @@
 
         // kkkkkkkkkkkkk
 
-        .km-tabs__active-bar.is-left,
-        .km-tabs__active-bar.is-right {
-            top: 0;
-            bottom: auto;
+        .km-tabs__active-bar {
             width: 2px;
             height: auto;
+            top: 0;
+            bottom: auto;
         }
 
-        .km-tabs__nav-wrap.is-left,
-        .km-tabs__nav-wrap.is-right {
+        .km-tabs__nav-wrap {
             margin-bottom: 0;
-
-            > .km-tabs__nav-prev,
-            > .km-tabs__nav-next {
-                width: 100%;
-                height: 30px;
-                line-height: 30px;
-                text-align: center;
-                cursor: pointer;
-
-                i {
-                    transform: rotateZ(90deg);
-                }
-            }
-            > .km-tabs__nav-prev {
-                left: auto;
-                top: 0;
-                transform: translateY(0);
-            }
-            > .km-tabs__nav-next {
-                top: auto;
-                right: auto;
-                bottom: 0;
-                transform: translateY(0);
-            }
 
             &.is-scrollable {
                 padding: 30px 0;
             }
 
-            &::after {
+            /*&::after {
                 width: 1px;
                 height: 100%;
                 top: 0;
                 bottom: auto;
+            }*/
+        }
+
+        .km-tabs__nav-prev,
+        .km-tabs__nav-next {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            i {
+                transform: rotateZ(90deg);
             }
         }
 
-        .km-tabs__nav.is-left,
-        .km-tabs__nav.is-right {
+        .km-tabs__nav-prev {
+            left: auto;
+            top: 0;
+            transform: translateY(0);
+        }
+
+        .km-tabs__nav-next {
+            top: auto;
+            right: auto;
+            bottom: 0;
+            transform: translateY(0);
+        }
+
+        .km-tabs__nav {
             float: none;
         }
-        .km-tabs__item.is-left,
-        .km-tabs__item.is-right {
+        .km-tabs__item {
             display: block;
             margin-right: 0;
             margin-bottom: $tabs-item-margin-bottom;
             padding: $tabs-item-padding-vertical;
         }
-        .km-tabs__item.is-left:last-child,
-        .km-tabs__item.is-right:last-child {
+        .km-tabs__item:last-child {
             margin-bottom: 0;
         }
 
@@ -405,68 +404,103 @@
             }
         }
 
-        &.km-tabs--border-card {
-            .km-tabs__header {
-                border-bottom: none;
-            }
-            .km-tabs__item.is-left:first-child, .km-tabs__item.is-right:first-child {
-                border-top-color: transparent;
-                margin-top: 0;
-            }
-            .km-tabs__item.is-left:last-child, .km-tabs__item.is-right:last-child {
-                border-bottom-color: transparent;
-                margin-bottom: 0;
-            }
-        }
-    }
-    @include m(left) {
-        .km-tabs__header.is-left {
-            float: left;
-            margin-bottom: 0;
-            margin-right: 20px;
-        }
-        .km-tabs__nav-wrap.is-left {
-            margin-right: -1px;
-            &::after {
-                left: auto;
-                right: 0;
-            }
-        }
-        .km-tabs__active-bar.is-left {
-            right: 0;
-            left: auto;
-        }
-        .km-tabs__item.is-left {
-            text-align: right;
-        }
-
         &.km-tabs--card {
-            .km-tabs__active-bar.is-left {
-                display: none;
-            }
-            .km-tabs__item.is-left {
-                border-left: none;
-                border-right: 1px solid $border-color-light;
-                border-bottom: none;
+            .km-tabs__item {
                 border-top: 1px solid $border-color-light;
-                text-align: left;
-            }
-            .km-tabs__item.is-left:first-child {
-                border-right: 1px solid $border-color-light;
-                border-top: none;
-            }
-            .km-tabs__item.is-left.is-active {
-                border: 1px solid $border-color-light;
-                border-right-color: #fff;
-                border-left: none;
-                border-bottom: none;
-
+                border-bottom: 1px solid $border-color-light;
+                border-left: 1px solid transparent;
+                border-right: 1px solid transparent;
+                margin-left: 0;
+                margin-top: -1px;
                 &:first-child {
+                    margin-top: 0;
                     border-top: none;
                 }
                 &:last-child {
                     border-bottom: none;
                 }
+            }
+        }
+
+        &.km-tabs--border-card {
+            .km-tabs__header {
+                border-bottom: none;
+            }
+            .km-tabs__item:first-child {
+                border-top-color: transparent;
+                margin-top: 0;
+            }
+            .km-tabs__item:last-child {
+                border-bottom-color: transparent;
+                margin-bottom: 0;
+            }
+            /*.is-scrollable {
+                .km-tabs__nav-prev {
+                    left: auto;
+                }
+                .km-tabs__nav-next {
+                    right: auto;
+                }
+            }*/
+            .km-tabs__nav-wrap {
+                @include when(scrollable) {
+                    .km-tabs__item {
+                        @include when(active) {
+                            border-top-color: $border-color-base;
+                            border-left-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include m(left) {
+        .km-tabs__header {
+            float: left;
+            border-bottom: none;
+            border-right: 1px solid $border-color-light;
+            margin-bottom: 0;
+            margin-right: 20px;
+        }
+        .km-tabs__nav-wrap {
+            margin-right: -1px;
+            /*&::after {
+                left: auto;
+                right: 0;
+            }*/
+        }
+        .km-tabs__active-bar {
+            right: 0;
+            left: auto;
+        }
+        .km-tabs__item {
+            text-align: right;
+        }
+
+        &.km-tabs--card {
+            .km-tabs__active-bar {
+                display: none;
+            }
+            /*.km-tabs__item {
+                border-left: none;
+                border-right: 1px solid $border-color-light;
+                //border-bottom: none;
+                border-bottom: 1px solid $border-color-light;
+                border-top: 1px solid $border-color-light;
+                text-align: left;
+            }
+            .km-tabs__item:first-child {
+                border-top: none;
+            }*/
+            .km-tabs__item.is-active {
+                //border: 1px solid $border-color-light;
+                border-right-color: #fff;
+                //border-left: none;
+                //border-bottom: none;
+
+                /*&:first-child {
+                    border-top: none;
+                }*/
             }
 
             .km-tabs__nav {
@@ -481,84 +515,98 @@
         }
 
         &.km-tabs--border-card {
-            .km-tabs__header.is-left {
+            .km-tabs__header {
                 border-right: 1px solid #dfe4ed;
             }
-            .km-tabs__item.is-left {
+            .km-tabs__item {
                 border: 1px solid transparent;
-                margin: -1px 0 -1px -1px;
-
-                &.is-active {
+                //margin: -1px 0 -1px -1px;
+                @include when(active) {
                     border-color: transparent;
                     border-top-color: rgb(209, 219, 229);
                     border-bottom-color: rgb(209, 219, 229);
+
+                    &:first-child {
+                        border-top-color: transparent;
+                    }
+
+                    &:last-child {
+                        border-bottom-color: transparent;
+                    }
                 }
             }
         }
     }
     @include m(right) {
-        .km-tabs__header.is-right {
+        .km-tabs__header {
             float: right;
+            border-bottom: none;
+            border-left: 1px solid $border-color-light;
             margin-bottom: 0;
             margin-left: 20px;
         }
 
-        .km-tabs__nav-wrap.is-right {
+        .km-tabs__nav-wrap {
             margin-left: -1px;
-            &::after {
+            /*&::after {
                 left: 0;
                 right: auto;
-            }
+            }*/
         }
 
-        .km-tabs__active-bar.is-right {
+        .km-tabs__active-bar {
             left: 0;
         }
 
         &.km-tabs--card {
-            .km-tabs__active-bar.is-right {
+            .km-tabs__active-bar {
                 display: none;
             }
-            .km-tabs__item.is-right {
-                border-bottom: none;
-                border-top: 1px solid $border-color-light;
-            }
-            .km-tabs__item.is-right:first-child {
-                border-left: 1px solid $border-color-light;
-                border-top: none;
-            }
-            .km-tabs__item.is-right.is-active {
-                border: 1px solid $border-color-light;
+            //.km-tabs__item {
+            //    border-bottom: none;
+            //    border-top: 1px solid $border-color-light;
+            //}
+            //.km-tabs__item:first-child {
+            //    border-left: 1px solid $border-color-light;
+            //    border-top: none;
+            //}
+            .km-tabs__item.is-active {
+                //border: 1px solid $border-color-light;
                 border-left-color: #fff;
-                border-right: none;
-                border-bottom: none;
+                //border-right: none;
+                //border-bottom: none;
 
-                &:first-child {
+                /*&:first-child {
                     border-top: none;
-                }
-                &:last-child {
-                    border-bottom: none;
-                }
+                }*/
             }
 
             .km-tabs__nav {
-                border-radius: 0 4px 4px 0;
                 border-bottom: 1px solid $border-color-light;
                 border-left: none;
+                border-radius: 0 4px 4px 0;
             }
         }
         &.km-tabs--border-card {
-            .km-tabs__header.is-right {
+            .km-tabs__header {
                 border-left: 1px solid #dfe4ed;
             }
-            .km-tabs__item.is-right {
+            .km-tabs__item {
                 border: 1px solid transparent;
-                margin: -1px -1px -1px 0;
+                //margin: -1px -1px -1px 0;
 
-                &.is-active {
+                @include when(active) {
                     border-color: transparent;
                     border-top-color: rgb(209, 219, 229);
                     border-bottom-color: rgb(209, 219, 229);
+
+                    &:first-child {
+                        border-top-color: transparent;
+                    }
+
+                    &:last-child {
+                        border-bottom-color: transparent;
+                    }
                 }
             }
         }
