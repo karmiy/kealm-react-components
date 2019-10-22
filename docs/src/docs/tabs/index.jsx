@@ -257,7 +257,7 @@ function TabsDoc() {
             <h2>动态增减标签页</h2>
             <p>可以通过 editable 让选项卡支持新增和关闭选项。</p>
             <div className="detail-box">
-                <Tabs value={tabIndex} onChange={name => setTabIndex(name)} editable onEdit={edit} type={'card'}>
+                <Tabs value={tabIndex} onChange={name => setTabIndex(name)} editable onEdit={edit} type={'border-card'}>
                     {
                         tabs.map((pane, index) => {
                             return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>

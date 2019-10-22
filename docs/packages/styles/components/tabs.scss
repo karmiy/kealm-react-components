@@ -183,8 +183,8 @@
         }*/
         .km-tabs__nav {
             box-sizing: border-box;
-            border: 1px solid $border-color-light;
-            border-bottom: none;
+            border-top: 1px solid $border-color-light;
+            //border-bottom: none;
             border-radius: 4px 4px 0 0;
         }
         .km-tabs__active-bar {
@@ -200,10 +200,10 @@
             transition: color $transition-duration-base $ease-in-out, padding $transition-duration-base $ease-in-out;
             &:first-child {
                 margin-left: 0;
-                border-left: none;
+                //border-left: none;
             }
             &:last-child {
-                border-right: none;
+                //border-right: none;
             }
             &.is-active {
                 border-bottom-color: $color-white;
@@ -282,8 +282,7 @@
         }
     }
     @include m((top, bottom)) {
-        .km-tabs__item.is-top:last-child,
-        .km-tabs__item.is-bottom:last-child {
+        .km-tabs__item:last-child{
             margin-right: 0;
         }
 
@@ -404,6 +403,11 @@
             }
         }
 
+        &.km-tabs--card .km-tabs__nav {
+            border-top: none;
+            border-bottom: none;
+        }
+
         &.km-tabs--card {
             .km-tabs__item {
                 border-top: 1px solid $border-color-light;
@@ -414,10 +418,10 @@
                 margin-top: -1px;
                 &:first-child {
                     margin-top: 0;
-                    border-top: none;
+                    //border-top: none;
                 }
                 &:last-child {
-                    border-bottom: none;
+                    //border-bottom: none;
                 }
             }
         }
@@ -434,6 +438,18 @@
                 border-bottom-color: transparent;
                 margin-bottom: 0;
             }
+            .km-tabs__nav-wrap {
+                @include when(scrollable) {
+                    .km-tabs__item {
+                        @include when(active) {
+                            border-top-color: $border-color-base;
+                            border-bottom-color: $border-color-base;
+                            border-left-color: transparent;
+                            border-right-color: transparent;
+                        }
+                    }
+                }
+            }
             /*.is-scrollable {
                 .km-tabs__nav-prev {
                     left: auto;
@@ -442,7 +458,7 @@
                     right: auto;
                 }
             }*/
-            .km-tabs__nav-wrap {
+            /*.km-tabs__nav-wrap {
                 @include when(scrollable) {
                     .km-tabs__item {
                         @include when(active) {
@@ -451,7 +467,7 @@
                         }
                     }
                 }
-            }
+            }*/
         }
     }
     @include m(left) {
@@ -502,10 +518,9 @@
                     border-top: none;
                 }*/
             }
-
             .km-tabs__nav {
                 border-radius: 4px 0 0 4px;
-                border-bottom: 1px solid $border-color-light;
+                border-left: 1px solid $border-color-light;
                 border-right: none;
             }
 
@@ -582,7 +597,7 @@
             }
 
             .km-tabs__nav {
-                border-bottom: 1px solid $border-color-light;
+                border-right: 1px solid $border-color-light;
                 border-left: none;
                 border-radius: 0 4px 4px 0;
             }
