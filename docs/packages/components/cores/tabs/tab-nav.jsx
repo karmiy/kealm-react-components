@@ -1,8 +1,8 @@
 import React, { Children, useMemo, useRef, useState, useCallback } from 'react';
-import { useContextConf, useClassName, useDidMount, useDidUpdate, useStateCallable } from 'hooks';
+import { useContextConf, useClassName, useDidMount, useDidUpdate } from 'hooks';
 import { TabNavProps, TabNavDefaultProps } from './interface';
 import { mergeStr, isEmpty } from 'utils/common/base';
-import { getTranslate, setTranslate, getStyle } from 'utils/common/dom';
+import { getStyle } from 'utils/common/dom';
 import Icon from '../icon';
 import { FadeTransition } from '../transition'
 import { RenderWrapper } from '../../common';
@@ -36,7 +36,7 @@ function TabNav(props) {
     } = props;
 
     // ---------------------------------- logic code: variable ----------------------------------
-    const [isScroll, setIsScroll] = useStateCallable(false);
+    const [isScroll, setIsScroll] = useState(false);
     const [tabDisabled, setTabDisabled] = useState({prev: true, next: false});
     // const [prevDisabled, setPrevDisabled] = useState(false);
     // const [nextDisabled, setNextDisabled] = useState(false);
@@ -85,6 +85,7 @@ function TabNav(props) {
     const isHoriz = position === 'top' || position === 'bottom';
     const _direct = isHoriz ? 'Left' : 'Top',
         _attr = isHoriz ? 'Width' : 'Height';
+    const transitionDuration = 300;
 
     const scope = useMemo(() => {
         return {
@@ -104,7 +105,7 @@ function TabNav(props) {
     }, [_attr]);
 
     // ---------------------------------- function ----------------------------------
-    // 下滑块滚动至激活项
+    // ScrollBar scroll to activeNav
     const scrollBarToActive = useCallback(() => {
         const activeNavItem = tabNavItemRefs.current[value],
             activeBar = barRef.current;
@@ -124,22 +125,22 @@ function TabNav(props) {
             }
         }
     }, [isHoriz, value]);
-    
-    // 激活项滚动到视野内
+
+    // ActiveNav scroll to view
     const scrollActiveToView = useCallback(() => {
         const inner_wrap = navInnerRef.current;
         const scroll_wrap = navScrollRef.current;
         const activeItem = tabNavItemRefs.current[value];
         if(!activeItem) return;
 
-        // 如果不需要滚动，回到原点
-        if(!scope.hasScroll) {
+        // If it's not scrolling, go back to the origin
+        if(!isScroll) {
             setTabDisabled({prev: false, next: false});
             scrollToView(0);
             return;
         }
 
-        // 当前激活tab是第一个，prev tab 禁用
+        // The currently active tab is the first, prev tab is disabled
         if(activeItem[`offset${_direct}`] === 0) {
             setTabDisabled({prev: true, next: false});
             scrollToView(0);
@@ -151,19 +152,19 @@ function TabNav(props) {
             scrollWrapSize = scroll_wrap[`offset${_attr}`],
             innerWrapOffset = Math.abs(getMargin(inner_wrap)[isHoriz ? 'x' : 'y']);
 
-        // 当前激活tab不完全在视野内，且在视野右侧，滑动至视野内
+        // If the currently active tab is not completely in the field of view and to the right of the field of view, slide to the field of view
         if(activeOffset + activeSize > scrollWrapSize + innerWrapOffset) {
             const _value = -(activeOffset + activeSize - scrollWrapSize);
             scrollToView(_value);
         }
 
-        // 当前激活tab不完全在视野内，且在视野左侧，滑动至视野内
+        // If the currently active tab is not completely in the field of view and to the left of the field of view, slide to the field of view
         if(activeOffset < innerWrapOffset) {
             const _value = -activeOffset;
             scrollToView(_value);
         }
 
-        // close时如果滚动已经低于最小值，需要调整
+        // If the rolling offset is lower than the minimum value at close, it needs to be adjusted to the minimum value
         if(-innerWrapOffset < scope.min) {
             scrollToView(scope.min);
         }
@@ -178,9 +179,9 @@ function TabNav(props) {
                 next: _value === scope.min,
             });
         }
-    }, [value, _direct, _attr, isHoriz, scope]);
+    }, [value, _direct, _attr, isHoriz, scope, isScroll]);
 
-    // 校验滚动状态，返回是否发生变化
+    // Verify the scrolling status and whether the return changes
     const validateScrollStatus = useCallback(() => {
         if(scope.hasScroll && !isScroll) {
             setIsScroll(true);
@@ -216,7 +217,7 @@ function TabNav(props) {
                 prev: true,
                 next: false,
             })
-        } else if(tabDisabled.next === true) {
+        } else if(tabDisabled.next === true) { // Click prev button, always remove the disable state of next button
             setTabDisabled({
                 prev: false,
                 next: false,
@@ -243,7 +244,7 @@ function TabNav(props) {
                 prev: false,
                 next: true,
             })
-        } else if(tabDisabled.prev === true) {
+        } else if(tabDisabled.prev === true) { // Click next button, always remove the disable state of prev button
             setTabDisabled({
                 prev: false,
                 next: false,
@@ -256,82 +257,72 @@ function TabNav(props) {
     }, [validateScrollStatus]);
 
     // ---------------------------------- logic code: active-bar ----------------------------------
-    // 初始化定位active-bar
+    // Initialize positioning
     useDidMount(() => {
-        scrollBarToActive();
+        clearTimeout(timer.current.bar);
+        timer.current.bar = setTimeout(scrollBarToActive);
     });
 
-    // 定位active-bar的位置 -- value驱动
+    // Value drive
     useDidUpdate(() => {
         clearTimeout(timer.current.bar);
         timer.current.bar = setTimeout(scrollBarToActive);
     }, [value], true);
 
-    // 定位active-bar的位置 -- position驱动
+    // Position drive
     useDidUpdate(() => {
-        // delay 300ms for transition
         clearTimeout(timer.current.bar);
-        timer.current.bar = setTimeout(scrollBarToActive, 300);
+        timer.current.bar = setTimeout(scrollBarToActive);
     }, [isHoriz], true);
 
-    // 定位active-bar的位置 -- count驱动
+    // Count drive
     useDidUpdate(() => {
-        // delay 300ms for transition
-        clearTimeout(timer.current.bar);
-        timer.current.bar = setTimeout(scrollBarToActive, 300);
+        scrollBarToActive();
     }, [children.length], true);
 
     // ---------------------------------- logic code: scroll ----------------------------------
 
-    // 初始化时控制是否出现箭头滑动
+    // Judge whether scrolling state is required during initialization
     useDidMount(() => {
-        if(scope.hasScroll) {
-            /*setIsScroll(true, () => {
-                const transitionTime = parseFloat(getStyle(navWrapRef.current, 'transitionDuration')) * 1000;
-                // waiting padding-transition
-                setTimeout(() => {
-                    scrollActiveToView();
-                }, transitionTime + 200);
-            });*/
-            setIsScroll(true);
-        }
+        scope.hasScroll && setIsScroll(true);
     });
 
-    // 滑动激活项至视野内 -- value驱动
+    // Value drive
     useDidUpdate(() => {
         clearTimeout(timer.current.nav);
         timer.current.nav = setTimeout(scrollActiveToView);
     }, [value], true);
 
-    // 滑动激活项至视野内 -- position驱动
+    // Position drive
     useDidUpdate(() => {
         clearTimeout(timer.current.nav);
-        // 先回到原位
+        // Go back to the original position
         setMargin(navInnerRef.current, {x: 0, y: 0});
+        // Delay 300ms for padding transition of nav-wrap
         timer.current.nav = setTimeout(() => {
             scrollActiveToView();
-        }, 300);
+        }, transitionDuration);
     }, [isHoriz], true);
 
-    // 滑动激活项至视野内 -- isScroll驱动
+    // IsScroll drive
     useDidUpdate(() => {
         clearTimeout(timer.current.nav);
+        // Delay 300ms for padding transition of nav-wrap
         timer.current.nav = setTimeout(() => {
             scrollActiveToView();
-        }, 300);
-        // scrollActiveToView();
+        }, transitionDuration);
     }, [isScroll], true);
 
-    // 滑动激活项至视野内 -- count驱动
+    // Count drive
     useDidUpdate(() => {
         // onWrapClick();
         clearTimeout(timer.current.nav);
         timer.current.nav = setTimeout(() => {
-            // 如果滚动状态没有变化，滚动激活项到视野内
+            // If the scrolling status does not change, scroll the active nav to the field of view
             if(!validateScrollStatus()) {
                 scrollActiveToView();
             }
-        }, 300);
+        });
     }, [children.length], true);
 
     // ---------------------------------- render chunk ----------------------------------

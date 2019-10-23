@@ -95,7 +95,6 @@ function Tabs(props) {
         });
         return (
             <div className={clsName} style={headerStyle}>
-                {/*{renderPlusIcon}*/}
                 {renderTabNav}
             </div>
         )

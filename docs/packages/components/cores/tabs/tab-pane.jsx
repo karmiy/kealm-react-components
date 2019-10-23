@@ -2,20 +2,19 @@ import React from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { TabPaneProps, TabPaneDefaultProps } from './interface';
 import { RenderWrapper, LazyWrapper } from '../../common';
+import { omit } from 'utils/common/object';
 
 function TabPane(props) {
     const {componentCls} = useContextConf('tab-pane');
     const {
         children,
         className,
-        name,
-        label,
         active,
-        disabled,
-        closable,
         lazy,
         ...others
     } = props;
+
+    const paneOthers = omit(others, ['name', 'label', 'disabled', 'closable']);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -29,7 +28,7 @@ function TabPane(props) {
 
     return (
         <WrapperComponent visible={active}>
-            <div className={classNames} {...others}>
+            <div className={classNames} {...paneOthers}>
                 {children}
             </div>
         </WrapperComponent>

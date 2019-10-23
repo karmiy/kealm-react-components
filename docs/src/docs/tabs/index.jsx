@@ -261,15 +261,35 @@ function TabsDoc() {
             </div>
             {useMemo(() => {
                 return (
-                    <div className="detail-box">
-                        <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove} type={'border-card'}>
-                            {
-                                tabs.map(pane => {
-                                    return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
-                                })
-                            }
-                        </Tabs>
-                    </div>
+                    <>
+                        <div className="detail-box">
+                            <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove}>
+                                {
+                                    tabs.map(pane => {
+                                        return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                        <div className="detail-box">
+                            <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove} type={'card'}>
+                                {
+                                    tabs.map(pane => {
+                                        return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                        <div className="detail-box">
+                            <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove} type={'border-card'}>
+                                {
+                                    tabs.map(pane => {
+                                        return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
+                                    })
+                                }
+                            </Tabs>
+                        </div>
+                    </>
                 )
             }, [tabIndex, setTabIndex, remove, tabs])}
             {/* API */}

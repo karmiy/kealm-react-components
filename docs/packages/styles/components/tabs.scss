@@ -135,7 +135,8 @@
         font-size: 14px;
         font-weight: 500;
         color: $color-text-primary;
-        transition: $all-transition;
+        //transition: $all-transition;
+        transition: color $transition-duration-base $ease-in-out;
 
         &:focus, &:focus:active {
             outline: none;
@@ -197,7 +198,7 @@
             border-bottom: 1px solid transparent;
             border-left: 1px solid $border-color-light;
             border-right: 1px solid $border-color-light;
-            transition: color $transition-duration-base $ease-in-out, padding $transition-duration-base $ease-in-out;
+            //transition: color $transition-duration-base $ease-in-out, padding $transition-duration-base $ease-in-out;
             &:first-child {
                 margin-left: 0;
                 //border-left: none;
@@ -240,7 +241,7 @@
             margin-right: $tab-border-card-item-margin-right;
             padding: $tab-border-card-item-padding-horizontal;
             border: 1px solid transparent;
-            transition: all $transition-duration-base $ease-in-out;
+            //transition: all $transition-duration-base $ease-in-out;
             color: $color-text-regular;
 
             & + .km-tabs__item {
