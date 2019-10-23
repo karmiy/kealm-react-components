@@ -1,7 +1,7 @@
-import React, { Children, useMemo, useRef, useLayoutEffect, useEffect, useState, useCallback } from 'react';
-import { useContextConf, useClassName, useDidMount, useDidUpdate, useStateCallable, useConsistentFunc, useWatch } from 'hooks';
+import React, { Children, useMemo, useRef, useState, useCallback } from 'react';
+import { useContextConf, useClassName, useDidMount, useDidUpdate, useStateCallable } from 'hooks';
 import { TabNavProps, TabNavDefaultProps } from './interface';
-import { mergeStr } from 'utils/common/base';
+import { mergeStr, isEmpty } from 'utils/common/base';
 import { getTranslate, setTranslate, getStyle } from 'utils/common/dom';
 import Icon from '../icon';
 import { FadeTransition } from '../transition'
@@ -27,10 +27,11 @@ function TabNav(props) {
         className,
         position,
         value,
-        onChange,
         type,
-        editable,
-        onEdit,
+        closable,
+        onClick,
+        onChange,
+        onRemove,
         ...others
     } = props;
 
@@ -336,14 +337,16 @@ function TabNav(props) {
     // ---------------------------------- render chunk ----------------------------------
     const renderItems = useMemo(() => {
         return Children.map(children, child => {
-            const { label, name, active, disabled } = child.props;
+            const { label, name, active, disabled, closable: _closable } = child.props;
+
+            const isClosable = isEmpty(_closable) ? closable : _closable;
 
             const clsName = mergeStr({
                 [`${componentCls}__item`]: true,
                 [`is-${position}`]: true,
                 'is-active': active,
                 'is-disabled': disabled,
-                'is-closable': editable,
+                'is-closable': isClosable,
             });
 
             return (
@@ -352,25 +355,28 @@ function TabNav(props) {
                     role={'tab'}
                     tabIndex={active ? 0 : -1}
                     className={clsName}
-                    onClick={() => {
-                        !disabled && onChange(name);
+                    onClick={e => {
+                        if(!disabled) {
+                            onClick(e, name);
+                            onChange(name);
+                        }
                     }}
                 >
                     {label}
-                    <RenderWrapper visible={editable} unmountOnExit>
+                    <RenderWrapper visible={isClosable} unmountOnExit>
                         <Icon
                             type={'close'}
                             className={`${componentCls}__close`}
                             onClick={e => {
                                 e.stopPropagation();
-                                onEdit('remove', name);
+                                onRemove(name);
                             }}
                         />
                     </RenderWrapper>
                 </div>
             );
         });
-    }, [children, componentCls, position, onChange, editable, onEdit]);
+    }, [children, componentCls, position, closable, onChange, onClick, onRemove]);
 
     // ---------------------------------- render ----------------------------------
     return (

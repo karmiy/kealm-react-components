@@ -40,7 +40,7 @@ export const stepsEvents = [
     {
         name: 'onChange',
         des: '点击切换步骤时触发',
-        callback: '(current) => void',
+        callback: '(current)',
     }
 ]
 

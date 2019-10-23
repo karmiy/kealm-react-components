@@ -90,7 +90,7 @@ export const buttonProps = [
 
 export const buttonEvents = [
     {
-        name: 'click',
+        name: 'onClick',
         des: '点击事件',
         callback: '(e: Event)',
     }

@@ -2,7 +2,7 @@ import React, { Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName, useTabsValue } from 'hooks';
 import { TabsProps, TabsDefaultProps } from './interface';
 import TabNav from './tab-nav';
-import Icon from '../icon';
+// import Icon from '../icon';
 import { transChildren } from 'utils/common/react-util';
 import { mergeStr } from 'utils/common/base';
 import { RenderWrapper } from '../../common';
@@ -23,8 +23,9 @@ function Tabs(props) {
         contentStyle,
         wrapClass,
         wrapStyle,
-        editable,
-        onEdit,
+        closable,
+        onClick,
+        onRemove,
         ...others
     } = props;
 
@@ -55,7 +56,7 @@ function Tabs(props) {
         })
     }, [_children, tabsValue]);
 
-    const renderPlusIcon = useMemo(() => {
+    /*const renderPlusIcon = useMemo(() => {
         return (
             <RenderWrapper visible={editable} unmountOnExit>
                     <span tabIndex={0} className={`${componentCls}__new-tab`} onClick={() => onEdit('add')}>
@@ -63,7 +64,7 @@ function Tabs(props) {
                     </span>
             </RenderWrapper>
         )
-    }, [editable, componentCls, onEdit]);
+    }, [editable, componentCls, onEdit]);*/
 
     const renderTabNav = useMemo(() => {
         const tabNavProps = {
@@ -73,15 +74,16 @@ function Tabs(props) {
             value: tabsValue,
             onChange: tabsChange,
             type,
-            editable,
-            onEdit,
+            closable,
+            onRemove,
+            onClick,
         }
         return (
             <TabNav {...tabNavProps}>
                 {renderChildren}
             </TabNav>
         )
-    }, [wrapClass, wrapStyle, position, tabsValue, tabsChange, type, editable, onEdit, renderChildren]);
+    }, [wrapClass, wrapStyle, position, tabsValue, tabsChange, type, closable, onRemove, onClick, renderChildren]);
 
     // ---------------------------------- render chunk ----------------------------------
 
@@ -93,7 +95,7 @@ function Tabs(props) {
         });
         return (
             <div className={clsName} style={headerStyle}>
-                {renderPlusIcon}
+                {/*{renderPlusIcon}*/}
                 {renderTabNav}
             </div>
         )

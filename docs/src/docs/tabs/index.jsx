@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { Tabs, Icon, Radio } from '@kealm/react-components';
+import React, { useState, useCallback, useMemo } from 'react';
+import { Tabs, Icon, Radio, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
-import { useWatch } from 'hooks';
+import { tabsProps, tabsEvents, tabPaneProps } from 'api/tabs';
 
 const TabPane = Tabs.TabPane;
 
@@ -34,38 +34,38 @@ function TabsDoc() {
         console.log(total, count);
     }, [count]);*/
 
-    const edit = useCallback((action, targetName) => {
-        if(action === 'remove') {
-            let activeName = tabIndex;
-            if (activeName === targetName) {
-                tabs.forEach((tab, index) => {
-                    if (tab.name === targetName) {
-                        let nextTab = tabs[index + 1] || tabs[index - 1];
-                        if (nextTab) {
-                            activeName = nextTab.name;
-                        }
+    const remove = useCallback(targetName => {
+        let activeName = tabIndex;
+        if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+                if (tab.name === targetName) {
+                    let nextTab = tabs[index + 1] || tabs[index - 1];
+                    if (nextTab) {
+                        activeName = nextTab.name;
                     }
-                });
-            }
-
-            setTabIndex(activeName);
-            setTabs(tabs.filter(tab => tab.name !== targetName));
-        } else if(action === 'add') {
-            const len = tabs.length;
-            const lastTab = len ? tabs[len - 1] : null;
-            const nextIndex = lastTab ? +lastTab.id + 1 : 1;
-            setTabs([
-                ...tabs,
-                {
-                    id: `${nextIndex}`,
-                    title: `Tab${nextIndex}`,
-                    name: `${nextIndex}`,
-                    content: `Content of Tab Pane ${nextIndex}`,
                 }
-            ]);
-            setTabIndex(`${nextIndex}`);
+            });
         }
+
+        setTabIndex(activeName);
+        setTabs(tabs.filter(tab => tab.name !== targetName));
     }, [tabs, tabIndex]);
+
+    const add = useCallback(() => {
+        const len = tabs.length;
+        const lastTab = len ? tabs[len - 1] : null;
+        const nextIndex = lastTab ? +lastTab.id + 1 : 1;
+        setTabs([
+            ...tabs,
+            {
+                id: `${nextIndex}`,
+                title: `Tab${nextIndex}`,
+                name: `${nextIndex}`,
+                content: `Content of Tab Pane ${nextIndex}`,
+            }
+        ]);
+        setTabIndex(`${nextIndex}`);
+    }, [tabs]);
 
     return (
         <div className='page-box'>
@@ -255,21 +255,34 @@ function TabsDoc() {
 
             {/* 动态增减标签页 */}
             <h2>动态增减标签页</h2>
-            <p>可以通过 editable 让选项卡支持新增和关闭选项。</p>
+            <p>可以通过 onRemove 让选项卡支持关闭选项。</p>
             <div className="detail-box">
-                <Tabs value={tabIndex} onChange={name => setTabIndex(name)} editable onEdit={edit} type={'border-card'}>
-                    {
-                        tabs.map((pane, index) => {
-                            return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
-                        })
-                    }
-                    {/*<TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>*/}
-                </Tabs>
+                <Button plain icon='plus' onClick={add}>Add</Button>
             </div>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove} type={'border-card'}>
+                            {
+                                tabs.map(pane => {
+                                    return <TabPane key={pane.title} name={pane.name} label={pane.title}>{pane.content}</TabPane>
+                                })
+                            }
+                        </Tabs>
+                    </div>
+                )
+            }, [tabIndex, setTabIndex, remove, tabs])}
             {/* API */}
-            {/*<ApiTable title='Breadcrumb' propsList={breadcrumbProps} />*/}
+            {
+                useMemo(() => {
+                    return (
+                        <>
+                            <ApiTable title='Tabs' propsList={tabsProps} eventsList={tabsEvents} />
+                            <ApiTable title='TabPane' propsList={tabPaneProps} />
+                        </>
+                    )
+                }, [])
+            }
         </div>
     )
 }

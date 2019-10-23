@@ -16,7 +16,7 @@ class RenderWrapper extends Component {
         const node = ReactDOM.findDOMNode(this);
         if(mount) node._display = node.style.display || '';
 
-        node && (node.style.display = visible ? node._display : 'none');
+        node && (node.style.display = visible ? (node._display || '') : 'none');
     }
     render() {
         const { visible, unmountOnExit, children } = this.props;

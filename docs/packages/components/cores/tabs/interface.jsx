@@ -7,17 +7,19 @@ export const commonProps = {
     className: PropTypes.string,
     position: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onChange: PropTypes.func,
     type: PropTypes.string,
-    editable: PropTypes.bool,
-    onEdit: PropTypes.func,
+    closable: PropTypes.bool,
+    onClick: PropTypes.func,
+    onChange: PropTypes.func,
+    onRemove: PropTypes.func,
 }
 
 export const commonDefaultProps = {
     position: 'top',
+    closable: false,
+    onClick: noop,
     onChange: noop,
-    editable: false,
-    onEdit: noop,
+    onRemove: noop,
 }
 
 /* tabs-props */
@@ -26,9 +28,9 @@ export const TabsProps = {
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     headerClass: PropTypes.string,
     contentClass: PropTypes.string,
+    wrapClass: PropTypes.string,
     headerStyle: PropTypes.object,
     contentStyle: PropTypes.object,
-    wrapClass: PropTypes.string,
     wrapStyle: PropTypes.object,
 }
 
@@ -52,9 +54,12 @@ export const TabPaneProps = {
     label: PropTypes.node,
     active: PropTypes.bool,
     disabled: PropTypes.bool,
+    closable: PropTypes.bool,
+    lazy: PropTypes.bool,
 }
 
 export const TabPaneDefaultProps = {
     active: false,
     disabled: false,
+    lazy: false,
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { TabPaneProps, TabPaneDefaultProps } from './interface';
-import RenderWrapper from '../../common/renderWrapper';
+import { RenderWrapper, LazyWrapper } from '../../common';
 
 function TabPane(props) {
     const {componentCls} = useContextConf('tab-pane');
@@ -12,6 +12,8 @@ function TabPane(props) {
         label,
         active,
         disabled,
+        closable,
+        lazy,
         ...others
     } = props;
 
@@ -21,13 +23,16 @@ function TabPane(props) {
         [className]: className,
     }, [className, componentCls]);
 
+
     // ---------------------------------- render ----------------------------------
+    const WrapperComponent = lazy ? LazyWrapper : RenderWrapper;
+
     return (
-        <RenderWrapper visible={active}>
+        <WrapperComponent visible={active}>
             <div className={classNames} {...others}>
                 {children}
             </div>
-        </RenderWrapper>
+        </WrapperComponent>
     );
 };
 

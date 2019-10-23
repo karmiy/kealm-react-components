@@ -208,6 +208,6 @@ export const confirmEvents = [
     {
         name: 'afterOk',
         des: 'onOk执行回调完成后触发，通常用于配合返回Promise的onOk',
-        callback: '(e: Event, info?: any, status?: Boolean)',
+        callback: '(e: Event, info?: any, status?: boolean)',
     }
 ]
