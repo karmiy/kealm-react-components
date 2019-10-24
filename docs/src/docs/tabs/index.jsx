@@ -2,12 +2,11 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Tabs, Icon, Radio, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { tabsProps, tabsEvents, tabPaneProps } from 'api/tabs';
+import { CodeBasic, CodeDisabled, CodeIcon, CodeCard, CodeBorderCard, CodePosition, CodeScroll, CodeEditable } from 'demos/tabs';
 
 const TabPane = Tabs.TabPane;
 
 function TabsDoc() {
-    const [count, setCount] = useState(20);
-    const [total, setTotal] = useState(100);
     const [position, setPosition] = useState('top');
     const [direction, setDirection] = useState('top');
     const [tabIndex, setTabIndex] = useState('1');
@@ -25,14 +24,6 @@ function TabsDoc() {
             content: 'Content of Tab Pane 2',
         }
     ]);
-
-    /*const cb = useCallback(() => {
-        console.log(total, count);
-    }, [total]);
-
-    useEffect(() => {
-        console.log(total, count);
-    }, [count]);*/
 
     const remove = useCallback(targetName => {
         let activeName = tabIndex;
@@ -71,21 +62,11 @@ function TabsDoc() {
         <div className='page-box'>
             <h1>Tabs 标签页</h1>
             <p>分隔内容上有关联但属于不同类别的数据集合。</p>
-            {/*<button onClick={()=>setCount(c => ++c)}>C按钮{count}</button>
-            <button onClick={()=>setTotal(t => ++t)}>T按钮{total}</button>
-            <button onClick={cb}>B按钮{count}, {total}</button>*/}
 
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>基础的、简洁的标签页。</p>
             <div className="detail-box">
-                {/*<Tabs defaultValue={'12'} position={'left'} wrapStyle={{height: '200px'}}>
-                    {
-                        Array(count).fill('').map((_, index) => {
-                            return <TabPane key={index} name={`${index + 1}`} label={`Tab${index + 1}`}>Content of Tab Pane {index + 1}</TabPane>
-                        })
-                    }
-                </Tabs>*/}
                 {useMemo(() => {
                     return (
                         <Tabs defaultValue={'1'}>
@@ -96,6 +77,7 @@ function TabsDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeBasic} />
 
             {/* 禁用 */}
             <h2>禁用</h2>
@@ -111,6 +93,7 @@ function TabsDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeDisabled} />
 
             {/* 带图标 */}
             <h2>带图标</h2>
@@ -126,6 +109,7 @@ function TabsDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeIcon} />
 
             {/* 选项卡样式 */}
             <h2>选项卡样式</h2>
@@ -141,6 +125,7 @@ function TabsDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeCard} />
 
             {/* 卡片化 */}
             <h2>卡片化</h2>
@@ -156,6 +141,7 @@ function TabsDoc() {
                     )
                 }, [])}
             </div>
+            <HighLight code={CodeBorderCard} />
 
             {/* 位置 */}
             <h2>位置</h2>
@@ -195,6 +181,7 @@ function TabsDoc() {
                     </>
                 )
             }, [position, setPosition])}
+            <HighLight code={CodePosition} />
 
             {/* 滑动 */}
             <h2>滑动</h2>
@@ -252,6 +239,7 @@ function TabsDoc() {
                     </>
                 )
             }, [direction, setDirection])}
+            <HighLight code={CodeScroll} />
 
             {/* 动态增减标签页 */}
             <h2>动态增减标签页</h2>
@@ -292,6 +280,8 @@ function TabsDoc() {
                     </>
                 )
             }, [tabIndex, setTabIndex, remove, tabs])}
+            <HighLight code={CodeEditable} />
+
             {/* API */}
             {
                 useMemo(() => {
