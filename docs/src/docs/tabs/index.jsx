@@ -259,7 +259,7 @@ function TabsDoc() {
                                 }
                             </Tabs>
                         </div>
-                        <div className="detail-box">
+                        <div className="detail-box" style={{marginTop: '45px'}}>
                             <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove} type={'card'}>
                                 {
                                     tabs.map(pane => {
@@ -268,7 +268,7 @@ function TabsDoc() {
                                 }
                             </Tabs>
                         </div>
-                        <div className="detail-box">
+                        <div className="detail-box" style={{marginTop: '45px'}}>
                             <Tabs value={tabIndex} onChange={name => setTabIndex(name)} closable onRemove={remove} type={'border-card'}>
                                 {
                                     tabs.map(pane => {
