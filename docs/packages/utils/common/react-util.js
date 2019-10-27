@@ -28,3 +28,10 @@ export const isContainEle = function (children, type) {
     });
     return contains;
 }
+
+/**
+ * Validate type
+ */
+export const validateType = function (element, type) {
+    return element && element.type && element.type === type;
+}

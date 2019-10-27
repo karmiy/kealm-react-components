@@ -18,6 +18,7 @@ module.exports = {
             '@': path.join(__dirname, '..', 'src'),
             'styles': path.join(__dirname, '..', 'src/assets/styles/index.scss'),
             '@kealm/react-components': path.join(__dirname, '../packages/components/cores/index.jsx'),
+            '@kealm/react-components-utils': path.join(__dirname, '../packages/components/common/index.jsx'),
             '@kealm/react-components-style': path.join(__dirname, '../packages/styles/index.scss'),
             'hooks': path.join(__dirname, '../packages/hooks'),
             'utils': path.join(__dirname, '../packages/utils'),
