@@ -8,5 +8,5 @@ export const PortalProps = {
 }
 
 export const PortalDefaultProps = {
-    visible: false,
+    visible: true,
 }

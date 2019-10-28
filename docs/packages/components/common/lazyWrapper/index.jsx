@@ -2,7 +2,10 @@ import React, { useRef } from 'react';
 import { LazyWrapperProps, LazyWrapperDefaultProps } from './interface';
 import RenderWrapper from '../renderWrapper';
 
-
+/**
+ * If visible is false initially, no rendering will be done
+ * It will render component when its visible is true for the first time
+ */
 function LazyWrapper(props) {
     const {
         children,

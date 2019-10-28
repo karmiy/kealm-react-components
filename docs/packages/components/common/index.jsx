@@ -4,7 +4,8 @@ import Motion from './motion';
 import RenderWrapper from './renderWrapper';
 import LazyWrapper from './lazyWrapper';
 import DomWrapper from './domWrapper';
-import { PopperManager, Popper, Reference } from './popper';
+import RenderOnce from './renderOnce';
+import Popper from './popper';
 
 export {
     ResizeObserver,
@@ -13,7 +14,6 @@ export {
     RenderWrapper,
     LazyWrapper,
     DomWrapper,
-    PopperManager,
+    RenderOnce,
     Popper,
-    Reference,
 }

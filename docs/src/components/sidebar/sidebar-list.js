@@ -71,6 +71,10 @@ const sidebarList = [
                 link: 'dialog',
             },
             {
+                name: 'Popover 弹出框',
+                link: 'popover',
+            },
+            {
                 name: 'Collapse 折叠面板',
                 link: 'collapse',
             },

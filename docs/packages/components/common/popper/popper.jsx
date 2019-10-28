@@ -1,16 +1,40 @@
 import React, { Component } from 'react';
-import DomWrapper from '../domWrapper';
 import PopperJs from 'popper.js';
+import { PopperProps, PopperDefaultProps } from './interface';
+import DomWrapper from '../domWrapper';
 
 class Popper extends Component {
     popperRef = null;
-    reference = null;
+    referenceRef = null;
     instance = null;
 
     componentDidMount() {
-        if(!this.reference.el || !this.popperRef.el)
+        this.createPopper();
+    }
+    createPopper() {
+        if(!this.referenceRef.el || !this.popperRef.el)
             return;
-        this.instance = new PopperJs(this.reference.el, this.popperRef.el, this.props.options || {});
+        const {
+            placement,
+            positionFixed,
+            eventsEnabled,
+            removeOnDestroy,
+            modifiers,
+            onCreate,
+            onUpdate,
+        } = this.props;
+
+        const options = {
+            placement,
+            positionFixed,
+            eventsEnabled,
+            removeOnDestroy,
+            modifiers,
+            onCreate,
+            onUpdate,
+        }
+
+        this.instance = new PopperJs(this.referenceRef.el, this.popperRef.el, options);
     }
     render() {
         const {
@@ -21,10 +45,12 @@ class Popper extends Component {
         return (
             <>
                 <DomWrapper ref={r => this.popperRef = r}>{popper}</DomWrapper>
-                <DomWrapper ref={r => this.reference = r}>{reference}</DomWrapper>
+                <DomWrapper ref={r => this.referenceRef = r}>{reference}</DomWrapper>
             </>
         )
     }
 }
 
+Popper.propTypes = PopperProps;
+Popper.defaultProps = PopperDefaultProps;
 export default Popper;

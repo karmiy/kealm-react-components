@@ -12,6 +12,8 @@ import usePrevProps from './usePrevProps';
 import usePropsStore from './usePropsStore';
 import useConsistentFunc from './useConsistentFunc';
 import useWatch from './useWatch';
+import useFuncOnce from './useFuncOnce';
+import useCorrectOnce from './useCorrectOnce';
 
 export {
     useClassName,
@@ -28,4 +30,6 @@ export {
     usePropsStore,
     useConsistentFunc,
     useWatch,
+    useFuncOnce,
+    useCorrectOnce,
 }

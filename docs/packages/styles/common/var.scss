@@ -541,3 +541,23 @@ $tab-card-item-margin-right: 0 !default;
 $tab-border-card-item-padding-horizontal: $tab-card-item-padding-horizontal !default;
 $tab-border-card-item-margin-right: $tab-card-item-margin-right !default;
 
+/* --------------------------Popover-------------------------- */
+$popover-background-color: $color-white !default;
+$popover-border-color: $border-color-lighter !default;
+$popover-font-size: $font-size-base !default;
+
+$popover-arrow-size: 6px !default;
+
+$popover-padding: 12px !default;
+$popover-padding-large: 18px 20px !default;
+
+$popover-title-font-size: 16px !default;
+$popover-title-font-color: $color-text-primary !default;
+
+/* --------------------------Tooltip-------------------------- */
+$tooltip-fill: $color-text-primary !default;
+$tooltip-color: $color-white !default;
+$tooltip-font-size: 12px !default;
+$tooltip-border-color: $color-text-primary !default;
+$tooltip-arrow-size: 6px !default;
+$tooltip-padding: 10px !default;

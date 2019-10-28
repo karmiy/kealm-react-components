@@ -1,0 +1,40 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(popover) {
+    position: absolute;
+    min-width: 150px;
+    line-height: 1.4;
+    border: 1px solid $popover-border-color;
+    border-radius: 4px;
+    padding: $popover-padding;
+    z-index: $z-index-extremely-large;
+    box-shadow: $box-shadow-light;
+    background-color: $popover-background-color;
+    color: $color-text-regular;
+    text-align: justify;
+    font-size: $popover-font-size;
+    word-break: break-all;
+
+    @include m(plain) {
+        padding: $popover-padding-large;
+    }
+
+    @include e(title) {
+        line-height: 1;
+        margin-bottom: 12px;
+        font-size: $popover-title-font-size;
+        color: $popover-title-font-color;
+    }
+
+    @include e(reference) {
+        &:focus:not(.focusing), &:focus:hover {
+            outline-width: 0;
+        }
+    }
+
+    &:focus:active, &:focus {
+        outline-width: 0;
+    }
+}
+

@@ -11,6 +11,7 @@ import Dialog from './dialog';
 import Breadcrumb from './Breadcrumb';
 import Steps from './steps';
 import Tabs from './tabs';
+import Popover from './popover';
 
 export {
     Icon,
@@ -29,4 +30,5 @@ export {
     Breadcrumb,
     Steps,
     Tabs,
+    Popover,
 }

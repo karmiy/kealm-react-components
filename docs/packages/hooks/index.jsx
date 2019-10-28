@@ -13,6 +13,8 @@ import {
     usePropsStore,
     useConsistentFunc,
     useWatch,
+    useFuncOnce,
+    useCorrectOnce,
 } from './common';
 
 import {
@@ -38,6 +40,8 @@ export {
     usePropsStore,
     useConsistentFunc,
     useWatch,
+    useFuncOnce,
+    useCorrectOnce,
     /* components */
     useCheckValue,
     useCheckGroupValue,
