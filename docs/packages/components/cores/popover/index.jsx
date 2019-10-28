@@ -30,7 +30,7 @@ function Popover(props) {
     useLayoutEffect(() => {
         if(isVisible) {
             const popperComp = popperRef.current;
-            popperComp.createPopper();
+            !popperComp.instance && popperComp.createPopper();
             popperComp.instance.scheduleUpdate();
         }
     }, [isVisible]);
