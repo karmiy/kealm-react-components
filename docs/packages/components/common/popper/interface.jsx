@@ -4,6 +4,8 @@ const noop = () => {};
 
 /* popper-props */
 export const PopperProps = {
+    popper: PropTypes.element,
+    children: PropTypes.element,
     placement: PropTypes.string,
     positionFixed: PropTypes.bool,
     eventsEnabled: PropTypes.bool,

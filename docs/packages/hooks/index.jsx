@@ -15,6 +15,7 @@ import {
     useWatch,
     useFuncOnce,
     useCorrectOnce,
+    useTimeout,
 } from './common';
 
 import {
@@ -22,6 +23,7 @@ import {
     useCheckGroupValue,
     useInputValue,
     useTabsValue,
+    useTrigger,
 } from './components';
 
 export {
@@ -42,9 +44,11 @@ export {
     useWatch,
     useFuncOnce,
     useCorrectOnce,
+    useTimeout,
     /* components */
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
     useTabsValue,
+    useTrigger,
 }

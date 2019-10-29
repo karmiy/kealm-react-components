@@ -14,6 +14,7 @@ import useConsistentFunc from './useConsistentFunc';
 import useWatch from './useWatch';
 import useFuncOnce from './useFuncOnce';
 import useCorrectOnce from './useCorrectOnce';
+import useTimeout from './useTimeout';
 
 export {
     useClassName,
@@ -32,4 +33,5 @@ export {
     useWatch,
     useFuncOnce,
     useCorrectOnce,
+    useTimeout,
 }

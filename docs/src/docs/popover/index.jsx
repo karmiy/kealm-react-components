@@ -14,7 +14,7 @@ function PopoverDoc() {
             <h2>基本用法</h2>
             <p>最简单的用法，浮层的大小由内容区域决定。</p>
             <div className="detail-box">
-                <Popover>
+                <Popover trigger={'hover'}>
                     {/*<Button
                         onFocus={() => console.log(1)}
                         onBlur={() => console.log(2)}
