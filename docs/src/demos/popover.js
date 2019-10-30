@@ -1,4 +1,4 @@
-/* 按钮尺寸 */
+/* 基本用法 */
 export const CodeBasic =
 `    import { useState } from 'react';
     import { Popover, Button } from "@kealm/react-components";

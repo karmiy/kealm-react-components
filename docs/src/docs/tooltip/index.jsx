@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Tooltip, Button, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { tooltipProps, tooltipEvents } from 'api/tooltip';
+import { CodeBasic, CodeDisabled, CodeEffect, CodeMore, CodePlacement } from 'demos/tooltip';
 
 const places = {
     TL: 'top-start',
@@ -36,6 +37,7 @@ function renderPlacement(placement) {
 
 function TooltipDoc() {
     const [visible, setVisible] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
     return (
         <div className='page-box'>
@@ -61,6 +63,21 @@ function TooltipDoc() {
                     )
                 }, [visible])}
             </div>
+            <HighLight code={CodeBasic} />
+
+            {/* 禁用 */}
+            <h2>禁用</h2>
+            <p>通过 disabled 配置是否禁止 Tooltip 显示。</p>
+            <div className="detail-box">
+                {useMemo(() => {
+                    return (
+                        <Tooltip disabled={disabled} content={'This is a prompt message'}>
+                            <Button plain onClick={() => setDisabled(d => !d)}>{disabled ? 'Open' : 'Close'} Tooltip</Button>
+                        </Tooltip>
+                    )
+                }, [disabled])}
+            </div>
+            <HighLight code={CodeDisabled} />
 
             {/* 主题 */}
             <h2>主题</h2>
@@ -77,6 +94,7 @@ function TooltipDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeEffect} />
 
             {/* 更多的内容 */}
             <h2>更多的内容</h2>
@@ -95,6 +113,7 @@ function TooltipDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeMore} />
 
             {/* 位置 */}
             <h2>位置</h2>
@@ -127,6 +146,7 @@ function TooltipDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodePlacement} />
 
             {/* API */}
             {useMemo(() => <ApiTable title='Tooltip' propsList={tooltipProps} eventsList={tooltipEvents} />, [])}

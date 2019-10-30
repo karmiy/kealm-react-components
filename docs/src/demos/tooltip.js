@@ -1,4 +1,4 @@
-/* 按钮尺寸 */
+/* 基本用法 */
 export const CodeBasic =
 `    import { useState } from 'react';
     import { Tooltip, Button } from "@kealm/react-components";
@@ -18,33 +18,56 @@ export const CodeBasic =
         )
     }`
 
+/* 禁用 */
+export const CodeDisabled =
+`    import { useState } from 'react';
+    import { Tooltip, Button } from "@kealm/react-components";
+    
+    function Demo() {
+        const [disabled, setDisabled] = useState(false);
+        
+        return (
+            <Tooltip disabled={disabled} content={'This is a prompt message'}>
+                <Button plain onClick={() => setDisabled(d => !d)}>{disabled ? 'Open' : 'Close'} Tooltip</Button>
+            </Tooltip>
+        )
+    }`
+
 /* 主题 */
 export const CodeEffect =
-`    import { Popover, Button, Row, Col } from "@kealm/react-components";
+`    import { Tooltip, Button } from "@kealm/react-components";
     
     ReactDom.render(
-        <Popover
-            trigger={'hover'}
-            content={
-                <div>
-                    <Row style={{marginBottom: '15px'}}>
-                        <Col><p>Are you sure to delete this record ?</p></Col>
-                    </Row>
-                    <Row type={'flex'} justify={'end'} gutter={8}>
-                        <Col><Button>Cancel</Button></Col>
-                        <Col><Button type={'primary'}>OK</Button></Col>
-                    </Row>
-                </div>
-            }
-        >
-            <Button plain>Delete</Button>
-        </Popover>,
+        <div>
+            <Tooltip content={'Dark'}>
+                <Button plain>Dark</Button>
+            </Tooltip>
+            <Tooltip effect={'light'} content={'Light'}>
+                <Button plain>Light</Button>
+            </Tooltip>
+        </div>,
+        mountNode
+    );`
+
+/* 更多的内容 */
+export const CodeMore =
+`    import { Tooltip, Button } from "@kealm/react-components";
+    
+    ReactDom.render(
+        <Tooltip content={
+            <>
+                <p>I'm Peppa Pig.</p>
+                <p>This is my brother George.</p>
+            </>
+        }>
+            <Button plain>More Content</Button>
+        </Tooltip>,
         mountNode
     );`
 
 /* 位置 */
 export const CodePlacement =
-`    import { Popover, Button, Row, Col } from "@kealm/react-components";
+`    import { Tooltip, Button, Row, Col } from "@kealm/react-components";
     
     const places = {
         TL: 'top-start',
@@ -63,13 +86,17 @@ export const CodePlacement =
     
     function renderPlacement(placement) {
         return (
-            <Popover
+            <Tooltip
                 placement={places[placement]}
-                title={'Title'}
-                content={'This is a simple content.'}
+                content={
+                    <>
+                        <p>I'm Peppa Pig.</p>
+                        <p>This is my brother George.</p>
+                    </>
+                }
             >
                 <Button plain>{placement}</Button>
-            </Popover>
+            </Tooltip>
         )
     }
     
