@@ -57,7 +57,7 @@ export const popoverProps = [
     },
     {
         param: 'offset',
-        des: '出现位置的偏移量，可以是如 \'20, 30\' 表示水平,垂直，更多表示方法参考 popper.js',
+        des: '出现位置的偏移量，如 \'20, 30\' 表示水平方向 20px, 垂直方向 30px，更多表示方法参考 popper.js',
         type: 'string',
         option: '--',
         default: '0',
@@ -82,6 +82,16 @@ export const popoverProps = [
         type: 'number',
         option: '--',
         default: '200',
+    },
+    {
+        param: 'transitionName',
+        des: '过渡动画样式',
+        type: 'string',
+        option: {
+            link: '/component/transition',
+            info: '参考 transition 组件',
+        },
+        default: 'km-popper',
     }
 ]
 

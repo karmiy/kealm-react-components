@@ -71,6 +71,10 @@ const sidebarList = [
                 link: 'dialog',
             },
             {
+                name: 'Tooltip 文字提示',
+                link: 'tooltip',
+            },
+            {
                 name: 'Popover 弹出框',
                 link: 'popover',
             },

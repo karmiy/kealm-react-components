@@ -12,6 +12,7 @@ import Breadcrumb from './Breadcrumb';
 import Steps from './steps';
 import Tabs from './tabs';
 import Popover from './popover';
+import Tooltip from './tooltip';
 
 export {
     Icon,
@@ -31,4 +32,5 @@ export {
     Steps,
     Tabs,
     Popover,
+    Tooltip,
 }
