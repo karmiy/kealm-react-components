@@ -6,7 +6,7 @@ import { isFunction } from 'utils/common/base';
  * Build isVisible, setIsVisible and isMount hook for popper
  * Core-props: defaultVisible, visible, onVisibleChange, trigger
  */
-function useTrigger(defaultVisible, visible, onVisibleChange, trigger) {
+function useTrigger(defaultVisible, visible, onVisibleChange, trigger, disabled) {
     const [isVisible, setIsVisible] = useState(defaultVisible || false); // Default invisible
 
     // Not manual, default internal control
@@ -49,7 +49,7 @@ function useTrigger(defaultVisible, visible, onVisibleChange, trigger) {
     }, []);
 
     return {
-        isVisible: _isVisible,
+        isVisible: disabled ? false : _isVisible,
         setIsVisible: visibleChange,
         isMount,
     }

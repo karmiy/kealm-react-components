@@ -26,6 +26,7 @@ function Popover(props) {
         trigger,
         title,
         content,
+        disabled,
         width,
         placement,
         offset,
@@ -53,7 +54,7 @@ function Popover(props) {
     }, [width]);
 
     // ---------------------------------- logic code ----------------------------------
-    const { isVisible, setIsVisible, isMount } = useTrigger(defaultVisible, visible, onVisibleChange, trigger);
+    const { isVisible, setIsVisible, isMount } = useTrigger(defaultVisible, visible, onVisibleChange, trigger, disabled);
     const instanceRef = useRef(null);
     const referenceRef = useRef(null);
     const popperRef = useRef(null);

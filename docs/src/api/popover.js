@@ -35,6 +35,13 @@ export const popoverProps = [
         default: '--',
     },
     {
+        param: 'disabled',
+        des: '是否禁用',
+        type: 'boolean',
+        option: '--',
+        default: 'false',
+    },
+    {
         param: 'width',
         des: '宽度',
         type: 'number',
