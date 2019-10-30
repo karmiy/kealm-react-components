@@ -2,8 +2,22 @@ import PropTypes from 'prop-types';
 
 const noop = () => {};
 
+const placements = [
+    'top-start',
+    'top',
+    'top-end',
+    'bottom-start',
+    'bottom',
+    'bottom-end',
+    'left-start',
+    'left',
+    'left-end',
+    'right-start',
+    'right',
+    'right-end'
+]
+
 export const CommonProps = {
-    // component: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.element.isRequired,
     trigger: PropTypes.string,
@@ -14,7 +28,7 @@ export const CommonProps = {
     content: PropTypes.node,
     disabled: PropTypes.bool,
     width: PropTypes.number,
-    placement: PropTypes.string,
+    placement: PropTypes.oneOf(placements),
     offset: PropTypes.string,
     showArrow: PropTypes.bool,
     openDelay: PropTypes.number,

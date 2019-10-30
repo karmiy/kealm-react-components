@@ -17,14 +17,14 @@ export const rowProps = [
         param: 'justify',
         des: 'flex 布局下的水平排列方式',
         type: 'string',
-        option: '--',
+        option: 'start / center / end / space-between / space-around',
         default: '--',
     },
     {
         param: 'align',
         des: 'flex 布局下的垂直排列方式',
         type: 'string',
-        option: '--',
+        option: 'top / middle / bottom',
         default: '--',
     }
 ]

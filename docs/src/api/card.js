@@ -3,7 +3,7 @@ export const cardProps = [
         param: 'size',
         des: 'card 的尺寸',
         type: 'string',
-        option: 'default small',
+        option: 'default / small',
         default: 'default',
     },
     {
@@ -36,7 +36,7 @@ export const cardProps = [
     },
     {
         param: 'shadow',
-        des: '图标类名',
+        des: '设置阴影显示时机',
         type: 'string',
         option: 'always / hover / never',
         default: 'never',
@@ -54,34 +54,6 @@ export const cardProps = [
         type: 'Array<ReactNode>',
         option: '--',
         default: '--',
-    },
-    {
-        param: 'loading',
-        des: '是否加载状态',
-        type: 'boolean',
-        option: '--',
-        default: 'false',
-    },
-    {
-        param: 'active',
-        des: '是否激活状态',
-        type: 'boolean',
-        option: '--',
-        default: 'false',
-    },
-    {
-        param: 'size',
-        des: '尺寸',
-        type: 'string',
-        option: 'large / small',
-        default: '--',
-    },
-    {
-        param: 'nativeType',
-        des: '原生type',
-        type: 'string',
-        option: 'button / submit / reset',
-        default: 'button'
     }
 ]
 

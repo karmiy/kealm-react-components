@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 /* button-props */
 export const ButtonProps = {
     className: PropTypes.string,
-    type: PropTypes.string, // 类型
+    type: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info', 'text']), // 类型
     plain: PropTypes.bool, // 简单按钮
     round: PropTypes.bool, // 圆角
     circle: PropTypes.bool, // 圆形按钮
@@ -12,7 +12,7 @@ export const ButtonProps = {
     disabled: PropTypes.bool, // 禁用
     loading: PropTypes.bool, // loading
     active: PropTypes.bool, // active
-    size: PropTypes.string, // 大小
+    size: PropTypes.oneOf(['large', 'small']), // 大小
     nativeType: PropTypes.string, // 原生type
 }
 

@@ -66,6 +66,37 @@ export const CodeImg =
         mountNode
     );`
 
+/* 卡片阴影 */
+export const CodeShadow =
+`    import { Card, Row, Col } from "@kealm/react-components";
+    
+    ReactDom.render(
+        <Row gutter={16}>
+            <Col>
+                <Card title={'Card Title'} extra={<a href="#">More</a>}>
+                    <div>Card content</div>
+                    <div>Card content</div>
+                    <div>Card content</div>
+                </Card>
+            </Col>
+            <Col>
+                <Card shadow={'hover'} title={'Card Title'} extra={<a href="#">More</a>}>
+                    <div>Card content</div>
+                    <div>Card content</div>
+                    <div>Card content</div>
+                </Card>
+            </Col>
+            <Col>
+                <Card shadow={'always'}  title={'Card Title'} extra={<a href="#">More</a>}>
+                    <div>Card content</div>
+                    <div>Card content</div>
+                    <div>Card content</div>
+                </Card>
+            </Col>
+        </Row>,
+        mountNode
+    );`
+
 /* 栅格卡片 */
 export const CodeRow =
 `    import { Card, Row, Col } from "@kealm/react-components";

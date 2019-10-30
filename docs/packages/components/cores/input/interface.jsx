@@ -28,7 +28,7 @@ export const InputProps = {
     suffix: PropTypes.node,
     prepend: PropTypes.node,
     append: PropTypes.node,
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['large', 'small']),
     showLimitCount: PropTypes.bool,
 }
 
@@ -41,7 +41,7 @@ export const InputDefaultProps = {
 /* password-props */
 export const PasswordProps = {
     ...AbstractInputProps,
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['large', 'small']),
     showToggleIcon: PropTypes.bool,
 }
 
@@ -67,7 +67,7 @@ export const TextareaDefaultProps = {
 /* search-props */
 export const SearchProps = {
     ...AbstractInputProps,
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['large', 'small']),
     enterButton: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     onSearch: PropTypes.func,
 }

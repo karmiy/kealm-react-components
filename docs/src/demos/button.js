@@ -164,14 +164,14 @@ export const CodeSize =
     const Group = Button.Group;
     
     function Demo() {
-        const [size, setSize] = useState('large');
+        const [size, setSize] = useState();
         
         return (
             <div>
                 <div className="detail-box">
                     <Group>
                         <Button plain active={size === 'large'} onClick={() => setSize('large')}>Large</Button>
-                        <Button plain active={size === ''} onClick={() => setSize('')}>Default</Button>
+                        <Button plain active={!size} onClick={() => setSize(undefined)}>Default</Button>
                         <Button plain active={size === 'small'} onClick={() => setSize('small')}>Small</Button>
                     </Group>
                 </div>

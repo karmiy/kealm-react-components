@@ -5,10 +5,10 @@ export const noop = () => {};
 /* steps-props */
 export const StepsProps = {
     className: PropTypes.string,
-    direction: PropTypes.string,
+    direction: PropTypes.oneOf(['horizontal', 'vertical']),
     current: PropTypes.number,
-    size: PropTypes.string,
-    status: PropTypes.string,
+    size: PropTypes.oneOf(['small']),
+    status: PropTypes.oneOf(['wait', 'process', 'finish', 'error']),
     progressDot: PropTypes.bool,
     onChange: PropTypes.func,
 }

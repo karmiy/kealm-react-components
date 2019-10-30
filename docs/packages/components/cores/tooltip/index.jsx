@@ -1,26 +1,39 @@
 import React from 'react';
+import { TooltipProps, TooltipDefaultProps } from './interface';
+import Trigger from '../trigger';
 import { useContextConf, useClassName } from 'hooks';
 
 function Tooltip(props) {
-    const {componentCls} = useContextConf('tooltip');
     const {
-        children,
         className,
+        children,
+        manual,
+        effect,
         ...others
     } = props;
 
-    // ---------------------------------- class ----------------------------------
-    const classNames = useClassName({
-        [componentCls]: true,
-        [className]: className,
-    }, [className, componentCls]);
+    const { componentCls } = useContextConf(`tooltip`);
 
-    // ---------------------------------- render ----------------------------------
+    const classNames = useClassName({
+        [`${componentCls}__popper`]: true,
+        [`is-${effect}`]: true,
+        [className]: className,
+    }, [componentCls, className, effect]);
+
     return (
-        <div className={classNames} {...others}>
-            123
-        </div>
-    );
-};
+        <Trigger
+            trigger={manual ? 'manual' : 'hover'}
+            component={'tooltip'}
+            className={classNames}
+            title={null}
+            {...others}
+        >
+            {children}
+        </Trigger>
+    )
+}
+
+Tooltip.propTypes = TooltipProps;
+Tooltip.defaultProps = TooltipDefaultProps;
 
 export default Tooltip;

@@ -13,9 +13,9 @@ const commonDefaultProps = {
 /* row-props */
 export const RowProps = {
     gutter: T_Str_Num,
-    type: PropTypes.string,
-    justify: PropTypes.string,
-    align: PropTypes.string,
+    type: PropTypes.oneOf(['flex']),
+    justify: PropTypes.oneOf(['start', 'center', 'end', 'space-between', 'space-around']),
+    align: PropTypes.oneOf(['top', 'middle', 'bottom']),
     ...commonProps,
 }
 

@@ -100,6 +100,7 @@ $line-height-small: 1 !default;
 
 // font-size
 $font-size-small: 12px !default;
+$font-size-bias: 13px !default;
 $font-size-base: 14px !default;
 $font-size-medium: 16px !default;
 $font-size-large: 18px !default;
@@ -557,7 +558,7 @@ $popover-title-font-color: $color-text-primary !default;
 /* --------------------------Tooltip-------------------------- */
 $tooltip-fill: $color-text-primary !default;
 $tooltip-color: $color-white !default;
-$tooltip-font-size: 12px !default;
+$tooltip-font-size: $font-size-small !default;
 $tooltip-border-color: $color-text-primary !default;
 $tooltip-arrow-size: 6px !default;
-$tooltip-padding: 10px !default;
+$tooltip-padding: 6px 10px !default;

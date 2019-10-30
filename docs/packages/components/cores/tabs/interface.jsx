@@ -5,9 +5,9 @@ const noop = () => {};
 /* common-props */
 export const commonProps = {
     className: PropTypes.string,
-    position: PropTypes.string,
+    position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    type: PropTypes.string,
+    type: PropTypes.oneOf(['card', 'border-card']),
     closable: PropTypes.bool,
     onClick: PropTypes.func,
     onChange: PropTypes.func,

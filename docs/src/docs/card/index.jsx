@@ -5,7 +5,7 @@ import PeiQi from '@/assets/imgs/peiqi.png';
 import QiaoZhi from '@/assets/imgs/qiaozhi.png';
 import { ApiTable, HighLight } from '@/components';
 import { cardProps, cardMetaProps, cardGridProps } from 'api/card';
-import { CodeBasic, CodeBordered, CodeSimple, CodeImg, CodeRow, CodeGrid, CodeInner, CodeActions } from 'demos/card';
+import { CodeBasic, CodeBordered, CodeSimple, CodeImg, CodeShadow, CodeRow, CodeGrid, CodeInner, CodeActions } from 'demos/card';
 
 
 function CardDoc() {
@@ -68,6 +68,36 @@ function CardDoc() {
                 </Card>
             </div>
             <HighLight code={CodeImg} />
+
+            {/* 卡片阴影 */}
+            <h2>卡片阴影</h2>
+            <p>可对阴影的显示进行配置。</p>
+            <div className='detail-box'>
+                <Row gutter={16}>
+                    <Col>
+                        <Card title={'Card Title'} extra={<a href="#">More</a>}>
+                            <div>Card content</div>
+                            <div>Card content</div>
+                            <div>Card content</div>
+                        </Card>
+                    </Col>
+                    <Col>
+                        <Card shadow={'hover'} title={'Card Title'} extra={<a href="#">More</a>}>
+                            <div>Card content</div>
+                            <div>Card content</div>
+                            <div>Card content</div>
+                        </Card>
+                    </Col>
+                    <Col>
+                        <Card shadow={'always'}  title={'Card Title'} extra={<a href="#">More</a>}>
+                            <div>Card content</div>
+                            <div>Card content</div>
+                            <div>Card content</div>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+            <HighLight code={CodeShadow} />
 
             {/* 栅格卡片 */}
             <h2>栅格卡片</h2>

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 /* card-props */
 export const CardProps = {
     className: PropTypes.string,
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['small']),
     title: PropTypes.node,
     extra: PropTypes.node,
     cover: PropTypes.node,
     bordered: PropTypes.bool,
-    shadow: PropTypes.string,
+    shadow: PropTypes.oneOf(['always', 'hover', 'never']),
     type: PropTypes.string,
     actions: PropTypes.array,
 }

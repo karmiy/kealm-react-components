@@ -7,7 +7,7 @@ import { CodeBasic, CodeDisabled, CodeText, CodeIcon, CodeGroup, CodeLoading, Co
 const Group = Button.Group;
 
 function ButtonDoc() {
-    const [size, setSize] = useState('');
+    const [size, setSize] = useState();
     const [loading, setLoading] = useState(true);
 
     return (
@@ -188,7 +188,7 @@ function ButtonDoc() {
                         <div className="detail-box">
                             <Group>
                                 <Button plain active={size === 'large'} onClick={() => setSize('large')}>Large</Button>
-                                <Button plain active={size === ''} onClick={() => setSize('')}>Default</Button>
+                                <Button plain active={!size} onClick={() => setSize(undefined)}>Default</Button>
                                 <Button plain active={size === 'small'} onClick={() => setSize('small')}>Small</Button>
                             </Group>
                         </div>

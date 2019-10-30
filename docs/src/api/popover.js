@@ -89,7 +89,7 @@ export const popoverProps = [
         type: 'string',
         option: {
             link: '/component/transition',
-            info: '参考 transition 组件',
+            info: '参考 Transition 组件',
         },
         default: 'km-popper',
     }

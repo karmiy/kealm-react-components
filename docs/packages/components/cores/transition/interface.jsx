@@ -43,7 +43,7 @@ export const FadeTransitionDefaultProps = {
 export const ZoomTransitionProps = {
     ...CommonTransitionProps,
     transitionName: PropTypes.string, // CSS className, just like 'zoom-in' will render from zoom-in => zoom-in-active => zoom-in-to
-    position: PropTypes.string,
+    position: PropTypes.oneOf(['center', 'top', 'bottom', 'left', 'right']),
 }
 
 export const ZoomTransitionDefaultProps = {

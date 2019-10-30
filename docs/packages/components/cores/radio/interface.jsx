@@ -45,7 +45,7 @@ export const RadioDefaultProps = {
 
 /* radio-group-props */
 export const RadioGroupProps = {
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['large', 'small']),
     solid: PropTypes.bool,
     ...AbstractCheckGroupProps,
 }
@@ -58,7 +58,7 @@ export const RadioGroupDefaultProps = {
 /* radio-button-props */
 export const RadioButtonProps = {
     solid: PropTypes.bool,
-    size: PropTypes.string,
+    size: PropTypes.oneOf(['large', 'small']),
     ...AbstractCheckProps
 }
 

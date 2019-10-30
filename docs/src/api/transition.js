@@ -60,7 +60,7 @@ export const zoomTransitionProps = [
         param: 'position',
         des: 'zoom动画方向',
         type: 'string',
-        option: '--',
+        option: 'center / top / bottom / left / right',
         default: 'center',
     }
 ]

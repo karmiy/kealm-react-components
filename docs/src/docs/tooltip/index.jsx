@@ -21,7 +21,7 @@ function renderPlacement(placement) {
 
 }
 
-function PopoverDoc() {
+function TooltipDoc() {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -31,9 +31,14 @@ function PopoverDoc() {
 
             {/* 基本用法 */}
             <h2>基本用法</h2>
-            <p>最简单的用法。</p>
+            <p>最简单的用法，可以通过 manual 配置是否手动触发。</p>
             <div className="detail-box">
-                <Tooltip />
+                <Tooltip content={'This is a prompt message'}>
+                    <Button plain>Hover</Button>
+                </Tooltip>
+                <Tooltip content={'This is a prompt message'} effect={'light'} manual visible={visible}>
+                    <Button plain onClick={() => setVisible(v => !v)}>Manual</Button>
+                </Tooltip>
             </div>
 
 
@@ -43,4 +48,4 @@ function PopoverDoc() {
     )
 }
 
-export default PopoverDoc;
+export default TooltipDoc;
