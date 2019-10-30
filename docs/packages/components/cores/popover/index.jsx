@@ -1,10 +1,19 @@
-import React, { useState, cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useContextConf, useClassName, useTrigger, useTimeout } from 'hooks';
 import { PopoverProps, PopoverDefaultProps } from './interface';
-import { Popper, Portal, DomWrapper } from '../../common';
+import { Popper, Portal, DomWrapper, RenderWrapper } from '../../common';
 import { FadeTransition } from '../transition';
 import { filterEmptyProp } from 'utils/common/object';
 import addDomEventListener from 'add-dom-event-listener';
+
+const HorizontalPriority = ['left', 'right'];
+const VerticalPriority = ['top', 'bottom'];
+
+function withPriority(placement) {
+    if(placement.includes('top') || placement.includes('bottom'))
+        return HorizontalPriority;
+    return VerticalPriority;
+}
 
 function Popover(props) {
     const {componentCls} = useContextConf('popover');
@@ -15,7 +24,16 @@ function Popover(props) {
         visible,
         onVisibleChange,
         trigger,
-        ...others
+        title,
+        content,
+        width,
+        placement,
+        offset,
+        showArrow,
+        openDelay,
+        closeDelay,
+        style, // Default style content unchanged
+        ...others // Default others content unchanged
     } = props;
 
     // ---------------------------------- class ----------------------------------
@@ -26,10 +44,16 @@ function Popover(props) {
         [className]: className,
     }, [className, componentCls]);
 
+    // ---------------------------------- style ----------------------------------
+    const popperStyles = useMemo(() => {
+        return {
+            width: width ? `${width}px` : null,
+            ...style,
+        }
+    }, [width]);
+
     // ---------------------------------- logic code ----------------------------------
-    // const [isVisible, setIsVisible] = useState(false);
     const { isVisible, setIsVisible, isMount } = useTrigger(defaultVisible, visible, onVisibleChange, trigger);
-    // const visibleOnce = useCorrectOnce(isVisible);
     const instanceRef = useRef(null);
     const referenceRef = useRef(null);
     const popperRef = useRef(null);
@@ -64,29 +88,29 @@ function Popover(props) {
         const nativeMouseEnter = children.props.onMouseEnter;
         nativeMouseEnter && nativeMouseEnter(...rest);
 
-        setTimer(() => setIsVisible(true), 0, 'popper');
-    }, [children]) : null;
+        setTimer(() => setIsVisible(true), openDelay, 'popper');
+    }, [children, openDelay]) : null;
 
     const onReferenceMouseLeave = trigger === 'hover' ? useCallback((...rest) => {
         const nativeMouseLeave = children.props.onMouseLeave;
         nativeMouseLeave && nativeMouseLeave(...rest);
 
-        setTimer(() => setIsVisible(false), 200, 'popper');
-    }, [children]) : null;
+        setTimer(() => setIsVisible(false), closeDelay, 'popper');
+    }, [children, closeDelay]) : null;
 
     const onPopperMouseEnter = trigger === 'hover' ? useCallback((...rest) => {
         const nativeMouseEnter = others.onMouseEnter;
         nativeMouseEnter && nativeMouseEnter(...rest);
 
-        setTimer(() => setIsVisible(true), 0, 'popper');
-    }, [others]) : null;
+        setTimer(() => setIsVisible(true), openDelay, 'popper');
+    }, [openDelay]) : null;
 
     const onPopperMouseLeave = trigger === 'hover' ? useCallback((...rest) => {
         const nativeMouseLeave = others.onMouseLeave;
         nativeMouseLeave && nativeMouseLeave(...rest);
 
-        setTimer(() => setIsVisible(false), 200, 'popper');
-    }, [others]) : null;
+        setTimer(() => setIsVisible(false), closeDelay, 'popper');
+    }, [closeDelay]) : null;
 
     useEffect(() => {
         const handler = addDomEventListener(document, 'click', function (e) {
@@ -106,7 +130,7 @@ function Popover(props) {
         if(!isMount) return null;
 
         return (
-            <FadeTransition visible={isVisible} appear>
+            <FadeTransition visible={isVisible} appear transitionName={'km-popper'}>
                 <Portal>
                     <div
                         ref={popperRef}
@@ -115,18 +139,23 @@ function Popover(props) {
                         className={classNames}
                         onMouseEnter={onPopperMouseEnter}
                         onMouseLeave={onPopperMouseLeave}
+                        style={popperStyles}
                         {...others}
                     >
-                        <div className={`${componentCls}__title`}>
-                            标题
-                        </div>
-                        这是一段内容,这是一段内容,这是一段内容,这是一段内容。
-                        <div x-arrow={'true'} className={'popper__arrow'} />
+                        <RenderWrapper visible={!!title} unmountOnExit={true}>
+                            <div className={`${componentCls}__title`}>
+                                {title}
+                            </div>
+                        </RenderWrapper>
+                        {content}
+                        <RenderWrapper visible={!!showArrow} unmountOnExit={true}>
+                            <div x-arrow={'true'} className={'popper__arrow'} />
+                        </RenderWrapper>
                     </div>
                 </Portal>
             </FadeTransition>
         )
-    }, [isMount, isVisible, componentCls, classNames, others, onPopperMouseEnter, onPopperMouseLeave]);
+    }, [isMount, isVisible, componentCls, classNames, title, content, showArrow, popperStyles, onPopperMouseEnter, onPopperMouseLeave]);
 
     const reference = cloneElement(children, filterEmptyProp({
         onClick,
@@ -140,10 +169,13 @@ function Popover(props) {
         <Popper
             popper={popper}
             reference={reference}
-            placement={'top'}
+            placement={placement}
             modifiers={{
                 preventOverflow: {
-                    priority: ['left', 'right']
+                    priority: withPriority(placement),
+                },
+                offset: {
+                    offset,
                 }
             }}
             onCreate={data => instanceRef.current = data.instance}

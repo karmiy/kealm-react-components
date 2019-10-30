@@ -24,3 +24,12 @@
 @include zoom-transition('bottom');
 @include zoom-transition('left');
 @include zoom-transition('right');
+
+/* popper */
+.km-popper-enter-active, .km-popper-leave-active, .km-popper-appear-active {
+    transition: opacity $transition-duration-base $ease-out;
+    //transition: opacity 2s;
+}
+.km-popper-enter, .km-popper-leave-to, .km-popper-appear {
+    opacity: 0;
+}

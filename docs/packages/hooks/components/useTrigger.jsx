@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useCorrectOnce } from 'hooks';
+import { isFunction } from 'utils/common/base';
 
 /**
- * Build isChecked and checkChange hook for radio、checkbox
- * Core-props: defaultChecked、checked、groupValues、value、onChange
+ * Build isVisible, setIsVisible and isMount hook for popper
+ * Core-props: defaultVisible, visible, onVisibleChange, trigger
  */
 function useTrigger(defaultVisible, visible, onVisibleChange, trigger) {
     const [isVisible, setIsVisible] = useState(defaultVisible || false); // Default invisible
@@ -13,13 +14,31 @@ function useTrigger(defaultVisible, visible, onVisibleChange, trigger) {
 
     const _isVisible = visible !== undefined ? visible : isVisible; // The actual state(depending on visible, no default)
 
+    // Save the state to return the constant setIsVisible
+    const stateStoreRef = useRef({
+        _isVisible,
+        trigger,
+        onVisibleChange,
+    });
+
+    useEffect(() => {
+        stateStoreRef.current = {
+            _isVisible,
+            trigger,
+            onVisibleChange,
+        }
+    }, [_isVisible, trigger, onVisibleChange]);
+
     // Can be used to mount popper DOM
     const isMount = useCorrectOnce(_isVisible);
-    console.log(_isVisible);
 
     // logic visibleChange
     const visibleChange = useCallback((v) => {
-        console.log(v, _isVisible);
+        const { _isVisible, trigger, onVisibleChange } = stateStoreRef.current;
+
+        // Example like setIsVisible(v => !v)
+        if(isFunction(v)) v = v(_isVisible);
+
         if(v === _isVisible) return;
 
         onVisibleChange(v);
@@ -27,7 +46,7 @@ function useTrigger(defaultVisible, visible, onVisibleChange, trigger) {
         if(trigger === 'manual') return;
 
         setIsVisible(v);
-    }, [_isVisible, trigger]);
+    }, []);
 
     return {
         isVisible: _isVisible,
