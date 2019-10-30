@@ -24,7 +24,9 @@
         z-index: $z-index-extremely-large;
         text-align: center;
 
-        @include utils-vertical-center;
+        @include m(center) {
+            @include utils-vertical-center;
+        }
     }
 
     @include e(header) {

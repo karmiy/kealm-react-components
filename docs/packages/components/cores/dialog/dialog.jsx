@@ -67,8 +67,9 @@ function Dialog(props) {
 
     const wrapperClassNames = useClassName({
         [`${componentCls}__wrapper`]: true,
+        [`${componentCls}__wrapper--center`]: center,
         [wrapClassName]: wrapClassName,
-    }, [componentCls, wrapClassName]);
+    }, [componentCls, wrapClassName, center]);
 
     // ---------------------------------- logic code ----------------------------------
 
