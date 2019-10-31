@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, useMemo } from 'react';
 import { RowProps, RowDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
-import {loopEleOfType, transChildren} from 'utils/common/react-util';
+import { handleEleOfType, transChildren } from 'utils/common/react-util';
 import Col from './col';
 
 function Row(props) {
@@ -51,9 +51,17 @@ function Row(props) {
         if(!gap) return _children;
 
         // Find Col Nodes
-        const filterCols = loopEleOfType(_children, Col);
+        // const filterCols = loopEleOfType(_children, Col);
+        return handleEleOfType(_children, Col, child => {
+            return cloneElement(child, {
+                style: {
+                    paddingLeft: gap ? `${gap}px` : null,
+                    paddingRight: gap ? `${gap}px` : null,
+                },
+            })
+        });
 
-        return Children.map(filterCols, child => {
+        /*return Children.map(filterCols, child => {
             if(child) {
                 return cloneElement(child, {
                     style: {
@@ -62,7 +70,7 @@ function Row(props) {
                     },
                 })
             }
-        })
+        })*/
     }, [_children, gap]);
 
     // ---------------------------------- render ----------------------------------

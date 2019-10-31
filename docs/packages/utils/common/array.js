@@ -1,6 +1,6 @@
 /**
  * 转数组
- * @param activeKey
+ * @param key
  * @returns {array}
  */
 export const toArray = function(key) {

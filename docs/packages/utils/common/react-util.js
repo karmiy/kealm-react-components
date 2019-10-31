@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Children, cloneElement } from 'react';
 import { isFragment } from 'react-is';
 import { isArray } from './base';
 
 /**
  * Translate children of props without fragment
+ * @param {node} children
+ * @returns {node}
  */
 export const transChildren = function(children) {
     return isFragment(children) ? children.props.children : children;
@@ -11,18 +13,24 @@ export const transChildren = function(children) {
 
 /**
  * Clone react element(including fragment)
+ * @param {node} ele
+ * @param {object} props
+ * @returns {node}
  */
 export const cloneVElement = function(ele, props) {
     const _ele = transChildren(ele);
-    return React.cloneElement(_ele, props);
+    return cloneElement(_ele, props);
 }
 
 /**
  * Whether to include an react element
+ * @param {node} children
+ * @param {component / string} type
+ * @returns {boolean}
  */
 export const isContainEle = function (children, type) {
     let contains = false;
-    React.Children.forEach(children, (element) => {
+    Children.forEach(children, (element) => {
         if (element && element.type && element.type === type) {
             contains = true;
         }
@@ -31,7 +39,10 @@ export const isContainEle = function (children, type) {
 }
 
 /**
- * Validate type
+ * Validate type for ReactNode
+ * @param {node} element
+ * @param {component / string} type
+ * @returns {boolean}
  */
 export const validateType = function (element, type) {
     return element && element.type && element.type === type;
@@ -39,11 +50,12 @@ export const validateType = function (element, type) {
 
 /**
  * Find nodes of this type under the react element
- * @param element
- * @param type
+ * @param {node} element
+ * @param {component / string} type
+ * @returns {node}
  */
 export const loopEleOfType = function (element, type) {
-    const filters = React.Children.map(element, child => {
+    const filters = Children.map(element, child => {
         if(!child) return null;
 
         if(validateType(child, type)) return child;
@@ -56,25 +68,25 @@ export const loopEleOfType = function (element, type) {
     if(isArray(filters) && !filters.length) return null;
 
     return filters;
-    /*if(!element) return null;
+}
 
-    let _children = null;
+/**
+ * Find nodes of this type under the react element
+ * @param {node} element
+ * @param {component / node} type
+ * @param {function} handler
+ * @returns {node}
+ */
+export const handleEleOfType = function (element, type, handler) {
+    return Children.map(element, child => {
+        if(!child) return child; // React.Children will filter the returned null or undefined value
 
-    if(isArray(element)) {
-        _children = element;
-    }else  {
-        if(validateType(element, type)) return element;
+        if(validateType(child, type)) return handler(child);
 
-        if(!element.props || !element.props.children) return null;
+        if(!child.props || !child.props.children) return child;
 
-        _children = element.props.children;
-    }
-
-    const filters = React.Children.map(_children, child => {
-        return loopEleOfType(child, type);
-    });
-
-    if(isArray(filters) && !filters.length) return null;
-
-    return filters;*/
+        return cloneElement(child, {
+            children: handleEleOfType(child.props.children, type, handler),
+        });
+    })
 }
