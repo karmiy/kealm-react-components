@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { TagProps, TagDefaultProps } from './interface';
 import Icon from '../icon';
@@ -36,6 +36,9 @@ function Tag(props) {
         color: font,
         ...style,
     }
+
+    // ---------------------------------- logic code ----------------------------------
+    const [isMount, setIsMount] = useState(true);
 
     // ---------------------------------- render ----------------------------------
     return (

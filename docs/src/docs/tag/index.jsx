@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Tag, Row, Col, Radio, Button, Input } from '@kealm/react-components';
+import { Tag, Row, Col, Radio, Button, Input, ZoomTransition } from '@kealm/react-components';
+import { Motion } from '@kealm/react-components-utils';
 import { ApiTable, HighLight } from '@/components';
 
 function TagDoc() {
@@ -11,13 +12,19 @@ function TagDoc() {
         setTags(tags.filter(t => tag !== t));
     }, [tags]);
 
-    const addTag = useCallback(() => {
+    const addTag = useCallback((value) => {
+        setTags([...tags, value]);
+    }, [tags]);
 
-    } ,[]);
-
-    const onPressEnter = useCallback((value, e) => {
-        console.log(value, e);
-    } ,[]);
+    const onPressEnter = useCallback(value => {
+        const tag = tags.find(tag => tag === value);
+        if(tag) {
+            setInputVisible(false);
+            return;
+        }
+        setInputVisible(false);
+        addTag(value);
+    }, [tags, addTag]);
 
     return (
         <div className='page-box'>
@@ -120,11 +127,13 @@ function TagDoc() {
             <p>设置closable属性可以定义一个标签是否可移除。</p>
             <div className="detail-box">
                 <Row gutter={16}>
-                    <Col><Tag closable>Tag1</Tag></Col>
+                    <Motion transitionName={'km-zoom-center'}>
+                    {tags.map(tag => <Col key={tag}><Tag closable onClose={onClose}>{tag}</Tag></Col>)}
+                    </Motion>
                     <Col>
                         {
                             inputVisible ?
-                                <Input style={{width: '150px'}} onPressEnter={onPressEnter} />
+                                <Input style={{width: '150px'}} onPressEnter={onPressEnter} autoFocus />
                                 :
                                 <Button plain icon='plus' onClick={() => setInputVisible(true)}>New Tag</Button>
                         }

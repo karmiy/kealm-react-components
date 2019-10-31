@@ -1,7 +1,8 @@
 import React, { Children, cloneElement, useMemo } from 'react';
 import { RowProps, RowDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
-import { transChildren } from 'utils/common/react-util';
+import {loopEleOfType, transChildren} from 'utils/common/react-util';
+import Col from './col';
 
 function Row(props) {
     const { componentCls } = useContextConf('row');
@@ -49,7 +50,10 @@ function Row(props) {
     const renderChildren = useMemo(() => {
         if(!gap) return _children;
 
-        return Children.map(_children, child => {
+        // Find Col Nodes
+        const filterCols = loopEleOfType(_children, Col);
+
+        return Children.map(filterCols, child => {
             if(child) {
                 return cloneElement(child, {
                     style: {
