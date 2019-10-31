@@ -1,0 +1,65 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(tag) {
+    @include genTheme(10%, 20%, 100%, 100%);
+    box-sizing: border-box;
+    display: inline-block;
+    height: $tag-height;
+    line-height: $tag-height - 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: $tag-border-radius;
+    padding: $tag-padding;
+    font-size: $tag-font-size;
+    color: $tag-primary-color;
+    white-space: nowrap;
+    transition: $all-transition;
+
+    .km-icon-close {
+        position: relative;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        border-radius: 50%;
+        top: -1px;
+        right: -5px;
+        cursor: pointer;
+        font-size: 12px;
+        text-align: center;
+        vertical-align: middle;
+        transition: all $transition-duration-fast;
+        &::before {
+            display: block;
+        }
+    }
+
+    @include m(dark) {
+        @include genTheme(100%, 100%, 0, 80%);
+    }
+
+    @include m(plain) {
+        @include genTheme(0, 40%, 100%, 100%);
+    }
+
+    @include m(large) {
+        height: $tag-height-large;
+        line-height: $tag-height-large - 2px;
+        padding: $tag-padding-large;
+
+        .km-icon-close {
+            transform: scale(1.2);
+        }
+    }
+
+    @include m(small) {
+        height: $tag-height-small;
+        line-height: $tag-height-small - 2px;
+        padding: $tag-padding-small;
+
+        .km-icon-close {
+            transform: scale(.8);
+        }
+    }
+}
+

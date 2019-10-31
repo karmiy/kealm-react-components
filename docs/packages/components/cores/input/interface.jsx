@@ -11,6 +11,7 @@ export const AbstractInputProps = {
     defaultValue: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    onPressEnter: PropTypes.func,
     maxLength: PropTypes.number,
 }
 
@@ -18,6 +19,7 @@ export const AbstractInputDefaultProps = {
     // autoFocus: false,
     disabled: false,
     onChange: noop,
+    onPressEnter: noop,
 }
 
 /* input-props */

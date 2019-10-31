@@ -562,3 +562,23 @@ $tooltip-font-size: $font-size-small !default;
 $tooltip-border-color: $color-text-primary !default;
 $tooltip-arrow-size: 6px !default;
 $tooltip-padding: 6px 10px !default;
+
+/* --------------------------Tag-------------------------- */
+$tag-font-size: 12px !default;
+$tag-border-radius: 4px !default;
+
+// size
+$tag-height-small: 24px !default;
+$tag-height: 32px !default;
+$tag-height-large: 40px !default;
+
+$tag-padding-small: 0 8px !default;
+$tag-padding: 0 10px !default;
+$tag-padding-large: 0 12px !default;
+
+// color
+$tag-primary-color: $color-primary !default;
+$tag-success-color: $color-success !default;
+$tag-info-color: $color-info !default;
+$tag-warning-color: $color-warning !default;
+$tag-danger-color: $color-danger !default;

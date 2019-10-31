@@ -5,6 +5,7 @@ import { useContextConf, useClassName, useInputValue } from 'hooks';
 import { isString } from 'utils/common/base';
 import { extract, omit } from 'utils/common/object';
 import { cloneVElement } from 'utils/common/react-util';
+import KeyCode from 'utils/common/keyCode';
 
 function Input(props) {
     const { componentCls } = useContextConf('input');
@@ -15,6 +16,8 @@ function Input(props) {
         defaultValue,
         value,
         onChange,
+        onKeyDown,
+        onPressEnter,
         allowClear,
         prefix,
         suffix,
@@ -54,7 +57,15 @@ function Input(props) {
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(() => setInputValue(''), [setInputValue]);
+
     const onClearMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
+
+    const onKeydownTrigger = useCallback((e) => {
+        if(e.keyCode === KeyCode.ENTER) {
+            onPressEnter(e.target.value, e);
+        }
+        onKeyDown && onKeyDown(e);
+    }, [onPressEnter, onKeyDown]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderPrefixEle = useMemo(() => {
@@ -148,6 +159,7 @@ function Input(props) {
                 className={_inputClassNames}
                 value={inputValue}
                 onChange={inputChange}
+                onKeyDown={onKeydownTrigger}
                 disabled={disabled}
                 placeholder={placeholder}
                 maxLength={maxLength}

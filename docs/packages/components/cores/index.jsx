@@ -13,6 +13,7 @@ import Steps from './steps';
 import Tabs from './tabs';
 import Popover from './popover';
 import Tooltip from './tooltip';
+import Tag from './tag';
 
 export {
     Icon,
@@ -33,4 +34,5 @@ export {
     Tabs,
     Popover,
     Tooltip,
+    Tag,
 }

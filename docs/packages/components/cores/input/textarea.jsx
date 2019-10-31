@@ -5,6 +5,7 @@ import { useContextConf, useClassName, useStateCallable, useThrottle, useInputVa
 import calculateNodeHeight from './calculateNodeHeight';
 import { extract, omit } from 'utils/common/object';
 import raf from 'utils/common/raf';
+import KeyCode from "utils/common/keyCode";
 
 
 function TextArea(props) {
@@ -17,6 +18,8 @@ function TextArea(props) {
         defaultValue,
         value,
         onChange,
+        onKeyDown,
+        onPressEnter,
         rows,
         autosize,
         maxLength,
@@ -81,6 +84,13 @@ function TextArea(props) {
         inputChange(e);
     }, [throttleResize, onChange]);
 
+    const onKeydownTrigger = useCallback((e) => {
+        if(e.keyCode === KeyCode.ENTER) {
+            onPressEnter(e.target.value, e);
+        }
+        onKeyDown && onKeyDown(e);
+    }, [onPressEnter, onKeyDown]);
+
     // ---------------------------------- render chunk ----------------------------------
     const renderCount = useMemo(() => {
         if(!maxLength || !showLimitCount) return null;
@@ -100,6 +110,7 @@ function TextArea(props) {
                 // defaultValue={defaultValue}
                 value={inputValue}
                 onChange={handleTextareaChange}
+                onKeyDown={onKeydownTrigger}
                 rows={rows}
                 maxLength={maxLength}
                 placeholder={placeholder}

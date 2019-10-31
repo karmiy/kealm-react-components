@@ -57,6 +57,11 @@ export const commonEvents = [
         callback: '(e: Event)',
     },
     {
+        name: 'onPressEnter',
+        des: '在按下 Enter 键时触发',
+        callback: '(value, e: Event)',
+    },
+    {
         name: '--',
         des: '支持原生input事件，如: onKeyDown onKeyUp onBlur onFocus onInput',
         callback: '(e: Event)',
@@ -178,6 +183,6 @@ export const searchEvents = [
     {
         name: 'onSearch',
         des: '点击搜索或按下回车键时的回调',
-        callback: '(e: Event)',
+        callback: '(value, e: Event)',
     },
 ]

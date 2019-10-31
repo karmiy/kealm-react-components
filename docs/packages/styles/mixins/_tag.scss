@@ -1,0 +1,92 @@
+@import "../common/var";
+@import "./mixins";
+
+@mixin genTheme($background-color-weight, $border-color-weight, $font-color-weight, $hover-color-weight) {
+    border-color: mix($tag-primary-color, $color-white, $border-color-weight);
+    background-color: mix($tag-primary-color, $color-white, $background-color-weight);
+    color: mix($tag-primary-color, $color-white, $font-color-weight);
+
+    @include when(hit) {
+        border-color: $tag-primary-color;
+    }
+
+    .km-tag__close {
+        color: mix($tag-primary-color, $color-white, $font-color-weight);
+        &:hover {
+            background-color: mix($tag-primary-color, $color-white, $hover-color-weight);
+            color: $color-white;
+        }
+    }
+
+    &.km-tag--info {
+        background-color: mix($tag-info-color, $color-white, $background-color-weight);
+        border-color: mix($tag-info-color, $color-white, $border-color-weight);
+        color: mix($tag-info-color, $color-white, $font-color-weight);
+
+        @include when(hit) {
+            border-color: $tag-info-color;
+        }
+
+        .km-tag__close {
+            color: mix($tag-info-color, $color-white, $font-color-weight);
+            &:hover {
+                background-color: mix($tag-info-color, $color-white, $hover-color-weight);
+                color: $color-white;
+            }
+        }
+    }
+
+    &.km-tag--success {
+        border-color: mix($tag-success-color, $color-white, $border-color-weight);
+        background-color: mix($tag-success-color, $color-white, $background-color-weight);
+        color: mix($tag-success-color, $color-white, $font-color-weight);
+
+        @include when(hit) {
+            border-color: $tag-success-color;
+        }
+
+        .km-tag__close {
+            color: mix($tag-success-color, $color-white, $font-color-weight);
+            &:hover {
+                background-color: mix($tag-success-color, $color-white, $hover-color-weight);
+                color: $color-white;
+            }
+        }
+    }
+
+    &.km-tag--warning {
+        border-color: mix($tag-warning-color, $color-white, $border-color-weight);
+        background-color: mix($tag-warning-color, $color-white, $background-color-weight);
+        color: mix($tag-warning-color, $color-white, $font-color-weight);
+
+        @include when(hit) {
+            border-color: $tag-warning-color;
+        }
+
+        .km-tag__close {
+            color: mix($tag-warning-color, $color-white, $font-color-weight);
+            &:hover {
+                background-color: mix($tag-warning-color, $color-white, $hover-color-weight);
+                color: $color-white;
+            }
+        }
+    }
+
+    &.km-tag--danger {
+        border-color: mix($tag-danger-color, $color-white, $border-color-weight);
+        background-color: mix($tag-danger-color, $color-white, $background-color-weight);
+        color: mix($tag-danger-color, $color-white, $font-color-weight);
+
+        @include when(hit) {
+            border-color: $tag-danger-color;
+        }
+
+        .km-tag__close {
+            color: mix($tag-danger-color, $color-white, $font-color-weight);
+            &:hover {
+                background-color: mix($tag-danger-color, $color-white, $hover-color-weight);
+                color: $color-white;
+            }
+        }
+    }
+}

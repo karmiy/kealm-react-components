@@ -3,6 +3,7 @@ import Icon from '../icon';
 import { PasswordProps, PasswordDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue, useDidUpdate } from 'hooks';
 import { extract, omit } from 'utils/common/object';
+import KeyCode from "utils/common/keyCode";
 
 function Password(props) {
     const { componentCls } = useContextConf('input');
@@ -13,6 +14,8 @@ function Password(props) {
         defaultValue,
         value,
         onChange,
+        onKeyDown,
+        onPressEnter,
         size,
         showToggleIcon,
         ...others
@@ -24,13 +27,7 @@ function Password(props) {
 
     // ---------------------------------- logic code ----------------------------------
     const [visible, setVisible] = useState(false);
-    const passwordRef = useRef(null);
     const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange);
-
-    // Switch to focus password box
-    useDidUpdate(() => {
-        passwordRef.current.focus();
-    }, [visible])
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -50,6 +47,15 @@ function Password(props) {
         setVisible(v => !v);
     }, [setVisible]);
 
+    const onSwitchMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
+
+    const onKeydownTrigger = useCallback((e) => {
+        if(e.keyCode === KeyCode.ENTER) {
+            onPressEnter(e.target.value, e);
+        }
+        onKeyDown && onKeyDown(e);
+    }, [onPressEnter, onKeyDown]);
+
     // ---------------------------------- render chunk ----------------------------------
     const renderSuffix = useMemo(() => {
         if(!showToggleIcon) return false;
@@ -59,6 +65,7 @@ function Password(props) {
                     <Icon className={`${componentCls}__icon ${componentCls}__handle`}
                                          type={visible ? 'eye' : 'eye-o'}
                                          onClick={onSwitch}
+                                         onMouseDown={onSwitchMouseDown}
                                           />
                 </span>
             </span>
@@ -68,17 +75,17 @@ function Password(props) {
     const renderInput = useMemo(() => {
         return (
             <input
-                ref={passwordRef}
                 type={visible ? 'text' : 'password'}
                 className={_inputClassNames}
                 value={inputValue}
                 onChange={inputChange}
+                onKeyDown={onKeydownTrigger}
                 disabled={disabled}
                 placeholder={placeholder}
                 {...inputOthers}
             />
         )
-    }, [visible, _inputClassNames, inputValue, inputChange, disabled, placeholder, ...Object.values(inputOthers)]);
+    }, [visible, _inputClassNames, inputValue, inputChange, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
 
     // ---------------------------------- render ----------------------------------
     return (

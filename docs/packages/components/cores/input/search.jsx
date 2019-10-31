@@ -16,6 +16,7 @@ function Search(props) {
         defaultValue,
         onChange,
         onKeyDown,
+        onPressEnter,
         value,
         size,
         enterButton,
@@ -49,10 +50,11 @@ function Search(props) {
     // ---------------------------------- event ----------------------------------
     const onKeydownTrigger = useCallback((e) => {
         if(e.keyCode === KeyCode.ENTER) {
+            onPressEnter(e.target.value, e);
             onSearch(e.target.value, e);
         }
         onKeyDown && onKeyDown(e);
-    }, [onSearch]);
+    }, [onSearch, onPressEnter, onKeyDown]);
 
     const onSearchTrigger = useCallback((e) => {
         onSearch(searchRef.current.value, e);

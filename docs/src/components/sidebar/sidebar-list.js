@@ -47,6 +47,15 @@ const sidebarList = [
         ]
     },
     {
+        title: 'Data',
+        children: [
+            {
+                name: 'Tag 标签',
+                link: 'tag',
+            }
+        ]
+    },
+    {
         title: 'Navigation',
         children: [
             {
