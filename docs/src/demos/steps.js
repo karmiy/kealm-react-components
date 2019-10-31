@@ -1,7 +1,4 @@
 /* 基本用法 */
-import {Col, Row} from "../../packages/components/cores/grid";
-import {Steps} from "../../packages/components/cores";
-
 export const CodeBasic =
 `    import { Steps, Row, Col } from "@kealm/react-components";
     

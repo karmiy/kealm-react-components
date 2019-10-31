@@ -1,8 +1,4 @@
 /* 基本用法 */
-import PeiQi from "@/assets/imgs/peiqi.png";
-import {Card, Icon} from "../../packages/components/cores";
-import QiaoZhi from "@/assets/imgs/qiaozhi.png";
-
 export const CodeBasic =
 `    import { Card } from "@kealm/react-components";
     

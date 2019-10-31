@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { MotionProps, MotionDefaultProps } from './interface';
 import {
     completeChildrenKeys,

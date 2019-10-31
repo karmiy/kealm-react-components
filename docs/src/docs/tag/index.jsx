@@ -1,7 +1,9 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { Tag, Row, Col, Radio, Button, Input, ZoomTransition } from '@kealm/react-components';
+import React, { useState, useCallback } from 'react';
+import { Tag, Row, Col, Radio, Button, Input } from '@kealm/react-components';
 import { Motion } from '@kealm/react-components-utils';
 import { ApiTable, HighLight } from '@/components';
+import { tagProps, tagEvents } from 'api/tag';
+import { CodeBasic, CodeEffect, CodeSize, CodeCustom, CodeClosable, CodeEdit } from 'demos/tag';
 
 function TagDoc() {
     const [size, setSize] = useState('');
@@ -43,6 +45,7 @@ function TagDoc() {
                     <Col><Tag type={'danger'}>Tag5</Tag></Col>
                 </Row>
             </div>
+            <HighLight code={CodeBasic} />
 
             {/* 不同主题 */}
             <h2>不同主题</h2>
@@ -63,6 +66,7 @@ function TagDoc() {
                     <Col><Tag effect={'plain'} type={'danger'}>Tag5</Tag></Col>
                 </Row>
             </div>
+            <HighLight code={CodeEffect} />
 
             {/* 不同尺寸 */}
             <h2>不同尺寸</h2>
@@ -81,6 +85,7 @@ function TagDoc() {
                     <Col><Tag size={size || undefined} effect={'dark'}>Tag Size</Tag></Col>
                 </Row>
             </div>
+            <HighLight code={CodeSize} />
 
             {/* 自定义背景色 */}
             <h2>自定义背景色</h2>
@@ -94,10 +99,11 @@ function TagDoc() {
                     <Col><Tag color={'#eb2f96'} font={'#fff'}>Tag</Tag></Col>
                 </Row>
             </div>
+            <HighLight code={CodeCustom} />
 
             {/* 可移除标签 */}
             <h2>可移除标签</h2>
-            <p>设置closable属性可以定义一个标签是否可移除。</p>
+            <p>设置 closable 属性可以定义一个标签是否可移除。</p>
             <div className="detail-box">
                 <Row gutter={16}>
                     <Col><Tag closable>Tag1</Tag></Col>
@@ -121,15 +127,13 @@ function TagDoc() {
                     <Col><Tag effect={'plain'} type={'danger'} closable>Tag5</Tag></Col>
                 </Row>
             </div>
+            <HighLight code={CodeClosable} />
 
-            {/* 可移除标签 */}
-            <h2>可移除标签</h2>
-            <p>设置closable属性可以定义一个标签是否可移除。</p>
+            {/* 动态编辑标签 */}
+            <h2>动态编辑标签</h2>
+            <p>动态编辑标签可以通过点击标签关闭按钮后触发的 onClose 事件来实现。</p>
             <div className="detail-box">
-                <Row gutter={16}>
-                    <Motion transitionName={'km-zoom-center'}>
-                    {tags.map(tag => <Col key={tag}><Tag closable onClose={onClose}>{tag}</Tag></Col>)}
-                    </Motion>
+                <Row>
                     <Col>
                         {
                             inputVisible ?
@@ -139,10 +143,16 @@ function TagDoc() {
                         }
                     </Col>
                 </Row>
+                <Row gutter={16}>
+                    <Motion transitionName={'km-zoom-center'}>
+                        {tags.map(tag => <Col key={tag}><Tag closable onClose={onClose}>{tag}</Tag></Col>)}
+                    </Motion>
+                </Row>
             </div>
+            <HighLight code={CodeEdit} />
 
             {/* API */}
-            {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}
+            <ApiTable title='Tag' propsList={tagProps} eventsList={tagEvents} />
         </div>
     )
 }

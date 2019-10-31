@@ -1,7 +1,4 @@
 /* 基本用法 */
-import {Col, Row} from "../../packages/components/cores/grid";
-import {Icon, Input} from "../../packages/components/cores";
-
 export const CodeBasic =
 `    import { Input } from "@kealm/react-components";
     
