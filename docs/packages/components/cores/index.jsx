@@ -14,6 +14,7 @@ import Tabs from './tabs';
 import Popover from './popover';
 import Tooltip from './tooltip';
 import Tag from './tag';
+import Select from './select';
 
 export {
     Icon,
@@ -35,4 +36,5 @@ export {
     Popover,
     Tooltip,
     Tag,
+    Select,
 }
