@@ -1,5 +1,5 @@
 import React, { cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useContextConf, useClassName, useTrigger, useTimeout } from 'hooks';
+import { useTrigger, useTimeout } from 'hooks';
 import { TriggerProps, TriggerDefaultProps } from './interface';
 import { Popper, Portal, DomWrapper, RenderWrapper } from '../../common';
 import { FadeTransition } from '../transition';
@@ -42,15 +42,13 @@ addDomEventListener(document, 'keydown', function () {
 
 function Trigger(props) {
     const {
-        component,
         children,
         className,
         defaultVisible,
         visible,
         onVisibleChange,
         trigger,
-        title,
-        content,
+        popup,
         disabled,
         width,
         placement,
@@ -62,15 +60,6 @@ function Trigger(props) {
         style, // Default style content unchanged
         ...others // Default others content unchanged
     } = props;
-
-    const {componentCls} = useContextConf(component);
-
-    // ---------------------------------- class ----------------------------------
-    const classNames = useClassName({
-        [componentCls]: true,
-        // ['km-popper']: true,
-        [className]: className,
-    }, [className, componentCls]);
 
     // ---------------------------------- style ----------------------------------
     const popperStyles = useMemo(() => {
@@ -182,16 +171,6 @@ function Trigger(props) {
     }, [isVisible, trigger]);*/
 
     // ---------------------------------- render chunk ----------------------------------
-    const renderTitle = useMemo(() => {
-        return (
-            <RenderWrapper visible={!!title} unmountOnExit={true}>
-                <div className={`${componentCls}__title`}>
-                    {title}
-                </div>
-            </RenderWrapper>
-        )
-    }, [title, componentCls]);
-
     const renderArrow = useMemo(() => {
         return (
             <RenderWrapper visible={!!showArrow} unmountOnExit={true}>
@@ -212,20 +191,19 @@ function Trigger(props) {
                         ref={popperRef}
                         role={'tooltip'}
                         tabIndex={0}
-                        className={classNames}
+                        className={className}
                         onMouseEnter={onPopperMouseEnter}
                         onMouseLeave={onPopperMouseLeave}
                         style={popperStyles}
                         {...others}
                     >
-                        {renderTitle}
-                        {content}
+                        {popup}
                         {renderArrow}
                     </div>
                 </Portal>
             </FadeTransition>
         )
-    }, [isMount, isVisible, transitionName, classNames, content, popperStyles, onPopperMouseEnter, onPopperMouseLeave]);
+    }, [isMount, isVisible, transitionName, className, popup, popperStyles, onPopperMouseEnter, onPopperMouseLeave]);
 
     const reference = cloneElement(children, filterEmptyProp({
         onClick,
@@ -235,6 +213,7 @@ function Trigger(props) {
         onMouseLeave: onReferenceMouseLeave,
     }));
 
+    // ---------------------------------- render ----------------------------------
     return (
         <Popper
             popper={popper}

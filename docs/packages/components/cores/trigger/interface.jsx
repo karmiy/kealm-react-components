@@ -24,8 +24,6 @@ export const CommonProps = {
     defaultVisible: PropTypes.bool,
     visible: PropTypes.bool,
     onVisibleChange: PropTypes.func,
-    title: PropTypes.node,
-    content: PropTypes.node,
     disabled: PropTypes.bool,
     width: PropTypes.number,
     placement: PropTypes.oneOf(placements),
@@ -52,10 +50,9 @@ export const CommonDefaultProps = {
 /* trigger-props */
 export const TriggerProps = {
     ...CommonProps,
-    component: PropTypes.string,
+    popup: PropTypes.node,
 }
 
 export const TriggerDefaultProps = {
     ...CommonDefaultProps,
-    component: 'trigger',
 }

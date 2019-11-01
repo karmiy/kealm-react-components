@@ -4,9 +4,10 @@ import { omit } from 'utils/common/object';
 
 /* tooltip-props */
 export const TooltipProps = {
-    ...omit(CommonProps, ['trigger', 'title']),
+    ...omit(CommonProps, ['trigger']),
     manual: PropTypes.bool,
     effect: PropTypes.oneOf(['dark', 'light']),
+    content: PropTypes.node,
 }
 
 export const TooltipDefaultProps = {
