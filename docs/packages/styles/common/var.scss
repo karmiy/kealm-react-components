@@ -582,3 +582,46 @@ $tag-success-color: $color-success !default;
 $tag-info-color: $color-info !default;
 $tag-warning-color: $color-warning !default;
 $tag-danger-color: $color-danger !default;
+
+
+/* --------------------------Select-------------------------- */
+$select-border-color-hover: $border-color-hover !default;
+$select-disabled-border: $disabled-border-base !default;
+$select-font-size: $font-size-base !default;
+$select-close-hover-color: $color-text-secondary !default;
+
+// input
+$select-input-color: $color-text-placeholder !default;
+$select-multiple-input-color: #666 !default;
+$select-input-focus-border-color: $color-primary !default;
+$select-input-font-size: 14px !default;
+
+// option
+$select-option-height: 34px !default;
+$select-option-color: $color-text-regular !default;
+
+$select-option-disabled-color: $color-text-placeholder !default;
+$select-option-disabled-background: $color-white !default;
+
+$select-option-hover-background: $background-color-base !default;
+
+$select-option-selected-font-color: $color-primary !default;
+$select-option-selected-hover: $background-color-base !default;
+
+// group
+$select-group-color: $color-info !default;
+$select-group-height: 30px !default;
+$select-group-font-size: $font-size-small !default;
+$select-group-gap: 20px !default;
+
+// dropdown
+$select-dropdown-max-height: 274px !default;
+$select-dropdown-background: $color-white !default;
+$select-dropdown-shadow: $box-shadow-light !default;
+$select-dropdown-empty-color: #999 !default;
+$select-dropdown-padding: 6px 0 !default;
+$select-dropdown-empty-padding: 10px 0 !default;
+$select-dropdown-border: 1px solid $border-color-light !default;
+
+// tag
+$select-tag-background: #f0f2f5 !default;

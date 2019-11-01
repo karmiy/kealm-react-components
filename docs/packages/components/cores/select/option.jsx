@@ -1,9 +1,8 @@
 import React from 'react';
-import { useContextConf, useClassName } from 'hooks';
-import Input from '../input';
+import {useContextConf, useClassName} from 'hooks';
 
-function Select(props) {
-    const { componentCls } = useContextConf('select');
+function Option(props) {
+    const {componentCls} = useContextConf('select-dropdown');
     const {
         children,
         className,
@@ -19,9 +18,9 @@ function Select(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} {...others}>
-            <Input placeholder={'请选择'} suffix={'down'} readOnly />
+            123
         </div>
     );
 };
 
-export default Select;
+export default Option;

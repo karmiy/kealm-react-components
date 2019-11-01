@@ -1,0 +1,39 @@
+@import "../mixins/index";
+
+@include b(select-group) {
+    margin: 0;
+    padding: 0;
+
+    @include e(wrap) {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        &:not(:last-of-type) {
+            padding-bottom: 24px;
+
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                height: 1px;
+                left: $select-group-gap;
+                right: $select-group-gap;
+                bottom: 12px;
+                background-color: $border-color-light;
+            }
+        }
+    }
+
+    @include e(title) {
+        line-height: $select-group-height;
+        padding-left: $select-group-gap;
+        font-size: $select-group-font-size;
+        color: $select-group-color;
+    }
+
+    & .km-select-dropdown__item {
+        padding-left: $select-group-gap;
+    }
+}
