@@ -15,6 +15,31 @@ function withPriority(placement) {
     return VerticalPriority;
 }
 
+// store listener ref of all trigger
+const listenerSet = new Set();
+
+// Click outside to close
+addDomEventListener(document, 'click', function (e) {
+    for(let listenerRef of listenerSet.keys()) {
+        const { isVisible, trigger, popperRef, referenceRef, setIsVisible } = listenerRef.current;
+        if(!isVisible || trigger === 'manual') continue;
+
+        const popperEl = popperRef.current || {contains: () => true};
+        const referenceEl = referenceRef.current ? referenceRef.current.el : {contains: () => true};
+        !popperEl.contains(e.target) && !referenceEl.contains(e.target) && setIsVisible(false);
+    }
+}, false);
+
+// ESC to close
+addDomEventListener(document, 'keydown', function () {
+    for(let listenerRef of listenerSet.keys()) {
+        const { isVisible, trigger, setIsVisible } = listenerRef.current;
+        if (!isVisible || trigger === 'manual') continue;
+
+        setIsVisible(false);
+    }
+}, false);
+
 function Trigger(props) {
     const {
         component,
@@ -61,11 +86,30 @@ function Trigger(props) {
     const referenceRef = useRef(null);
     const popperRef = useRef(null);
     const [setTimer] = useTimeout(true);
+    // Use to store useful data for document listener
+    const listenerRef = useRef({
+        popperRef,
+        referenceRef,
+        setIsVisible,
+    });
 
     useEffect(() => {
         const instance = instanceRef.current;
         isVisible && instance && instance.scheduleUpdate();
     }, [isVisible]);
+
+    useEffect(() => {
+        listenerRef.current.isVisible = isVisible;
+        listenerRef.current.trigger = trigger;
+    }, [isVisible, trigger]);
+
+    // Store listenerRef for document listener
+    useEffect(() => {
+        listenerSet.add(listenerRef);
+        return () => {
+            listenerSet.delete(listenerRef);
+        }
+    }, []);
 
     // ---------------------------------- event ----------------------------------
 
@@ -115,18 +159,27 @@ function Trigger(props) {
         setTimer(() => setIsVisible(false), closeDelay, 'popper');
     }, [closeDelay]) : null;
 
-    useEffect(() => {
-        const handler = addDomEventListener(document, 'click', function (e) {
+    /*useEffect(() => {
+        // Click outside to close
+        const handlerClick = addDomEventListener(document, 'click', function (e) {
             if(!isVisible || trigger === 'manual') return;
 
             const popperEl = popperRef.current || {contains: () => true};
             const referenceEl = referenceRef.current ? referenceRef.current.el : {contains: () => true};
             !popperEl.contains(e.target) && !referenceEl.contains(e.target) && setIsVisible(false);
         }, false);
+
+        // ESC to close
+        const handlerKeydown = addDomEventListener(document, 'keydown', function (e) {
+            if(!isVisible || trigger === 'manual') return;
+
+            setIsVisible(false);
+        })
         return () => {
-            handler.remove();
+            handlerClick.remove();
+            handlerKeydown.remove();
         }
-    }, [isVisible, trigger]);
+    }, [isVisible, trigger]);*/
 
     // ---------------------------------- render chunk ----------------------------------
     const renderTitle = useMemo(() => {

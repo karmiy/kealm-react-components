@@ -1,5 +1,5 @@
 import React, { Children, cloneElement, useState, useMemo, useRef, useLayoutEffect, useEffect } from 'react';
-import {Button, Row, Col, Tag, Input} from '@kealm/react-components';
+import {Button, Row, Col, Tag, Input, Popover} from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
 
@@ -62,6 +62,9 @@ function ExampleDoc() {
                     })}>添加</Button>
                 </Col>
             </Row>
+            <Popover>
+                <span>111</span>
+            </Popover>
         </div>
     )
 }
