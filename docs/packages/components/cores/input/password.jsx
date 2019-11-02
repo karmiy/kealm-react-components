@@ -28,6 +28,12 @@ function Password(props) {
     // ---------------------------------- logic code ----------------------------------
     const [visible, setVisible] = useState(false);
     const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange);
+    const inputRef = useRef(null);
+
+    // Prevent input Dom refresh
+    useDidUpdate(() => {
+        inputRef.current.type = visible ? 'text' : 'password';
+    }, [visible], true);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -75,7 +81,8 @@ function Password(props) {
     const renderInput = useMemo(() => {
         return (
             <input
-                type={visible ? 'text' : 'password'}
+                ref={inputRef}
+                type={'password'}
                 className={_inputClassNames}
                 value={inputValue}
                 onChange={inputChange}
@@ -85,7 +92,7 @@ function Password(props) {
                 {...inputOthers}
             />
         )
-    }, [visible, _inputClassNames, inputValue, inputChange, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
+    }, [_inputClassNames, inputValue, inputChange, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
 
     // ---------------------------------- render ----------------------------------
     return (

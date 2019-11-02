@@ -24,6 +24,7 @@ import {
     useInputValue,
     useTabsValue,
     useTrigger,
+    useController,
 } from './components';
 
 export {
@@ -51,4 +52,5 @@ export {
     useInputValue,
     useTabsValue,
     useTrigger,
+    useController,
 }

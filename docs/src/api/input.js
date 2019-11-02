@@ -57,6 +57,11 @@ export const commonEvents = [
         callback: '(e: Event)',
     },
     {
+        name: 'onClear',
+        des: '点击清空时触发，只有 Input 组件有效',
+        callback: '(e: Event)',
+    },
+    {
         name: 'onPressEnter',
         des: '在按下 Enter 键时触发',
         callback: '(value, e: Event)',

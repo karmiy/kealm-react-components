@@ -21,8 +21,9 @@ const listenerSet = new Set();
 // Click outside to close
 addDomEventListener(document, 'click', function (e) {
     for(let listenerRef of listenerSet.keys()) {
-        const { isVisible, trigger, popperRef, referenceRef, setIsVisible } = listenerRef.current;
-        if(!isVisible || trigger === 'manual') continue;
+        const { isVisible, popperRef, referenceRef, setIsVisible } = listenerRef.current;
+        // if(!isVisible || trigger === 'manual') continue;
+        if(!isVisible) continue;
 
         const popperEl = popperRef.current || {contains: () => true};
         const referenceEl = referenceRef.current ? referenceRef.current.el : {contains: () => true};
@@ -33,8 +34,9 @@ addDomEventListener(document, 'click', function (e) {
 // ESC to close
 addDomEventListener(document, 'keydown', function () {
     for(let listenerRef of listenerSet.keys()) {
-        const { isVisible, trigger, setIsVisible } = listenerRef.current;
-        if (!isVisible || trigger === 'manual') continue;
+        const { isVisible, setIsVisible } = listenerRef.current;
+        // if (!isVisible || trigger === 'manual') continue;
+        if (!isVisible) continue;
 
         setIsVisible(false);
     }
@@ -95,8 +97,8 @@ function Trigger(props) {
 
     useEffect(() => {
         listenerRef.current.isVisible = isVisible;
-        listenerRef.current.trigger = trigger;
-    }, [isVisible, trigger]);
+        // listenerRef.current.trigger = trigger;
+    }, [isVisible]);
 
     // Store listenerRef for document listener
     useEffect(() => {
@@ -130,7 +132,7 @@ function Trigger(props) {
 
     // ---------------------------------- event ----------------------------------
 
-    const onClick = trigger === 'click' ? useCallback((...rest) => {
+    const onClick = trigger === 'click' || trigger === 'manual' ? useCallback((...rest) => {
         const nativeClick = children.props.onClick;
         nativeClick && nativeClick(...rest);
         setIsVisible(v => !v);

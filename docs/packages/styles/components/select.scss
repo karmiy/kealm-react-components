@@ -141,12 +141,17 @@
 @include b(select-dropdown) {
     box-sizing: border-box;
     position: absolute;
+    outline: none;
     border: $select-dropdown-border;
     border-radius: $border-radius-base;
     margin: 5px 0;
     z-index: #{$z-index-extremely-large + 1};
     background-color: $select-dropdown-background;
     box-shadow: $select-dropdown-shadow;
+
+    &[x-placement^="top"] {
+        transform-origin: center bottom;
+    }
 
     @include when(multiple) {
         & .km-select-dropdown__item.selected {

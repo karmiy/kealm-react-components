@@ -156,11 +156,11 @@ export const throttle = function (func, wait, options = {}) {
  * @param obj
  * @returns {string}
  */
-export const mergeStr = function (obj = {}) {
+export const mergeStr = function (obj = {}, separator = ' ') {
     let className = '';
     for(let cls in obj) {
         if(obj.hasOwnProperty(cls)) {
-            obj[cls] && (className += `${cls} `);
+            obj[cls] && (className += `${cls}${separator}`);
         }
     }
     return className.slice(0, -1);

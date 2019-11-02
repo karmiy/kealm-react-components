@@ -1,27 +1,20 @@
 import React, { useState, useCallback } from 'react';
+import useController from './useController';
 
 /**
  * Build inputValue, setInputValue and inputChange hook for input
  * Core-props: defaultValue、value、onChange
  */
 function useInputValue(defaultValue, value, onChange) {
-    // logic inputValue
-    const [innerValue, setInnerValue] = useState(defaultValue || '');
-    const inputValue = value !== undefined ? value : innerValue; // The actual value(depending on value, no default)
+    const [inputValue, setInputValue] = useController(defaultValue, value, onChange, '');
 
-    // logic inputChange
     const inputChange = useCallback(e => {
-        // trigger change event
-        onChange(e);
-        // If there is props.value, it is controlled by props.value
-        if(value !== undefined) return;
-
-        setInnerValue(e.target.value);
-    }, [onChange, value, setInnerValue]);
+        setInputValue(e.target.value, e);
+    }, []);
 
     return {
         inputValue,
-        setInputValue: setInnerValue,
+        setInputValue,
         inputChange,
     }
 }

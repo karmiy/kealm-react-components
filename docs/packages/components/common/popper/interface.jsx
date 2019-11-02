@@ -32,7 +32,6 @@ export const PopperJsDefaultProps = {
     positionFixed: false,
     eventsEnabled: true,
     removeOnDestroy: false,
-    modifiers: Object.create(null),
     onCreate: noop,
     onUpdate: noop,
 }

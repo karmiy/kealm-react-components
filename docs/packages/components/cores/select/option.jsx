@@ -1,25 +1,26 @@
 import React from 'react';
-import {useContextConf, useClassName} from 'hooks';
+import { useContextConf, useClassName } from 'hooks';
 
 function Option(props) {
     const {componentCls} = useContextConf('select-dropdown');
     const {
         children,
         className,
+        value,
         ...others
     } = props;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [componentCls]: true,
+        [`${componentCls}__item`]: true,
         [className]: className,
     }, [className, componentCls]);
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...others}>
-            123
-        </div>
+        <li className={classNames} {...others}>
+            {children}
+        </li>
     );
 };
 

@@ -26,6 +26,7 @@ export const AbstractInputDefaultProps = {
 export const InputProps = {
     ...AbstractInputProps,
     allowClear: PropTypes.bool,
+    onClear: PropTypes.func,
     prefix: PropTypes.node,
     suffix: PropTypes.node,
     prepend: PropTypes.node,
@@ -37,6 +38,7 @@ export const InputProps = {
 export const InputDefaultProps = {
     ...AbstractInputDefaultProps,
     allowClear: false,
+    onClear: noop,
     showLimitCount: false,
 }
 

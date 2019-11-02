@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { InputProps, InputDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue } from 'hooks';
-import { isString } from 'utils/common/base';
+import { isString, mergeStr } from 'utils/common/base';
 import { extract, omit } from 'utils/common/object';
 import { cloneVElement } from 'utils/common/react-util';
 import KeyCode from 'utils/common/keyCode';
@@ -19,6 +19,7 @@ function Input(props) {
         onKeyDown,
         onPressEnter,
         allowClear,
+        onClear: clear,
         prefix,
         suffix,
         prepend,
@@ -56,7 +57,10 @@ function Input(props) {
     }, [componentCls]);
 
     // ---------------------------------- event ----------------------------------
-    const onClear = useCallback(() => setInputValue(''), [setInputValue]);
+    const onClear = useCallback(e => {
+        setInputValue('');
+        clear(e);
+    }, [setInputValue]);
 
     const onClearMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
 
@@ -75,7 +79,12 @@ function Input(props) {
                 ?
                 <Icon className={`${componentCls}__icon`} type={prefix} />
                 :
-                cloneVElement(prefix, {className: `${componentCls}__icon`})
+                cloneVElement(prefix, {
+                    className: mergeStr({
+                        [`${componentCls}__icon`]: true,
+                        [prefix.props.className]: prefix.props.className,
+                    })
+                })
     }, [componentCls, prefix]);
 
     const renderClearEle = useMemo(() => {
@@ -94,7 +103,12 @@ function Input(props) {
                 ?
                 <Icon className={`${componentCls}__icon`} type={suffix} />
                 :
-                cloneVElement(suffix, {className: `${componentCls}__icon`})
+                cloneVElement(suffix, {
+                    className: mergeStr({
+                        [`${componentCls}__icon`]: true,
+                        [suffix.props.className]: suffix.props.className,
+                    })
+                })
     }, [suffix, componentCls]);
 
     const renderLimitCount = useMemo(() => {

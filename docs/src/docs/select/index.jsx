@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Select } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
+const { Option } = Select;
+
 function SelectDoc() {
 
     return (
@@ -14,7 +16,8 @@ function SelectDoc() {
             <p>适用广泛的基础单选。</p>
             <div className="detail-box">
                 <Select>
-                    123
+                    <Option value={'1'}>黄金糕</Option>
+                    <Option value={'2'}>双皮奶</Option>
                 </Select>
             </div>
 
