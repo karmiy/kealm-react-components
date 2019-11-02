@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import useController from './useController';
+import { useController } from 'hooks';
 
 /**
  * Build inputValue, setInputValue and inputChange hook for input

@@ -35,6 +35,8 @@ function useController(defaultProp, prop, onChange, emptyProp = false) {
         if(isFunction(v)) v = v(value);
         if(isFunction(c)) c = c(value);
 
+        if(v === value) return;
+
         // trigger change event
         onChange(c);
         // If there is prop, it is controlled by self
