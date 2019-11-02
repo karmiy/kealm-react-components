@@ -26,7 +26,6 @@ function Tooltip(props) {
     return (
         <Trigger
             trigger={manual ? 'manual' : 'hover'}
-            component={'tooltip'}
             className={classNames}
             popup={content}
             {...others}

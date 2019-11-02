@@ -1,23 +1,11 @@
 import PropTypes from 'prop-types';
 
+import { PopperJsProps, PopperJsDefaultProps } from '../../common/popper/interface';
+
 const noop = () => {};
 
-const placements = [
-    'top-start',
-    'top',
-    'top-end',
-    'bottom-start',
-    'bottom',
-    'bottom-end',
-    'left-start',
-    'left',
-    'left-end',
-    'right-start',
-    'right',
-    'right-end'
-]
-
 export const CommonProps = {
+    ...PopperJsProps,
     className: PropTypes.string,
     children: PropTypes.element.isRequired,
     trigger: PropTypes.string,
@@ -26,7 +14,7 @@ export const CommonProps = {
     onVisibleChange: PropTypes.func,
     disabled: PropTypes.bool,
     width: PropTypes.number,
-    placement: PropTypes.oneOf(placements),
+    // placement: PropTypes.oneOf(placements),
     offset: PropTypes.string,
     showArrow: PropTypes.bool,
     openDelay: PropTypes.number,
@@ -35,6 +23,7 @@ export const CommonProps = {
 }
 
 export const CommonDefaultProps = {
+    ...PopperJsDefaultProps,
     trigger: 'click',
     defaultVisible: false,
     onVisibleChange: noop,

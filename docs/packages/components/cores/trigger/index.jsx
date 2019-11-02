@@ -51,12 +51,18 @@ function Trigger(props) {
         popup,
         disabled,
         width,
-        placement,
-        offset,
         showArrow,
         openDelay,
         closeDelay,
         transitionName,
+        placement,
+        offset,
+        positionFixed,
+        eventsEnabled,
+        removeOnDestroy,
+        modifiers,
+        onCreate,
+        onUpdate,
         style, // Default style content unchanged
         ...others // Default others content unchanged
     } = props;
@@ -99,6 +105,28 @@ function Trigger(props) {
             listenerSet.delete(listenerRef);
         }
     }, []);
+
+    // Props of popperJS
+    const popperProps = {
+        placement,
+        positionFixed,
+        eventsEnabled,
+        removeOnDestroy,
+        modifiers: {
+            preventOverflow: {
+                priority: withPriority(placement),
+            },
+            offset: {
+                offset,
+            },
+            ...modifiers,
+        },
+        onCreate: data => {
+            onCreate(data);
+            instanceRef.current = data.instance;
+        },
+        onUpdate,
+    }
 
     // ---------------------------------- event ----------------------------------
 
@@ -218,16 +246,7 @@ function Trigger(props) {
         <Popper
             popper={popper}
             reference={reference}
-            placement={placement}
-            modifiers={{
-                preventOverflow: {
-                    priority: withPriority(placement),
-                },
-                offset: {
-                    offset,
-                }
-            }}
-            onCreate={data => instanceRef.current = data.instance}
+            {...popperProps}
         >
             <DomWrapper ref={referenceRef}>
                 {reference}

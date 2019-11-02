@@ -8,7 +8,7 @@ function useContextConf(name) {
         return {
             componentCls: `km-${name}`,
         }
-    }, [])
+    }, [name])
 }
 
 export default useContextConf;
