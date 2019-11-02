@@ -43,7 +43,7 @@ function useController(defaultProp, prop, onChange, emptyProp = false) {
         setInnerProp(v);
     }, []);
 
-    return [value, setValue];
+    return [value, setValue, setInnerProp];
 }
 
 export default useController;

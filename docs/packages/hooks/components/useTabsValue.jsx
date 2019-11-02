@@ -1,5 +1,6 @@
 import React, { Children, useState, useCallback } from 'react';
 import { isEmpty } from 'utils/common/base';
+import useController from './useController';
 
 function findFirstName(children = []) {
     let name = null;
@@ -25,24 +26,11 @@ function findFirstName(children = []) {
  * Core-props: defaultValue、value、onChange
  */
 function useTabsValue(defaultValue, value, onChange, panels) {
-    // logic tabsValue
-    const [innerValue, setInnerValue] = useState(!isEmpty(defaultValue) ? defaultValue : findFirstName(panels));
-    const tabsValue = value !== undefined ? value : innerValue; // The actual value(depending on value, no default)
-
-    // logic tabsChange
-    const tabsChange = useCallback(v => {
-        // trigger change event
-        onChange(v);
-        // If there is props.value, it is controlled by props.value
-        if(value !== undefined) return;
-
-        setInnerValue(v);
-    }, [onChange, value, setInnerValue]);
+    const [tabsValue, setTabsValue] = useController(defaultValue, value, onChange, findFirstName(panels));
 
     return {
         tabsValue,
-        setTabsValue: setInnerValue,
-        tabsChange,
+        tabsChange: setTabsValue,
     }
 }
 

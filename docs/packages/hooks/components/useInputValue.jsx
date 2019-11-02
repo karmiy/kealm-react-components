@@ -6,7 +6,7 @@ import useController from './useController';
  * Core-props: defaultValue、value、onChange
  */
 function useInputValue(defaultValue, value, onChange) {
-    const [inputValue, setInputValue] = useController(defaultValue, value, onChange, '');
+    const [inputValue, setInputValue, setInnerValue] = useController(defaultValue, value, onChange, '');
 
     const inputChange = useCallback(e => {
         setInputValue(e.target.value, e);
@@ -14,7 +14,7 @@ function useInputValue(defaultValue, value, onChange) {
 
     return {
         inputValue,
-        setInputValue,
+        setInputValue: setInnerValue,
         inputChange,
     }
 }

@@ -60,7 +60,7 @@ function Input(props) {
     const onClear = useCallback(e => {
         setInputValue('');
         clear(e);
-    }, [setInputValue]);
+    }, [clear]);
 
     const onClearMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
 
