@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { Children, cloneElement, useCallback, useMemo } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
@@ -30,8 +30,24 @@ function Select(props) {
     }, [className, componentCls]);
 
     // ---------------------------------- logic code ----------------------------------
-    const [isVisible, visibleChange] = useController(defaultVisible, visible, onVisibleChange);
+    const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
+    const [selectedValue, setSelectedValue] = useController(defaultValue, value, onChange, '');
+
     const _children = transChildren(children);
+
+    // ---------------------------------- function ----------------------------------
+    const selectedLabel = () => {
+        let label = '';
+        const arr = Children.toArray(_children), len = arr.length;
+        for(let i = 0, child = arr[i]; i < len; i++) {
+            const { children, value } = child.props;
+            if(value === selectedValue) {
+                label = children;
+                break;
+            }
+        }
+        return label;
+    }
 
     // ---------------------------------- event ----------------------------------
     const onCreate = useCallback(data => {
@@ -43,7 +59,6 @@ function Select(props) {
     }, [_onCreate]);
 
     // ---------------------------------- render chunk ----------------------------------
-
     const renderSuffix = useMemo(() => {
         const suffixClassName = mergeStr({
             [`${componentCls}__caret`]: true,
@@ -53,11 +68,17 @@ function Select(props) {
         return <Icon type={'up'} className={suffixClassName} />;
     }, [componentCls, isVisible]);
 
+    const renderChildren = Children.map(_children, child => {
+       return cloneElement(child, {
+           selectedValue,
+       });
+    });
+
     const renderDropdown = (
         <>
             <div className={`${componentCls}-dropdown__wrap`}>
                 <ul className={`${componentCls}-dropdown__list`}>
-                    {children}
+                    {renderChildren}
                 </ul>
             </div>
             <div className="popper__arrow" style={{left: '35px'}} />
@@ -76,12 +97,12 @@ function Select(props) {
                 }
             }}
             visible={isVisible}
-            onVisibleChange={visibleChange}
+            onVisibleChange={setIsVisible}
             onCreate={onCreate}
             {...others}
         >
             <div className={componentCls}>
-                <Input placeholder={'请选择'} suffix={renderSuffix} readOnly />
+                <Input value={selectedLabel()} placeholder={'请选择'} suffix={renderSuffix} readOnly />
             </div>
         </Trigger>
     );

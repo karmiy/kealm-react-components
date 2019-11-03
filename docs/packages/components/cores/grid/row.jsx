@@ -1,8 +1,8 @@
-import React, { Children, cloneElement, useMemo } from 'react';
+import React, { Children, cloneElement, useMemo, createContext } from 'react';
 import { RowProps, RowDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
-import { handleEleOfType, transChildren } from 'utils/common/react-util';
-import Col from './col';
+
+export const GridContext = createContext();
 
 function Row(props) {
     const { componentCls } = useContextConf('row');
@@ -42,41 +42,12 @@ function Row(props) {
         }
     }, [style, gap]);
 
-    // ---------------------------------- logic code ----------------------------------
-    // 转化children
-    const _children = transChildren(children);
-
-    // ---------------------------------- render chunk ----------------------------------
-    const renderChildren = useMemo(() => {
-        if(!gap) return _children;
-
-        // Find Col Nodes
-        // const filterCols = loopEleOfType(_children, Col);
-        return handleEleOfType(_children, Col, child => {
-            return cloneElement(child, {
-                style: {
-                    paddingLeft: gap ? `${gap}px` : null,
-                    paddingRight: gap ? `${gap}px` : null,
-                },
-            })
-        });
-
-        /*return Children.map(filterCols, child => {
-            if(child) {
-                return cloneElement(child, {
-                    style: {
-                        paddingLeft: gap ? `${gap}px` : null,
-                        paddingRight: gap ? `${gap}px` : null,
-                    },
-                })
-            }
-        })*/
-    }, [_children, gap]);
-
     // ---------------------------------- render ----------------------------------
     return (
         <div className={classNames} style={styles} {...others}>
-            {renderChildren}
+            <GridContext.Provider value={gap}>
+                {children}
+            </GridContext.Provider>
         </div>
     )
 }

@@ -15,7 +15,7 @@ function SelectDoc() {
             <h2>基本用法</h2>
             <p>适用广泛的基础单选。</p>
             <div className="detail-box">
-                <Select>
+                <Select defaultValue={'1'}>
                     <Option value={'1'}>黄金糕</Option>
                     <Option value={'2'}>双皮奶</Option>
                 </Select>

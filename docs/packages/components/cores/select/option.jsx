@@ -7,14 +7,18 @@ function Option(props) {
         children,
         className,
         value,
+        selectedValue,
         ...others
     } = props;
+
+    const isSelected = value === selectedValue;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [`${componentCls}__item`]: true,
+        selected: isSelected,
         [className]: className,
-    }, [className, componentCls]);
+    }, [className, componentCls, isSelected]);
 
     // ---------------------------------- render ----------------------------------
     return (

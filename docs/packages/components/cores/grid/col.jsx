@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { ColProps, ColDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
 import { isObject } from 'utils/common/base';
+import { GridContext } from './row';
 
 function Col(props) {
     const { componentCls } = useContextConf('col');
@@ -19,8 +20,17 @@ function Col(props) {
         md,
         lg,
         xl,
+        style,
         ...others
     } = props;
+
+    // ---------------------------------- style ----------------------------------
+    const gap = useContext(GridContext);
+    const styles = {
+        ...style,
+        paddingLeft: gap ? `${gap}px` : null,
+        paddingRight: gap ? `${gap}px` : null,
+    }
 
     // ---------------------------------- function ----------------------------------
     // reactive-className(xs、sm、md、lg、xl)
@@ -58,7 +68,7 @@ function Col(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={classNames} {...others}>
+        <div className={classNames} style={styles} {...others}>
             {children}
         </div>
     )
