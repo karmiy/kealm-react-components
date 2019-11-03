@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useContextConf, useClassName } from 'hooks';
+import { SelectContext } from './select';
 
 function Option(props) {
     const {componentCls} = useContextConf('select-dropdown');
@@ -7,9 +8,11 @@ function Option(props) {
         children,
         className,
         value,
-        selectedValue,
+        onClick,
         ...others
     } = props;
+
+    const { selectedValue, onSelect } = useContext(SelectContext);
 
     const isSelected = value === selectedValue;
 
@@ -20,9 +23,15 @@ function Option(props) {
         [className]: className,
     }, [className, componentCls, isSelected]);
 
+    // ---------------------------------- event ----------------------------------
+    const onToggle = (e) => {
+        onClick && onClick(e);
+        onSelect(value);
+    }
+
     // ---------------------------------- render ----------------------------------
     return (
-        <li className={classNames} {...others}>
+        <li className={classNames} {...others} onClick={onToggle}>
             {children}
         </li>
     );

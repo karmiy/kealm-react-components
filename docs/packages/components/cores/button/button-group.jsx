@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { ButtonGroupProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
 import Button from "./button";
@@ -26,4 +26,4 @@ function ButtonGroup(props) {
 }
 ButtonGroup.propTypes = ButtonGroupProps;
 
-export default ButtonGroup;
+export default memo(ButtonGroup);

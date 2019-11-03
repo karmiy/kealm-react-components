@@ -26,7 +26,6 @@ export const SelectDefaultProps = {
 export const OptionProps = {
     className: PropTypes.string,
     value: VALUE_TYPE,
-    selectedValue: VALUE_TYPE,
     children: PropTypes.string.isRequired,
 }
 

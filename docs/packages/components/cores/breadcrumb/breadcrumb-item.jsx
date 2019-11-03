@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { BreadcrumbItemProps, BreadcrumbItemDefaultProps } from './interface';
 import { isEmpty } from 'utils/common/base';
@@ -40,4 +40,4 @@ function BreadcrumbItem(props) {
 BreadcrumbItem.propTypes = BreadcrumbItemProps;
 BreadcrumbItem.defaultProps = BreadcrumbItemDefaultProps;
 
-export default BreadcrumbItem;
+export default memo(BreadcrumbItem);

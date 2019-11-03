@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
+import React, { memo, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { Collapse } from '@kealm/react-components';
 import { HighlightProps, HighlightDefaultProps } from "./interface";
 const Item = Collapse.Item;
@@ -46,4 +46,4 @@ function HighLight(props) {
 HighLight.propTypes = HighlightProps;
 HighLight.defaultProps = HighlightDefaultProps;
 
-export default HighLight;
+export default memo(HighLight);

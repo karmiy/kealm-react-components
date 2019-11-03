@@ -5,6 +5,8 @@ import { ApiTable, HighLight } from '@/components';
 const { Option } = Select;
 
 function SelectDoc() {
+    const [visible, setVisible] = useState(false);
+    const [value, setValue] = useState('');
 
     return (
         <div className='page-box'>
@@ -15,7 +17,7 @@ function SelectDoc() {
             <h2>基本用法</h2>
             <p>适用广泛的基础单选。</p>
             <div className="detail-box">
-                <Select defaultValue={'1'}>
+                <Select visible={visible} onVisibleChange={v => setVisible(v)} value={value} onChange={v => setValue(v)}>
                     <Option value={'1'}>黄金糕</Option>
                     <Option value={'2'}>双皮奶</Option>
                 </Select>

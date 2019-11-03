@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { IconProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 
@@ -23,4 +23,4 @@ function Icon(props) {
 
 Icon.propTypes = IconProps;
 
-export default Icon;
+export default memo(Icon);

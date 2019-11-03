@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { isString } from '@/utils/common';
 
@@ -76,4 +76,4 @@ function ApiTable(props) {
     )
 }
 
-export default ApiTable;
+export default memo(ApiTable);

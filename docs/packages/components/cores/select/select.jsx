@@ -1,11 +1,12 @@
-import React, { Children, cloneElement, useCallback, useMemo } from 'react';
+import React, { Children, cloneElement, useCallback, useMemo, createContext } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
 import Trigger from '../trigger';
 import Icon from '../icon';
 import { mergeStr } from 'utils/common/base';
-import { transChildren } from 'utils/common/react-util';
+
+export const SelectContext = createContext();
 
 function Select(props) {
     const { componentCls } = useContextConf('select');
@@ -33,20 +34,10 @@ function Select(props) {
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
     const [selectedValue, setSelectedValue] = useController(defaultValue, value, onChange, '');
 
-    const _children = transChildren(children);
-
     // ---------------------------------- function ----------------------------------
     const selectedLabel = () => {
-        let label = '';
-        const arr = Children.toArray(_children), len = arr.length;
-        for(let i = 0, child = arr[i]; i < len; i++) {
-            const { children, value } = child.props;
-            if(value === selectedValue) {
-                label = children;
-                break;
-            }
-        }
-        return label;
+        const selectedOption = Children.toArray(children).find(child => child.props.value === selectedValue);
+        return selectedOption ? selectedOption.props.children : '';
     }
 
     // ---------------------------------- event ----------------------------------
@@ -58,6 +49,15 @@ function Select(props) {
         _onCreate(data);
     }, [_onCreate]);
 
+    // ---------------------------------- context.provider ----------------------------------
+    const provider = {
+        selectedValue,
+        onSelect: (value) => {
+            setSelectedValue(value);
+            setIsVisible(false);
+        },
+    }
+
     // ---------------------------------- render chunk ----------------------------------
     const renderSuffix = useMemo(() => {
         const suffixClassName = mergeStr({
@@ -68,21 +68,15 @@ function Select(props) {
         return <Icon type={'up'} className={suffixClassName} />;
     }, [componentCls, isVisible]);
 
-    const renderChildren = Children.map(_children, child => {
-       return cloneElement(child, {
-           selectedValue,
-       });
-    });
-
     const renderDropdown = (
-        <>
+        <SelectContext.Provider value={provider}>
             <div className={`${componentCls}-dropdown__wrap`}>
                 <ul className={`${componentCls}-dropdown__list`}>
-                    {renderChildren}
+                    {children}
                 </ul>
             </div>
             <div className="popper__arrow" style={{left: '35px'}} />
-        </>
+        </SelectContext.Provider>
     )
 
     // ---------------------------------- render ----------------------------------

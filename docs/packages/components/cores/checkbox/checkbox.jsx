@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
@@ -72,4 +72,4 @@ function Checkbox(props) {
 Checkbox.propTypes = CheckboxProps;
 Checkbox.defaultProps = CheckboxDefaultProps;
 
-export default Checkbox;
+export default memo(Checkbox);

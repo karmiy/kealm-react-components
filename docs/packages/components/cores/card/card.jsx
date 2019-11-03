@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { CardProps, CardDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 import { isContainEle, transChildren } from 'utils/common/react-util';
@@ -101,4 +101,4 @@ function Card(props) {
 Card.propTypes = CardProps;
 Card.defaultProps = CardDefaultProps;
 
-export default Card;
+export default memo(Card);
