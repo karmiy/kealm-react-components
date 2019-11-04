@@ -7,32 +7,34 @@ function T(props) {
     console.log('T');
     return (
         <div>
-            <p>{props.id}</p>
-            {props.children}
+            1
         </div>
     )
 }
-T = memo(T);
 
 function TT(props) {
     console.log('TT');
     return (
         <div>
-            <p>{props.id}</p>
+            2
         </div>
     )
 }
-TT = memo(TT);
 
 function ExampleDoc() {
     const [count, setCount] = useState(0);
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     const [pop, setPop] = useState(null);
 
     return (
         <div>
-            <T id={count}>
-                <TT id={2} />
+            true
+            <T>
+                {[1,2,3].map(item => {
+                    console.log(item);
+                    return <div key={item}>{item}</div>;
+                })}
+                <TT />
             </T>
             <Button onClick={() => setCount(1)} >Update</Button>
         </div>

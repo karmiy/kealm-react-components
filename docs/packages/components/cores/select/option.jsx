@@ -2,6 +2,8 @@ import React, { memo, useContext } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { SelectContext } from './select';
 import { OptionProps, OptionDefaultProps } from './interface';
+import Icon from '../icon';
+import { RenderWrapper } from '../../common';
 
 function Option(props) {
     const {componentCls} = useContextConf('select-dropdown');
@@ -14,9 +16,9 @@ function Option(props) {
         ...others
     } = props;
 
-    const { selectedValue, onSelect } = useContext(SelectContext);
+    const { selectedValue, onSelect, multiple } = useContext(SelectContext);
 
-    const isSelected = value === selectedValue;
+    const isSelected = multiple ? selectedValue.includes(value) : value === selectedValue;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -31,13 +33,18 @@ function Option(props) {
         if(disabled) return;
 
         onClick && onClick(e);
-        onSelect(value);
+        onSelect(value, !isSelected);
     }
 
     // ---------------------------------- render ----------------------------------
     return (
         <li className={classNames} {...others} onClick={onToggle}>
-            {children}
+            <span>
+                {children}
+            </span>
+            <RenderWrapper visible={multiple && isSelected} unmountOnExit>
+                <Icon type={'check'} className={`${componentCls}__item-check`} />
+            </RenderWrapper>
         </li>
     );
 }

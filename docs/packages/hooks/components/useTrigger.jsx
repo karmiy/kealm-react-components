@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useCorrectOnce, useController } from 'hooks';
-import { isFunction } from 'utils/common/base';
+
+const noop = () => {};
 
 /**
  * Build isVisible, setIsVisible and isMount hook for popper
@@ -17,7 +18,7 @@ function useTrigger(defaultVisible, visible, onVisibleChange, trigger, disabled)
 
     return {
         isVisible: disabled ? false : isVisible,
-        setIsVisible,
+        setIsVisible: disabled ? noop : setIsVisible,
         isMount,
     }
 }

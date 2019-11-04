@@ -15,6 +15,7 @@ export const SelectProps = {
     placeholder: PropTypes.string,
     clearable: PropTypes.bool,
     onClear: PropTypes.func,
+    disabled: PropTypes.bool,
     multiple: PropTypes.bool,
 }
 
@@ -27,6 +28,7 @@ export const SelectDefaultProps = {
     placeholder: '请选择',
     clearable: false,
     onClear: noop,
+    disabled: false,
     multiple: false,
 }
 

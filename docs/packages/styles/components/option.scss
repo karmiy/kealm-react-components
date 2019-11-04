@@ -32,4 +32,12 @@
             color: $select-option-selected-font-color;
         }
     }
+    @include e(item-check) {
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        font-size: 12px;
+        font-weight: bold;
+    }
 }

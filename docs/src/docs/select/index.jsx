@@ -39,6 +39,19 @@ function SelectDoc() {
                 </Select>
             </div>
 
+            {/* 禁用状态 */}
+            <h2>禁用状态</h2>
+            <p>选择器不可用状态。</p>
+            <div className="detail-box">
+                <Select disabled>
+                    <Option value={'1'}>Karmiy</Option>
+                    <Option value={'2'}>Karloy</Option>
+                    <Option value={'3'}>Peppa</Option>
+                    <Option value={'4'}>George</Option>
+                    <Option value={'5'}>Hawk</Option>
+                </Select>
+            </div>
+
             {/* 可清空单选 */}
             <h2>可清空单选</h2>
             <p>包含清空按钮，可将选择器清空为初始状态。</p>
