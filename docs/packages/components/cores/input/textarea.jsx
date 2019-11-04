@@ -12,7 +12,6 @@ function TextArea(props) {
     const { componentCls } = useContextConf('textarea');
     const {
         className,
-        style,
         placeholder,
         disabled,
         defaultValue,
@@ -24,6 +23,7 @@ function TextArea(props) {
         autosize,
         maxLength,
         showLimitCount,
+        inputStyle,
         ...others
     } = props;
 
@@ -53,7 +53,7 @@ function TextArea(props) {
     }, [value, autosize]);
 
     const styles = {
-        ...style,
+        ...inputStyle,
         ...textareaStyles,
         ...(resizing ? { overflow: 'hidden' } : null),
     };

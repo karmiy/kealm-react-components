@@ -4,7 +4,9 @@ import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
 import Trigger from '../trigger';
 import Icon from '../icon';
-import { mergeStr } from 'utils/common/base';
+import Tag from '../tag';
+import { RenderWrapper } from '../../common';
+import { mergeStr, isEmpty, isArray } from 'utils/common/base';
 
 export const SelectContext = createContext();
 
@@ -20,8 +22,17 @@ function Select(props) {
         defaultVisible,
         visible,
         onVisibleChange,
+        placeholder,
+        clearable,
+        onClear: clear,
+        multiple,
         ...others
     } = props;
+
+    // ---------------------------------- logic code ----------------------------------
+    const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
+    const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? [] : '');
+    const isClearable = clearable && !isEmpty(selectedValue) && selectedValue !== '';
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -30,15 +41,20 @@ function Select(props) {
         [className]: className,
     }, [className, componentCls]);
 
-    // ---------------------------------- logic code ----------------------------------
-    const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
-    const [selectedValue, setSelectedValue] = useController(defaultValue, value, onChange, '');
+    const inputClassNames = useClassName({
+        [componentCls]: true,
+        'is-clearable': isClearable,
+    }, [componentCls, isClearable]);
 
-    // ---------------------------------- function ----------------------------------
-    const selectedLabel = () => {
+    // ---------------------------------- logic code ----------------------------------
+    if(multiple && !isArray(selectedValue)) {
+        throw new Error('The value need to be an array when select component multiple');
+    }
+
+    const selectedLabel = useMemo(() => {
         const selectedOption = Children.toArray(children).find(child => child.props.value === selectedValue);
         return selectedOption ? selectedOption.props.children : '';
-    }
+    }, [children, selectedValue]);
 
     // ---------------------------------- event ----------------------------------
     const onCreate = useCallback(data => {
@@ -48,6 +64,13 @@ function Select(props) {
 
         _onCreate(data);
     }, [_onCreate]);
+
+    const onClear = useCallback(e => {
+        e.stopPropagation();
+
+        setInnerValue('');
+        clear(e);
+    }, [clear])
 
     // ---------------------------------- context.provider ----------------------------------
     const provider = {
@@ -65,8 +88,15 @@ function Select(props) {
             'is-reverse': isVisible,
         })
 
-        return <Icon type={'up'} className={suffixClassName} />;
-    }, [componentCls, isVisible]);
+        return (
+            <div>
+                <Icon type={'up'} className={suffixClassName} />
+                <RenderWrapper visible={isClearable} unmountOnExit>
+                    <Icon type={'close-circle'} className={`${componentCls}__clear`} onClick={onClear} />
+                </RenderWrapper>
+            </div>
+        );
+    }, [componentCls, isVisible, isClearable, onClear]);
 
     const renderDropdown = (
         <SelectContext.Provider value={provider}>
@@ -95,8 +125,18 @@ function Select(props) {
             onCreate={onCreate}
             {...others}
         >
-            <div className={componentCls}>
-                <Input value={selectedLabel()} placeholder={'请选择'} suffix={renderSuffix} readOnly />
+            <div className={inputClassNames}>
+                <RenderWrapper visible={multiple} unmountOnExit>
+                    <div className={`${componentCls}__tags`} style={{width: '100%', maxWidth: '208px'}}>
+                        <Tag size={'small'} type={'info'} closable>Karmiy</Tag>
+                        <Tag size={'small'} type={'info'} closable>Karmiy</Tag>
+                        {/*<Tag size={'small'} type={'info'} closable>Karmiy</Tag>
+                        <Tag size={'small'} type={'info'} closable>Karmiy</Tag>
+                        <Tag size={'small'} type={'info'} closable>Karmiy</Tag>
+                        <Tag size={'small'} type={'info'} closable>Karmiy</Tag>*/}
+                    </div>
+                </RenderWrapper>
+                <Input value={selectedLabel} placeholder={placeholder} suffix={renderSuffix} readOnly />
             </div>
         </Trigger>
     );

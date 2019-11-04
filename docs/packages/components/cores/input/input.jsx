@@ -27,6 +27,7 @@ function Input(props) {
         size,
         maxLength,
         showLimitCount,
+        inputStyle,
         ...others
     } = props;
 
@@ -171,6 +172,7 @@ function Input(props) {
             <input
                 type="text"
                 className={_inputClassNames}
+                style={inputStyle}
                 value={inputValue}
                 onChange={inputChange}
                 onKeyDown={onKeydownTrigger}

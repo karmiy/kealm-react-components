@@ -17,9 +17,51 @@ function SelectDoc() {
             <h2>基本用法</h2>
             <p>适用广泛的基础单选。</p>
             <div className="detail-box">
-                <Select visible={visible} onVisibleChange={v => setVisible(v)} value={value} onChange={v => setValue(v)}>
-                    <Option value={'1'}>黄金糕</Option>
-                    <Option value={'2'}>双皮奶</Option>
+                <Select>
+                    <Option value={'1'}>Karmiy</Option>
+                    <Option value={'2'}>Karloy</Option>
+                    <Option value={'3'}>Peppa</Option>
+                    <Option value={'4'}>George</Option>
+                    <Option value={'5'}>Hawk</Option>
+                </Select>
+            </div>
+
+            {/* 禁用选项 */}
+            <h2>禁用选项</h2>
+            <p>在 Option 上设定 disabled 值为 true，即可禁用该选项。</p>
+            <div className="detail-box">
+                <Select>
+                    <Option value={'1'}>Karmiy</Option>
+                    <Option value={'2'}>Karloy</Option>
+                    <Option value={'3'} disabled>Peppa</Option>
+                    <Option value={'4'} disabled>George</Option>
+                    <Option value={'5'}>Hawk</Option>
+                </Select>
+            </div>
+
+            {/* 可清空单选 */}
+            <h2>可清空单选</h2>
+            <p>包含清空按钮，可将选择器清空为初始状态。</p>
+            <div className="detail-box">
+                <Select clearable>
+                    <Option value={'1'}>Karmiy</Option>
+                    <Option value={'2'}>Karloy</Option>
+                    <Option value={'3'}>Peppa</Option>
+                    <Option value={'4'}>George</Option>
+                    <Option value={'5'}>Hawk</Option>
+                </Select>
+            </div>
+
+            {/* 基础多选 */}
+            <h2>基础多选</h2>
+            <p>适用性较广的基础多选，用 Tag 展示已选项。</p>
+            <div className="detail-box">
+                <Select multiple>
+                    <Option value={'1'}>Karmiy</Option>
+                    <Option value={'2'}>Karloy</Option>
+                    <Option value={'3'}>Peppa</Option>
+                    <Option value={'4'}>George</Option>
+                    <Option value={'5'}>Hawk</Option>
                 </Select>
             </div>
 

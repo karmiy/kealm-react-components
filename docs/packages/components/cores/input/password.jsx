@@ -18,6 +18,7 @@ function Password(props) {
         onPressEnter,
         size,
         showToggleIcon,
+        inputStyle,
         ...others
     } = props;
 
@@ -84,6 +85,7 @@ function Password(props) {
                 ref={inputRef}
                 type={'password'}
                 className={_inputClassNames}
+                style={inputStyle}
                 value={inputValue}
                 onChange={inputChange}
                 onKeyDown={onKeydownTrigger}
@@ -92,7 +94,7 @@ function Password(props) {
                 {...inputOthers}
             />
         )
-    }, [_inputClassNames, inputValue, inputChange, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
+    }, [_inputClassNames, inputStyle, inputValue, inputChange, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
 
     // ---------------------------------- render ----------------------------------
     return (

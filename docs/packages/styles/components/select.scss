@@ -4,9 +4,9 @@
     display: inline-block;
     position: relative;
 
-    .km-select__tags > span {
+    /*.km-select__tags > span {
         display: contents;
-    }
+    }*/
 
     &:hover {
         .km-input__inner {
@@ -49,6 +49,11 @@
             }
         }
 
+        & .km-select__clear {
+            display: none;
+            cursor: pointer;
+        }
+
         &.is-disabled {
             & .km-input__inner {
                 cursor: not-allowed;
@@ -61,6 +66,17 @@
 
         &.is-focus .km-input__inner {
             border-color: $select-input-focus-border-color;
+        }
+    }
+
+    @include when(clearable) {
+        &:hover {
+            & .km-select__caret {
+                display: none;
+            }
+            & .km-select__clear {
+                display: inline-block;
+            }
         }
     }
 
@@ -110,29 +126,16 @@
         white-space: normal;
     }
 
-    .km-tag__close {
-        margin-top: -2px;
-    }
-
     .km-tag {
         box-sizing: border-box;
-        border-color: transparent;
         margin: 2px 0 2px 6px;
         background-color: $select-tag-background;
 
         &__close.km-icon-close {
-            top: 0;
-            right: -7px;
-            background-color: $color-text-placeholder;
-            color: $color-white;
-
             &:hover {
-                background-color: $color-text-secondary;
-            }
-
-            &::before {
-                display: block;
-                transform: translate(0, .5px);
+                background-color: transparent;
+                color: $tag-info-color;
+                @include utils-little-bold();
             }
         }
     }

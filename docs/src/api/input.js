@@ -7,6 +7,13 @@ export const commonProps = [
         default: 'false',
     },
     {
+        param: 'inputStyle',
+        des: '输入框样式',
+        type: 'object',
+        option: '--',
+        default: '--',
+    },
+    {
         param: 'defaultValue',
         des: '默认值',
         type: 'string',

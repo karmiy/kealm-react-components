@@ -12,6 +12,10 @@ export const SelectProps = {
     defaultValue: VALUE_TYPE,
     value: VALUE_TYPE,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    clearable: PropTypes.bool,
+    onClear: PropTypes.func,
+    multiple: PropTypes.bool,
 }
 
 export const SelectDefaultProps = {
@@ -20,6 +24,10 @@ export const SelectDefaultProps = {
     showArrow: false,
     transitionName: 'km-zoom-top',
     onChange: noop,
+    placeholder: '请选择',
+    clearable: false,
+    onClear: noop,
+    multiple: false,
 }
 
 /* option-props */
@@ -27,7 +35,9 @@ export const OptionProps = {
     className: PropTypes.string,
     value: VALUE_TYPE,
     children: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
 }
 
 export const OptionDefaultProps = {
+    disabled: false,
 }

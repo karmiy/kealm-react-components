@@ -1,6 +1,7 @@
 import React, { memo, useContext } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { SelectContext } from './select';
+import { OptionProps, OptionDefaultProps } from './interface';
 
 function Option(props) {
     const {componentCls} = useContextConf('select-dropdown');
@@ -9,6 +10,7 @@ function Option(props) {
         className,
         value,
         onClick,
+        disabled,
         ...others
     } = props;
 
@@ -20,11 +22,14 @@ function Option(props) {
     const classNames = useClassName({
         [`${componentCls}__item`]: true,
         selected: isSelected,
+        'is-disabled': disabled,
         [className]: className,
-    }, [className, componentCls, isSelected]);
+    }, [className, componentCls, isSelected, disabled]);
 
     // ---------------------------------- event ----------------------------------
     const onToggle = (e) => {
+        if(disabled) return;
+
         onClick && onClick(e);
         onSelect(value);
     }
@@ -35,6 +40,9 @@ function Option(props) {
             {children}
         </li>
     );
-};
+}
+
+Option.propTypes = OptionProps;
+Option.defaultProps = OptionDefaultProps;
 
 export default memo(Option);

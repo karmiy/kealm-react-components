@@ -5,6 +5,7 @@ const noop = () => {};
 /* input-common-props */
 export const AbstractInputProps = {
     className: PropTypes.string,
+    inputStyle: PropTypes.object,
     // autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,

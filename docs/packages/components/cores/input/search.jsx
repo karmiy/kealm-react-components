@@ -21,6 +21,7 @@ function Search(props) {
         size,
         enterButton,
         onSearch,
+        inputStyle,
         ...others
     } = props;
 
@@ -94,6 +95,7 @@ function Search(props) {
                 ref={searchRef}
                 type="text"
                 className={_inputClassNames}
+                style={inputStyle}
                 defaultValue={defaultValue}
                 value={value}
                 onChange={onChange}
