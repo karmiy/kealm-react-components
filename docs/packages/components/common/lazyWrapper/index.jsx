@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { LazyWrapperProps, LazyWrapperDefaultProps } from './interface';
 import RenderWrapper from '../renderWrapper';
 
@@ -24,4 +24,4 @@ function LazyWrapper(props) {
 LazyWrapper.propTypes = LazyWrapperProps;
 LazyWrapper.defaultProps = LazyWrapperDefaultProps;
 
-export default LazyWrapper;
+export default memo(LazyWrapper);

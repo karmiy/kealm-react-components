@@ -190,7 +190,7 @@ function DialogDoc() {
                     }, [visible, setVisible])
                 }
             </div>
-            {useMemo(() => <HighLight code={CodeBasic} />, [])}
+            <HighLight code={CodeBasic} />
 
 
             {/* 异步关闭 */}
@@ -216,7 +216,7 @@ function DialogDoc() {
                     }, [visibleAsync, setVisibleAsync, loading, handleOk])
                 }
             </div>
-            {useMemo(() => <HighLight code={CodeAsync} />, [])}
+            <HighLight code={CodeAsync} />
 
             {/* 自定义页脚 */}
             <h2>自定义页脚</h2>
@@ -244,7 +244,7 @@ function DialogDoc() {
                     }, [visibleFooter, setVisibleFooter])
                 }
             </div>
-            {useMemo(() => <HighLight code={CodeFooter} />, [])}
+            <HighLight code={CodeFooter} />
 
             {/* 页脚按钮属性 */}
             <h2>页脚按钮属性</h2>
@@ -269,7 +269,7 @@ function DialogDoc() {
                     }, [visibleBtnProps, setVisibleBtnProps])
                 }
             </div>
-            {useMemo(() => <HighLight code={CodeButtonProps} />, [])}
+            <HighLight code={CodeButtonProps} />
 
             {/* 自定义位置 */}
             <h2>自定义位置</h2>
@@ -310,7 +310,7 @@ function DialogDoc() {
                     }, [visibleCenter, setVisibleCenter])
                 }
             </div>
-            {useMemo(() => <HighLight code={CodeCustomPosition} />, [])}
+            <HighLight code={CodeCustomPosition} />
 
             {/* 确认对话框 */}
             <h2>确认对话框</h2>
@@ -327,7 +327,7 @@ function DialogDoc() {
                     )
                 }, [showConfirm, showDeleteConfirm, showFooterConfirm, showAsyncLogic])}
             </div>
-            {useMemo(() => <HighLight code={CodeConfirm} />, [])}
+            <HighLight code={CodeConfirm} />
 
             {/* 信息提示 */}
             <h2>信息提示</h2>
@@ -344,7 +344,7 @@ function DialogDoc() {
                     )
                 }, [info, success, error, warning])}
             </div>
-            {useMemo(() => <HighLight code={CodeInfoTip} />, [])}
+            <HighLight code={CodeInfoTip} />
 
             {/* 手动更新和移除 */}
             <h2>手动更新和移除</h2>
@@ -358,7 +358,7 @@ function DialogDoc() {
                     )
                 }, [showCloseTimeout])}
             </div>
-            {useMemo(() => <HighLight code={CodeCloseTimeout} />, [])}
+            <HighLight code={CodeCloseTimeout} />
 
             {/* 销毁确认对话框 */}
             <h2>销毁确认对话框</h2>
@@ -372,10 +372,10 @@ function DialogDoc() {
                     )
                 }, [showDestroyAll])}
             </div>
-            {useMemo(() => <HighLight code={CodeDestroyAll} />, [])}
+            <HighLight code={CodeDestroyAll} />
 
             {/* API */}
-            {useMemo(() => <ApiTable title='Dialog' propsList={dialogProps} eventsList={dialogEvents} />, [])}
+            <ApiTable title='Dialog' propsList={dialogProps} eventsList={dialogEvents} />
             <h2>Dialog methods</h2>
             <p>包括：</p>
             <ul>
@@ -390,11 +390,7 @@ function DialogDoc() {
             {useMemo(() => <ApiTable title='Dialog Method' propsList={confirmProps} eventsList={confirmEvents} />, [])}
             <p>Dialog methods 调用后，会返回一个引用，可以通过该引用更新和销毁弹窗。</p>
             <p>当打开多个窗口，需要全部销毁时，可以调用 Dialog.destroyAll 一次性销毁所有对话框。</p>
-            {useMemo(() => {
-                return (
-                    <HighLight collapsible={false} code={CodeMethod} />
-                )
-            }, [])}
+            <HighLight collapsible={false} code={CodeMethod} />
         </div>
     )
 }

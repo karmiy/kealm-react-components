@@ -67,15 +67,11 @@ function TabsDoc() {
             <h2>基本用法</h2>
             <p>基础的、简洁的标签页。</p>
             <div className="detail-box">
-                {useMemo(() => {
-                    return (
-                        <Tabs defaultValue={'1'}>
-                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                            <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                        </Tabs>
-                    )
-                }, [])}
+                <Tabs defaultValue={'1'}>
+                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                </Tabs>
             </div>
             <HighLight code={CodeBasic} />
 
@@ -83,15 +79,11 @@ function TabsDoc() {
             <h2>禁用</h2>
             <p>禁用某一项。</p>
             <div className="detail-box">
-                {useMemo(() => {
-                    return (
-                        <Tabs defaultValue={'1'}>
-                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                            <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                        </Tabs>
-                    )
-                }, [])}
+                <Tabs defaultValue={'1'}>
+                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                    <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                </Tabs>
             </div>
             <HighLight code={CodeDisabled} />
 
@@ -99,15 +91,11 @@ function TabsDoc() {
             <h2>带图标</h2>
             <p>有图标的标签。</p>
             <div className="detail-box">
-                {useMemo(() => {
-                    return (
-                        <Tabs defaultValue={'1'}>
-                            <TabPane name={'1'} label={<span><Icon type={'home'} /> Tab1</span>}>Content of Tab Pane 1</TabPane>
-                            <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                            <TabPane name={'3'} label={<span><Icon type={'config'} /> Tab3</span>}>Content of Tab Pane 3</TabPane>
-                        </Tabs>
-                    )
-                }, [])}
+                <Tabs defaultValue={'1'}>
+                    <TabPane name={'1'} label={<span><Icon type={'home'} /> Tab1</span>}>Content of Tab Pane 1</TabPane>
+                    <TabPane name={'2'} label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                    <TabPane name={'3'} label={<span><Icon type={'config'} /> Tab3</span>}>Content of Tab Pane 3</TabPane>
+                </Tabs>
             </div>
             <HighLight code={CodeIcon} />
 
@@ -115,15 +103,11 @@ function TabsDoc() {
             <h2>选项卡样式</h2>
             <p>选项卡样式的标签页。</p>
             <div className="detail-box">
-                {useMemo(() => {
-                    return (
-                        <Tabs defaultValue={'1'} type={'card'}>
-                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                            <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                        </Tabs>
-                    )
-                }, [])}
+                <Tabs defaultValue={'1'} type={'card'}>
+                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                    <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                </Tabs>
             </div>
             <HighLight code={CodeCard} />
 
@@ -131,15 +115,11 @@ function TabsDoc() {
             <h2>卡片化</h2>
             <p>卡片化的标签页。</p>
             <div className="detail-box">
-                {useMemo(() => {
-                    return (
-                        <Tabs defaultValue={'1'} type={'border-card'}>
-                            <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
-                            <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
-                            <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
-                        </Tabs>
-                    )
-                }, [])}
+                <Tabs defaultValue={'1'} type={'border-card'}>
+                    <TabPane name={'1'} label={'Tab1'}>Content of Tab Pane 1</TabPane>
+                    <TabPane name={'2'} disabled label={'Tab2'}>Content of Tab Pane 2</TabPane>
+                    <TabPane name={'3'} label={'Tab3'}>Content of Tab Pane 3</TabPane>
+                </Tabs>
             </div>
             <HighLight code={CodeBorderCard} />
 
@@ -283,16 +263,8 @@ function TabsDoc() {
             <HighLight code={CodeEditable} />
 
             {/* API */}
-            {
-                useMemo(() => {
-                    return (
-                        <>
-                            <ApiTable title='Tabs' propsList={tabsProps} eventsList={tabsEvents} />
-                            <ApiTable title='TabPane' propsList={tabPaneProps} />
-                        </>
-                    )
-                }, [])
-            }
+            <ApiTable title='Tabs' propsList={tabsProps} eventsList={tabsEvents} />
+            <ApiTable title='TabPane' propsList={tabPaneProps} />
         </div>
     )
 }

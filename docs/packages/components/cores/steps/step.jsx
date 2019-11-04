@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { StepProps, StepDefaultProps, noop } from './interface';
 import Icon from '../icon';
@@ -99,4 +99,4 @@ function Step(props) {
 Step.propTypes = StepProps;
 Step.defaultProps = StepDefaultProps;
 
-export default Step;
+export default memo(Step);

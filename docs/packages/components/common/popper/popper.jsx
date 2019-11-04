@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useRef, useMemo } from 'react';
+import React, { memo, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import PopperJs from 'popper.js';
 import { PopperProps, PopperDefaultProps } from './interface';
 import DomWrapper from '../domWrapper';
@@ -103,4 +103,4 @@ function Popper(props) {
 Popper.propTypes = PopperProps;
 Popper.defaultProps = PopperDefaultProps;
 
-export default Popper;
+export default memo(Popper);

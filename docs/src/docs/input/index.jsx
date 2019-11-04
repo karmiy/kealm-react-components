@@ -36,7 +36,7 @@ function InputDoc() {
             <h2>基本用法</h2>
             <p>基本使用。</p>
             <div className="detail-box">
-                {useMemo(() => <Input placeholder={'请输入内容'} />, [])}
+                <Input placeholder={'请输入内容'} />
             </div>
             <HighLight code={CodeBasic} />
 
@@ -52,7 +52,7 @@ function InputDoc() {
             <h2>禁用状态</h2>
             <p>输入框的不可用状态。</p>
             <div className="detail-box">
-                {useMemo(() => <Input placeholder={'请输入内容'} disabled />, [])}
+                <Input placeholder={'请输入内容'} disabled />
             </div>
             <HighLight code={CodeDisabled} />
 
@@ -60,7 +60,7 @@ function InputDoc() {
             <h2>可清空</h2>
             <p>允许清空输入值。</p>
             <div className="detail-box">
-                {useMemo(() => <Input placeholder={'请输入内容'} allowClear />, [])}
+                <Input placeholder={'请输入内容'} allowClear />
             </div>
             <HighLight code={CodeClear} />
 
@@ -68,59 +68,45 @@ function InputDoc() {
             <h2>密码框</h2>
             <p>密码框的明密文。</p>
             <div className="detail-box">
-                {useMemo(() => <Input.Password size={'large'} placeholder={'请输入内容'} />, [])}
+                <Input.Password size={'large'} placeholder={'请输入内容'} />
             </div>
             <HighLight code={CodePassword} />
 
             {/* 搜索框 */}
             <h2>搜索框</h2>
             <p>带有搜索按钮的输入框。</p>
-            {useMemo(() => {
-                return (
-                    <>
-                        <div className="detail-box">
-                            <Input.Search placeholder={'请输入内容'} onSearch={(value, event) => console.log(value, event)} />
-                        </div>
-                        <div className="detail-box">
-                            <Input.Search style={{width: '300px'}} placeholder={'请输入内容'} enterButton onSearch={(value, event) => console.log(value, event)} />
-                        </div>
-                        <div className="detail-box">
-                            <Input.Search style={{width: '400px'}} placeholder={'请输入内容'} enterButton={'search'} size={'large'} onSearch={(value, event) => console.log(value, event)} />
-                        </div>
-                    </>
-                )
-            }, [])}
+            <div className="detail-box">
+                <Input.Search placeholder={'请输入内容'} onSearch={(value, event) => console.log(value, event)} />
+            </div>
+            <div className="detail-box">
+                <Input.Search style={{width: '300px'}} placeholder={'请输入内容'} enterButton onSearch={(value, event) => console.log(value, event)} />
+            </div>
+            <div className="detail-box">
+                <Input.Search style={{width: '400px'}} placeholder={'请输入内容'} enterButton={'search'} size={'large'} onSearch={(value, event) => console.log(value, event)} />
+            </div>
             <HighLight code={CodeSearch} />
 
             {/* 带 icon 的输入框 */}
             <h2>带 icon 的输入框</h2>
             <p>带有图标标记输入类型。</p>
-            {useMemo(() => {
-                return (
-                    <div className="detail-box">
-                        <Row gutter={20}>
-                            <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
-                            <Col><Input placeholder={'请输入内容'} prefix={'phone'} /></Col>
-                        </Row>
-                        <Row gutter={20}>
-                            <Col><Input placeholder={'请输入内容'} suffix={<Icon type={'star-full'} />} /></Col>
-                            <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} /></Col>
-                        </Row>
-                    </div>
-                )
-            }, [])}
+            <div className="detail-box">
+                <Row gutter={20}>
+                    <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
+                    <Col><Input placeholder={'请输入内容'} prefix={'phone'} /></Col>
+                </Row>
+                <Row gutter={20}>
+                    <Col><Input placeholder={'请输入内容'} suffix={<Icon type={'star-full'} />} /></Col>
+                    <Col><Input placeholder={'请输入内容'} prefix={<Icon type={'phone'} />} /></Col>
+                </Row>
+            </div>
             <HighLight code={CodeIcon} />
 
             {/* 文本域 */}
             <h2>文本域</h2>
             <p>用于多行输入。</p>
-            {useMemo(() => {
-                return (
-                    <div className="detail-box">
-                        <Input.TextArea placeholder={'请输入内容'} rows={4} onChange={(e) => console.log(e.target.value)} />
-                    </div>
-                )
-            }, [])}
+            <div className="detail-box">
+                <Input.TextArea placeholder={'请输入内容'} rows={4} onChange={(e) => console.log(e.target.value)} />
+            </div>
             <HighLight code={CodeTextarea} />
 
             {/* 可自适应文本高度的文本域 */}
@@ -147,55 +133,37 @@ function InputDoc() {
             <h2>尺寸</h2>
             <p>3种不同大小的输入框。</p>
             <div className="detail-box">
-                {useMemo(() => {
-                    return (
-                        <>
-                            <Row gutter={20} type={'flex'} align={'middle'}>
-                                <Col><Input placeholder={'请输入内容'} size={'large'} suffix={'star-full'} /></Col>
-                                <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
-                                <Col><Input placeholder={'请输入内容'} size={'small'} suffix={'star-full'} /></Col>
-                            </Row>
-                        </>
-                    )
-                }, [])}
+                <Row gutter={20} type={'flex'} align={'middle'}>
+                    <Col><Input placeholder={'请输入内容'} size={'large'} suffix={'star-full'} /></Col>
+                    <Col><Input placeholder={'请输入内容'} suffix={'star-full'} /></Col>
+                    <Col><Input placeholder={'请输入内容'} size={'small'} suffix={'star-full'} /></Col>
+                </Row>
             </div>
             <HighLight code={CodeSize} />
 
             {/* 复合型输入框 */}
             <h2>复合型输入框</h2>
             <p>可前置或后置元素，一般为标签或按钮。</p>
-            {useMemo(() => {
-                return (
-                    <>
-                        <div className="detail-box">
-                            <Input placeholder={'请输入内容'} prepend={'Http://'} />
-                        </div>
-                        <div className="detail-box">
-                            <Input placeholder={'请输入内容'} append={'.com'} />
-                        </div>
-                        <div className="detail-box">
-                            <Input placeholder={'请输入内容'} size={'large'} append={<Button type={'primary'} icon='search' />} />
-                        </div>
-                    </>
-                )
-            }, [])}
+            <div className="detail-box">
+                <Input placeholder={'请输入内容'} prepend={'Http://'} />
+            </div>
+            <div className="detail-box">
+                <Input placeholder={'请输入内容'} append={'.com'} />
+            </div>
+            <div className="detail-box">
+                <Input placeholder={'请输入内容'} size={'large'} append={<Button type={'primary'} icon='search' />} />
+            </div>
             <HighLight code={CodeMixins} />
 
             {/* 输入长度限制 */}
             <h2>输入长度限制</h2>
             <p>可以通过 maxlength 限制输入框的字符长度，showLimitCount 来展示字数统计。</p>
-            {useMemo(() => {
-                return (
-                    <>
-                        <div className="detail-box">
-                            <Input placeholder={'请输入内容'} maxLength={10} showLimitCount />
-                        </div>
-                        <div className="detail-box">
-                            <Input.TextArea placeholder={'请输入内容'} maxLength={30} showLimitCount />
-                        </div>
-                    </>
-                )
-            }, [])}
+            <div className="detail-box">
+                <Input placeholder={'请输入内容'} maxLength={10} showLimitCount />
+            </div>
+            <div className="detail-box">
+                <Input.TextArea placeholder={'请输入内容'} maxLength={30} showLimitCount />
+            </div>
             <HighLight code={CodeLimitCount} />
 
             {/* API */}

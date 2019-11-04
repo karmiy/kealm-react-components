@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useRef } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import Icon from '../icon';
 import { InputProps, InputDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue } from 'hooks';
@@ -189,4 +189,4 @@ function Input(props) {
 Input.propTypes = InputProps;
 Input.defaultProps = InputDefaultProps;
 
-export default Input
+export default memo(Input);

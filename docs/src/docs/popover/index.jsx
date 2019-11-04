@@ -44,34 +44,26 @@ function PopoverDoc() {
             <h2>基本用法</h2>
             <p>最简单的用法，4种触发方式。</p>
             <div className="detail-box">
-                {
-                    useMemo(() => {
-                        return (
-                            <>
-                                <Popover
-                                    trigger={'hover'}
-                                    title={'Title'}
-                                    content={'This is a simple content.'}
-                                >
-                                    <Button plain>Hover</Button>
-                                </Popover>
-                                <Popover
-                                    title={'Title'}
-                                    content={'This is a simple content.'}
-                                >
-                                    <Button plain>Click</Button>
-                                </Popover>
-                                <Popover
-                                    trigger={'focus'}
-                                    title={'Title'}
-                                    content={'This is a simple content.'}
-                                >
-                                    <Button plain>Focus</Button>
-                                </Popover>
-                            </>
-                        )
-                    }, [])
-                }
+                <Popover
+                    trigger={'hover'}
+                    title={'Title'}
+                    content={'This is a simple content.'}
+                >
+                    <Button plain>Hover</Button>
+                </Popover>
+                <Popover
+                    title={'Title'}
+                    content={'This is a simple content.'}
+                >
+                    <Button plain>Click</Button>
+                </Popover>
+                <Popover
+                    trigger={'focus'}
+                    title={'Title'}
+                    content={'This is a simple content.'}
+                >
+                    <Button plain>Focus</Button>
+                </Popover>
                 {
                     useMemo(() => {
                         return (
@@ -115,34 +107,30 @@ function PopoverDoc() {
             {/* 位置 */}
             <h2>位置</h2>
             <p>拥有12个不同的方向。</p>
-            {useMemo(() => {
-                return (
-                    <div className="detail-box popover-placement-demo">
-                        <Row type={'flex'} justify={'center'} gutter={16}>
-                            <Col>{renderPlacement('TL')}</Col>
-                            <Col>{renderPlacement('Top')}</Col>
-                            <Col>{renderPlacement('TR')}</Col>
-                        </Row>
-                        <Row type={'flex'} justify={'space-between'}>
-                            <Col>{renderPlacement('LT')}</Col>
-                            <Col>{renderPlacement('RT')}</Col>
-                        </Row>
-                        <Row type={'flex'} justify={'space-between'}>
-                            <Col>{renderPlacement('Left')}</Col>
-                            <Col>{renderPlacement('Right')}</Col>
-                        </Row>
-                        <Row type={'flex'} justify={'space-between'}>
-                            <Col>{renderPlacement('LB')}</Col>
-                            <Col>{renderPlacement('RB')}</Col>
-                        </Row>
-                        <Row type={'flex'} justify={'center'} gutter={16}>
-                            <Col>{renderPlacement('BL')}</Col>
-                            <Col>{renderPlacement('Bottom')}</Col>
-                            <Col>{renderPlacement('BR')}</Col>
-                        </Row>
-                    </div>
-                )
-            }, [])}
+            <div className="detail-box popover-placement-demo">
+                <Row type={'flex'} justify={'center'} gutter={16}>
+                    <Col>{renderPlacement('TL')}</Col>
+                    <Col>{renderPlacement('Top')}</Col>
+                    <Col>{renderPlacement('TR')}</Col>
+                </Row>
+                <Row type={'flex'} justify={'space-between'}>
+                    <Col>{renderPlacement('LT')}</Col>
+                    <Col>{renderPlacement('RT')}</Col>
+                </Row>
+                <Row type={'flex'} justify={'space-between'}>
+                    <Col>{renderPlacement('Left')}</Col>
+                    <Col>{renderPlacement('Right')}</Col>
+                </Row>
+                <Row type={'flex'} justify={'space-between'}>
+                    <Col>{renderPlacement('LB')}</Col>
+                    <Col>{renderPlacement('RB')}</Col>
+                </Row>
+                <Row type={'flex'} justify={'center'} gutter={16}>
+                    <Col>{renderPlacement('BL')}</Col>
+                    <Col>{renderPlacement('Bottom')}</Col>
+                    <Col>{renderPlacement('BR')}</Col>
+                </Row>
+            </div>
             <HighLight code={CodePlacement} />
 
             {/* API */}

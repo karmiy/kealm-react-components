@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useState, useCallback, useMemo } from 'react';
+import React, { memo, Children, cloneElement, useState, useCallback, useMemo } from 'react';
 import { CollapseProps, CollapseDefaultProps } from "./interface";
 import { useContextConf, useClassName, useDidUpdate, useSyncOnce } from 'hooks';
 import { toArray, removeOfArray } from 'utils/common/array';
@@ -92,4 +92,4 @@ function Collapse(props) {
 Collapse.propTypes = CollapseProps;
 Collapse.defaultProps = CollapseDefaultProps;
 
-export default Collapse
+export default memo(Collapse);

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { RadioGroupProps, RadioGroupDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckGroupValue } from 'hooks';
 import { CheckedContext } from './context';
@@ -53,4 +53,4 @@ function RadioGroup(props) {
 RadioGroup.propTypes = RadioGroupProps;
 RadioGroup.defaultProps = RadioGroupDefaultProps;
 
-export default RadioGroup;
+export default memo(RadioGroup);

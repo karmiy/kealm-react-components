@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useCallback, useMemo, createContext } from 'react';
+import React, { memo, Children, useCallback, useMemo, createContext } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
@@ -105,4 +105,4 @@ function Select(props) {
 Select.propTypes = SelectProps;
 Select.defaultProps = SelectDefaultProps;
 
-export default Select;
+export default memo(Select);

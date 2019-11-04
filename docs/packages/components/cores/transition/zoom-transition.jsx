@@ -1,4 +1,4 @@
-import React, { Children, useCallback, useMemo } from 'react';
+import React, { memo, Children, useCallback, useMemo } from 'react';
 import { ZoomTransitionProps, ZoomTransitionDefaultProps } from './interface';
 import { Motion, RenderWrapper } from '../../common';
 import { useContextConf } from 'hooks';
@@ -54,4 +54,4 @@ function ZoomTransition(props) {
 ZoomTransition.propTypes = ZoomTransitionProps;
 ZoomTransition.defaultProps = ZoomTransitionDefaultProps;
 
-export default ZoomTransition;
+export default memo(ZoomTransition);

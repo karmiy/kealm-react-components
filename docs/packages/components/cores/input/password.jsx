@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { memo, useState, useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { PasswordProps, PasswordDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue, useDidUpdate } from 'hooks';
@@ -106,4 +106,4 @@ function Password(props) {
 Password.propTypes = PasswordProps;
 Password.defaultProps = PasswordDefaultProps;
 
-export default Password
+export default memo(Password);

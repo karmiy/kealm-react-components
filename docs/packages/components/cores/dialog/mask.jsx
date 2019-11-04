@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useContextConf, useClassName } from 'hooks/common';
 
 function Mask(props) {
@@ -16,4 +16,4 @@ function Mask(props) {
     return <div className={`${classNames}`} {...others} />
 }
 
-export default Mask;
+export default memo(Mask);

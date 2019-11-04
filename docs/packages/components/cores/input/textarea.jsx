@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
+import React, { memo, useState, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { TextareaProps, TextareaDefaultProps } from "./interface";
 import { useContextConf, useClassName, useStateCallable, useThrottle, useInputValue } from 'hooks';
 // import { ResizeObserver } from '../../common';
@@ -125,4 +125,4 @@ function TextArea(props) {
 TextArea.propTypes = TextareaProps;
 TextArea.defaultProps = TextareaDefaultProps;
 
-export default TextArea
+export default memo(TextArea);

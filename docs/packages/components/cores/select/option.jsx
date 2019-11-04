@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { SelectContext } from './select';
 
@@ -37,4 +37,4 @@ function Option(props) {
     );
 };
 
-export default Option;
+export default memo(Option);

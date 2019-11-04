@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { memo, useRef, useCallback } from 'react';
 import { MotionProps, MotionDefaultProps } from './interface';
 import {
     completeChildrenKeys,
@@ -322,4 +322,4 @@ function Motion(props) {
 
 Motion.propTypes = MotionProps;
 Motion.defaultProps = MotionDefaultProps;
-export default Motion;
+export default memo(Motion);

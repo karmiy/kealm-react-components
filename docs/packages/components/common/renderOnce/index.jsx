@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { RenderOnceProps, RenderOnceDefaultProps } from './interface';
 import { useFuncOnce, useCorrectOnce } from 'hooks';
 
@@ -32,4 +32,4 @@ function RenderOnce(props) {
 RenderOnce.propTypes = RenderOnceProps;
 RenderOnce.defaultProps = RenderOnceDefaultProps;
 
-export default RenderOnce;
+export default memo(RenderOnce);

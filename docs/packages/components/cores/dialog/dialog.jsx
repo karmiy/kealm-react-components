@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
+import React, { memo, useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
 import { DialogProps, DialogDefaultProps } from './interface';
 import Button from '../button';
 import Icon from '../icon';
@@ -254,4 +254,4 @@ function Dialog(props) {
 Dialog.propTypes = DialogProps;
 Dialog.defaultProps = DialogDefaultProps;
 
-export default Dialog;
+export default memo(Dialog);

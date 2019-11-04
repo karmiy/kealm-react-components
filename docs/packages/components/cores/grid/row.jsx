@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useMemo, createContext } from 'react';
+import React, { memo, useMemo, createContext } from 'react';
 import { RowProps, RowDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
 
@@ -54,4 +54,4 @@ function Row(props) {
 Row.propTypes = RowProps;
 Row.defaultProps = RowDefaultProps;
 
-export default Row;
+export default memo(Row);

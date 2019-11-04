@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ReactDOM from 'react-dom';
 import { PortalProps, PortalDefaultProps } from './interface';
 import { isFunction } from "utils/common/base";
@@ -24,4 +24,4 @@ function Portal(props) {
 Portal.propTypes = PortalProps;
 Portal.defaultProps = PortalDefaultProps;
 
-export default Portal;
+export default memo(Portal);

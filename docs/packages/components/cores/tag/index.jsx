@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { TagProps, TagDefaultProps } from './interface';
 import Icon from '../icon';
@@ -54,4 +54,4 @@ function Tag(props) {
 Tag.propTypes = TagProps;
 Tag.defaultProps = TagDefaultProps;
 
-export default Tag;
+export default memo(Tag);

@@ -188,8 +188,8 @@ function CollapseDoc() {
         <HighLight code={CodeExtra} />
 
         {/* API */}
-        {useMemo(() => <ApiTable title='Collapse' propsList={collapseProps} eventsList={collapseEvents} />, [])}
-        {useMemo(() => <ApiTable title='CollapseItem' propsList={collapseItemProps} />, [])}
+        <ApiTable title='Collapse' propsList={collapseProps} eventsList={collapseEvents} />
+        <ApiTable title='CollapseItem' propsList={collapseItemProps} />
     </div>
 }
 

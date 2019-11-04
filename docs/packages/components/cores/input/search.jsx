@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useRef } from 'react';
+import React, { memo, useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import Button from '../button';
 import { SearchProps, SearchDefaultProps } from "./interface";
@@ -111,4 +111,4 @@ function Search(props) {
 Search.propTypes = SearchProps;
 Search.defaultProps = SearchDefaultProps;
 
-export default Search;
+export default memo(Search);

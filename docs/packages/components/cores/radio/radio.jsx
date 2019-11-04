@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
 import { useContextConf, useClassName, useContextProps, useCheckValue } from 'hooks';
 import { CheckedContext } from './context';
@@ -69,4 +69,4 @@ function Radio(props) {
 Radio.propTypes = RadioProps;
 Radio.defaultProps = RadioDefaultProps;
 
-export default Radio;
+export default memo(Radio);

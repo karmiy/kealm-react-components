@@ -1,11 +1,10 @@
-import React, { Children, cloneElement, useMemo } from 'react';
+import React, { memo, Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName, useTabsValue } from 'hooks';
 import { TabsProps, TabsDefaultProps } from './interface';
 import TabNav from './tab-nav';
 // import Icon from '../icon';
 import { transChildren } from 'utils/common/react-util';
 import { mergeStr } from 'utils/common/base';
-import { RenderWrapper } from '../../common';
 
 function Tabs(props) {
     const { componentCls } = useContextConf('tabs');
@@ -130,4 +129,4 @@ function Tabs(props) {
 Tabs.propTypes = TabsProps;
 Tabs.defaultProps = TabsDefaultProps;
 
-export default Tabs;
+export default memo(Tabs);

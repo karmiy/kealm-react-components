@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Button, FadeTransition, CollapseTransition, ZoomTransition, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { commonProps, commonEvents, fadeTransitionProps, zoomTransitionProps } from 'api/transition';
@@ -112,9 +112,9 @@ function TransitionDoc() {
             <HighLight code={CodeZoom} />
 
             {/* API */}
-            {useMemo(() => <ApiTable title='Common' propsList={commonProps} eventsList={commonEvents} />, [])}
-            {useMemo(() => <ApiTable title='Fade Transition' propsList={fadeTransitionProps} />, [])}
-            {useMemo(() => <ApiTable title='Zoom Transition' propsList={zoomTransitionProps} />, [])}
+            <ApiTable title='Common' propsList={commonProps} eventsList={commonEvents} />
+            <ApiTable title='Fade Transition' propsList={fadeTransitionProps} />
+            <ApiTable title='Zoom Transition' propsList={zoomTransitionProps} />
         </div>
     )
 }
