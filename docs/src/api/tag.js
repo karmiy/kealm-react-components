@@ -47,6 +47,6 @@ export const tagEvents = [
     {
         name: 'onClose',
         des: '关闭 Tag 时触发的事件',
-        callback: '(tag) => void',
+        callback: '(e: Event, tag) => void',
     }
 ]

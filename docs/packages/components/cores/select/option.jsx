@@ -11,6 +11,7 @@ function Option(props) {
         children,
         className,
         value,
+        label,
         onClick,
         disabled,
         ...others

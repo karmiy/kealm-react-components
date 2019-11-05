@@ -182,6 +182,7 @@
 
 @include b(select-dropdown__wrap) {
     max-height: $select-dropdown-max-height;
+    overflow: auto;
 }
 
 @include b(select-dropdown__list) {

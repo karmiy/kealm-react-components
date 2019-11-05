@@ -3,7 +3,7 @@ import { CommonProps, CommonDefaultProps } from '../trigger/interface';
 import { omit } from 'utils/common/object';
 
 const noop = () => {};
-const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
+const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]);
 
 /* select-props */
 export const SelectProps = {
@@ -17,6 +17,7 @@ export const SelectProps = {
     onClear: PropTypes.func,
     disabled: PropTypes.bool,
     multiple: PropTypes.bool,
+    collapseTags: PropTypes.bool,
 }
 
 export const SelectDefaultProps = {
@@ -30,16 +31,26 @@ export const SelectDefaultProps = {
     onClear: noop,
     disabled: false,
     multiple: false,
+    collapseTags: false,
 }
 
 /* option-props */
 export const OptionProps = {
     className: PropTypes.string,
     value: VALUE_TYPE,
-    children: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
 }
 
 export const OptionDefaultProps = {
     disabled: false,
+}
+
+/* group-props */
+export const GroupProps = {
+    className: PropTypes.string,
+    label: PropTypes.string.isRequired,
+}
+
+export const GroupDefaultProps = {
 }

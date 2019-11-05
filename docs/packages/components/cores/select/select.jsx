@@ -5,16 +5,77 @@ import Input from '../input';
 import Trigger from '../trigger';
 import Icon from '../icon';
 import Tag from '../tag';
+import Option from './option';
+import Group from './group';
 import { RenderWrapper } from '../../common';
 import { mergeStr, isEmpty, isArray } from 'utils/common/base';
+import { loopEleOfType, validateType } from 'utils/common/react-util';
+import {toArray} from "utils/common/array";
 
 const emptyOption = {
-    props: {
-        value: '',
-        children: '',
-    },
+    value: '',
+    label: '',
 };
-const emytyArr = [];
+const emptyArr = [];
+
+/**
+ * Get selected options
+ * @param children
+ * @param selectedValues
+ * @returns {[]}
+ */
+const getSelectedOptions = (children, selectedValues) => {
+    const selectedArr = [], _selectedValues = [...selectedValues];
+    for(let i = 0, len = children.length; i < len; i++) {
+        const { value, label } = children[i].props;
+        const index = _selectedValues.indexOf(value);
+
+        if(index !== -1) {
+            selectedArr.push({
+                value,
+                label,
+                order: index,
+            });
+            _selectedValues.splice(index, 1);
+        }
+        if(!_selectedValues.length)
+            break;
+    }
+    selectedArr.sort((a, b) => a.order - b.order);
+    return selectedArr;
+}
+
+/**
+ * Get options without group
+ * @param children
+ * @returns {node}
+ */
+const getOptionsChildren = children => {
+    if(!Children.count(children)) return children;
+
+    const casualOpt = Children.toArray(children)[0];
+
+    if(validateType(casualOpt, Group)) {
+        return Children.map(children, group => {
+            return group.props.children;
+        });
+    }
+    return children;
+}
+
+/**
+ * Validate children(Only Option or Group)
+ * @param children
+ * @returns {*}
+ */
+const validSelectChildren = children => {
+    if(!Children.count(children)) return children;
+
+    const casualOpt = Children.toArray(children)[0];
+
+    if(!validateType(casualOpt, Group) && !validateType(casualOpt, Option))
+        throw new Error('You only can use Option or Group as children');
+}
 
 export const SelectContext = createContext();
 
@@ -35,12 +96,19 @@ function Select(props) {
         onClear: clear,
         disabled,
         multiple,
+        collapseTags,
         ...others
     } = props;
 
     // ---------------------------------- logic code ----------------------------------
+    // Verify children type
+    useMemo(() => {
+        validSelectChildren(children);
+    }, []);
+
+    // ---------------------------------- logic code ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
-    const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? emytyArr : '');
+    const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? emptyArr : '');
     const isClearable = clearable && !isEmpty(selectedValue) && selectedValue !== '';
     const tagsRef = useRef(null);
     const [inputStyle, setInputStyle] = useState();
@@ -66,16 +134,24 @@ function Select(props) {
 
     // Get label of single option which is selected
     const selectedOptions = useMemo(() => {
+        const options = Children.toArray(getOptionsChildren(children));
         if(multiple) {
-            return Children.toArray(children).filter(child => selectedValue.includes(child.props.value));
+            return getSelectedOptions(options, selectedValue);
         }else {
-            const selectedOption = Children.toArray(children).find(child => child.props.value === selectedValue);
-            return selectedOption || emptyOption;
+            const selectedOption = options.find(child => child.props.value === selectedValue);
+            return selectedOption ?
+                {
+                    value: selectedOption.props.value,
+                    label: selectedOption.props.label,
+                }
+                :
+                emptyOption;
         }
     }, [multiple, children, selectedValue]);
 
+    // When multi-select, the input height needs to be adjusted
     useDidUpdate(() => {
-        if(!multiple) return;
+        if(!multiple || collapseTags) return;
 
         setInputStyle({
             height: selectedValue.length ? `${tagsRef.current.offsetHeight + 4}px` : '',
@@ -102,25 +178,35 @@ function Select(props) {
 
         setInnerValue('');
         clear(e);
-    }, [clear])
+    }, [clear]);
+
+    const onSelect = useCallback((value, toSelect = true) => {
+        if(multiple) {
+            if(!toSelect) {
+                // remove
+                selectedValue.splice(selectedValue.indexOf(value), 1);
+                setSelectedValue([...selectedValue]);
+            }else {
+                // add
+                setSelectedValue([...selectedValue, value]);
+            }
+        }else {
+            setSelectedValue(value);
+            !multiple && setIsVisible(false);
+        }
+    }, [multiple, selectedValue]);
+
+    const onClose = useCallback((e, value) => {
+        e.stopPropagation();
+
+        onSelect(value, false);
+    }, [onSelect]);
 
     // ---------------------------------- context.provider ----------------------------------
     const provider = {
         selectedValue,
         multiple,
-        onSelect: (value, toSelect = true) => {
-            if(multiple) {
-                if(!toSelect) {
-                    selectedValue.splice(selectedValue.indexOf(value), 1);
-                    setSelectedValue([...selectedValue]);
-                }else {
-                    setSelectedValue([...selectedValue, value]);
-                }
-            }else {
-                setSelectedValue(value);
-                !multiple && setIsVisible(false);
-            }
-        },
+        onSelect,
     }
 
     // ---------------------------------- render chunk ----------------------------------
@@ -148,8 +234,55 @@ function Select(props) {
                 </ul>
             </div>
             <div className="popper__arrow" style={{left: '35px'}} />
+            {/*<div className={`${componentCls}-dropdown__empty`}>
+                无匹配内容
+            </div>*/}
         </SelectContext.Provider>
-    )
+    );
+
+    const renderTags = useMemo(() => {
+        if(!multiple) return null;
+
+        if(collapseTags) {
+            return (
+                <div ref={tagsRef} className={`${componentCls}__tags`}>
+                    {selectedOptions.length ?
+                        <>
+                            <Tag
+                                size={'small'}
+                                type={'info'}
+                                closable
+                                onClose={e => onClose(e, selectedOptions[0].value)}
+                            >
+                                {selectedOptions[0].label}
+                            </Tag>
+                            <Tag
+                                size={'small'}
+                                type={'info'}
+                            >+{selectedOptions.length}</Tag>
+                        </>
+                        :
+                        null
+                    }
+                </div>
+            )
+        }
+
+        return (
+            <div ref={tagsRef} className={`${componentCls}__tags`}>
+                {selectedOptions.map(option =>
+                    <Tag
+                        key={option.value}
+                        size={'small'}
+                        type={'info'}
+                        closable
+                        onClose={e => onClose(e, option.value)}
+                    >
+                        {option.label}
+                    </Tag>)}
+            </div>
+        )
+    }, [multiple, collapseTags, componentCls, selectedOptions, onClose]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -169,15 +302,9 @@ function Select(props) {
             {...others}
         >
             <div className={inputClassNames}>
-                {
-                    multiple &&
-                    <div ref={tagsRef} className={`${componentCls}__tags`}>
-                        {selectedOptions.map(option =>
-                            <Tag key={option.props.value} size={'small'} type={'info'} closable>{option.props.children}</Tag>)}
-                    </div>
-                }
+                {renderTags}
                 <Input
-                    value={multiple ? '' : selectedOptions.props.children}
+                    value={multiple ? '' : selectedOptions.label}
                     inputStyle={inputStyle}
                     placeholder={_placeholder}
                     disabled={disabled}

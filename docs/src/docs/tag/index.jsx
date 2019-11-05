@@ -10,7 +10,7 @@ function TagDoc() {
     const [tags, setTags] = useState(['Tag1']);
     const [inputVisible, setInputVisible] = useState(false);
 
-    const onClose = useCallback(tag => {
+    const onClose = useCallback((_, tag) => {
         setTags(tags.filter(t => tag !== t));
     }, [tags]);
 

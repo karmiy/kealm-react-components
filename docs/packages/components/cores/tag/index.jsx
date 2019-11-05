@@ -45,7 +45,7 @@ function Tag(props) {
         <span className={classNames} style={styles} {...others}>
             {children}
             <RenderWrapper visible={closable} unmountOnExit={true}>
-                <Icon type={'close'} className={`${componentCls}__close`} onClick={() => onClose(children)} />
+                <Icon type={'close'} className={`${componentCls}__close`} onClick={e => onClose(e, children)} />
             </RenderWrapper>
         </span>
     );
