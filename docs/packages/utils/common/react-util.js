@@ -1,6 +1,6 @@
-import React, { Children, cloneElement } from 'react';
+import { Children, cloneElement } from 'react';
 import { isFragment } from 'react-is';
-import { isArray } from './base';
+import { isArray, isObject } from './base';
 
 /**
  * Translate children of props without fragment
@@ -46,6 +46,40 @@ export const isContainEle = function (children, type) {
  */
 export const validateType = function (element, type) {
     return element && element.type && element.type === type;
+}
+
+/**
+ * Validate type of child
+ * @param {node} child
+ * @param {string / array} type
+ */
+export const validateChildType = function (child, type) {
+    if(isArray(type) && type.every(t => !validateType(child, t))) {
+        type = type.map(t => isObject(t) ? t.type.name : t);
+        throw new Error(`You can only use ${type.join(' or ')} as children`);
+    }
+    if(!isArray(type) && !validateType(child, type)) {
+        type = isObject(type) ? type.type.name : type;
+        throw new Error(`You can only use ${type} as children`);
+    }
+}
+/**
+ * Validate type of children
+ * @param {node} children
+ * @param {string / array} type
+ * @param {boolean} traversal
+ */
+export const validateChildrenType = function (children, type, traversal = false) {
+    if(!Children.count(children)) return;
+
+    if(!traversal) {
+        const casualOpt = Children.toArray(children)[0];
+        validateChildType(casualOpt, type);
+    }else {
+        Children.forEach(children, casualOpt => {
+            validateChildType(casualOpt, type);
+        });
+    }
 }
 
 /**

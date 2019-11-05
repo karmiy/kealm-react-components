@@ -1,5 +1,5 @@
 import React, { memo, Children, useState, useCallback, useMemo, createContext, useRef } from 'react';
-import { useContextConf, useClassName, useController, useDidUpdate } from 'hooks';
+import { useContextConf, useClassName, useController, useDidUpdate, useSyncOnce } from 'hooks';
 import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
 import Trigger from '../trigger';
@@ -9,8 +9,7 @@ import Option from './option';
 import Group from './group';
 import { RenderWrapper } from '../../common';
 import { mergeStr, isEmpty, isArray } from 'utils/common/base';
-import { loopEleOfType, validateType } from 'utils/common/react-util';
-import {toArray} from "utils/common/array";
+import { validateChildrenType, validateType } from 'utils/common/react-util';
 
 const emptyOption = {
     value: '',
@@ -63,20 +62,6 @@ const getOptionsChildren = children => {
     return children;
 }
 
-/**
- * Validate children(Only Option or Group)
- * @param children
- * @returns {*}
- */
-const validSelectChildren = children => {
-    if(!Children.count(children)) return children;
-
-    const casualOpt = Children.toArray(children)[0];
-
-    if(!validateType(casualOpt, Group) && !validateType(casualOpt, Option))
-        throw new Error('You only can use Option or Group as children');
-}
-
 export const SelectContext = createContext();
 
 function Select(props) {
@@ -102,9 +87,9 @@ function Select(props) {
 
     // ---------------------------------- logic code ----------------------------------
     // Verify children type
-    useMemo(() => {
-        validSelectChildren(children);
-    }, []);
+    useSyncOnce(() => {
+        validateChildrenType(children, [Group, Option]);
+    });
 
     // ---------------------------------- logic code ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
