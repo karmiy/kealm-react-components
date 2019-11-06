@@ -97,6 +97,7 @@ function Select(props) {
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
     const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? emptyArr : '');
     const isClearable = clearable && !isEmpty(selectedValue) && selectedValue !== '';
+    const selectRef = useRef(null);
     const tagsRef = useRef(null);
     const popperJsInstanceRef = useRef(null);
     const [inputStyle, setInputStyle] = useState();
@@ -154,7 +155,7 @@ function Select(props) {
         if(isVisible) {
             if(multiple) {
                 return selectedOptions.length ?
-                    selectedOptions.reduce((sum, option) => sum + `${option.label} `, '').slice(0, -1)
+                    `${selectedOptions[0].label} +${selectedOptions.length}`
                     :
                     placeholder;
             }else {
@@ -181,6 +182,19 @@ function Select(props) {
     useDidUpdate(() => {
         if(filterable && !isVisible)
             setFilterValue('');
+    }, [isVisible]);
+
+    // Show or hidden tags when is filterable
+    useDidUpdate(() => {
+        if(multiple && filterable) {
+            tagsRef.current.style.zIndex = isVisible ? '-1' : '';
+        }
+    }, [isVisible]);
+
+    useDidUpdate(() => {
+        if(multiple && filterable && isVisible) {
+            selectRef.current.querySelector('input').focus();
+        }
     }, [isVisible]);
 
     // ---------------------------------- event ----------------------------------
@@ -317,11 +331,11 @@ function Select(props) {
                         </Tag>
                     )}
                 </div>
-                <RenderWrapper visible={isVisible && filterable} unmountOnExit>
+                {/*<RenderWrapper visible={isVisible && filterable} unmountOnExit>
                     <div className={`${componentCls}__input-wrap`}>
                         <Input placeholder={'1111'} />
                     </div>
-                </RenderWrapper>
+                </RenderWrapper>*/}
             </>
         )
     }, [multiple, collapseTags, componentCls, selectedOptions, onClose, isVisible, filterable]);
@@ -343,7 +357,7 @@ function Select(props) {
             onCreate={onCreate}
             {...others}
         >
-            <div className={inputClassNames}>
+            <div className={inputClassNames} ref={selectRef}>
                 {renderTags}
                 <Input
                     // value={multiple ? '' : selectedOptions.label}
@@ -354,7 +368,7 @@ function Select(props) {
                     disabled={disabled}
                     suffix={renderSuffix}
                     spellCheck={false}
-                    readOnly={!filterable} />
+                    readOnly={!(filterable && isVisible)} />
             </div>
         </Trigger>
     );
