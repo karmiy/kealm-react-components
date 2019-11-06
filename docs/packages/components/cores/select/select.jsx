@@ -82,6 +82,8 @@ function Select(props) {
         disabled,
         multiple,
         collapseTags,
+        emptyContent,
+        filterable,
         ...others
     } = props;
 
@@ -192,6 +194,7 @@ function Select(props) {
         selectedValue,
         multiple,
         onSelect,
+        filterable,
     }
 
     // ---------------------------------- render chunk ----------------------------------
@@ -213,15 +216,18 @@ function Select(props) {
 
     const renderDropdown = (
         <SelectContext.Provider value={provider}>
-            <div className={`${componentCls}-dropdown__wrap`}>
-                <ul className={`${componentCls}-dropdown__list`}>
-                    {children}
-                </ul>
-            </div>
+            {Children.count(children) ?
+                <div className={`${componentCls}-dropdown__wrap`}>
+                    <ul className={`${componentCls}-dropdown__list`}>
+                        {children}
+                    </ul>
+                </div>
+                :
+                <div className={`${componentCls}-dropdown__empty`}>
+                    {emptyContent}
+                </div>
+            }
             <div className="popper__arrow" style={{left: '35px'}} />
-            {/*<div className={`${componentCls}-dropdown__empty`}>
-                无匹配内容
-            </div>*/}
         </SelectContext.Provider>
     );
 
@@ -294,7 +300,7 @@ function Select(props) {
                     placeholder={_placeholder}
                     disabled={disabled}
                     suffix={renderSuffix}
-                    readOnly />
+                    readOnly={!filterable} />
             </div>
         </Trigger>
     );

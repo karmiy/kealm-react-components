@@ -4,6 +4,7 @@ import { TriggerProps, TriggerDefaultProps } from './interface';
 import { Popper, Portal, DomWrapper, RenderWrapper } from '../../common';
 import { FadeTransition } from '../transition';
 import { filterEmptyProp } from 'utils/common/object';
+import KeyCode from 'utils/common/keyCode';
 import addDomEventListener from 'add-dom-event-listener';
 
 const HorizontalPriority = ['left', 'right'];
@@ -32,13 +33,13 @@ addDomEventListener(document, 'click', function (e) {
 }, false);
 
 // ESC to close
-addDomEventListener(document, 'keydown', function () {
+addDomEventListener(document, 'keydown', function (e) {
     for(let listenerRef of listenerSet.keys()) {
         const { isVisible, setIsVisible } = listenerRef.current;
         // if (!isVisible || trigger === 'manual') continue;
         if (!isVisible) continue;
 
-        setIsVisible(false);
+        e.keyCode === KeyCode.ESC && setIsVisible(false);
     }
 }, false);
 

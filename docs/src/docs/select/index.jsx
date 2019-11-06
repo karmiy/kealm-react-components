@@ -141,6 +141,19 @@ function SelectDoc() {
                 </Select>
             </div>
 
+            {/* 可搜索 */}
+            <h2>可搜索</h2>
+            <p>可以利用搜索功能快速查找选项。</p>
+            <div className="detail-box">
+                <Select filterable>
+                    <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                    <Option value={'2'} label={'Karloy'}>Karloy</Option>
+                    <Option value={'3'} label={'Peppa'}>Peppa</Option>
+                    <Option value={'4'} label={'George'}>George</Option>
+                    <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                </Select>
+            </div>
+
             {/* API */}
             {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}
         </div>

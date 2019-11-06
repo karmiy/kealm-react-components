@@ -18,6 +18,8 @@ export const SelectProps = {
     disabled: PropTypes.bool,
     multiple: PropTypes.bool,
     collapseTags: PropTypes.bool,
+    emptyContent: PropTypes.node,
+    filterable: PropTypes.bool,
 }
 
 export const SelectDefaultProps = {
@@ -32,6 +34,8 @@ export const SelectDefaultProps = {
     disabled: false,
     multiple: false,
     collapseTags: false,
+    emptyContent: '无匹配内容',
+    filterable: false,
 }
 
 /* option-props */
