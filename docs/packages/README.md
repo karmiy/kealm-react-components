@@ -10,6 +10,8 @@
 
 - style
 
+- effect
+
 - event
 
 - function
