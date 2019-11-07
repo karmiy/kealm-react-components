@@ -17,8 +17,9 @@ function Option(props) {
         ...others
     } = props;
 
-    const { selectedValue, onSelect, multiple } = useContext(SelectContext);
+    const { selectedValue, onSelect, multiple, filterable, inputValue } = useContext(SelectContext);
 
+    // ---------------------------------- logic code ----------------------------------
     const isSelected = multiple ? selectedValue.includes(value) : value === selectedValue;
 
     // ---------------------------------- class ----------------------------------
@@ -28,6 +29,9 @@ function Option(props) {
         'is-disabled': disabled,
         [className]: className,
     }, [className, componentCls, isSelected, disabled]);
+
+    // ---------------------------------- logic code ----------------------------------
+    if(filterable && !label.includes(inputValue)) return null;
 
     // ---------------------------------- event ----------------------------------
     const onToggle = (e) => {

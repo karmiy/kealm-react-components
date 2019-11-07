@@ -143,7 +143,7 @@ function SelectDoc() {
 
             {/* 可搜索 */}
             <h2>可搜索</h2>
-            <p>可以利用搜索功能快速查找选项。</p>
+            <p>可以利用 filterable 开启搜索功能快速查找选项。</p>
             <div className="detail-box">
                 <Row gutter={16}>
                     <Col>
@@ -165,6 +165,22 @@ function SelectDoc() {
                         </Select>
                     </Col>
                 </Row>
+            </div>
+
+            {/* 远程搜索 */}
+            <h2>远程搜索</h2>
+            <p>从服务器搜索数据，输入关键字进行查找。</p>
+            <div className="detail-box">
+                <Select remote onRemote={v => console.log(v)}>
+                    <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                    <Option value={'2'} label={'Karloy'}>Karloy</Option>
+                    <Option value={'3'} label={'Peppa'}>Peppa</Option>
+                    <Option value={'4'} label={'George'}>George</Option>
+                    <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                    {/*{Array(1000).fill('').map((item, index) => {
+                        return <Option key={index} value={index + 6} label={'Hawk'}>Hawk</Option>
+                    })}*/}
+                </Select>
             </div>
 
             {/* API */}

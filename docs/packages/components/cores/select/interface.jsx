@@ -1,6 +1,8 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { CommonProps, CommonDefaultProps } from '../trigger/interface';
 import { omit } from 'utils/common/object';
+import Icon from '../icon';
 
 const noop = () => {};
 const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]);
@@ -18,8 +20,13 @@ export const SelectProps = {
     disabled: PropTypes.bool,
     multiple: PropTypes.bool,
     collapseTags: PropTypes.bool,
+    emptyFilterContent: PropTypes.node,
     emptyContent: PropTypes.node,
     filterable: PropTypes.bool,
+    loading: PropTypes.bool,
+    loadingContent: PropTypes.node,
+    remote: PropTypes.bool,
+    onRemote: PropTypes.func,
 }
 
 export const SelectDefaultProps = {
@@ -34,8 +41,13 @@ export const SelectDefaultProps = {
     disabled: false,
     multiple: false,
     collapseTags: false,
-    emptyContent: '无匹配内容',
+    emptyFilterContent: '无匹配内容',
+    emptyContent: '无数据',
     filterable: false,
+    loading: false,
+    loadingContent: <><Icon type={'loading'} /> 加载中</>,
+    remote: false,
+    onRemote: noop,
 }
 
 /* option-props */

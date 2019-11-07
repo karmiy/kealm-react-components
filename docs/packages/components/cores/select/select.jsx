@@ -82,8 +82,13 @@ function Select(props) {
         disabled,
         multiple,
         collapseTags,
+        emptyFilterContent,
         emptyContent,
         filterable,
+        loading,
+        loadingContent,
+        remote,
+        onRemote,
         ...others
     } = props;
 
@@ -101,7 +106,7 @@ function Select(props) {
     const tagsRef = useRef(null);
     const popperJsInstanceRef = useRef(null);
     const [inputStyle, setInputStyle] = useState();
-    const [filterValue, setFilterValue] = useState('');
+    const [inputValue, setInputValue] = useState('');
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -138,32 +143,46 @@ function Select(props) {
         }
     }, [multiple, children, selectedValue]);
 
-    const inputValue = useMemo(() => {
-        if(!filterable) return multiple ? '' : selectedOptions.label;
+    const inputDisplayValue = useMemo(() => {
+        if(filterable || remote) {
+            // Show inputValue when popper open
+            if(isVisible) return inputValue;
 
-        // Show filterValue when popper open
-        if(isVisible) {
-            return filterValue;
+            return multiple ? '' : selectedOptions.label;
         }
+
         return multiple ? '' : selectedOptions.label;
-    }, [filterable, multiple, selectedOptions, isVisible, filterValue]);
+    }, [filterable, remote, multiple, selectedOptions, isVisible, inputValue]);
 
 
     const _placeholder = useMemo(() => {
-        if(!filterable) return multiple && selectedValue.length ? '' : placeholder;
-
-        if(isVisible) {
-            if(multiple) {
-                return selectedOptions.length ?
-                    `${selectedOptions[0].label} +${selectedOptions.length}`
-                    :
-                    placeholder;
-            }else {
-                return selectedOptions.label || placeholder;
+        if(filterable || remote) {
+            if(isVisible) {
+                if(multiple) {
+                    return selectedOptions.length ?
+                        `${selectedOptions[0].label} +${selectedOptions.length}`
+                        :
+                        placeholder;
+                }else {
+                    return selectedOptions.label || placeholder;
+                }
             }
+            return multiple && selectedValue.length ? '' : placeholder;
         }
+
         return multiple && selectedValue.length ? '' : placeholder;
-    }, [filterable, multiple, selectedValue, placeholder, isVisible]);
+    }, [filterable, remote, multiple, selectedValue, placeholder, isVisible]);
+
+    const filterChildrenCount = filterable ?
+        Children.count(Children.toArray(getOptionsChildren(children)).filter(child => child.props.label.includes(inputValue)))
+        :
+        Children.count(children);
+
+    const readonly = (() => {
+        if((filterable || remote) && isVisible) return false;
+
+        return true;
+    })();
 
     // ---------------------------------- effect ----------------------------------
     // When multi-select, the input height needs to be adjusted
@@ -178,24 +197,30 @@ function Select(props) {
         popperJsInstanceRef.current.scheduleUpdate();
     }, [selectedValue]);
 
-    // Clear filterValue when popper close
+    // Clear inputValue when popper open
     useDidUpdate(() => {
-        if(filterable && !isVisible)
-            setFilterValue('');
+        if((filterable || remote) && isVisible)
+            setInputValue('');
     }, [isVisible]);
 
     // Show or hidden tags when is filterable
     useDidUpdate(() => {
-        if(multiple && filterable) {
+        if(multiple && (filterable || remote)) {
             tagsRef.current.style.zIndex = isVisible ? '-1' : '';
         }
-    }, [isVisible]);
+    }, [isVisible], true);
 
+    // Component is multiple and filterable, focus input when it need to show popper
     useDidUpdate(() => {
-        if(multiple && filterable && isVisible) {
+        if(multiple && (filterable || remote) && isVisible) {
             selectRef.current.querySelector('input').focus();
         }
     }, [isVisible]);
+
+    // Adjust popper position when filter children count changed
+    useDidUpdate(() => {
+        popperJsInstanceRef.current.scheduleUpdate();
+    }, [filterChildrenCount, Children.count(children)]);
 
     // ---------------------------------- event ----------------------------------
     const onCreate = useCallback(data => {
@@ -243,8 +268,10 @@ function Select(props) {
     }, [onSelect]);
 
     const onInputChange = useCallback(e => {
-        setFilterValue(e.target.value);
-    }, []);
+        setInputValue(e.target.value);
+
+        remote && onRemote(e.target.value);
+    }, [remote, onRemote]);
 
     // ---------------------------------- context.provider ----------------------------------
     const provider = {
@@ -252,6 +279,7 @@ function Select(props) {
         multiple,
         onSelect,
         filterable,
+        inputValue,
     }
 
     // ---------------------------------- render chunk ----------------------------------
@@ -271,22 +299,46 @@ function Select(props) {
         );
     }, [componentCls, isVisible, isClearable, onClear]);
 
-    const renderDropdown = (
-        <SelectContext.Provider value={provider}>
-            {Children.count(children) ?
-                <div className={`${componentCls}-dropdown__wrap`}>
-                    <ul className={`${componentCls}-dropdown__list`}>
-                        {children}
-                    </ul>
-                </div>
-                :
+    const renderDropdown = (() => {
+        let dropdownContent = null;
+        if(loading) {
+            // Loading content
+            dropdownContent = (
                 <div className={`${componentCls}-dropdown__empty`}>
-                    {emptyContent}
+                    {loadingContent}
                 </div>
+            );
+        } else {
+            if(Children.count(children)) {
+                // Content when is filterable
+                dropdownContent = (
+                    filterChildrenCount ?
+                        <div className={`${componentCls}-dropdown__wrap`}>
+                            <ul className={`${componentCls}-dropdown__list`}>
+                                {children}
+                            </ul>
+                        </div>
+                        :
+                        <div className={`${componentCls}-dropdown__empty`}>
+                            {emptyFilterContent}
+                        </div>
+                );
+            } else {
+                // Empty content
+                dropdownContent = (
+                    <div className={`${componentCls}-dropdown__empty`}>
+                        {emptyContent}
+                    </div>
+                );
             }
-            <div className="popper__arrow" style={{left: '35px'}} />
-        </SelectContext.Provider>
-    );
+        }
+        return (
+            <SelectContext.Provider value={provider}>
+                {dropdownContent}
+                <div className="popper__arrow" style={{left: '35px'}} />
+            </SelectContext.Provider>
+        )
+    })();
 
     const renderTags = useMemo(() => {
         if(!multiple) return null;
@@ -317,28 +369,21 @@ function Select(props) {
         }
 
         return (
-            <>
-                <div ref={tagsRef} className={`${componentCls}__tags`}>
-                    {selectedOptions.map(option =>
-                        <Tag
-                            key={option.value}
-                            size={'small'}
-                            type={'info'}
-                            closable
-                            onClose={e => onClose(e, option.value)}
-                        >
-                            {option.label}
-                        </Tag>
-                    )}
-                </div>
-                {/*<RenderWrapper visible={isVisible && filterable} unmountOnExit>
-                    <div className={`${componentCls}__input-wrap`}>
-                        <Input placeholder={'1111'} />
-                    </div>
-                </RenderWrapper>*/}
-            </>
+            <div ref={tagsRef} className={`${componentCls}__tags`}>
+                {selectedOptions.map(option =>
+                    <Tag
+                        key={option.value}
+                        size={'small'}
+                        type={'info'}
+                        closable
+                        onClose={e => onClose(e, option.value)}
+                    >
+                        {option.label}
+                    </Tag>
+                )}
+            </div>
         )
-    }, [multiple, collapseTags, componentCls, selectedOptions, onClose, isVisible, filterable]);
+    }, [multiple, collapseTags, componentCls, selectedOptions, onClose]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -361,14 +406,14 @@ function Select(props) {
                 {renderTags}
                 <Input
                     // value={multiple ? '' : selectedOptions.label}
-                    value={inputValue}
+                    value={inputDisplayValue}
                     onChange={onInputChange}
                     inputStyle={inputStyle}
                     placeholder={_placeholder}
                     disabled={disabled}
                     suffix={renderSuffix}
                     spellCheck={false}
-                    readOnly={!(filterable && isVisible)} />
+                    readOnly={readonly} />
             </div>
         </Trigger>
     );
