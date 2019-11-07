@@ -1,12 +1,29 @@
 import React, { useState, useMemo } from 'react';
 import { Select, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { remoteOptions } from './data';
 
 const { Option, Group } = Select;
 
 function SelectDoc() {
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState(['1']);
+    const [options, setOptions] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const onRemote = (value) => {
+        if(value) {
+            setLoading(true);
+            setTimeout(() => {
+                setOptions(remoteOptions.filter(option => {
+                    return option.includes(value);
+                }));
+                setLoading(false);
+            }, 500);
+        }else {
+            setOptions([]);
+        }
+    }
 
     return (
         <div className='page-box'>
@@ -171,12 +188,15 @@ function SelectDoc() {
             <h2>远程搜索</h2>
             <p>从服务器搜索数据，输入关键字进行查找。</p>
             <div className="detail-box">
-                <Select remote onRemote={v => console.log(v)}>
-                    <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                <Select remote onRemote={onRemote}>
+                    {options.map(option => {
+                        return <Option key={option} value={option} label={option}>{option}</Option>
+                    })}
+                    {/*<Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                     <Option value={'2'} label={'Karloy'}>Karloy</Option>
                     <Option value={'3'} label={'Peppa'}>Peppa</Option>
                     <Option value={'4'} label={'George'}>George</Option>
-                    <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                    <Option value={'5'} label={'Hawk'}>Hawk</Option>*/}
                     {/*{Array(1000).fill('').map((item, index) => {
                         return <Option key={index} value={index + 6} label={'Hawk'}>Hawk</Option>
                     })}*/}
