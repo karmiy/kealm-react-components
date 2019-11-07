@@ -188,7 +188,7 @@ function SelectDoc() {
             <h2>远程搜索</h2>
             <p>从服务器搜索数据，输入关键字进行查找。</p>
             <div className="detail-box">
-                <Select remote onRemote={onRemote}>
+                <Select loading={loading} remote onRemote={onRemote}>
                     {options.map(option => {
                         return <Option key={option} value={option} label={option}>{option}</Option>
                     })}

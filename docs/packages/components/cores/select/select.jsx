@@ -184,6 +184,14 @@ function Select(props) {
         return true;
     })();
 
+    // ---------------------------------- function ----------------------------------
+    const scheduleUpdatePosition = useCallback(() => {
+        if(!isVisible) return;
+
+        const instance = popperJsInstanceRef.current;
+        instance && instance.scheduleUpdate();
+    }, [isVisible]);
+
     // ---------------------------------- effect ----------------------------------
     // When multi-select, the input height needs to be adjusted
     useDidUpdate(() => {
@@ -194,7 +202,7 @@ function Select(props) {
         });
 
         // Adjust the position of popper
-        popperJsInstanceRef.current.scheduleUpdate();
+        scheduleUpdatePosition();
     }, [selectedValue]);
 
     // Clear inputValue when popper open
@@ -217,10 +225,10 @@ function Select(props) {
         }
     }, [isVisible]);
 
-    // Adjust popper position when filter children count changed
+    // Adjust popper position when filter children count changes or options changes
     useDidUpdate(() => {
-        popperJsInstanceRef.current.scheduleUpdate();
-    }, [filterChildrenCount, Children.count(children)]);
+        scheduleUpdatePosition();
+    }, [children, filterChildrenCount, Children.count(children)], true);
 
     // ---------------------------------- event ----------------------------------
     const onCreate = useCallback(data => {
