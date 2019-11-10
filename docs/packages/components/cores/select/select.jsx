@@ -107,6 +107,7 @@ function Select(props) {
     const popperJsInstanceRef = useRef(null);
     const [inputStyle, setInputStyle] = useState();
     const [inputValue, setInputValue] = useState('');
+    const isEditableInput = filterable || remote;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -144,7 +145,7 @@ function Select(props) {
     }, [multiple, children, selectedValue]);
 
     const inputDisplayValue = useMemo(() => {
-        if(filterable || remote) {
+        if(isEditableInput) {
             // Show inputValue when popper open
             if(isVisible) return inputValue;
 
@@ -156,7 +157,7 @@ function Select(props) {
 
 
     const _placeholder = useMemo(() => {
-        if(filterable || remote) {
+        if(isEditableInput) {
             if(isVisible) {
                 if(multiple) {
                     return selectedOptions.length ?
@@ -179,7 +180,7 @@ function Select(props) {
         Children.count(children);
 
     const readonly = (() => {
-        if((filterable || remote) && isVisible) return false;
+        if(isEditableInput && isVisible) return false;
 
         return true;
     })();
@@ -207,20 +208,20 @@ function Select(props) {
 
     // Clear inputValue when popper open
     useDidUpdate(() => {
-        if((filterable || remote) && isVisible)
+        if(isEditableInput && isVisible)
             setInputValue('');
     }, [isVisible]);
 
     // Show or hidden tags when is filterable
     useDidUpdate(() => {
-        if(multiple && (filterable || remote)) {
+        if(multiple && isEditableInput) {
             tagsRef.current.style.zIndex = isVisible ? '-1' : '';
         }
     }, [isVisible], true);
 
     // Component is multiple and filterable, focus input when it need to show popper
     useDidUpdate(() => {
-        if(multiple && (filterable || remote) && isVisible) {
+        if(multiple && isEditableInput && isVisible) {
             selectRef.current.querySelector('input').focus();
         }
     }, [isVisible]);
