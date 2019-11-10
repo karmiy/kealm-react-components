@@ -101,7 +101,7 @@ function Select(props) {
     // ---------------------------------- logic code ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
     const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? emptyArr : '');
-    const isClearable = clearable && !isEmpty(selectedValue) && selectedValue !== '';
+    const isClearable = clearable && (multiple ? !!selectedValue.length : !isEmpty(selectedValue) && selectedValue !== '');
     const selectRef = useRef(null);
     const tagsRef = useRef(null);
     const popperJsInstanceRef = useRef(null);
@@ -249,9 +249,9 @@ function Select(props) {
     const onClear = useCallback(e => {
         e.stopPropagation();
 
-        setInnerValue('');
+        setInnerValue(multiple ? emptyArr : '');
         clear(e);
-    }, [clear]);
+    }, [clear, multiple]);
 
     const onSelect = useCallback((value, toSelect = true) => {
         if(multiple) {
@@ -413,7 +413,6 @@ function Select(props) {
             <div className={inputClassNames} ref={selectRef}>
                 {renderTags}
                 <Input
-                    // value={multiple ? '' : selectedOptions.label}
                     value={inputDisplayValue}
                     onChange={onInputChange}
                     inputStyle={inputStyle}

@@ -72,19 +72,6 @@ function SelectDoc() {
                 </Select>
             </div>
 
-            {/* 可清空单选 */}
-            <h2>可清空单选</h2>
-            <p>包含清空按钮，可将选择器清空为初始状态。</p>
-            <div className="detail-box">
-                <Select clearable>
-                    <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
-                    <Option value={'2'} label={'Karloy'}>Karloy</Option>
-                    <Option value={'3'} label={'Peppa'}>Peppa</Option>
-                    <Option value={'4'} label={'George'}>George</Option>
-                    <Option value={'5'} label={'Hawk'}>Hawk</Option>
-                </Select>
-            </div>
-
             {/* 基础多选 */}
             <h2>基础多选</h2>
             <p>适用性较广的基础多选，用 Tag 展示已选项。</p>
@@ -101,6 +88,32 @@ function SelectDoc() {
                     </Col>
                     <Col>
                         <Select multiple collapseTags>
+                            <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                            <Option value={'2'} label={'Karloy'}>Karloy</Option>
+                            <Option value={'3'} label={'Peppa'}>Peppa</Option>
+                            <Option value={'4'} label={'George'}>George</Option>
+                            <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                        </Select>
+                    </Col>
+                </Row>
+            </div>
+
+            {/* 可清空 */}
+            <h2>可清空</h2>
+            <p>包含清空按钮，可将选择器清空为初始状态。</p>
+            <div className="detail-box">
+                <Row gutter={16}>
+                    <Col>
+                        <Select clearable>
+                            <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                            <Option value={'2'} label={'Karloy'}>Karloy</Option>
+                            <Option value={'3'} label={'Peppa'}>Peppa</Option>
+                            <Option value={'4'} label={'George'}>George</Option>
+                            <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select clearable multiple>
                             <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                             <Option value={'2'} label={'Karloy'}>Karloy</Option>
                             <Option value={'3'} label={'Peppa'}>Peppa</Option>
@@ -192,14 +205,6 @@ function SelectDoc() {
                     {options.map(option => {
                         return <Option key={option} value={option} label={option}>{option}</Option>
                     })}
-                    {/*<Option value={'1'} label={'Karmiy'}>Karmiy</Option>
-                    <Option value={'2'} label={'Karloy'}>Karloy</Option>
-                    <Option value={'3'} label={'Peppa'}>Peppa</Option>
-                    <Option value={'4'} label={'George'}>George</Option>
-                    <Option value={'5'} label={'Hawk'}>Hawk</Option>*/}
-                    {/*{Array(1000).fill('').map((item, index) => {
-                        return <Option key={index} value={index + 6} label={'Hawk'}>Hawk</Option>
-                    })}*/}
                 </Select>
             </div>
 
