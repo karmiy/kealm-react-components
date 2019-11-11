@@ -8,7 +8,7 @@ export const CodeFade =
         
         const changeFade = useCallback(() => {
             setFade(v => !v);
-        }, [setFade]);
+        }, []);
         
         return (
             <div>
@@ -46,7 +46,7 @@ export const CodeCollapse =
         
         const changeCollapse = useCallback(() => {
             setCollapse(v => !v);
-        }, [setCollapse]);
+        }, []);
         
         return (
             <div>
@@ -84,7 +84,7 @@ export const CodeZoom =
         
         const changeZoom = useCallback(() => {
             setZoom(v => !v);
-        }, [setZoom]);
+        }, []);
         
         return (
             <div>

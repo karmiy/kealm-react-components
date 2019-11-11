@@ -152,6 +152,20 @@ function SelectDoc() {
                 </Select>
             </div>
 
+            {/* 获得选项文本 */}
+            <h2>获得选项文本</h2>
+            <p>默认情况下 onChange 里只能拿到 value，如果需要拿到选中的节点文本 label，可以使用 labelInValue 属性。</p>
+            <p>选中项的 label 会被包装到 value 中传递给 onChange 等函数，此时 value 是一个对象。</p>
+            <div className="detail-box">
+                <Select defaultValue={{value: '1', label: 'Karmiy'}} labelInValue onChange={option => console.log(option)}>
+                    <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                    <Option value={'2'} label={'Karloy'}>Karloy</Option>
+                    <Option value={'3'} label={'Peppa'}>Peppa</Option>
+                    <Option value={'4'} label={'George'}>George</Option>
+                    <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                </Select>
+            </div>
+
             {/* 分组 */}
             <h2>分组</h2>
             <p>备选项进行分组展示。</p>

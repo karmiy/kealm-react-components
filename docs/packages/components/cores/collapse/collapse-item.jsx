@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Icon from '../icon';
 import { CollapseItemProps, CollapseItemDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
@@ -111,4 +111,4 @@ function CollapseItem(props) {
 CollapseItem.propTypes = CollapseItemProps;
 CollapseItem.defaultProps = CollapseItemDefaultProps;
 
-export default memo(CollapseItem);
+export default CollapseItem;

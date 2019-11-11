@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React from 'react';
 import { CardGridProps, CardGridDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 
@@ -31,4 +31,4 @@ function Grid(props) {
 Grid.propTypes = CardGridProps;
 Grid.defaultProps = CardGridDefaultProps;
 
-export default memo(Grid);
+export default Grid;

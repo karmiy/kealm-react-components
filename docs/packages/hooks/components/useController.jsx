@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { isEmpty, isFunction } from 'utils/common/base';
+import { useStateStore } from 'hooks';
 
 /**
  * Build value、setValue for some components like defaultOpen、open、onOpenChange
@@ -11,19 +12,11 @@ function useController(defaultProp, prop, onChange, emptyProp = false) {
     const value = prop !== undefined ? prop : innerProp; // The actual value(depending on prop, no default)
 
     // Save the state to return the constant setValue
-    const stateStoreRef = useRef({
+    const stateStoreRef = useStateStore({
         onChange,
         prop,
         value,
     });
-
-    useEffect(() => {
-        stateStoreRef.current = {
-            prop,
-            value,
-            onChange,
-        }
-    }, [prop, value, onChange]);
 
     // logic setPropValue
     // v: value to set

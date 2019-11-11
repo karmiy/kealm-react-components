@@ -20,60 +20,74 @@ function StepsDoc() {
             {/* 基本用法 */}
             <h2>基本用法</h2>
             <p>简单的步骤条。</p>
-            <div className="detail-box">
-                <Row>
-                    <Col span={22}>
-                        <Steps current={1}>
-                            <Step title={'Finished'} description={'This is a description.'} />
-                            <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
-                            <Step title={'Waiting'} description={'This is a description.'} />
-                        </Steps>
-                    </Col>
-                </Row>
-            </div>
+            {
+                useMemo(() => {
+                    return (
+                        <div className="detail-box">
+                            <Row>
+                                <Col span={22}>
+                                    <Steps current={1}>
+                                        <Step title={'Finished'} description={'This is a description.'} />
+                                        <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                        <Step title={'Waiting'} description={'This is a description.'} />
+                                    </Steps>
+                                </Col>
+                            </Row>
+                        </div>
+                    )
+                }, [])
+            }
             <HighLight code={CodeBasic} />
 
             {/* 带图标的步骤条 */}
             <h2>带图标的步骤条</h2>
             <p>通过设置 Steps.Step 的 icon 属性，可以启用自定义图标。</p>
-            <div className="detail-box">
-                <Row>
-                    <Col span={22}>
-                        <Steps current={2}>
-                            <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
-                        </Steps>
-                    </Col>
-                </Row>
-            </div>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={2}>
+                                    <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
             <HighLight code={CodeIcon} />
 
             {/* 迷你版 */}
             <h2>迷你版</h2>
             <p>迷你版的步骤条，通过设置 size="small" 启用。</p>
-            <div className="detail-box">
-                <Row>
-                    <Col span={22}>
-                        <Steps current={1} size={'small'}>
-                            <Step title={'Finished'} description={'This is a description.'} />
-                            <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
-                            <Step title={'Waiting'} description={'This is a description.'} />
-                        </Steps>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={22}>
-                        <Steps current={2} size={'small'}>
-                            <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
-                        </Steps>
-                    </Col>
-                </Row>
-            </div>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={1} size={'small'}>
+                                    <Step title={'Finished'} description={'This is a description.'} />
+                                    <Step title={'In Progress'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Waiting'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={2} size={'small'}>
+                                    <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
+                                    <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
             <HighLight code={CodeMini} />
 
             {/* 步骤切换 */}
@@ -108,7 +122,7 @@ function StepsDoc() {
                         </Row>
                     </div>
                 )
-            }, [current, setCurrent])}
+            }, [current])}
             <HighLight code={CodeToggle} />
 
             {/* 垂直方向的步骤条 */}
@@ -142,33 +156,39 @@ function StepsDoc() {
                             </Row>
                         </div>
                     )
-                }, [current, setCurrent])
+                }, [current])
             }
             <HighLight code={CodeVertical} />
 
             {/* 垂直方向的小型步骤条 */}
             <h2>垂直方向的小型步骤条</h2>
             <p>简单的竖直方向的小型步骤条。</p>
-            <div className="detail-box">
-                <Row gutter={16}>
-                    <Col span={10}>
-                        <Steps current={1} direction={'vertical'} size={'small'}>
-                            <Step title={'First'} description={'This is a description.'} />
-                            <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
-                            <Step title={'Third'} description={'This is a description.'} />
-                            <Step title={'Last'} description={'This is a description.'} />
-                        </Steps>
-                    </Col>
-                    <Col span={10}>
-                        <Steps current={1} direction={'vertical'} size={'small'}>
-                            <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
-                            <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
-                        </Steps>
-                    </Col>
-                </Row>
-            </div>
+            {
+                useMemo(() => {
+                    return (
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col span={10}>
+                                    <Steps current={1} direction={'vertical'} size={'small'}>
+                                        <Step title={'First'} description={'This is a description.'} />
+                                        <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                        <Step title={'Third'} description={'This is a description.'} />
+                                        <Step title={'Last'} description={'This is a description.'} />
+                                    </Steps>
+                                </Col>
+                                <Col span={10}>
+                                    <Steps current={1} direction={'vertical'} size={'small'}>
+                                        <Step icon={<Icon type={'user'} />} title={'Login'} description={'This is a description.'} />
+                                        <Step icon={<Icon type={'solution'} />} title={'Verification'} description={'This is a description.'} />
+                                        <Step icon={<Icon type={'loading'} />} title={'Pay'} description={'This is a description.'} />
+                                        <Step icon={<Icon type={'smile'} />} title={'Done'} description={'This is a description.'} />
+                                    </Steps>
+                                </Col>
+                            </Row>
+                        </div>
+                    )
+                }, [])
+            }
             <HighLight code={CodeMiniVertical} />
 
             {/* 步骤运行错误 */}
@@ -203,7 +223,7 @@ function StepsDoc() {
                         </Row>
                     </div>
                 )
-            }, [current, setCurrent])}
+            }, [current])}
             <HighLight code={CodeError} />
 
             {/* 点状步骤条 */}
@@ -238,7 +258,7 @@ function StepsDoc() {
                         </Row>
                     </div>
                 )
-            }, [current, setCurrent])}
+            }, [current])}
             <HighLight code={CodeDot} />
 
             {/* 可点击 */}
@@ -269,7 +289,7 @@ function StepsDoc() {
                         </Row>
                     </div>
                 )
-            }, [current, setCurrent])}
+            }, [current])}
             <HighLight code={CodeClick} />
 
             {/* API */}

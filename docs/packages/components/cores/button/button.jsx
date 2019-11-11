@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ButtonProps, ButtonDefaultProps } from "./interface";
 import Icon from '../icon';
 import { RenderWrapper, Motion } from '../../common';
@@ -75,4 +75,4 @@ function Button(props) {
 Button.propTypes = ButtonProps;
 Button.defaultProps = ButtonDefaultProps;
 
-export default memo(Button);
+export default Button;

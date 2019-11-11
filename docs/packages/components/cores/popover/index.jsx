@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { PopoverProps, PopoverDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 import Trigger from '../trigger';
@@ -57,4 +57,4 @@ function Popover(props) {
 Popover.propTypes = PopoverProps;
 Popover.defaultProps = PopoverDefaultProps;
 
-export default memo(Popover);
+export default Popover;

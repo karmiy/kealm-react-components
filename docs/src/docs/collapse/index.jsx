@@ -10,9 +10,9 @@ function CollapseDoc() {
     const [value, setValue] = useState([1]);
 
     // ---------------------------------- event ----------------------------------
-    const onChange = useCallback((nextValue) => {
+    const onChange = useCallback(nextValue => {
         setValue(nextValue);
-    })
+    }, [])
 
     // ---------------------------------- render mini chunk ----------------------------------
     const itemContents = useMemo(() => {
@@ -86,7 +86,7 @@ function CollapseDoc() {
                 {itemContents}
             </Collapse>
         )
-    }, [value, onChange, itemContents]);
+    }, [value, itemContents]);
 
     const renderAccordionDemo = useMemo(() => {
         return (

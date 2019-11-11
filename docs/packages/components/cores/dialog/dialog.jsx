@@ -1,4 +1,4 @@
-import React, { memo, useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react';
 import { DialogProps, DialogDefaultProps } from './interface';
 import Button from '../button';
 import Icon from '../icon';
@@ -54,7 +54,7 @@ function Dialog(props) {
         onOk,
         onCancel,
         afterClose,
-        ...others
+        ...others // Default others content unchanged
     } = props;
     const { componentCls } = useContextConf(`dialog`);
 
@@ -84,12 +84,12 @@ function Dialog(props) {
         // Initially hidden, don't create portal, and it's created when opened
         // Initially display, the display is created directly
         if(visible && portalVisible !== visible) setPortalVisible(visible);
-    }, [visible, setPortalVisible]);
+    }, [visible]);
 
     useMemo(() => {
         // When the state becomes visible, the wrapper is displayed immediately
         if(visible) setWrapperVisible(visible);
-    }, [visible, setWrapperVisible]);
+    }, [visible]);
 
     // Change the entry position of dialog
     // Core: Here you can get the initial stage of animation preparation.
@@ -133,7 +133,7 @@ function Dialog(props) {
     // ---------------------------------- event ----------------------------------
     const onZoomEnd = useCallback(v => {
         !v && (setWrapperVisible(v), afterClose());
-    }, [setWrapperVisible, afterClose]);
+    }, [afterClose]);
 
     const wrapperKeyDown = keyboard ? useCallback(e => {
         e.keyCode === KeyCode.ESC && onCancel(e);
@@ -225,7 +225,7 @@ function Dialog(props) {
                 {renderDialogFooter}
             </div>
         )
-    }, [dialogClassNames, renderDialogHeader, renderDialogBody, renderDialogFooter, others]);
+    }, [dialogClassNames, renderDialogHeader, renderDialogBody, renderDialogFooter]);
 
     // render-dialog-wrapper
     const renderWrapper = useMemo(() => {
@@ -254,4 +254,4 @@ function Dialog(props) {
 Dialog.propTypes = DialogProps;
 Dialog.defaultProps = DialogDefaultProps;
 
-export default memo(Dialog);
+export default Dialog;

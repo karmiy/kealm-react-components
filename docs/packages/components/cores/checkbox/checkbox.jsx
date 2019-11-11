@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
@@ -53,7 +53,7 @@ function Checkbox(props) {
                 <span className={`${componentCls}__inner`} />
             </span>
         )
-    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name, ...Object.values(checkboxOthers)]);
+    }, [_inputClassNames, componentCls, isChecked, value, disabled, name, ...Object.values(checkboxOthers)]);
 
     // render-label
     const renderLabel = useMemo(() => {
@@ -72,4 +72,4 @@ function Checkbox(props) {
 Checkbox.propTypes = CheckboxProps;
 Checkbox.defaultProps = CheckboxDefaultProps;
 
-export default memo(Checkbox);
+export default Checkbox;

@@ -52,7 +52,7 @@ function Password(props) {
     // ---------------------------------- event ----------------------------------
     const onSwitch = useCallback(() => {
         setVisible(v => !v);
-    }, [setVisible]);
+    }, []);
 
     const onSwitchMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
 
@@ -94,7 +94,7 @@ function Password(props) {
                 {...inputOthers}
             />
         )
-    }, [_inputClassNames, inputStyle, inputValue, inputChange, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
+    }, [_inputClassNames, inputStyle, inputValue, onKeydownTrigger, disabled, placeholder, ...Object.values(inputOthers)]);
 
     // ---------------------------------- render ----------------------------------
     return (

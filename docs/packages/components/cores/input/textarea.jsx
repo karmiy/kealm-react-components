@@ -39,7 +39,7 @@ function TextArea(props) {
     }, [className, componentCls, disabled]);
 
     // ---------------------------------- logic code ----------------------------------
-    const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
+    const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange);
     const [textareaStyles, setTextareaStyles] = useStateCallable(null);
     const [resizing, setResizing] = useState(false);
     const textareaRef = useRef(null);
@@ -63,7 +63,7 @@ function TextArea(props) {
     const resetResizingNextFrame = useCallback(() => {
         raf.cancel(resizeFrameIdRef.current);
         resizeFrameIdRef.current = raf(() => setResizing(false));
-    }, [setResizing]);
+    }, []);
 
     const resizeTextarea = useCallback(() => {
         if (!autosize || !textareaRef.current) return;
@@ -73,7 +73,7 @@ function TextArea(props) {
 
         setResizing(true);
         setTextareaStyles(textareaStyles, resetResizingNextFrame);
-    }, [autosize, setResizing, setTextareaStyles, resetResizingNextFrame]);
+    }, [autosize]);
 
     const throttleResize = useThrottle(resizeTextarea, 1000 / 60);
 

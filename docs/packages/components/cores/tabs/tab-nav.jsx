@@ -1,4 +1,4 @@
-import React, { memo, Children, useMemo, useRef, useState, useCallback } from 'react';
+import React, { Children, useMemo, useRef, useState, useCallback } from 'react';
 import { useContextConf, useClassName, useDidMount, useDidUpdate } from 'hooks';
 import { TabNavProps, TabNavDefaultProps } from './interface';
 import { mergeStr, isEmpty } from 'utils/common/base';
@@ -397,4 +397,4 @@ function TabNav(props) {
 TabNav.propTypes = TabNavProps;
 TabNav.defaultProps = TabNavDefaultProps;
 
-export default memo(TabNav);
+export default TabNav;

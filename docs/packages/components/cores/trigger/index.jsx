@@ -1,4 +1,4 @@
-import React, { memo, cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useTrigger, useTimeout } from 'hooks';
 import { TriggerProps, TriggerDefaultProps } from './interface';
 import { Popper, Portal, DomWrapper, RenderWrapper } from '../../common';
@@ -261,4 +261,4 @@ function Trigger(props) {
 Trigger.propTypes = TriggerProps;
 Trigger.defaultProps = TriggerDefaultProps;
 
-export default memo(Trigger);
+export default Trigger;

@@ -5,6 +5,8 @@ import { omit } from 'utils/common/object';
 import Icon from '../icon';
 
 const noop = () => {};
+const filterMethod = (value, label, inputValue) => label.includes(inputValue);
+
 const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object, PropTypes.array]);
 
 /* select-props */
@@ -23,6 +25,7 @@ export const SelectProps = {
     emptyFilterContent: PropTypes.node,
     emptyContent: PropTypes.node,
     filterable: PropTypes.bool,
+    filterMethod: PropTypes.func,
     loading: PropTypes.bool,
     loadingContent: PropTypes.node,
     remote: PropTypes.bool,
@@ -45,6 +48,7 @@ export const SelectDefaultProps = {
     emptyFilterContent: '无匹配内容',
     emptyContent: '无数据',
     filterable: false,
+    filterMethod,
     loading: false,
     loadingContent: <><Icon type={'loading'} /> 加载中</>,
     remote: false,

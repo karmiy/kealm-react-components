@@ -1,4 +1,4 @@
-import React, { memo, Children, cloneElement,  useMemo } from 'react';
+import React, { Children, cloneElement,  useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { BreadcrumbProps, BreadcrumbDefaultProps } from './interface';
 import { transChildren } from 'utils/common/react-util';
@@ -43,4 +43,4 @@ function Breadcrumb(props) {
 Breadcrumb.propTypes = BreadcrumbProps;
 Breadcrumb.defaultProps = BreadcrumbDefaultProps;
 
-export default memo(Breadcrumb);
+export default Breadcrumb;

@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { useForceUpdate } from 'hooks';
+import { useForceUpdate, useStateStore } from 'hooks';
 import { isEmpty } from 'utils/common/base';
 import { isArray } from 'utils/common/base';
 
@@ -18,7 +18,16 @@ function useCheckGroupValue(defaultValue, value, onChange) {
     // Actually selected value (depending on value, not default)
     const checkedValue = value !== undefined ? value : _valueRef.current;
 
+    const stateStoreRef = useStateStore({
+        isCheckbox,
+        checkedValue,
+        onChange,
+        value,
+    })
+
     const checkChange = useCallback(e => {
+        const { isCheckbox, checkedValue, onChange, value } = stateStoreRef.current;
+
         let nextValue = null;
         // When value is valued, it is controlled by the user's own onChange
         if(isCheckbox) {
@@ -41,7 +50,7 @@ function useCheckGroupValue(defaultValue, value, onChange) {
         _valueRef.current = nextValue;
         forceUpdate();
 
-    }, [isCheckbox, checkedValue, onChange, value])
+    }, []);
 
     return {
         checkedValue,

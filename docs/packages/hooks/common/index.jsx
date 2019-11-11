@@ -15,6 +15,7 @@ import useWatch from './useWatch';
 import useFuncOnce from './useFuncOnce';
 import useCorrectOnce from './useCorrectOnce';
 import useTimeout from './useTimeout';
+import useStateStore from './useStateStore';
 
 export {
     useClassName,
@@ -34,4 +35,5 @@ export {
     useFuncOnce,
     useCorrectOnce,
     useTimeout,
+    useStateStore,
 }

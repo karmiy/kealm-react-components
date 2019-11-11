@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { useForceUpdate } from 'hooks';
+import { useForceUpdate, useStateStore } from 'hooks';
 
 /**
  * Build isChecked and checkChange hook for radio、checkbox
@@ -14,9 +14,15 @@ function useCheckValue(defaultChecked, checked, groupValues, value, onChange) {
     const _checkedRef = useRef(defaultChecked || false); // default selected state
     const isChecked = _checked !== undefined ? _checked : _checkedRef.current; // The actual selected(depending on checked, no default)
 
+    const stateStoreRef = useStateStore({
+        onChange,
+        checked,
+    });
+
     // logic checkChange
     const checkChange = useCallback(e => {
         // if(disabled) return;
+        const { onChange, checked } = stateStoreRef.current;
 
         onChange(e);
         // If there is props.checked, it is controlled by props.checked
@@ -24,7 +30,7 @@ function useCheckValue(defaultChecked, checked, groupValues, value, onChange) {
 
         _checkedRef.current = e.target.checked;
         forceUpdate();
-    }, [onChange, checked]);
+    }, []);
 
     return {
         isChecked,

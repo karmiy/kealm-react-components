@@ -11,15 +11,15 @@ function TransitionDoc() {
 
     const changeFade = useCallback(() => {
         setFade(v => !v);
-    }, [setFade]);
+    }, []);
 
     const changeCollapse = useCallback(() => {
         setCollapse(v => !v);
-    }, [setCollapse]);
+    }, []);
 
     const changeZoom = useCallback(() => {
         setZoom(v => !v);
-    }, [setZoom]);
+    }, []);
 
     return (
         <div className='page-box'>

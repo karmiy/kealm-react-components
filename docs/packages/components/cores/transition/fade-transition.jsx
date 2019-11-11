@@ -1,4 +1,4 @@
-import React, { memo, Children, useCallback, useMemo } from 'react';
+import React, { Children, useCallback, useMemo } from 'react';
 import { FadeTransitionProps, FadeTransitionDefaultProps } from './interface';
 import { Motion, RenderWrapper } from '../../common';
 
@@ -48,4 +48,4 @@ function FadeTransition(props) {
 FadeTransition.propTypes = FadeTransitionProps;
 FadeTransition.defaultProps = FadeTransitionDefaultProps;
 
-export default memo(FadeTransition);
+export default FadeTransition;

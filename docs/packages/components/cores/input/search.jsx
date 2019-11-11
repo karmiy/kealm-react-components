@@ -86,7 +86,7 @@ function Search(props) {
                 }
             </div>
         )
-    }, [componentCls, enterButton, onSearch])
+    }, [componentCls, enterButton, onSearch]);
 
     // ---------------------------------- render ----------------------------------
     return (

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { ColProps, ColDefaultProps } from "./interface";
 import { useContextConf, useClassName } from 'hooks';
 import { isObject } from 'utils/common/base';
@@ -77,4 +77,4 @@ function Col(props) {
 Col.propTypes = ColProps;
 Col.defaultProps = ColDefaultProps;
 
-export default memo(Col);
+export default Col;

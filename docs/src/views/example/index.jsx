@@ -11,15 +11,17 @@ function T(props) {
         </div>
     )
 }
+T = memo(T)
 
 function TT(props) {
     console.log('TT');
     return (
         <div>
-            2
+            {props.children}
         </div>
     )
 }
+TT = memo(TT);
 
 function ExampleDoc() {
     const [count, setCount] = useState(0);
@@ -29,14 +31,11 @@ function ExampleDoc() {
     return (
         <div>
             true
-            <T>
-                {[1,2,3].map(item => {
-                    console.log(item);
-                    return <div key={item}>{item}</div>;
-                })}
-                <TT />
-            </T>
-            <Button onClick={() => setCount(1)} >Update</Button>
+            <TT>
+                {/*<T />*/}
+                123
+            </TT>
+            <Button onClick={() => setCount(c => c+1)} >Update{count}</Button>
         </div>
     )
 }

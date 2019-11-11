@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { TabPaneProps, TabPaneDefaultProps } from './interface';
 import { RenderWrapper, LazyWrapper } from '../../common';
@@ -38,4 +38,4 @@ function TabPane(props) {
 TabPane.propTypes = TabPaneProps;
 TabPane.defaultProps = TabPaneDefaultProps;
 
-export default memo(TabPane);
+export default TabPane;

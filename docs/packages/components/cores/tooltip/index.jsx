@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { TooltipProps, TooltipDefaultProps } from './interface';
 import Trigger from '../trigger';
 import { useContextConf, useClassName } from 'hooks';
@@ -38,4 +38,4 @@ function Tooltip(props) {
 Tooltip.propTypes = TooltipProps;
 Tooltip.defaultProps = TooltipDefaultProps;
 
-export default memo(Tooltip);
+export default Tooltip;

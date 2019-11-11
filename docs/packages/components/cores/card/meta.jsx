@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { CardMetaProps, CardMetaDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 
@@ -54,4 +54,4 @@ function Meta(props) {
 Meta.propTypes = CardMetaProps;
 Meta.defaultProps = CardMetaDefaultProps;
 
-export default memo(Meta);
+export default Meta;

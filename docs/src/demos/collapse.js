@@ -37,9 +37,9 @@ export const CodeHandle =
     function Demo() {
         const [value, setValue] = useState([1]);
         
-        const onChange = useCallback((nextValue) => {
+        const onChange = useCallback(nextValue => {
             setValue(nextValue);
-        });
+        }, []);
         
         const itemContents = useMemo(() => {
             return (

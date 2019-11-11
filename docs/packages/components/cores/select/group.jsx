@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { GroupProps, GroupDefaultProps } from './interface';
 
@@ -31,4 +31,4 @@ function Group(props) {
 Group.propTypes = GroupProps;
 Group.defaultProps = GroupDefaultProps;
 
-export default memo(Group);
+export default Group;

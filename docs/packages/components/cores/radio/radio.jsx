@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
 import { useContextConf, useClassName, useContextProps, useCheckValue } from 'hooks';
 import { CheckedContext } from './context';
@@ -51,7 +51,7 @@ function Radio(props) {
                 <span className={`${componentCls}__inner`} />
             </span>
         )
-    }, [_inputClassNames, componentCls, isChecked, checkChange, value, disabled, name, ...Object.values(radioOthers)]);
+    }, [_inputClassNames, componentCls, isChecked, value, disabled, name, ...Object.values(radioOthers)]);
 
     // render-label
     const renderLabel = useMemo(() => {
@@ -69,4 +69,4 @@ function Radio(props) {
 Radio.propTypes = RadioProps;
 Radio.defaultProps = RadioDefaultProps;
 
-export default memo(Radio);
+export default Radio;

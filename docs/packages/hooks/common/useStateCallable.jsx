@@ -23,7 +23,7 @@ function useStateCallable(defaultState) {
             callbackRef.current = callback;
         }
         setState(nextState);
-    }, [setState]);
+    }, []);
 
     return [state, _setState];
 }

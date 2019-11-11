@@ -16,6 +16,7 @@ import {
     useFuncOnce,
     useCorrectOnce,
     useTimeout,
+    useStateStore,
 } from './common';
 
 import {
@@ -46,6 +47,7 @@ export {
     useFuncOnce,
     useCorrectOnce,
     useTimeout,
+    useStateStore,
     /* components */
     useCheckValue,
     useCheckGroupValue,

@@ -1,4 +1,4 @@
-import React, { memo, Children, useMemo, useCallback, useRef } from 'react';
+import React, { Children, useMemo, useCallback, useRef } from 'react';
 import { addClass, getStyle, removeClass } from 'utils/common/dom';
 import { CollapseTransitionProps, CollapseTransitionDefaultProps } from './interface';
 import { Motion, RenderWrapper } from '../../common';
@@ -316,4 +316,4 @@ function CollapseTransition(props) {
 CollapseTransition.propTypes = CollapseTransitionProps;
 CollapseTransition.defaultProps = CollapseTransitionDefaultProps;
 
-export default memo(CollapseTransition);
+export default CollapseTransition;

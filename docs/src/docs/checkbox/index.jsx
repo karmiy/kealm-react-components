@@ -7,10 +7,10 @@ import { CodeBasic, CodeDisabled, CodeControlled, CodeGroup, CodeGroupControlled
 function CheckboxDoc() {
     const [checked, setChecked] = useState(true);
     const [disabled, setDisabled] = useState(false);
-    const change = useCallback(e => setChecked(e.target.checked), [setChecked])
+    const change = useCallback(e => setChecked(e.target.checked), []);
 
     const [groupValue, setGroupValue] = useState(['a']);
-    const groupChange = useCallback(value => setGroupValue(value), [setGroupValue]);
+    const groupChange = useCallback(value => setGroupValue(value), []);
 
     const plainOptions = useMemo(() => ['a', 'b', 'c', 'd'], []); // 全部选项
     const [indeterminate, setIndeterminate] = useState(true); // 是否半选
@@ -21,13 +21,13 @@ function CheckboxDoc() {
         setCheckAll(e.target.checked);
         setIndeterminate(false);
         setCheckedList(e.target.checked ? plainOptions : []);
-    }, [setCheckAll, setIndeterminate, setCheckedList]);
+    }, []);
 
     const checkedChange = useCallback(list => { // 组change
         setCheckedList(list);
         setIndeterminate(!!list.length && list.length < plainOptions.length);
         setCheckAll(list.length === plainOptions.length);
-    }, [setCheckAll, setIndeterminate, setCheckedList]);
+    }, []);
 
     return (
         <div className='page-box'>
@@ -38,7 +38,7 @@ function CheckboxDoc() {
             <h2>基本用法</h2>
             <p>由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。</p>
             <div className="detail-box">
-                <Checkbox>Checkbox</Checkbox>
+                {useMemo(() => <Checkbox>Checkbox</Checkbox>, [])}
             </div>
             <HighLight code={CodeBasic} />
 
@@ -46,9 +46,15 @@ function CheckboxDoc() {
             <h2>禁用状态</h2>
             <p>多选框不可用状态。</p>
             <div className="detail-box">
-                <Checkbox disabled>A</Checkbox>
-                <br/>
-                <Checkbox defaultChecked disabled>B</Checkbox>
+                {useMemo(() => {
+                    return (
+                        <>
+                            <Checkbox disabled>A</Checkbox>
+                            <br/>
+                            <Checkbox defaultChecked disabled>B</Checkbox>
+                        </>
+                    )
+                }, [])}
             </div>
             <HighLight code={CodeDisabled} />
 
@@ -67,43 +73,49 @@ function CheckboxDoc() {
                         </div>
                     </>
                 )
-            }, [checked, disabled, change, setChecked, setDisabled])}
+            }, [checked, disabled, change])}
             <HighLight code={CodeControlled} />
 
             {/* 复选框组 */}
             <h2>复选框组</h2>
             <p>适用于多个勾选框绑定到同一个数组的情景，通过是否勾选来表示这一组选项中选中的项。</p>
             <div className="detail-box">
-                <Checkbox.Group>
-                    <Checkbox value={'a'}>A</Checkbox>
-                    <Checkbox value={'b'}>B</Checkbox>
-                    <Checkbox value={'c'}>C</Checkbox>
-                    <Checkbox value={'d'}>D</Checkbox>
-                </Checkbox.Group>
-                <br/>
-                <br/>
-                <Checkbox.Group defaultValue={['a']}>
-                    <Checkbox value={'a'}>A</Checkbox>
-                    <Checkbox value={'b'}>B</Checkbox>
-                    <Checkbox value={'c'}>C</Checkbox>
-                    <Checkbox value={'d'}>D</Checkbox>
-                </Checkbox.Group>
-                <br/>
-                <br/>
-                <Checkbox.Group defaultValue={['b']}>
-                    <Checkbox value={'a'}>A</Checkbox>
-                    <Checkbox value={'b'}>B</Checkbox>
-                    <Checkbox value={'c'} disabled>C</Checkbox>
-                    <Checkbox value={'d'}>D</Checkbox>
-                </Checkbox.Group>
-                <br/>
-                <br/>
-                <Checkbox.Group defaultValue={['b']} disabled>
-                    <Checkbox value={'a'}>A</Checkbox>
-                    <Checkbox value={'b'}>B</Checkbox>
-                    <Checkbox value={'c'}>C</Checkbox>
-                    <Checkbox value={'d'}>D</Checkbox>
-                </Checkbox.Group>
+                {useMemo(() => {
+                    return (
+                        <>
+                            <Checkbox.Group>
+                                <Checkbox value={'a'}>A</Checkbox>
+                                <Checkbox value={'b'}>B</Checkbox>
+                                <Checkbox value={'c'}>C</Checkbox>
+                                <Checkbox value={'d'}>D</Checkbox>
+                            </Checkbox.Group>
+                            <br/>
+                            <br/>
+                            <Checkbox.Group defaultValue={['a']}>
+                                <Checkbox value={'a'}>A</Checkbox>
+                                <Checkbox value={'b'}>B</Checkbox>
+                                <Checkbox value={'c'}>C</Checkbox>
+                                <Checkbox value={'d'}>D</Checkbox>
+                            </Checkbox.Group>
+                            <br/>
+                            <br/>
+                            <Checkbox.Group defaultValue={['b']}>
+                                <Checkbox value={'a'}>A</Checkbox>
+                                <Checkbox value={'b'}>B</Checkbox>
+                                <Checkbox value={'c'} disabled>C</Checkbox>
+                                <Checkbox value={'d'}>D</Checkbox>
+                            </Checkbox.Group>
+                            <br/>
+                            <br/>
+                            <Checkbox.Group defaultValue={['b']} disabled>
+                                <Checkbox value={'a'}>A</Checkbox>
+                                <Checkbox value={'b'}>B</Checkbox>
+                                <Checkbox value={'c'}>C</Checkbox>
+                                <Checkbox value={'d'}>D</Checkbox>
+                            </Checkbox.Group>
+                        </>
+                    )
+                }, [])}
             </div>
             <HighLight code={CodeGroup} />
 
@@ -142,7 +154,7 @@ function CheckboxDoc() {
                             </Checkbox.Group>
                         </>
                     )
-                }, [indeterminate, checkAll, checkAllChange, checkedList, checkedChange])}
+                }, [indeterminate, checkAll, checkedList])}
             </div>
             <HighLight code={CodeIndeterminate} />
 
@@ -150,14 +162,18 @@ function CheckboxDoc() {
             <h2>布局</h2>
             <p>Checkbox.Group 内嵌 Checkbox 并与 Grid 组件一起使用，可以实现灵活的布局。</p>
             <div className="detail-box">
-                <Checkbox.Group style={{width: '100%'}}>
-                    <Row>
-                        <Col span={6}><Checkbox value={'a'}>A</Checkbox></Col>
-                        <Col span={6}><Checkbox value={'b'}>B</Checkbox></Col>
-                        <Col span={6}><Checkbox value={'c'}>C</Checkbox></Col>
-                        <Col span={6}><Checkbox value={'d'}>D</Checkbox></Col>
-                    </Row>
-                </Checkbox.Group>
+                {useMemo(() => {
+                    return (
+                        <Checkbox.Group style={{width: '100%'}}>
+                            <Row>
+                                <Col span={6}><Checkbox value={'a'}>A</Checkbox></Col>
+                                <Col span={6}><Checkbox value={'b'}>B</Checkbox></Col>
+                                <Col span={6}><Checkbox value={'c'}>C</Checkbox></Col>
+                                <Col span={6}><Checkbox value={'d'}>D</Checkbox></Col>
+                            </Row>
+                        </Checkbox.Group>
+                    )
+                }, [])}
             </div>
             <HighLight code={CodeLayout} />
 
@@ -165,76 +181,88 @@ function CheckboxDoc() {
             <h2>按钮样式</h2>
             <p>按钮样式的多选组合。</p>
             <div className="detail-box">
-                <div className="detail-box">
-                    <Checkbox.Group defaultValue={['a']}>
-                        <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                        <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
-                        <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                        <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                    </Checkbox.Group>
-                </div>
-                <div className="detail-box">
-                    <Checkbox.Group defaultValue={['a']}>
-                        <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                        <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
-                        <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                        <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                    </Checkbox.Group>
-                </div>
-                <div className="detail-box">
-                    <Checkbox.Group defaultValue={['a']} disabled>
-                        <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                        <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
-                        <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                        <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                    </Checkbox.Group>
-                </div>
-                <div className="detail-box">
-                    <Checkbox.Group defaultValue={['a', 'b']} solid>
-                        <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                        <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
-                        <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                        <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                    </Checkbox.Group>
-                </div>
-                <div className="detail-box">
-                    <Checkbox.Group defaultValue={['a']} solid>
-                        <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                        <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
-                        <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                        <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                    </Checkbox.Group>
-                </div>
+                {useMemo(() => {
+                    return (
+                        <>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']}>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']}>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']} disabled>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a', 'b']} solid>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                            <div className="detail-box">
+                                <Checkbox.Group defaultValue={['a']} solid>
+                                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                    <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
+                                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                                </Checkbox.Group>
+                            </div>
+                        </>
+                    )
+                }, [])}
             </div>
             <HighLight code={CodeButton} />
 
             {/* 大小 */}
             <h2>大小</h2>
             <p>大中小三种组合，可以和表单输入框进行对应配合。</p>
-            <div className="detail-box">
-                <Checkbox.Group defaultValue={['a']} size={'large'}>
-                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
-                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                </Checkbox.Group>
-            </div>
-            <div className="detail-box">
-                <Checkbox.Group defaultValue={['a']} solid>
-                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                    <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
-                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                </Checkbox.Group>
-            </div>
-            <div className="detail-box">
-                <Checkbox.Group defaultValue={['a']} size={'small'}>
-                    <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
-                    <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
-                    <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
-                    <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
-                </Checkbox.Group>
-            </div>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Checkbox.Group defaultValue={['a']} size={'large'}>
+                                <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                            </Checkbox.Group>
+                        </div>
+                        <div className="detail-box">
+                            <Checkbox.Group defaultValue={['a']} solid>
+                                <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                <Checkbox.Button value={'b'}>Shanghai</Checkbox.Button>
+                                <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                            </Checkbox.Group>
+                        </div>
+                        <div className="detail-box">
+                            <Checkbox.Group defaultValue={['a']} size={'small'}>
+                                <Checkbox.Button value={'a'}>Hangzhou</Checkbox.Button>
+                                <Checkbox.Button value={'b'} disabled>Shanghai</Checkbox.Button>
+                                <Checkbox.Button value={'c'}>Beijing</Checkbox.Button>
+                                <Checkbox.Button value={'d'}>Chengdu</Checkbox.Button>
+                            </Checkbox.Group>
+                        </div>
+                    </>
+                )
+            }, [])}
             <HighLight code={CodeSize} />
 
             {/* API */}

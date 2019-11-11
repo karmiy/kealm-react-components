@@ -1,4 +1,4 @@
-import React, { memo, Children, cloneElement, useMemo } from 'react';
+import React, { Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { StepsProps, StepsDefaultProps, noop } from './interface';
 import { transChildren } from 'utils/common/react-util';
@@ -61,4 +61,4 @@ function Steps(props) {
 Steps.propTypes = StepsProps;
 Steps.defaultProps = StepsDefaultProps;
 
-export default memo(Steps);
+export default Steps;

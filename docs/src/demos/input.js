@@ -14,7 +14,7 @@ export const CodeControlled =
     
     function Demo() {
         const [value, setValue] = useState('beauty');
-        const change = useCallback((e) => setValue(e.target.value), [setValue]);
+        const change = useCallback((e) => setValue(e.target.value), []);
         
         return (
             <div>

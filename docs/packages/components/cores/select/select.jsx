@@ -1,4 +1,4 @@
-import React, { memo, Children, useState, useCallback, useMemo, createContext, useRef } from 'react';
+import React, { Children, useState, useCallback, useMemo, createContext, useRef } from 'react';
 import { useContextConf, useClassName, useController, useDidUpdate, useSyncOnce } from 'hooks';
 import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
@@ -17,10 +17,38 @@ const emptyOption = {
 };
 const emptyArr = [];
 
-const findSelectedIndex = (options, value) => {
-    if(isObject(value)) {
+const emptyObj = Object.create(null);
 
-    }
+/**
+ * Find index of selected option in all options
+ * @param options
+ * @param selectedItem
+ * @returns {number}
+ */
+const findSelectedIndex = (options, selectedItem) => {
+    return options.findIndex(item => {
+        const optionValue = isObject(item) ? item.value : item,
+            selectedValue = isObject(selectedItem) ? selectedItem.value : selectedItem;
+        return optionValue === selectedValue;
+    });
+}
+
+/**
+ * Get value of Value Props
+ * @param item
+ * @returns {*}
+ */
+const getSelectedValue = item => {
+    return isObject(item) ? item.value : item;
+}
+
+/**
+ * Create an option
+ * @param item: object like {value: *, label: *} or value
+ * @returns {{value: *, label: *}}
+ */
+const createOption = item => {
+    return isObject(item) ? item : { value: item, label: item };
 }
 
 /**
@@ -33,8 +61,8 @@ const getSelectedOptions = (children, selectedValues) => {
     const selectedArr = [], _selectedValues = [...selectedValues];
     for(let i = 0, len = children.length; i < len; i++) {
         const { value, label } = children[i].props;
-        const index = selectedValues.indexOf(value),
-            _index = _selectedValues.indexOf(value);
+        const index = findSelectedIndex(selectedValues, value),
+            _index = findSelectedIndex(_selectedValues, value);
 
         if(index !== -1) {
             selectedArr.push({
@@ -50,10 +78,9 @@ const getSelectedOptions = (children, selectedValues) => {
     // Custom data, simply create a node with the same value as the label
     while(_selectedValues.length) {
         const _value = _selectedValues[0];
-        const index = selectedValues.indexOf(_value);
+        const index = findSelectedIndex(selectedValues, _value);
         selectedArr.push({
-            value: _value,
-            label: _value,
+            ...createOption(_value),
             order: index,
         });
         _selectedValues.splice(0, 1);
@@ -104,6 +131,7 @@ function Select(props) {
         emptyFilterContent,
         emptyContent,
         filterable,
+        filterMethod,
         loading,
         loadingContent,
         remote,
@@ -153,17 +181,14 @@ function Select(props) {
         if(multiple) {
             return getSelectedOptions(options, selectedValue);
         }else {
-            const selectedOption = options.find(child => child.props.value === selectedValue);
+            const selectedOption = options.find(child => child.props.value === getSelectedValue(selectedValue));
             return selectedOption ?
                 {
                     value: selectedOption.props.value,
                     label: selectedOption.props.label,
                 }
                 :
-                {
-                    value: selectedValue,
-                    label: selectedValue,
-                };
+                createOption(selectedValue);
         }
     }, [multiple, children, selectedValue]);
 
@@ -176,8 +201,7 @@ function Select(props) {
         }
 
         return multiple ? '' : selectedOptions.label;
-    }, [filterable, remote, multiple, selectedOptions, isVisible, inputValue]);
-
+    }, [isEditableInput, remote, multiple, selectedOptions, isVisible, inputValue]);
 
     const _placeholder = useMemo(() => {
         if(isEditableInput) {
@@ -195,10 +219,11 @@ function Select(props) {
         }
 
         return multiple && selectedValue.length ? '' : placeholder;
-    }, [filterable, remote, multiple, selectedValue, placeholder, isVisible]);
+    }, [isEditableInput, remote, multiple, selectedValue, placeholder, isVisible]);
 
     const filterChildrenCount = filterable ?
-        Children.count(Children.toArray(getOptionsChildren(children)).filter(child => child.props.label.includes(inputValue)))
+        Children.count(Children.toArray(getOptionsChildren(children))
+            .filter(child => filterMethod(child.props.value, child.props.label, inputValue)))
         :
         Children.count(children);
 
@@ -277,26 +302,26 @@ function Select(props) {
         if(multiple) {
             if(!toSelect) {
                 // remove
-                const removeIndex = selectedValue.indexOf(value);
+                const removeIndex = findSelectedIndex(selectedValue, value);
                 if(removeIndex === -1) return;
 
-                selectedValue.splice(selectedValue.indexOf(value), 1);
+                selectedValue.splice(removeIndex, 1);
                 setSelectedValue([...selectedValue]);
-            }else {
+            } else {
                 // add
                 setSelectedValue([...selectedValue, value]);
             }
-        }else {
+        } else {
             setSelectedValue(value);
             !multiple && setIsVisible(false);
         }
     }, [multiple, selectedValue]);
 
-    const onClose = useCallback((e, value) => {
+    const onClose = useCallback((e, option) => {
         e.stopPropagation();
 
-        onSelect(value, false);
-    }, [onSelect]);
+        onSelect(labelInValue ? option : option.value, false);
+    }, [onSelect, labelInValue]);
 
     const onInputChange = useCallback(e => {
         setInputValue(e.target.value);
@@ -310,7 +335,9 @@ function Select(props) {
         multiple,
         onSelect,
         filterable,
+        filterMethod,
         inputValue,
+        labelInValue,
     }
 
     // ---------------------------------- render chunk ----------------------------------
@@ -383,7 +410,7 @@ function Select(props) {
                                 size={'small'}
                                 type={'info'}
                                 closable
-                                onClose={e => onClose(e, selectedOptions[0].value)}
+                                onClose={e => onClose(e, selectedOptions[0])}
                             >
                                 {selectedOptions[0].label}
                             </Tag>
@@ -407,7 +434,7 @@ function Select(props) {
                         size={'small'}
                         type={'info'}
                         closable
-                        onClose={e => onClose(e, option.value)}
+                        onClose={e => onClose(e, option)}
                     >
                         {option.label}
                     </Tag>
@@ -452,4 +479,4 @@ function Select(props) {
 Select.propTypes = SelectProps;
 Select.defaultProps = SelectDefaultProps;
 
-export default memo(Select);
+export default Select;

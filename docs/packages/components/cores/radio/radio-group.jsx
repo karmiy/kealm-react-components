@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { RadioGroupProps, RadioGroupDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckGroupValue } from 'hooks';
 import { CheckedContext } from './context';
@@ -39,7 +39,7 @@ function RadioGroup(props) {
         size,
         groupValues: !isEmpty(checkedValue) ? [checkedValue] : [],
         onChange: checkChange,
-    }), [checkedValue, checkChange, disabled, solid, size, name])
+    }), [checkedValue, disabled, solid, size, name])
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -53,4 +53,4 @@ function RadioGroup(props) {
 RadioGroup.propTypes = RadioGroupProps;
 RadioGroup.defaultProps = RadioGroupDefaultProps;
 
-export default memo(RadioGroup);
+export default RadioGroup;

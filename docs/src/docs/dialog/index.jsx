@@ -34,7 +34,7 @@ function DialogDoc() {
             setLoading(false);
             setVisibleAsync(false);
         }, 2000)
-    }, [setLoading, setVisibleAsync]);
+    }, []);
 
     const showConfirm = useCallback(() => {
         Dialog.confirm({
@@ -187,7 +187,7 @@ function DialogDoc() {
                                 <p>This is a paragraph</p>
                             </Dialog>
                         )
-                    }, [visible, setVisible])
+                    }, [visible])
                 }
             </div>
             <HighLight code={CodeBasic} />
@@ -213,7 +213,7 @@ function DialogDoc() {
                                 <p>This is a paragraph</p>
                             </Dialog>
                         )
-                    }, [visibleAsync, setVisibleAsync, loading, handleOk])
+                    }, [visibleAsync, loading])
                 }
             </div>
             <HighLight code={CodeAsync} />
@@ -241,7 +241,7 @@ function DialogDoc() {
                                 <p>This is a paragraph</p>
                             </Dialog>
                         )
-                    }, [visibleFooter, setVisibleFooter])
+                    }, [visibleFooter])
                 }
             </div>
             <HighLight code={CodeFooter} />
@@ -266,7 +266,7 @@ function DialogDoc() {
                                 <p>This is a paragraph</p>
                             </Dialog>
                         )
-                    }, [visibleBtnProps, setVisibleBtnProps])
+                    }, [visibleBtnProps])
                 }
             </div>
             <HighLight code={CodeButtonProps} />
@@ -291,7 +291,7 @@ function DialogDoc() {
                                 <p>This is a paragraph</p>
                             </Dialog>
                         )
-                    }, [visibleCustomTop, setVisibleCustomTop])
+                    }, [visibleCustomTop])
                 }
                 {
                     useMemo(() => {
@@ -307,7 +307,7 @@ function DialogDoc() {
                                 <p>This is a paragraph</p>
                             </Dialog>
                         )
-                    }, [visibleCenter, setVisibleCenter])
+                    }, [visibleCenter])
                 }
             </div>
             <HighLight code={CodeCustomPosition} />
@@ -325,7 +325,7 @@ function DialogDoc() {
                             <Button plain onClick={showAsyncLogic}>Async logic</Button>
                         </>
                     )
-                }, [showConfirm, showDeleteConfirm, showFooterConfirm, showAsyncLogic])}
+                }, [])}
             </div>
             <HighLight code={CodeConfirm} />
 
@@ -342,7 +342,7 @@ function DialogDoc() {
                             <Button type={'warning'} plain onClick={warning}>Warning</Button>
                         </>
                     )
-                }, [info, success, error, warning])}
+                }, [])}
             </div>
             <HighLight code={CodeInfoTip} />
 
@@ -356,7 +356,7 @@ function DialogDoc() {
                             <Button plain onClick={showCloseTimeout}>Close in 5s</Button>
                         </>
                     )
-                }, [showCloseTimeout])}
+                }, [])}
             </div>
             <HighLight code={CodeCloseTimeout} />
 
@@ -370,7 +370,7 @@ function DialogDoc() {
                             <Button plain onClick={showDestroyAll}>Destroy all</Button>
                         </>
                     )
-                }, [showDestroyAll])}
+                }, [])}
             </div>
             <HighLight code={CodeDestroyAll} />
 

@@ -43,7 +43,7 @@ function ConfirmDialog(props) {
         status !== undefined && setLoading(false);
         afterOk(e, info, status);
         closeAfterOk && close();
-    }, [setLoading, afterOk, closeAfterOk]);
+    }, [afterOk, closeAfterOk]);
 
     const cancel = useCallback(e => {
         onCancel(e);
@@ -63,7 +63,7 @@ function ConfirmDialog(props) {
         }else {
             next();
         }
-    }, [onOk, onCancel, setLoading, closeAfterOk]);
+    }, [onOk, onCancel, closeAfterOk]);
 
     // ---------------------------------- logic code ----------------------------------
     useWillUnMount(() => {

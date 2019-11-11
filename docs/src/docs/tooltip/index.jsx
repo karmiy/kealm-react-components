@@ -48,9 +48,13 @@ function TooltipDoc() {
             <h2>基本用法</h2>
             <p>最简单的用法，可以通过 manual 配置是否手动触发。</p>
             <div className="detail-box">
-                <Tooltip content={'This is a prompt message'}>
-                    <Button plain>Hover</Button>
-                </Tooltip>
+                {useMemo(() => {
+                    return (
+                        <Tooltip content={'This is a prompt message'}>
+                            <Button plain>Hover</Button>
+                        </Tooltip>
+                    )
+                }, [])}
                 {useMemo(() => {
                     return (
                         <Tooltip content={'This is a prompt message'} manual visible={visible}>
@@ -78,58 +82,70 @@ function TooltipDoc() {
             {/* 主题 */}
             <h2>主题</h2>
             <p>Tooltip 组件提供了两个不同的主题：dark 和 light。</p>
-            <div className="detail-box">
-                <Tooltip content={'Dark'}>
-                    <Button plain>Dark</Button>
-                </Tooltip>
-                <Tooltip effect={'light'} content={'Light'}>
-                    <Button plain>Light</Button>
-                </Tooltip>
-            </div>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Tooltip content={'Dark'}>
+                            <Button plain>Dark</Button>
+                        </Tooltip>
+                        <Tooltip effect={'light'} content={'Light'}>
+                            <Button plain>Light</Button>
+                        </Tooltip>
+                    </div>
+                )
+            }, [])}
             <HighLight code={CodeEffect} />
 
             {/* 更多的内容 */}
             <h2>更多的内容</h2>
             <p>展示多行文本或者是设置文本内容的格式。</p>
-            <div className="detail-box">
-                <Tooltip content={
-                    <>
-                        <p>I'm Peppa Pig.</p>
-                        <p>This is my brother George.</p>
-                    </>
-                }>
-                    <Button plain>More Content</Button>
-                </Tooltip>
-            </div>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Tooltip content={
+                            <>
+                                <p>I'm Peppa Pig.</p>
+                                <p>This is my brother George.</p>
+                            </>
+                        }>
+                            <Button plain>More Content</Button>
+                        </Tooltip>
+                    </div>
+                )
+            }, [])}
             <HighLight code={CodeMore} />
 
             {/* 位置 */}
             <h2>位置</h2>
             <p>拥有12个不同的方向。</p>
-            <div className="detail-box popover-placement-demo">
-                <Row type={'flex'} justify={'center'} gutter={16}>
-                    <Col>{renderPlacement('TL')}</Col>
-                    <Col>{renderPlacement('Top')}</Col>
-                    <Col>{renderPlacement('TR')}</Col>
-                </Row>
-                <Row type={'flex'} justify={'space-between'}>
-                    <Col>{renderPlacement('LT')}</Col>
-                    <Col>{renderPlacement('RT')}</Col>
-                </Row>
-                <Row type={'flex'} justify={'space-between'}>
-                    <Col>{renderPlacement('Left')}</Col>
-                    <Col>{renderPlacement('Right')}</Col>
-                </Row>
-                <Row type={'flex'} justify={'space-between'}>
-                    <Col>{renderPlacement('LB')}</Col>
-                    <Col>{renderPlacement('RB')}</Col>
-                </Row>
-                <Row type={'flex'} justify={'center'} gutter={16}>
-                    <Col>{renderPlacement('BL')}</Col>
-                    <Col>{renderPlacement('Bottom')}</Col>
-                    <Col>{renderPlacement('BR')}</Col>
-                </Row>
-            </div>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box popover-placement-demo">
+                        <Row type={'flex'} justify={'center'} gutter={16}>
+                            <Col>{renderPlacement('TL')}</Col>
+                            <Col>{renderPlacement('Top')}</Col>
+                            <Col>{renderPlacement('TR')}</Col>
+                        </Row>
+                        <Row type={'flex'} justify={'space-between'}>
+                            <Col>{renderPlacement('LT')}</Col>
+                            <Col>{renderPlacement('RT')}</Col>
+                        </Row>
+                        <Row type={'flex'} justify={'space-between'}>
+                            <Col>{renderPlacement('Left')}</Col>
+                            <Col>{renderPlacement('Right')}</Col>
+                        </Row>
+                        <Row type={'flex'} justify={'space-between'}>
+                            <Col>{renderPlacement('LB')}</Col>
+                            <Col>{renderPlacement('RB')}</Col>
+                        </Row>
+                        <Row type={'flex'} justify={'center'} gutter={16}>
+                            <Col>{renderPlacement('BL')}</Col>
+                            <Col>{renderPlacement('Bottom')}</Col>
+                            <Col>{renderPlacement('BR')}</Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
             <HighLight code={CodePlacement} />
 
             {/* API */}

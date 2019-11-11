@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { CheckboxGroupProps, CheckboxGroupDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckGroupValue } from 'hooks';
 import { CheckedContext } from '../radio/context';
@@ -38,7 +38,7 @@ function CheckboxGroup(props) {
         size,
         groupValues: checkedValue,
         onChange: checkChange,
-    }), [checkedValue, checkChange, disabled, solid, size, name])
+    }), [checkedValue, disabled, solid, size, name])
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -52,4 +52,4 @@ function CheckboxGroup(props) {
 CheckboxGroup.propTypes = CheckboxGroupProps;
 CheckboxGroup.defaultProps = CheckboxGroupDefaultProps;
 
-export default memo(CheckboxGroup);
+export default CheckboxGroup;

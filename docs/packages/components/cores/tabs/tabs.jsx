@@ -1,4 +1,4 @@
-import React, { memo, Children, cloneElement, useMemo } from 'react';
+import React, { Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName, useTabsValue } from 'hooks';
 import { TabsProps, TabsDefaultProps } from './interface';
 import TabNav from './tab-nav';
@@ -82,7 +82,7 @@ function Tabs(props) {
                 {renderChildren}
             </TabNav>
         )
-    }, [wrapClass, wrapStyle, position, tabsValue, tabsChange, type, closable, onRemove, onClick, renderChildren]);
+    }, [wrapClass, wrapStyle, position, tabsValue, type, closable, onRemove, onClick, renderChildren]);
 
     // ---------------------------------- render chunk ----------------------------------
 
@@ -129,4 +129,4 @@ function Tabs(props) {
 Tabs.propTypes = TabsProps;
 Tabs.defaultProps = TabsDefaultProps;
 
-export default memo(Tabs);
+export default Tabs;

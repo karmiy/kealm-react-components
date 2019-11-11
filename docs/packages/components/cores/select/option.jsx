@@ -1,9 +1,20 @@
-import React, { memo, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { SelectContext } from './select';
 import { OptionProps, OptionDefaultProps } from './interface';
 import Icon from '../icon';
 import { RenderWrapper } from '../../common';
+import { isObject } from 'utils/common/base';
+
+const isOptionIncludes = (selectedValue, value, multiple) => {
+    if(multiple) {
+        return !!selectedValue.find(item => {
+            return isObject(item) ? item.value === value : item === value;
+        });
+    }else {
+        return isObject(selectedValue) ? selectedValue.value === value : selectedValue === value;
+    }
+}
 
 function Option(props) {
     const {componentCls} = useContextConf('select-dropdown');
@@ -17,10 +28,10 @@ function Option(props) {
         ...others
     } = props;
 
-    const { selectedValue, onSelect, multiple, filterable, inputValue } = useContext(SelectContext);
+    const { selectedValue, onSelect, multiple, filterable, filterMethod, inputValue, labelInValue } = useContext(SelectContext);
 
     // ---------------------------------- logic code ----------------------------------
-    const isSelected = multiple ? selectedValue.includes(value) : value === selectedValue;
+    const isSelected = isOptionIncludes(selectedValue, value, multiple);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -31,14 +42,16 @@ function Option(props) {
     }, [className, componentCls, isSelected, disabled]);
 
     // ---------------------------------- logic code ----------------------------------
-    if(filterable && !label.includes(inputValue)) return null;
+    if(filterable && !filterMethod(value, label, inputValue)) return null;
 
     // ---------------------------------- event ----------------------------------
     const onToggle = (e) => {
         if(disabled) return;
 
         onClick && onClick(e);
-        onSelect(value, !isSelected);
+
+        const option = labelInValue ? {value, label} : value;
+        onSelect(option, !isSelected);
     }
 
     // ---------------------------------- render ----------------------------------
@@ -57,4 +70,4 @@ function Option(props) {
 Option.propTypes = OptionProps;
 Option.defaultProps = OptionDefaultProps;
 
-export default memo(Option);
+export default Option;

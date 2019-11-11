@@ -35,7 +35,7 @@ export const CodeAsync =
                 setLoading(false);
                 setVisibleAsync(false);
             }, 2000)
-        }, [setLoading, setVisibleAsync]);
+        }, []);
         
         return (
             <div>
