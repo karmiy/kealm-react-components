@@ -2,6 +2,7 @@ import React, { memo, Children, cloneElement, useState, useMemo, useRef, useLayo
 import {Button, Row, Col, Tag, Input, Popover} from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
+import { useDebounce, useThrottle } from 'hooks';
 
 function T(props) {
     console.log('T');
@@ -28,14 +29,18 @@ function ExampleDoc() {
     const [visible, setVisible] = useState(false);
     const [pop, setPop] = useState(null);
 
+    const func = useDebounce((v) => console.log(v), 2000, {leading: true, trailing: false});
+    const func2 = useThrottle((v) => console.log(v), 2000);
+
     return (
         <div>
             true
-            <TT>
-                {/*<T />*/}
-                123
-            </TT>
-            <Button onClick={() => setCount(c => c+1)} >Update{count}</Button>
+            {/*<TT>
+                {useMemo(() => {
+                    return <T />
+                }, [])}
+            </TT>*/}
+            <Button onClick={() => func(10)} >Update{count}</Button>
         </div>
     )
 }

@@ -115,14 +115,14 @@ export const throttle = function (func, wait, options = {}) {
     let timeout, context, args, result;
     let previous = 0;
     const later = function () {
-        previous = leading === false ? 0 : (Date.now() || new Date().getTime());
+        previous = !leading ? 0 : (Date.now() || new Date().getTime());
         timeout = null;
         result = func.apply(context, args);
         if(!timeout) context = args = null;
     }
     const throttled = function() {
         const now = Date.now() || new Date().getTime();
-        if(!previous && leading === false) previous = now;
+        if(!previous && !leading) previous = now;
         // remaining 为距离下次执行 func 的时间
         // remaining > wart，表示系统时间被调整过
         const remaining = wait - (now - previous);
@@ -138,7 +138,7 @@ export const throttle = function (func, wait, options = {}) {
             // 执行函数
             result = func.apply(context, args);
             if(!timeout) context = args = null;
-        } else if(!timeout && trailing !== false) {
+        } else if(!timeout && trailing) {
             timeout = setTimeout(later, remaining);
         }
         return result;
@@ -149,6 +149,54 @@ export const throttle = function (func, wait, options = {}) {
         timeout = context = args = null;
     }
     return throttled;
+}
+
+/**
+ * 防抖
+ * @param func 节流函数
+ * @param wait 等待时长
+ * @param options 配置:
+ *              leading(true: 立即执行; false: 第一次执行也wait)
+ *              trailing(true 延迟结束后调用; false 延迟结束后不调用)
+ * @returns {function(): *}
+ */
+export const debounce = function (func, wait, options = {}) {
+    const {leading = false, trailing = true} = options;
+    let immediate = false;
+    let timeout, result;
+
+    // 延迟执行函数
+    const later = (context, args) => setTimeout(() => {
+        timeout = null;
+        if(immediate) {
+            immediate = false;
+            return;
+        }
+        result = func.apply(context, args);
+        context = args = null;
+    }, wait);
+
+    const debounced = function (...params) {
+        if(!timeout) {
+            trailing && (timeout = later(this, params));
+
+            if(leading) {
+                result = func.apply(this, params);
+                immediate = true;
+            }
+        } else {
+            clearTimeout(timeout);
+            immediate = false;
+            timeout = later(this, params);
+        }
+        return result;
+    }
+
+    debounced.cancel = function () {
+        clearTimeout(timeout);
+        timeout = null;
+    }
+    return debounced;
 }
 
 /**

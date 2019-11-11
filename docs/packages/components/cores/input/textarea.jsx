@@ -82,7 +82,7 @@ function TextArea(props) {
             throttleResize();
         }
         inputChange(e);
-    }, [throttleResize, onChange]);
+    }, [onChange]);
 
     const onKeydownTrigger = useCallback((e) => {
         if(e.keyCode === KeyCode.ENTER) {

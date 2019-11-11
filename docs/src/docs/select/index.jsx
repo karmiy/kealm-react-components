@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Select, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { remoteOptions } from './data';
+import { useDebounce } from 'hooks';
 
 const { Option, Group } = Select;
 
@@ -11,7 +12,7 @@ function SelectDoc() {
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const onRemote = (value) => {
+    const onRemote = useDebounce((value) => {
         if(value) {
             setLoading(true);
             setTimeout(() => {
@@ -23,7 +24,7 @@ function SelectDoc() {
         }else {
             setOptions([]);
         }
-    }
+    }, 1000, {leading: true});
 
     return (
         <div className='page-box'>

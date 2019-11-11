@@ -1,13 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 
 /**
  * Save the state to return the constant setValue
  * Typically used to retrieve stored data in an event
  */
-function useStateStore(states = {}) {
-    const stateStoreRef = useRef(states);
+function useStateStore(states = {}, async = true) {
+    const stateStoreRef = useRef(null);
 
-    useEffect(() => {
+    (async ? useEffect : useMemo)(() => {
         stateStoreRef.current = states;
     }, Object.values(states));
 

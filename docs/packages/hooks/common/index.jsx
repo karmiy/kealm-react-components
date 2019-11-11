@@ -8,6 +8,7 @@ import useForceUpdate from './useForceUpdate';
 import useContextProps from './useContextProps';
 import useStateCallable from './useStateCallable';
 import useThrottle from './useThrottle';
+import useDebounce from './useDebounce';
 import usePrevProps from './usePrevProps';
 import usePropsStore from './usePropsStore';
 import useConsistentFunc from './useConsistentFunc';
@@ -28,6 +29,7 @@ export {
     useContextProps,
     useStateCallable,
     useThrottle,
+    useDebounce,
     usePrevProps,
     usePropsStore,
     useConsistentFunc,
