@@ -5,7 +5,7 @@ import { omit } from 'utils/common/object';
 import Icon from '../icon';
 
 const noop = () => {};
-const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]);
+const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object, PropTypes.array]);
 
 /* select-props */
 export const SelectProps = {
@@ -27,6 +27,7 @@ export const SelectProps = {
     loadingContent: PropTypes.node,
     remote: PropTypes.bool,
     onRemote: PropTypes.func,
+    labelInValue: PropTypes.bool,
 }
 
 export const SelectDefaultProps = {
@@ -48,6 +49,7 @@ export const SelectDefaultProps = {
     loadingContent: <><Icon type={'loading'} /> 加载中</>,
     remote: false,
     onRemote: noop,
+    labelInValue: false,
 }
 
 /* option-props */

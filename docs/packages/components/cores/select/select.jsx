@@ -8,7 +8,7 @@ import Tag from '../tag';
 import Option from './option';
 import Group from './group';
 import { RenderWrapper } from '../../common';
-import { mergeStr, isEmpty, isArray } from 'utils/common/base';
+import { mergeStr, isEmpty, isArray, isObject } from 'utils/common/base';
 import { validateChildrenType, validateType } from 'utils/common/react-util';
 
 const emptyOption = {
@@ -16,6 +16,12 @@ const emptyOption = {
     label: '',
 };
 const emptyArr = [];
+
+const findSelectedIndex = (options, value) => {
+    if(isObject(value)) {
+
+    }
+}
 
 /**
  * Get selected options
@@ -27,7 +33,8 @@ const getSelectedOptions = (children, selectedValues) => {
     const selectedArr = [], _selectedValues = [...selectedValues];
     for(let i = 0, len = children.length; i < len; i++) {
         const { value, label } = children[i].props;
-        const index = _selectedValues.indexOf(value);
+        const index = selectedValues.indexOf(value),
+            _index = _selectedValues.indexOf(value);
 
         if(index !== -1) {
             selectedArr.push({
@@ -35,11 +42,23 @@ const getSelectedOptions = (children, selectedValues) => {
                 label,
                 order: index,
             });
-            _selectedValues.splice(index, 1);
+            _selectedValues.splice(_index, 1);
         }
         if(!_selectedValues.length)
             break;
     }
+    // Custom data, simply create a node with the same value as the label
+    while(_selectedValues.length) {
+        const _value = _selectedValues[0];
+        const index = selectedValues.indexOf(_value);
+        selectedArr.push({
+            value: _value,
+            label: _value,
+            order: index,
+        });
+        _selectedValues.splice(0, 1);
+    }
+
     selectedArr.sort((a, b) => a.order - b.order);
     return selectedArr;
 }
@@ -89,6 +108,7 @@ function Select(props) {
         loadingContent,
         remote,
         onRemote,
+        labelInValue,
         ...others
     } = props;
 
@@ -140,7 +160,10 @@ function Select(props) {
                     label: selectedOption.props.label,
                 }
                 :
-                emptyOption;
+                {
+                    value: selectedValue,
+                    label: selectedValue,
+                };
         }
     }, [multiple, children, selectedValue]);
 
@@ -179,11 +202,7 @@ function Select(props) {
         :
         Children.count(children);
 
-    const readonly = (() => {
-        if(isEditableInput && isVisible) return false;
-
-        return true;
-    })();
+    const readonly = !(isEditableInput && isVisible);
 
     // ---------------------------------- function ----------------------------------
     const scheduleUpdatePosition = useCallback(() => {
@@ -258,6 +277,9 @@ function Select(props) {
         if(multiple) {
             if(!toSelect) {
                 // remove
+                const removeIndex = selectedValue.indexOf(value);
+                if(removeIndex === -1) return;
+
                 selectedValue.splice(selectedValue.indexOf(value), 1);
                 setSelectedValue([...selectedValue]);
             }else {
