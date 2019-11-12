@@ -18,6 +18,7 @@ import {
     useCorrectOnce,
     useTimeout,
     useStateStore,
+    useVirtualScroll,
 } from './common';
 
 import {
@@ -50,6 +51,7 @@ export {
     useCorrectOnce,
     useTimeout,
     useStateStore,
+    useVirtualScroll,
     /* components */
     useCheckValue,
     useCheckGroupValue,

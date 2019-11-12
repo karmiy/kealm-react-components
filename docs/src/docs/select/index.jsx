@@ -38,14 +38,14 @@ function SelectDoc() {
                 useMemo(() => {
                     return (
                         <div className="detail-box">
-                            <Select>
+                            <Select virtualScroll multiple clearable filterable>
                                 <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                                 <Option value={'2'} label={'Karloy'}>Karloy</Option>
                                 <Option value={'3'} label={'Peppa'}>Peppa</Option>
                                 <Option value={'4'} label={'George'}>George</Option>
                                 <Option value={'5'} label={'Hawk'}>Hawk</Option>
                                 {Array(1000).fill('').map((item, index) => {
-                                    return <Option key={index} value={index + 6} label={'Hawk'}>Hawk</Option>
+                                    return <Option key={index} value={index + 1} label={`Hawk${index + 1}`}>Hawk{index + 1}</Option>
                                 })}
                             </Select>
                         </div>

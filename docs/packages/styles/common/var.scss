@@ -597,7 +597,7 @@ $select-input-focus-border-color: $color-primary !default;
 $select-input-font-size: 14px !default;
 
 // option
-$select-option-height: 34px !default;
+$select-option-height: 36px !default;
 $select-option-color: $color-text-regular !default;
 
 $select-option-disabled-color: $color-text-placeholder !default;
@@ -615,7 +615,7 @@ $select-group-font-size: $font-size-small !default;
 $select-group-gap: 20px !default;
 
 // dropdown
-$select-dropdown-max-height: 274px !default;
+$select-dropdown-max-height: 216px !default;
 $select-dropdown-background: $color-white !default;
 $select-dropdown-shadow: $box-shadow-light !default;
 $select-dropdown-empty-color: #999 !default;

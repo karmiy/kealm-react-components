@@ -31,6 +31,8 @@ export const SelectProps = {
     remote: PropTypes.bool,
     onRemote: PropTypes.func,
     labelInValue: PropTypes.bool,
+    maxRows: PropTypes.number,
+    virtualScroll: PropTypes.bool,
 }
 
 export const SelectDefaultProps = {
@@ -54,6 +56,8 @@ export const SelectDefaultProps = {
     remote: false,
     onRemote: noop,
     labelInValue: false,
+    maxRows: 6,
+    virtualScroll: false,
 }
 
 /* option-props */

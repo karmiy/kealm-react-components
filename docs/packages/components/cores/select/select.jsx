@@ -1,5 +1,5 @@
 import React, { Children, useState, useCallback, useMemo, createContext, useRef } from 'react';
-import { useContextConf, useClassName, useController, useDidUpdate, useSyncOnce } from 'hooks';
+import { useContextConf, useClassName, useController, useDidUpdate, useSyncOnce, useVirtualScroll } from 'hooks';
 import { SelectProps, SelectDefaultProps } from './interface';
 import Input from '../input';
 import Trigger from '../trigger';
@@ -18,6 +18,9 @@ const emptyOption = {
 const emptyArr = [];
 
 const emptyObj = Object.create(null);
+
+const ITEM_SIZE = 36,
+    EXTRA_COUNT = 2;
 
 /**
  * Find index of selected option in all options
@@ -137,6 +140,8 @@ function Select(props) {
         remote,
         onRemote,
         labelInValue,
+        maxRows,
+        virtualScroll,
         ...others
     } = props;
 
@@ -157,6 +162,20 @@ function Select(props) {
     const [inputValue, setInputValue] = useState('');
     const isEditableInput = filterable || remote;
 
+    // Virtual scrolling
+    const {
+        scrollNodeRef,
+        start,
+        end,
+        offset,
+        totalSize
+    } = useVirtualScroll(
+        Children.toArray(children),
+        maxRows,
+        ITEM_SIZE,
+        EXTRA_COUNT,
+        virtualScroll && isVisible);
+
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [`${componentCls}-dropdown`]: true,
@@ -169,6 +188,16 @@ function Select(props) {
         [componentCls]: true,
         'is-clearable': isClearable,
     }, [componentCls, isClearable]);
+
+    const dropdownWrapClassNames = useClassName({
+        [`${componentCls}-dropdown__wrap`]: true,
+        'is-virtual': virtualScroll,
+    }, [componentCls, virtualScroll]);
+
+    // ---------------------------------- style ----------------------------------
+    const dropdownWrapStyle = {
+        maxHeight: `${maxRows * 36}px`,
+    }
 
     // ---------------------------------- logic code ----------------------------------
     if(multiple && !isArray(selectedValue)) {
@@ -371,10 +400,17 @@ function Select(props) {
                 // Content when is filterable
                 dropdownContent = (
                     filterChildrenCount ?
-                        <div className={`${componentCls}-dropdown__wrap`}>
-                            <ul className={`${componentCls}-dropdown__list`}>
-                                {children}
+                        <div className={dropdownWrapClassNames} style={dropdownWrapStyle} ref={scrollNodeRef}>
+                            <ul
+                                className={`${componentCls}-dropdown__list`}
+                                style={{transform: `translateY(${offset}px)`}}>
+                                {virtualScroll ? Children.toArray(children).slice(start, end) : children}
                             </ul>
+                            <RenderWrapper visible={virtualScroll} unmountOnExit>
+                                <section
+                                    className={`${componentCls}-dropdown__phantom`}
+                                    style={{transform: `scaleY(${totalSize})`}} />
+                            </RenderWrapper>
                         </div>
                         :
                         <div className={`${componentCls}-dropdown__empty`}>

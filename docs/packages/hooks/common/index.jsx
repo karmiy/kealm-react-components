@@ -17,6 +17,7 @@ import useFuncOnce from './useFuncOnce';
 import useCorrectOnce from './useCorrectOnce';
 import useTimeout from './useTimeout';
 import useStateStore from './useStateStore';
+import useVirtualScroll from './useVirtualScroll';
 
 export {
     useClassName,
@@ -38,4 +39,5 @@ export {
     useCorrectOnce,
     useTimeout,
     useStateStore,
+    useVirtualScroll,
 }
