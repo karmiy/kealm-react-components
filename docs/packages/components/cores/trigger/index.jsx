@@ -1,5 +1,5 @@
 import React, { cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useTrigger, useTimeout } from 'hooks';
+import { useTrigger, useTimeout, useDidUpdate } from 'hooks';
 import { TriggerProps, TriggerDefaultProps } from './interface';
 import { Popper, Portal, DomWrapper, RenderWrapper } from '../../common';
 import { FadeTransition } from '../transition';
@@ -108,6 +108,15 @@ function Trigger(props) {
             listenerSet.delete(listenerRef);
         }
     }, []);
+
+    // Optimize: cancel events when it close
+    useDidUpdate(() => {
+        const instance = instanceRef.current;
+        !isVisible ?
+            instance && instance.disableEventListeners()
+            :
+            instance && instance.enableEventListeners ();
+    }, [isVisible]);
 
     // Props of popperJS
     const popperProps = {

@@ -182,12 +182,12 @@
 
 @include b(select-dropdown__wrap) {
     max-height: $select-dropdown-max-height;
+    padding: $select-dropdown-padding;
     overflow: auto;
 }
 
 @include b(select-dropdown__list) {
     box-sizing: border-box;
     margin: 0;
-    padding: $select-dropdown-padding;
     list-style: none;
 }
