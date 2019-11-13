@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import addDomEventListener from 'add-dom-event-listener';
-import { useThrottle } from 'hooks';
+import { useThrottle, useSyncOnce } from 'hooks';
 
 /**
  * Use for long list
@@ -16,6 +16,9 @@ function useVirtualScroll(list = [], renderCount, itemSize, extraCount = 0, enab
     const [offset, setOffset] = useState(0);
     const scrollNodeRef = useRef(null);
     const scrollFuncRef = useRef(null);
+    useSyncOnce(() => {
+        !window.k && (window.k = scrollNodeRef);
+    })
 
     const onScroll = useCallback(e => {
         const scrollTop = e.target.scrollTop;

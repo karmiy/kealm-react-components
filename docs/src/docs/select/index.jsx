@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Select, Row, Col } from '@kealm/react-components';
+import { Select, Row, Col, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { remoteOptions } from './data';
 import { useDebounce } from 'hooks';
@@ -38,15 +38,12 @@ function SelectDoc() {
                 useMemo(() => {
                     return (
                         <div className="detail-box">
-                            <Select virtualScroll multiple clearable filterable>
+                            <Select virtualScroll multiple clearable filterable loading={loading} remote onRemote={onRemote}>
                                 <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                                 <Option value={'2'} label={'Karloy'}>Karloy</Option>
                                 <Option value={'3'} label={'Peppa'}>Peppa</Option>
                                 <Option value={'4'} label={'George'}>George</Option>
                                 <Option value={'5'} label={'Hawk'}>Hawk</Option>
-                                {Array(1000).fill('').map((item, index) => {
-                                    return <Option key={index} value={index + 1} label={`Hawk${index + 1}`}>Hawk{index + 1}</Option>
-                                })}
                             </Select>
                         </div>
                     )
@@ -281,6 +278,25 @@ function SelectDoc() {
                         </div>
                     )
                 }, [loading, options])
+            }
+
+            {/* 选择器性能优化 */}
+            <h2>选择器性能优化</h2>
+            <p>当 Select 的列表项过多时，会出现显示速度缓慢、卡顿等行为，造成不良的体验。</p>
+            <p>通过配置 virtualScroll，可以在长列表时进行性能优化。</p>
+            <p>不支持分组展示的情况。</p>
+            {
+                useMemo(() => {
+                    return (
+                        <div className="detail-box">
+                            <Select virtualScroll>
+                                {Array(10000).fill('').map((item, index) => {
+                                    return <Option key={index} value={index + 1} label={`Item-${index + 1}`}>Item-{index + 1}</Option>
+                                })}
+                            </Select>
+                        </div>
+                    )
+                }, [])
             }
 
             {/* API */}

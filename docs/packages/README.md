@@ -2,6 +2,8 @@
 
 - within props
 
+- variable
+
 - logic code
 
 - logic code: description

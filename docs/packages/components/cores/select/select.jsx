@@ -11,14 +11,7 @@ import { RenderWrapper } from '../../common';
 import { mergeStr, isEmpty, isArray, isObject } from 'utils/common/base';
 import { validateChildrenType, validateType } from 'utils/common/react-util';
 
-const emptyOption = {
-    value: '',
-    label: '',
-};
 const emptyArr = [];
-
-const emptyObj = Object.create(null);
-
 const ITEM_SIZE = 36,
     EXTRA_COUNT = 2;
 
@@ -80,7 +73,7 @@ const getSelectedOptions = (children, selectedValues) => {
     }
     // Custom data, simply create a node with the same value as the label
     while(_selectedValues.length) {
-        const _value = _selectedValues[0];
+        const [_value] = _selectedValues;
         const index = findSelectedIndex(selectedValues, _value);
         selectedArr.push({
             ...createOption(_value),
@@ -151,7 +144,7 @@ function Select(props) {
         validateChildrenType(children, [Group, Option]);
     });
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
     const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? emptyArr : '');
     const isClearable = clearable && (multiple ? !!selectedValue.length : !isEmpty(selectedValue) && selectedValue !== '');
@@ -161,6 +154,12 @@ function Select(props) {
     const [inputStyle, setInputStyle] = useState();
     const [inputValue, setInputValue] = useState('');
     const isEditableInput = filterable || remote;
+    const options = useMemo(() => Children.toArray(getOptionsChildren(children)), [children]);
+    const filterOptions = useMemo(() => options.filter(child => filterMethod(child.props.value, child.props.label, inputValue)), [options, filterMethod, inputValue]);
+    const childrenCount = Children.count(children);
+    const filterChildrenCount = filterable ? filterOptions.length : childrenCount;
+    const readonly = !(isEditableInput && isVisible);
+    const isVirtualScrollEnable = virtualScroll && isVisible && !loading;
 
     // Virtual scrolling
     const {
@@ -170,11 +169,11 @@ function Select(props) {
         offset,
         totalSize
     } = useVirtualScroll(
-        Children.toArray(children),
+        filterOptions,
         maxRows,
         ITEM_SIZE,
         EXTRA_COUNT,
-        virtualScroll && isVisible);
+        isVirtualScrollEnable);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -196,7 +195,10 @@ function Select(props) {
 
     // ---------------------------------- style ----------------------------------
     const dropdownWrapStyle = {
-        maxHeight: `${maxRows * 36}px`,
+        maxHeight: `${maxRows * ITEM_SIZE}px`,
+    }
+    const dropdownListStyle = {
+        transform: virtualScroll ? `translateY(${offset}px)` : null,
     }
 
     // ---------------------------------- logic code ----------------------------------
@@ -204,9 +206,8 @@ function Select(props) {
         throw new Error('The value need to be an array when select component multiple');
     }
 
-    // Get label of single option which is selected
+    // Get option which is selected
     const selectedOptions = useMemo(() => {
-        const options = Children.toArray(getOptionsChildren(children));
         if(multiple) {
             return getSelectedOptions(options, selectedValue);
         }else {
@@ -219,9 +220,11 @@ function Select(props) {
                 :
                 createOption(selectedValue);
         }
-    }, [multiple, children, selectedValue]);
+    }, [multiple, options, selectedValue]);
 
+    // Display value for Input
     const inputDisplayValue = useMemo(() => {
+        // Editable input
         if(isEditableInput) {
             // Show inputValue when popper open
             if(isVisible) return inputValue;
@@ -229,10 +232,13 @@ function Select(props) {
             return multiple ? '' : selectedOptions.label;
         }
 
+        // Readonly input
         return multiple ? '' : selectedOptions.label;
-    }, [isEditableInput, remote, multiple, selectedOptions, isVisible, inputValue]);
+    }, [isEditableInput, multiple, selectedOptions, isVisible, inputValue]);
 
+    // Placeholder for Input
     const _placeholder = useMemo(() => {
+        // Editable input
         if(isEditableInput) {
             if(isVisible) {
                 if(multiple) {
@@ -247,16 +253,9 @@ function Select(props) {
             return multiple && selectedValue.length ? '' : placeholder;
         }
 
+        // Readonly input
         return multiple && selectedValue.length ? '' : placeholder;
-    }, [isEditableInput, remote, multiple, selectedValue, placeholder, isVisible]);
-
-    const filterChildrenCount = filterable ?
-        Children.count(Children.toArray(getOptionsChildren(children))
-            .filter(child => filterMethod(child.props.value, child.props.label, inputValue)))
-        :
-        Children.count(children);
-
-    const readonly = !(isEditableInput && isVisible);
+    }, [isEditableInput, multiple, selectedValue, placeholder, isVisible]);
 
     // ---------------------------------- function ----------------------------------
     const scheduleUpdatePosition = useCallback(() => {
@@ -281,11 +280,11 @@ function Select(props) {
 
     // Clear inputValue when popper open
     useDidUpdate(() => {
-        if(isEditableInput && isVisible)
-            setInputValue('');
+        /*if(isEditableInput && isVisible)
+            setInputValue('');*/
     }, [isVisible]);
 
-    // Show or hidden tags when is filterable
+    // Show or hidden tags when it's filterable
     useDidUpdate(() => {
         if(multiple && isEditableInput) {
             tagsRef.current.style.zIndex = isVisible ? '-1' : '';
@@ -302,7 +301,7 @@ function Select(props) {
     // Adjust popper position when filter children count changes or options changes
     useDidUpdate(() => {
         scheduleUpdatePosition();
-    }, [children, filterChildrenCount, Children.count(children)], true);
+    }, [children, filterChildrenCount, childrenCount], true);
 
     // ---------------------------------- event ----------------------------------
     const onCreate = useCallback(data => {
@@ -396,15 +395,15 @@ function Select(props) {
                 </div>
             );
         } else {
-            if(Children.count(children)) {
+            if(childrenCount) {
                 // Content when is filterable
                 dropdownContent = (
                     filterChildrenCount ?
                         <div className={dropdownWrapClassNames} style={dropdownWrapStyle} ref={scrollNodeRef}>
                             <ul
                                 className={`${componentCls}-dropdown__list`}
-                                style={{transform: `translateY(${offset}px)`}}>
-                                {virtualScroll ? Children.toArray(children).slice(start, end) : children}
+                                style={dropdownListStyle}>
+                                {virtualScroll ? filterOptions.slice(start, end) : children}
                             </ul>
                             <RenderWrapper visible={virtualScroll} unmountOnExit>
                                 <section
