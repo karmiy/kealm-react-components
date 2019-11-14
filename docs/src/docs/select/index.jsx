@@ -1,16 +1,33 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Select, Row, Col, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { remoteOptions } from './data';
 import { useDebounce } from 'hooks';
+import { selectProps, selectEvents, groupProps, optionProps } from 'api/select';
+import {
+    CodeBasic,
+    CodeControlled,
+    CodeDisabledOption,
+    CodeDisabledStatus,
+    CodeMultiple,
+    CodeClearable,
+    CodeCustomTemp,
+    CodeLabelInValue,
+    CodeGroup,
+    CodeFilterable,
+    CodeRemote,
+    CodeVirtualScroll,
+} from 'demos/select';
 
 const { Option, Group } = Select;
 
 function SelectDoc() {
-    const [visible, setVisible] = useState(false);
-    const [value, setValue] = useState(['1']);
+    // const [visible, setVisible] = useState(false);
+    const [value, setValue] = useState('1');
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const onChange = useCallback(v => setValue(v), []);
 
     const onRemote = useDebounce((value) => {
         if(value) {
@@ -38,7 +55,7 @@ function SelectDoc() {
                 useMemo(() => {
                     return (
                         <div className="detail-box">
-                            <Select virtualScroll multiple clearable filterable loading={loading} remote onRemote={onRemote}>
+                            <Select>
                                 <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                                 <Option value={'2'} label={'Karloy'}>Karloy</Option>
                                 <Option value={'3'} label={'Peppa'}>Peppa</Option>
@@ -49,6 +66,27 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeBasic} />
+
+            {/* 受控选择器 */}
+            <h2>受控选择器</h2>
+            <p>通过 value 与 onChange 配合，手动控制选择行为。</p>
+            {
+                useMemo(() => {
+                    return (
+                        <div className="detail-box">
+                            <Select value={value} onChange={onChange}>
+                                <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
+                                <Option value={'2'} label={'Karloy'}>Karloy</Option>
+                                <Option value={'3'} label={'Peppa'}>Peppa</Option>
+                                <Option value={'4'} label={'George'}>George</Option>
+                                <Option value={'5'} label={'Hawk'}>Hawk</Option>
+                            </Select>
+                        </div>
+                    )
+                }, [value])
+            }
+            <HighLight code={CodeControlled} />
 
             {/* 禁用选项 */}
             <h2>禁用选项</h2>
@@ -68,6 +106,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeDisabledOption} />
 
             {/* 禁用状态 */}
             <h2>禁用状态</h2>
@@ -87,6 +126,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeDisabledStatus} />
 
             {/* 基础多选 */}
             <h2>基础多选</h2>
@@ -119,6 +159,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeMultiple} />
 
             {/* 可清空 */}
             <h2>可清空</h2>
@@ -151,6 +192,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeClearable} />
 
             {/* 自定义模板 */}
             <h2>自定义模板</h2>
@@ -185,6 +227,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeCustomTemp} />
 
             {/* 获得选项文本 */}
             <h2>获得选项文本</h2>
@@ -205,6 +248,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeLabelInValue} />
 
             {/* 分组 */}
             <h2>分组</h2>
@@ -230,6 +274,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeGroup} />
 
             {/* 可搜索 */}
             <h2>可搜索</h2>
@@ -262,6 +307,7 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeFilterable} />
 
             {/* 远程搜索 */}
             <h2>远程搜索</h2>
@@ -279,10 +325,11 @@ function SelectDoc() {
                     )
                 }, [loading, options])
             }
+            <HighLight code={CodeRemote} />
 
             {/* 选择器性能优化 */}
             <h2>选择器性能优化</h2>
-            <p>当 Select 的列表项过多时，会出现显示速度缓慢、卡顿等行为，造成不良的体验。</p>
+            <p>当 Select 的列表项过多时，会出现加载速度缓慢、卡顿等行为，造成不良的体验。</p>
             <p>通过配置 virtualScroll，可以在长列表时进行性能优化。</p>
             <p>不支持分组展示的情况。</p>
             {
@@ -298,9 +345,12 @@ function SelectDoc() {
                     )
                 }, [])
             }
+            <HighLight code={CodeVirtualScroll} />
 
             {/* API */}
-            {/*{useMemo(() => <ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />, [])}*/}
+            <ApiTable title='Select' propsList={selectProps} eventsList={selectEvents} />
+            <ApiTable title='Group' propsList={groupProps} />
+            <ApiTable title='Option' propsList={optionProps} />
         </div>
     )
 }

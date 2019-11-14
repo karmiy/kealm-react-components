@@ -7,7 +7,8 @@ import Icon from '../icon';
 const noop = () => {};
 const filterMethod = (value, label, inputValue) => label.includes(inputValue);
 
-const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object, PropTypes.array]);
+const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object, PropTypes.array]);
+const VALUE_TYPE_OPTION = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
 
 /* select-props */
 export const SelectProps = {
@@ -63,7 +64,7 @@ export const SelectDefaultProps = {
 /* option-props */
 export const OptionProps = {
     className: PropTypes.string,
-    value: VALUE_TYPE,
+    value: VALUE_TYPE_OPTION.isRequired,
     label: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
 }

@@ -1,4 +1,16 @@
-import React, { memo, Children, cloneElement, useState, useMemo, useRef, useLayoutEffect, useEffect, useCallback } from 'react';
+import React, {
+    Component,
+    PureComponent,
+    memo,
+    Children,
+    cloneElement,
+    useState,
+    useMemo,
+    useRef,
+    useLayoutEffect,
+    useEffect,
+    useCallback
+} from 'react';
 import {Button, Row, Col, Tag, Input, Popover} from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
@@ -25,6 +37,20 @@ function TT(props) {
 }
 TT = memo(TT);
 
+class K extends PureComponent {
+    render() {
+        console.log('k');
+        return <div>K</div>
+    }
+}
+
+class KK extends PureComponent {
+    render() {
+        console.log('kk');
+        return <div>{this.props.children}</div>
+    }
+}
+
 function ExampleDoc() {
     const [count, setCount] = useState(0);
     const [visible, setVisible] = useState(false);
@@ -34,29 +60,11 @@ function ExampleDoc() {
     const func = useDebounce((v) => console.log(v), 2000, {leading: true, trailing: false});
     const func2 = useThrottle((v) => console.log(v), 2000);
 
-    const scrollFunc = useCallback(() => {
-        setCount(c => c + 1)
-    }, [count]);
-
-    const scrollFuncRef = useRef(null);
-    scrollFuncRef.current = useCallback(() => {
-        console.log(count);
-    }, [count]);
-
-    useEffect(() => {
-        const scrollEvent = addDomEventListener(ref.current, 'scroll', () => {
-            scrollFuncRef.current();
-        });
-        return () => {
-            scrollEvent.remove();
-        }
-    }, [scrollFunc])
-
     return (
         <div>
-            <div ref={ref} style={{height: '200px', overflow: 'auto', backgroundColor: '#1394ff'}}>
-                <p style={{height: '2000px'}} />
-            </div>
+            <KK>
+                {useMemo(() => <K>1</K>, [])}
+            </KK>
             <Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>
         </div>
     )
