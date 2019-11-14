@@ -4,7 +4,7 @@ import { CommonProps, CommonDefaultProps } from '../trigger/interface';
 import { omit } from 'utils/common/object';
 import Icon from '../icon';
 
-const noop = () => {};
+import { noop } from 'utils/common/base';
 const filterMethod = (value, label, inputValue) => label.includes(inputValue);
 
 const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object, PropTypes.array]);

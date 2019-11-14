@@ -7,8 +7,7 @@ import {
     RadioButtonProps,
     RadioButtonDefaultProps,
 } from '../radio/interface'
-
-const empty = [];
+import { emptyArr } from 'utils/common/base';
 
 /* checkbox-props */
 export const CheckboxProps = {
@@ -30,7 +29,7 @@ export const CheckboxGroupProps = {
 
 export const CheckboxGroupDefaultProps = {
     ...RadioGroupDefaultProps,
-    defaultValue: empty,
+    defaultValue: emptyArr,
 }
 
 /* checkbox-button-props */

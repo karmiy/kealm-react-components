@@ -71,6 +71,10 @@ const sidebarList = [
                 link: 'breadcrumb',
             },
             {
+                name: 'Pagination 分页',
+                link: 'pagination',
+            },
+            {
                 name: 'Steps 步骤条',
                 link: 'steps',
             },

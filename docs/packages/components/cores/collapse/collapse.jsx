@@ -3,8 +3,7 @@ import { CollapseProps, CollapseDefaultProps } from "./interface";
 import { useContextConf, useClassName, useDidUpdate, useSyncOnce } from 'hooks';
 import { toArray, removeOfArray } from 'utils/common/array';
 import { transChildren } from 'utils/common/react-util';
-
-const noop = () => {};
+import { noop } from 'utils/common/base';
 
 function Collapse(props) {
     const { componentCls } = useContextConf('collapse');

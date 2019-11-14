@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?u3vond');
-  src:  url('kealm-icon.eot?u3vond#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?u3vond') format('truetype'),
-    url('kealm-icon.woff?u3vond') format('woff'),
-    url('kealm-icon.svg?u3vond#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?vviyge');
+  src:  url('kealm-icon.eot?vviyge#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?vviyge') format('truetype'),
+    url('kealm-icon.woff?vviyge') format('woff'),
+    url('kealm-icon.svg?vviyge#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,38 +25,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.km-icon-frown:before {
-  content: "\e77e";
+.km-icon-double-left:before {
+  content: "\e7ed";
 }
-.km-icon-smile:before {
-  content: "\e783";
-}
-.km-icon-add-user:before {
-  content: "\e7ae";
-}
-.km-icon-delete-team:before {
-  content: "\e7af";
-}
-.km-icon-delete-user:before {
-  content: "\e7b0";
-}
-.km-icon-add-team:before {
-  content: "\e7b1";
-}
-.km-icon-user:before {
-  content: "\e7b2";
-}
-.km-icon-team:before {
-  content: "\e7b3";
-}
-.km-icon-solution:before {
-  content: "\e7b5";
-}
-.km-icon-frown-fill:before {
-  content: "\e846";
-}
-.km-icon-smile-fill:before {
-  content: "\e847";
+.km-icon-double-right:before {
+  content: "\e7ee";
 }
 .km-icon-loading:before {
   content: "\e61c";
@@ -70,8 +43,8 @@
 .km-icon-check-circle:before {
   content: "\e77d";
 }
-.km-icon-close-circle:before {
-  content: "\e900";
+.km-icon-frown:before {
+  content: "\e77e";
 }
 .km-icon-info-circle:before {
   content: "\e77f";
@@ -85,8 +58,8 @@
 .km-icon-question-circle:before {
   content: "\e782";
 }
-.km-icon-pause-circle:before {
-  content: "\e901";
+.km-icon-smile:before {
+  content: "\e783";
 }
 .km-icon-time-circle:before {
   content: "\e784";
@@ -115,6 +88,27 @@
 .km-icon-check-square:before {
   content: "\e7a8";
 }
+.km-icon-add-user:before {
+  content: "\e7ae";
+}
+.km-icon-delete-team:before {
+  content: "\e7af";
+}
+.km-icon-delete-user:before {
+  content: "\e7b0";
+}
+.km-icon-add-team:before {
+  content: "\e7b1";
+}
+.km-icon-user:before {
+  content: "\e7b2";
+}
+.km-icon-team:before {
+  content: "\e7b3";
+}
+.km-icon-solution:before {
+  content: "\e7b5";
+}
 .km-icon-delete:before {
   content: "\e7c3";
 }
@@ -137,10 +131,10 @@
   content: "\e7ec";
 }
 .km-icon-up:before {
-  content: "\e7ed";
+  content: "\e900";
 }
 .km-icon-down:before {
-  content: "\e7ee";
+  content: "\e901";
 }
 .km-icon-menu:before {
   content: "\e7f4";
@@ -174,6 +168,12 @@
 }
 .km-icon-stop-circle:before {
   content: "\e842";
+}
+.km-icon-frown-fill:before {
+  content: "\e846";
+}
+.km-icon-smile-fill:before {
+  content: "\e847";
 }
 .km-icon-eye-fill:before {
   content: "\e869";
@@ -253,14 +253,20 @@
 .km-icon-eye-fill-o:before {
   content: "\e8ff";
 }
-.km-icon-key:before {
+.km-icon-close-circle:before {
   content: "\e902";
 }
-.km-icon-caret-right:before {
+.km-icon-pause-circle:before {
   content: "\e903";
 }
-.km-icon-eye-o:before {
+.km-icon-key:before {
   content: "\e904";
+}
+.km-icon-caret-right:before {
+  content: "\e905";
+}
+.km-icon-eye-o:before {
+  content: "\e906";
 }
 .km-icon-droplet:before {
   content: "\e90b";

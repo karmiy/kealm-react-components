@@ -1,6 +1,6 @@
 import React, { Children, cloneElement, useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
-import { StepsProps, StepsDefaultProps, noop } from './interface';
+import { StepsProps, StepsDefaultProps } from './interface';
 import { transChildren } from 'utils/common/react-util';
 
 function Steps(props) {

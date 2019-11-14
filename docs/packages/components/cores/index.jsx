@@ -15,6 +15,7 @@ import Popover from './popover';
 import Tooltip from './tooltip';
 import Tag from './tag';
 import Select from './select';
+import Pagination from './pagination';
 
 export {
     Icon,
@@ -37,4 +38,5 @@ export {
     Tooltip,
     Tag,
     Select,
+    Pagination,
 }

@@ -625,3 +625,22 @@ $select-dropdown-border: 1px solid $border-color-light !default;
 
 // tag
 $select-tag-background: #f0f2f5 !default;
+
+/* --------------------------Pagination-------------------------- */
+$pagination-font-size: $font-size-base !default;
+$pagination-font-color: $color-text-thin-dark-6 !default;
+$pagination-background-color: $color-white !default;
+$pagination-border-color: #d9d9d9 !default;
+$pagination-border-radius: 4px !default;
+
+$pagination-item-width: 32px !default;
+$pagination-item-height: $pagination-item-width !default;
+$pagination-item-gap: 8px !default;
+
+$pagination-disabled-color: $color-text-thin-dark-2 !default;
+
+$pagination-button-color: $color-text-primary !default; // k
+$pagination-button-disabled-color: $color-text-placeholder !default; // k
+$pagination-button-disabled-background-color: $color-white !default; // k
+
+$pagination-hover-color: $color-primary !default;

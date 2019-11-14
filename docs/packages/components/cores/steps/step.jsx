@@ -1,8 +1,8 @@
 import React, { memo, useMemo, useCallback } from 'react';
 import { useContextConf, useClassName } from 'hooks';
-import { StepProps, StepDefaultProps, noop } from './interface';
+import { StepProps, StepDefaultProps } from './interface';
 import Icon from '../icon';
-import { isFunction } from 'utils/common/base';
+import { isFunction, noop } from 'utils/common/base';
 
 function Step(props) {
     const { componentCls } = useContextConf('step');

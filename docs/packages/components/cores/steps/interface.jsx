@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-
-export const noop = () => {};
+import { noop } from 'utils/common/base';
 
 /* steps-props */
 export const StepsProps = {

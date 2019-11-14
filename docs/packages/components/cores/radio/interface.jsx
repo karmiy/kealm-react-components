@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-
-const noop = () => {};
+import { noop } from 'utils/common/base';
 
 /* checked-common-props */
 export const AbstractCheckProps = {

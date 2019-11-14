@@ -8,10 +8,9 @@ import Tag from '../tag';
 import Option from './option';
 import Group from './group';
 import { RenderWrapper } from '../../common';
-import { mergeStr, isEmpty, isArray, isObject } from 'utils/common/base';
+import { mergeStr, isEmpty, isArray, isObject, emptyArr } from 'utils/common/base';
 import { validateChildrenType, validateType } from 'utils/common/react-util';
 
-const emptyArr = [];
 const ITEM_SIZE = 36,
     EXTRA_COUNT = 2;
 

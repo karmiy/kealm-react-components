@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { PopperJsProps, PopperJsDefaultProps } from '../../common/popper/interface';
-
-const noop = () => {};
+import { noop } from 'utils/common/base';
 
 export const CommonProps = {
     ...PopperJsProps,

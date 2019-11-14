@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useCorrectOnce, useController } from 'hooks';
-
-const noop = () => {};
+import { noop } from 'utils/common/base';
 
 /**
  * Build isVisible, setIsVisible and isMount hook for popper

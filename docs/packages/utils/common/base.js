@@ -4,6 +4,13 @@ const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
 const MOZ_HACK_REGEXP = /^moz([A-Z])/;
 
 /**
+ * 空函数、数组、对象
+ */
+export const noop = () => {};
+export const emptyArr = [];
+export const emptyObj = Object.create(null);
+
+/**
  * 消除前后空格
  * @param string
  * @returns {string}

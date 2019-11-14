@@ -46,7 +46,8 @@ class K extends PureComponent {
 
 class KK extends PureComponent {
     render() {
-        console.log(<div>1</div>)
+        console.log(<div>1</div>);
+        console.log(this);
         console.log('kk');
         return <div>{this.props.children}</div>
     }

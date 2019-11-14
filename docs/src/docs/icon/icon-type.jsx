@@ -1,6 +1,6 @@
 /* 方向性图标 */
 export const directionIcons = [
-    'up', 'right', 'down', 'left',
+    'up', 'right', 'down', 'left', 'double-left', 'double-right',
     'caret-up', 'caret-right', 'caret-down', 'caret-left',
     'backward-to', 'forward-to', 'step-backward', 'step-forward',
     'fast-backward', 'fast-forward',
