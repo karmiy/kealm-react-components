@@ -1,11 +1,17 @@
-.input-doc .km-input {
-    width: 200px;
-}
-
-.input-doc .km-textarea {
-    width: 420px;
-}
-
-.input-doc .km-input-group {
-    width: 450px;
+.input-doc {
+    .km-input {
+        width: 200px;
+    }
+    .km-textarea {
+        width: 420px;
+    }
+    .km-input-group {
+        width: 500px;
+    }
+    .km-select .km-input {
+        width: 130px;
+    }
+    .input-with-select .km-input-group__append {
+        background-color: #fff;
+    }
 }

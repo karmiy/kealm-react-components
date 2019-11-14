@@ -1,8 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Input, Icon, Row, Col, Button } from '@kealm/react-components';
+import { Input, Icon, Row, Col, Button, Select } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { commonProps, commonEvents, inputProps, passwordProps, searchProps, searchEvents, textareaProps } from 'api/input';
 import { CodeBasic, CodeControlled, CodeDisabled, CodeClear, CodePassword, CodeSearch, CodeIcon, CodeTextarea, CodeAutosize, CodeSize, CodeMixins, CodeLimitCount } from 'demos/input';
+
+const { Option } = Select;
 
 function InputDoc() {
     const [value, setValue] = useState('beauty');
@@ -175,6 +177,17 @@ function InputDoc() {
                         </div>
                         <div className="detail-box">
                             <Input placeholder={'请输入内容'} size={'large'} append={<Button type={'primary'} icon='search' />} />
+                        </div>
+                        <div className="detail-box input-with-select">
+                            <Input placeholder={'请输入内容'} prepend={'Http://'} append={
+                                    <Select>
+                                            <Option value={'1'} label={'com'}>.com</Option>
+                                            <Option value={'2'} label={'cn'}>.cn</Option>
+                                            <Option value={'3'} label={'net'}>.net</Option>
+                                            <Option value={'4'} label={'com.cn'}>.com.cn</Option>
+                                            <Option value={'5'} label={'net.cn'}>.net.cn</Option>
+                                    </Select>
+                            } />
                         </div>
                     </>
                 )

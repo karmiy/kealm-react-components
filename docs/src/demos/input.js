@@ -132,7 +132,9 @@ export const CodeSize =
 
 /* 复合型输入框 */
 export const CodeMixins =
-`    import { Input } from "@kealm/react-components";
+`    import { Input, Select } from "@kealm/react-components";
+    
+    const { Option } = Select;
     
     ReactDom.render(
         <div>
@@ -144,6 +146,17 @@ export const CodeMixins =
             </div>
             <div className="detail-box">
                 <Input placeholder={'请输入内容'} size={'large'} append={<Button type={'primary'} icon='search' ></Button>} ></Input>
+            </div>
+            <div className="detail-box">
+                <Input placeholder={'请输入内容'} prepend={'Http://'} append={
+                    <Select>
+                        <Option value={'1'} label={'com'}>.com</Option>
+                        <Option value={'2'} label={'cn'}>.cn</Option>
+                        <Option value={'3'} label={'net'}>.net</Option>
+                        <Option value={'4'} label={'com.cn'}>.com.cn</Option>
+                        <Option value={'5'} label={'net.cn'}>.net.cn</Option>
+                    </Select>
+                }></Input>
             </div>
         </div>,
         mountNode
