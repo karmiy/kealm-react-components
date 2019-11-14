@@ -253,11 +253,6 @@ export const CodeDot =
     
     const Step = Steps.Step;
     
-    const user = <Icon type={'user'}></Icon>,
-        solution = <Icon type={'solution'}></Icon>,
-        loading = <Icon type={'loading'}></Icon>,
-        smile = <Icon type={'smile'}></Icon>;
-    
     function Demo() {
         const [current, setCurrent] = useState(1);
         
@@ -291,17 +286,55 @@ export const CodeDot =
         )
     }`
 
+/* 自定义点状步骤条 */
+export const CodeCustomDot =
+`    import { useState, useCallback } from 'react';
+    import { Steps, Row, Col, Icon, Button, Tooltip } from "@kealm/react-components";
+    
+    const Step = Steps.Step;
+    
+    function Demo() {
+        const [current, setCurrent] = useState(1);
+        
+        const progressDot = useCallback((dot, {step, status}) => {
+            return (
+                <Tooltip content={
+                    <>
+                        <p>Step：{step}</p>
+                        <p>Status：{status}</p>
+                    </>
+                }>
+                    {dot}
+                </Tooltip>
+            )
+        }, []);
+        
+        return (
+            <div className="detail-box">
+                <Row>
+                    <Col span={22}>
+                        <Steps current={current} progressDot={progressDot}>
+                            <Step title={'First'} description={'This is a description.'}></Step>
+                            <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'}></Step>
+                            <Step title={'Third'} description={'This is a description.'}></Step>
+                            <Step title={'Last'} description={'This is a description.'}></Step>
+                        </Steps>
+                    </Col>
+                </Row>
+                <Row gutter={8}>
+                    <Col><Button disabled={current === 0} onClick={() => setCurrent(v => --v)}>Previous</Button></Col>
+                    <Col><Button type={'primary'} disabled={current === 3} onClick={() => setCurrent(v => ++v)}>Next</Button></Col>
+                </Row>
+            </div>
+        )
+    }`
+
 /* 可点击 */
 export const CodeClick =
 `    import { useState, useCallback } from 'react';
     import { Steps, Row, Col, Icon, Button } from "@kealm/react-components";
     
     const Step = Steps.Step;
-    
-    const user = <Icon type={'user'}></Icon>,
-        solution = <Icon type={'solution'}></Icon>,
-        loading = <Icon type={'loading'}></Icon>,
-        smile = <Icon type={'smile'}></Icon>;
     
     function Demo() {
         const [current, setCurrent] = useState(1);

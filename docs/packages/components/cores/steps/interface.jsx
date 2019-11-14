@@ -9,7 +9,7 @@ export const StepsProps = {
     current: PropTypes.number,
     size: PropTypes.oneOf(['small']),
     status: PropTypes.oneOf(['wait', 'process', 'finish', 'error']),
-    progressDot: PropTypes.bool,
+    progressDot: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
     onChange: PropTypes.func,
 }
 
@@ -30,7 +30,7 @@ export const StepProps = {
     current: PropTypes.number,
     stepNum: PropTypes.number,
     icon: PropTypes.node,
-    progressDot: PropTypes.bool,
+    progressDot: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
     onChange: PropTypes.func,
 }
 

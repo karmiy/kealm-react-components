@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Steps, Row, Col, Icon, Button } from '@kealm/react-components';
+import { Steps, Row, Col, Icon, Button, Tooltip } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { stepsProps, stepsEvents, stepProps } from 'api/steps';
-import { CodeBasic, CodeIcon, CodeMini, CodeToggle, CodeVertical, CodeMiniVertical, CodeError, CodeDot, CodeClick } from 'demos/steps';
+import { CodeBasic, CodeIcon, CodeMini, CodeToggle, CodeVertical, CodeMiniVertical, CodeError, CodeDot, CodeCustomDot, CodeClick } from 'demos/steps';
 
 const Step = Steps.Step;
 
@@ -10,6 +10,19 @@ function StepsDoc() {
     const [current, setCurrent] = useState(1);
     const change = useCallback(cur => {
         setCurrent(cur);
+    }, []);
+
+    const progressDot = useCallback((dot, {step, status}) => {
+        return (
+            <Tooltip content={
+                <>
+                    <p>Step：{step}</p>
+                    <p>Status：{status}</p>
+                </>
+            }>
+                {dot}
+            </Tooltip>
+        )
     }, []);
 
     return (
@@ -260,6 +273,31 @@ function StepsDoc() {
                 )
             }, [current])}
             <HighLight code={CodeDot} />
+
+            {/* 自定义点状步骤条 */}
+            <h2>自定义点状步骤条</h2>
+            <p>为点状步骤条增加自定义展示。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row>
+                            <Col span={22}>
+                                <Steps current={current} progressDot={progressDot}>
+                                    <Step title={'First'} description={'This is a description.'} />
+                                    <Step title={'Second'} subTitle={'Left 00:00:08'} description={'This is a description.'} />
+                                    <Step title={'Third'} description={'This is a description.'} />
+                                    <Step title={'Last'} description={'This is a description.'} />
+                                </Steps>
+                            </Col>
+                        </Row>
+                        <Row gutter={8}>
+                            <Col><Button disabled={current === 0} onClick={() => setCurrent(v => --v)}>Previous</Button></Col>
+                            <Col><Button type={'primary'} disabled={current === 3} onClick={() => setCurrent(v => ++v)}>Next</Button></Col>
+                        </Row>
+                    </div>
+                )
+            }, [current])}
+            <HighLight code={CodeCustomDot} />
 
             {/* 可点击 */}
             <h2>可点击</h2>

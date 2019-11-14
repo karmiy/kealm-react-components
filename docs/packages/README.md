@@ -28,6 +28,3 @@
 
 ## Vaulting
 
-- Input - select demo
-
-- Steps - tooltip

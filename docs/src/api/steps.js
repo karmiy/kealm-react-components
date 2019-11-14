@@ -30,7 +30,7 @@ export const stepsProps = [
     {
         param: 'progressDot',
         des: '点状步骤条',
-        type: 'boolean',
+        type: 'boolean / (dot, { step, status, title, subTitle, description }) => ReactNode',
         option: '--',
         default: 'false',
     }

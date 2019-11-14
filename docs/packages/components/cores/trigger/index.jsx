@@ -110,13 +110,13 @@ function Trigger(props) {
     }, []);
 
     // Optimize: cancel events when it close
-    useDidUpdate(() => {
+    /*useDidUpdate(() => {
         const instance = instanceRef.current;
         !isVisible ?
             instance && instance.disableEventListeners()
             :
             instance && instance.enableEventListeners ();
-    }, [isVisible]);
+    }, [isVisible]);*/
 
     // Props of popperJS
     const popperProps = {
@@ -188,6 +188,15 @@ function Trigger(props) {
         setTimer(() => setIsVisible(false), closeDelay, 'popper');
     }, [closeDelay]) : null;
 
+    // Optimize: cancel events when it close
+    const onFadeChange = useCallback(v => {
+        const instance = instanceRef.current;
+        !v ?
+            instance && instance.disableEventListeners()
+            :
+            instance && instance.enableEventListeners ();
+    }, []);
+
     /*useEffect(() => {
         // Click outside to close
         const handlerClick = addDomEventListener(document, 'click', function (e) {
@@ -225,7 +234,7 @@ function Trigger(props) {
         if(!isMount) return null;
 
         return (
-            <FadeTransition visible={isVisible} appear transitionName={transitionName}>
+            <FadeTransition visible={isVisible} visibleChange={onFadeChange} appear transitionName={transitionName}>
                 <Portal>
                     <div
                         ref={popperRef}

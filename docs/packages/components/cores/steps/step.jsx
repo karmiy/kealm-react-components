@@ -2,9 +2,10 @@ import React, { memo, useMemo, useCallback } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { StepProps, StepDefaultProps, noop } from './interface';
 import Icon from '../icon';
+import { isFunction } from 'utils/common/base';
 
 function Step(props) {
-    const {componentCls} = useContextConf('step');
+    const { componentCls } = useContextConf('step');
     const {
         children,
         className,
@@ -38,7 +39,15 @@ function Step(props) {
 
     const renderIconContent = useMemo(() => {
         // Priority: dot > custom-icon > origin
-        if(progressDot) return <span className={`${componentCls}__icon-dot`} />;
+        if(progressDot) {
+            return isFunction(progressDot) ?
+                progressDot(
+                    <span className={`${componentCls}__icon-dot`} />,
+                    { step: stepNum - 1, status, title, subTitle, description }
+                )
+                :
+                <span className={`${componentCls}__icon-dot`} />;
+        }
 
         if(icon) return icon;
 
@@ -47,7 +56,7 @@ function Step(props) {
             : (status === 'error'
             ? <Icon type={'close'} className={`${componentCls}__icon-inner`} />
             : stepNum);
-    }, [componentCls, icon, status, stepNum, progressDot]);
+    }, [componentCls, icon, status, stepNum, progressDot, title, subTitle, description]);
 
     const renderSubtitle = useMemo(() => {
         if(!subTitle) return null;
