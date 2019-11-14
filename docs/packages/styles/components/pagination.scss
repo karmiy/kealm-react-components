@@ -41,6 +41,22 @@
             }
         }
 
+        @include when(shrink) {
+            border-color: transparent;
+            &:hover, &:focus {
+                border-color: transparent;
+            }
+            &:hover {
+                border-color: transparent;
+                .km-pagination__ellipsis {
+                    opacity: 0;
+                }
+                .km-pagination__rapid {
+                    opacity: 1;
+                }
+            }
+        }
+
         &.is-prev, &.is-next {
             transition: $all-transition;
         }
@@ -53,8 +69,31 @@
 
     @include e(link) {
         display: block;
+        position: relative;
         height: 100%;
         padding: 0 6px;
+    }
+
+    @include e(ellipsis) {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        color: $pagination-ellipsis-color;
+        letter-spacing: 2px;
+        text-align: center;
+        text-indent: .13em;
+        opacity: 1;
+        transition: all .2s;
+    }
+
+    @include e(rapid) {
+        opacity: 0;
+        transition: all .2s;
     }
 }
 

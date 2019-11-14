@@ -638,9 +638,6 @@ $pagination-item-height: $pagination-item-width !default;
 $pagination-item-gap: 8px !default;
 
 $pagination-disabled-color: $color-text-thin-dark-2 !default;
-
-$pagination-button-color: $color-text-primary !default; // k
-$pagination-button-disabled-color: $color-text-placeholder !default; // k
-$pagination-button-disabled-background-color: $color-white !default; // k
+$pagination-ellipsis-color: $color-text-thin-dark-2 !default;
 
 $pagination-hover-color: $color-primary !default;

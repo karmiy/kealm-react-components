@@ -117,11 +117,22 @@ function Pagination(props) {
     return (
         <ul className={classNames} {...others}>
             {renderPrev}
-            {renderPageNums}
-            <li className={`${componentCls}__item`} tabIndex={0}>
-                    <span className={`${componentCls}__link`}>
+            <li className={`${componentCls}__item is-shrink`} tabIndex={0}>
+                <span className={`${componentCls}__link`}>
+                    <Icon className={`${componentCls}__rapid`} type={'double-left'} />
+                    <span className={`${componentCls}__ellipsis`}>
                         •••
                     </span>
+                </span>
+            </li>
+            {renderPageNums}
+            <li className={`${componentCls}__item is-shrink`} tabIndex={0}>
+                <span className={`${componentCls}__link`}>
+                    <Icon className={`${componentCls}__rapid`} type={'double-right'} />
+                    <span className={`${componentCls}__ellipsis`}>
+                        •••
+                    </span>
+                </span>
             </li>
             {renderNext}
         </ul>
