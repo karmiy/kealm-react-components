@@ -57,6 +57,10 @@
             }
         }
 
+        @include when(next) {
+            margin-right: 0;
+        }
+
         &.is-prev, &.is-next {
             transition: $all-transition;
         }
@@ -94,6 +98,100 @@
     @include e(rapid) {
         opacity: 0;
         transition: all .2s;
+    }
+
+    @include e(options) {
+        display: inline-block;
+        margin-left: 16px;
+        vertical-align: middle;
+    }
+
+    @include e(size-changer) {
+        display: inline-block;
+        width: 105px;
+        margin-right: 8px;
+    }
+
+    @include e(quick-jumper) {
+        display: inline-block;
+        height: $pagination-item-height;
+        line-height: $pagination-item-height;
+        vertical-align: top;
+    }
+
+    @include e(quick-input) {
+        width: 55px;
+        margin: 0 8px;
+    }
+
+    @include when(disabled) {
+        .km-pagination__item {
+            border-color: $pagination-disabled-border-color;
+            background-color: $pagination-disabled-background-color;
+            color: $pagination-disabled-color;
+            cursor: not-allowed;
+            &:hover, &:focus {
+                border-color: $pagination-disabled-border-color;
+                background-color: $pagination-disabled-background-color;
+                color: $pagination-disabled-color;
+                cursor: not-allowed;
+            }
+            &.is-active {
+                background-color: $pagination-disabled-background-color-active;
+                color: $color-white;
+            }
+            &.is-shrink {
+                border-color: transparent;
+                background-color: transparent;
+                &:hover {
+                    .km-pagination__ellipsis {
+                        opacity: 1;
+                    }
+                    .km-pagination__rapid {
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    @include when(simple) {
+        .is-prev, .is-next {
+            border-color: transparent;
+        }
+        .km-pagination__item {
+            width: $pagination-item-width-simple;
+            height: $pagination-item-height-simple;
+            line-height: $pagination-item-height-simple;
+        }
+        @include when(disabled) {
+            .is-prev, .is-next {
+                border-color: transparent;
+                background-color: transparent;
+                &:hover, &:focus {
+                    border-color: transparent;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    @include e(simple-pager) {
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    @include e(simple-input) {
+        width: 60px;
+        margin-right: 8px;
+        .km-input__inner {
+            text-align: center;
+        }
+    }
+
+    @include e(slash) {
+        margin: 0 10px 0 5px;
     }
 }
 

@@ -119,6 +119,20 @@ export const selectProps = [
         default: 'false'
     },
     {
+        param: 'selectorClassName',
+        des: '选择器类名，作用于触发框，若需要给弹出框添加类名可用 className',
+        type: 'string',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'selectorStyle',
+        des: '选择器样式，作用于触发框，若需要给弹出框添加样式可用 style',
+        type: 'object',
+        option: '--',
+        default: '--',
+    },
+    {
         param: 'maxRows',
         des: '最大显示的列表条数',
         type: 'number',

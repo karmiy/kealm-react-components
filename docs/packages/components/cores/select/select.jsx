@@ -110,6 +110,8 @@ function Select(props) {
     const {
         children,
         className,
+        selectorClassName,
+        selectorStyle,
         onCreate: _onCreate,
         defaultValue,
         value,
@@ -185,7 +187,8 @@ function Select(props) {
     const inputClassNames = useClassName({
         [componentCls]: true,
         'is-clearable': isClearable,
-    }, [componentCls, isClearable]);
+        [selectorClassName]: selectorClassName,
+    }, [componentCls, isClearable, selectorClassName]);
 
     const dropdownWrapClassNames = useClassName({
         [`${componentCls}-dropdown__wrap`]: true,
@@ -494,7 +497,7 @@ function Select(props) {
             onCreate={onCreate}
             {...others}
         >
-            <div className={inputClassNames} ref={selectRef}>
+            <div className={inputClassNames} style={selectorStyle} ref={selectRef}>
                 {renderTags}
                 <Input
                     value={inputDisplayValue}

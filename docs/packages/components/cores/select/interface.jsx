@@ -14,6 +14,8 @@ const VALUE_TYPE_OPTION = PropTypes.oneOfType([PropTypes.string, PropTypes.numbe
 export const SelectProps = {
     ...omit(CommonProps, ['trigger']),
     children: PropTypes.node,
+    selectorClassName: PropTypes.string,
+    selectorStyle: PropTypes.object,
     defaultValue: VALUE_TYPE,
     value: VALUE_TYPE,
     onChange: PropTypes.func,
