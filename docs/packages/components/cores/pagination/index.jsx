@@ -4,12 +4,17 @@ import { PaginationProps, PaginationDefaultProps } from './interface';
 import Icon from '../icon';
 import Select from '../select';
 import Input from '../input';
-import { mergeStr, isInteger } from 'utils/common/base';
+import { mergeStr, isInteger, noop } from 'utils/common/base';
 
 const { Option } = Select;
 
 const LEAST_COUNT = 5,
     SCOPE = (LEAST_COUNT - 1) / 2;
+
+const ARROW_OPTIONS = {
+    left: 'prev',
+    right: 'next',
+}
 
 function createNumbers(num = 0) {
     const arr = [];
@@ -43,6 +48,8 @@ function Pagination(props) {
         showSizeChanger,
         showQuickJumper,
         simple,
+        showTotal,
+        itemRender,
         ...others
     } = props;
 
@@ -56,7 +63,6 @@ function Pagination(props) {
     const [simpleValue, setSimpleValue] = useState(pageNo);
     const pageNumbers = createNumbers(maxPageNo);
     const isMore = maxPageNo >= 10;
-    const storeRef = useStateStore({pageNo}, false); // To get newest pageNo
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -97,11 +103,11 @@ function Pagination(props) {
         return (
             <li className={className} tabIndex={0}>
                 <span className={`${componentCls}__link`} onClick={onClick}>
-                    <Icon type={icon} />
+                    {itemRender(pageNo, ARROW_OPTIONS[icon], <Icon type={icon} />)}
                 </span>
             </li>
         )
-    }, [componentCls]);
+    }, [componentCls, itemRender, pageNo]);
 
     const getEllipsis = useCallback((icon, title, step) => {
         const onClick = () => setPageNo(n => Math.min(Math.max(minPageNo, n + step), maxPageNo));
@@ -149,12 +155,11 @@ function Pagination(props) {
     }, []);
 
     const onSimplePressEnter = useCallback(value => {
+        if(value === '') {
+            setSimpleValue(pageNo);
+            return;
+        }
         setPageNo(num =>  Math.max(Math.min(parseInt(value || num), maxPageNo), minPageNo));
-        setTimeout(() => {
-            // Prevent no change of pageNo
-            const currentPageNo = storeRef.current.pageNo;
-            pageNo === currentPageNo && setSimpleValue(currentPageNo);
-        });
     }, [maxPageNo, pageNo]);
 
     // ---------------------------------- render mini chunk ----------------------------------
@@ -196,6 +201,16 @@ function Pagination(props) {
     }, [simple, showQuickJumper, componentCls, disabled, jumpValue, onQuickJumperPressEnter]);
 
     // ---------------------------------- render chunk ----------------------------------
+    const renderTotal = useMemo(() => {
+        if(showTotal === noop) return null;
+
+        return (
+            <li className={`${componentCls}__total`}>
+                {showTotal(total, [(pageNo - 1) * pageSize + 1, pageNo * pageSize])}
+            </li>
+        )
+    }, [componentCls, showTotal, pageNo, pageSize]);
+
     const renderPrev = useMemo(
         () => getArrow('left', prevClassNames, onPrevClick),
         [getArrow, prevClassNames, onPrevClick]
@@ -240,7 +255,7 @@ function Pagination(props) {
             return (
                 <li key={num} className={itemClassNames} tabIndex={0} onClick={() => setPageNo(num)}>
                     <span className={`${componentCls}__link`}>
-                        {num}
+                        {itemRender(pageNo, 'page', num)}
                     </span>
                 </li>
             );
@@ -275,6 +290,7 @@ function Pagination(props) {
 
     return (
         <ul className={classNames} {...others}>
+            {renderTotal}
             {renderPrev}
             {renderSimplePager}
             {renderPageNums}

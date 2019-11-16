@@ -3,6 +3,8 @@ import { noop } from 'utils/common/base';
 
 const PAGE_SIZE_OPTIONS = PropTypes.oneOf([10, 20, 30, 40]);
 
+const ITEM_RENDER = (current, type, originalElement) => originalElement;
+
 /* pagination-props */
 export const PaginationProps = {
     className: PropTypes.string,
@@ -17,6 +19,8 @@ export const PaginationProps = {
     showSizeChanger: PropTypes.bool,
     showQuickJumper: PropTypes.bool,
     simple: PropTypes.bool,
+    showTotal: PropTypes.func,
+    itemRender: PropTypes.func,
 }
 
 export const PaginationDefaultProps = {
@@ -29,4 +33,6 @@ export const PaginationDefaultProps = {
     showSizeChanger: false,
     showQuickJumper: false,
     simple: false,
+    showTotal: noop,
+    itemRender: ITEM_RENDER,
 }

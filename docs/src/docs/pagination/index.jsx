@@ -119,8 +119,60 @@ function PaginationDoc() {
             <p>非常简洁的分页控件。</p>
             {useMemo(() => {
                 return (
+                    <>
+                        <div className="detail-box">
+                            <Pagination total={50} simple />
+                        </div>
+                        <div className="detail-box">
+                            <Pagination total={50} simple disabled />
+                        </div>
+                    </>
+                )
+            }, [current])}
+
+            {/* 显示总数 */}
+            <h2>显示总数</h2>
+            <p>根据 showTotal 自定义显示详情。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Pagination
+                                total={85}
+                                pageSize={20}
+                                showTotal={total => `Total ${total} items`}
+                            />
+                        </div>
+                        <div className="detail-box">
+                            <Pagination
+                                total={85}
+                                pageSize={20}
+                                showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                            />
+                        </div>
+                    </>
+                )
+            }, [current])}
+
+            {/* 自定义渲染项 */}
+            <h2>自定义渲染项</h2>
+            <p>根据配置 itemRender，自定义页码与箭头的显示效果。</p>
+            {useMemo(() => {
+                return (
                     <div className="detail-box">
-                        <Pagination total={50} simple />
+                        <Pagination total={50} itemRender={(current, type, originalElement) => {
+                                switch (type) {
+                                    case 'prev':
+                                        return 'Previous';
+                                        break;
+                                    case 'next':
+                                        return 'Next';
+                                        break;
+                                    case 'page':
+                                        return originalElement;
+                                }
+                            }}
+                        />
                     </div>
                 )
             }, [current])}

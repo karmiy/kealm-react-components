@@ -78,6 +78,14 @@
         padding: 0 6px;
     }
 
+    @include e(total) {
+        display: inline-block;
+        height: $pagination-item-height;
+        line-height: $pagination-item-height;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
     @include e(ellipsis) {
         box-sizing: border-box;
         display: block;
