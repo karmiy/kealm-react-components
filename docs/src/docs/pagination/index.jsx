@@ -183,17 +183,17 @@ function PaginationDoc() {
                 return (
                     <div className="detail-box">
                         <Pagination total={50} itemRender={(current, type, originalElement) => {
-                                switch (type) {
-                                    case 'prev':
-                                        return 'Previous';
-                                        break;
-                                    case 'next':
-                                        return 'Next';
-                                        break;
-                                    case 'page':
-                                        return '$' + originalElement;
-                                }
-                            }}
+                            switch (type) {
+                                case 'prev':
+                                    return 'Previous';
+                                    break;
+                                case 'next':
+                                    return 'Next';
+                                    break;
+                                case 'page':
+                                    return '$' + originalElement;
+                            }
+                        }}
                         />
                     </div>
                 )
