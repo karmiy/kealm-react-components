@@ -1,6 +1,19 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { Pagination, Select } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { paginationProps, paginationEvents } from 'api/pagination';
+import {
+    CodeBasic,
+    CodeMore,
+    CodeControlled,
+    CodeDisabled,
+    CodePageSize,
+    CodeShowSizeChanger,
+    CodeShowQuickJumper,
+    CodeSimple,
+    CodeShowTotal,
+    CodeItemRender,
+} from 'demos/pagination';
 
 const { Option } = Select;
 
@@ -27,6 +40,7 @@ function PaginationDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 更多数据 */}
             <h2>更多数据</h2>
@@ -38,6 +52,7 @@ function PaginationDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeMore} />
 
             {/* 受控分页 */}
             <h2>受控分页</h2>
@@ -49,6 +64,7 @@ function PaginationDoc() {
                     </div>
                 )
             }, [current])}
+            <HighLight code={CodeControlled} />
 
             {/* 禁用 */}
             <h2>禁用</h2>
@@ -60,6 +76,7 @@ function PaginationDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDisabled} />
 
             {/* 自定义每页条目 */}
             <h2>自定义每页条目</h2>
@@ -68,7 +85,7 @@ function PaginationDoc() {
                 return (
                     <>
                         <div className="detail-box">
-                            <Select selectorStyle={{width: '150px'}} value={pageSize} onChange={size => setPageSize(size)}>
+                            <Select selectorStyle={{width: '150px'}} value={pageSize} onChange={onPageSizeChange}>
                                 <Option value={10} label={'10 条/页'}>10 条/页</Option>
                                 <Option value={20} label={'20 条/页'}>20 条/页</Option>
                                 <Option value={30} label={'30 条/页'}>30 条/页</Option>
@@ -81,6 +98,7 @@ function PaginationDoc() {
                     </>
                 )
             }, [pageSize])}
+            <HighLight code={CodePageSize} />
 
             {/* 开启条目切换 */}
             <h2>开启条目切换</h2>
@@ -97,6 +115,7 @@ function PaginationDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeShowSizeChanger} />
 
             {/* 快速跳转 */}
             <h2>快速跳转</h2>
@@ -113,6 +132,7 @@ function PaginationDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeShowQuickJumper} />
 
             {/* 简单分页 */}
             <h2>简单分页</h2>
@@ -128,7 +148,8 @@ function PaginationDoc() {
                         </div>
                     </>
                 )
-            }, [current])}
+            }, [])}
+            <HighLight code={CodeSimple} />
 
             {/* 显示总数 */}
             <h2>显示总数</h2>
@@ -152,7 +173,8 @@ function PaginationDoc() {
                         </div>
                     </>
                 )
-            }, [current])}
+            }, [])}
+            <HighLight code={CodeShowTotal} />
 
             {/* 自定义渲染项 */}
             <h2>自定义渲染项</h2>
@@ -169,16 +191,17 @@ function PaginationDoc() {
                                         return 'Next';
                                         break;
                                     case 'page':
-                                        return originalElement;
+                                        return '$' + originalElement;
                                 }
                             }}
                         />
                     </div>
                 )
-            }, [current])}
+            }, [])}
+            <HighLight code={CodeItemRender} />
 
             {/* API */}
-            {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
+            <ApiTable title='Pagination' propsList={paginationProps} eventsList={paginationEvents} />
         </div>
     )
 }

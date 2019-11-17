@@ -16,8 +16,6 @@
         min-width: $pagination-item-width;
         height: $pagination-item-height;
         line-height: $pagination-item-height - 2px;
-        border: 1px solid $pagination-border-color;
-        border-radius: $pagination-border-radius;
         outline: 0;
         margin-right: $pagination-item-gap;
         background-color: $pagination-background-color;
@@ -27,27 +25,36 @@
         cursor: pointer;
         user-select: none;
         @include when(active) {
-            border-color: $pagination-hover-color;
-            color:$pagination-hover-color;
+            color: $pagination-hover-color;
+            .km-pagination__link {
+                border-color: $pagination-hover-color;
+            }
         }
 
         @include when(disabled) {
-            border-color: $pagination-border-color;
             color: $pagination-disabled-color;
             cursor: not-allowed;
-            &.is-active, &:hover, &:focus {
+            .km-pagination__link {
                 border-color: $pagination-border-color;
+            }
+            &.is-active, &:hover, &:focus {
                 color: $pagination-disabled-color;
+                .km-pagination__link {
+                    border-color: $pagination-border-color;
+                }
             }
         }
 
         @include when(shrink) {
-            border-color: transparent;
-            &:hover, &:focus {
+            .km-pagination__link {
                 border-color: transparent;
             }
+            &:hover, &:focus {
+                .km-pagination__link {
+                    border-color: transparent;
+                }
+            }
             &:hover {
-                border-color: transparent;
                 .km-pagination__ellipsis {
                     opacity: 0;
                 }
@@ -66,15 +73,20 @@
         }
 
         &:hover, &:focus {
-            border-color: $pagination-hover-color;
             color:$pagination-hover-color;
+            .km-pagination__link {
+                border-color: $pagination-hover-color;
+            }
         }
     }
 
     @include e(link) {
+        box-sizing: border-box;
         display: block;
         position: relative;
         height: 100%;
+        border: 1px solid $pagination-border-color;
+        border-radius: $pagination-border-radius;
         padding: 0 6px;
     }
 
@@ -134,23 +146,29 @@
 
     @include when(disabled) {
         .km-pagination__item {
-            border-color: $pagination-disabled-border-color;
             background-color: $pagination-disabled-background-color;
             color: $pagination-disabled-color;
             cursor: not-allowed;
-            &:hover, &:focus {
+            .km-pagination__link {
                 border-color: $pagination-disabled-border-color;
+            }
+            &:hover, &:focus {
                 background-color: $pagination-disabled-background-color;
                 color: $pagination-disabled-color;
                 cursor: not-allowed;
+                .km-pagination__link {
+                    border-color: $pagination-disabled-border-color;
+                }
             }
             &.is-active {
                 background-color: $pagination-disabled-background-color-active;
                 color: $color-white;
             }
             &.is-shrink {
-                border-color: transparent;
                 background-color: transparent;
+                .km-pagination__link {
+                    border-color: transparent;
+                }
                 &:hover {
                     .km-pagination__ellipsis {
                         opacity: 1;
@@ -165,7 +183,9 @@
 
     @include when(simple) {
         .is-prev, .is-next {
-            border-color: transparent;
+            .km-pagination__link {
+                border-color: transparent;
+            }
         }
         .km-pagination__item {
             width: $pagination-item-width-simple;
@@ -174,11 +194,15 @@
         }
         @include when(disabled) {
             .is-prev, .is-next {
-                border-color: transparent;
                 background-color: transparent;
-                &:hover, &:focus {
+                .km-pagination__link {
                     border-color: transparent;
+                }
+                &:hover, &:focus {
                     background-color: transparent;
+                    .km-pagination__link {
+                        border-color: transparent;
+                    }
                 }
             }
         }
@@ -202,295 +226,3 @@
         margin: 0 10px 0 5px;
     }
 }
-
-/*@include b(pagination) {
-    padding: 2px 5px;
-    font-weight: bold;
-    color: $pagination-font-color;
-    white-space: nowrap;
-    @include utils-clear-fix;
-
-    span:not([class*=suffix]),
-    button {
-        box-sizing: border-box;
-        display: inline-block;
-        min-width: $pagination-button-width;
-        height: $pagination-button-height;
-        line-height: $pagination-button-height;
-        font-size: $pagination-font-size;
-        vertical-align: top;
-    }
-
-    .km-input__inner {
-        line-height: normal;
-        text-align: center;
-    }
-
-    // pagesize 的下拉 icon
-    .km-input__suffix {
-        right: 0;
-        transform: scale(.8);
-    }
-
-    .km-select .km-input {
-        width: 100px;
-        margin: 0 5px;
-
-        .km-input__inner {
-            padding-right: 25px;
-            border-radius: $pagination-border-radius;
-        }
-    }
-
-    button {
-        border: none;
-        padding: 0 6px;
-        background: transparent;
-
-        &:focus {
-            outline: none;
-        }
-
-        &:hover {
-            color: $pagination-hover-color;
-        }
-
-        &:disabled {
-            color: $pagination-button-disabled-color;
-            background-color: $pagination-button-disabled-background-color;
-            cursor: not-allowed;
-        }
-    }
-
-    .btn-prev,
-    .btn-next {
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 16px;
-        background-color: $pagination-background-color;
-        cursor: pointer;
-        margin: 0;
-        color: $pagination-button-color;
-
-        .km-icon {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-        }
-    }
-
-    .btn-prev {
-        padding-right: 12px;
-    }
-
-    .btn-next {
-        padding-left: 12px;
-    }
-
-    .km-pager li.disabled {
-        color: $color-text-placeholder;
-        cursor: not-allowed;
-    }
-
-    @include m(small) {
-        .btn-prev,
-        .btn-next,
-        .km-pager li,
-        .km-pager li.btn-quicknext,
-        .km-pager li.btn-quickprev,
-        .km-pager li:last-child {
-            border-color: transparent;
-            font-size: 12px;
-            line-height: 22px;
-            height: 22px;
-            min-width: 22px;
-        }
-
-        .arrow.disabled {
-            visibility: hidden;
-        }
-
-        .more::before,
-        li.more::before {
-            line-height: 24px;
-        }
-
-        span:not([class*=suffix]),
-        button {
-            height: 22px;
-            line-height: 22px;
-        }
-
-        @include e(editor) {
-            height: 22px;
-            &.km-input .km-input__inner {
-                height: 22px;
-            }
-        }
-    }
-
-    @include e(sizes) {
-        margin: 0 10px 0 0;
-        font-weight: normal;
-        color: $color-text-regular;
-
-        .km-input .km-input__inner {
-            font-size: $pagination-font-size;
-            padding-left: 8px;
-
-            &:hover {
-                border-color: $pagination-hover-color;
-            }
-        }
-    }
-
-    @include e(total) {
-        margin-right: 10px;
-        font-weight: normal;
-        color: $color-text-regular;
-    }
-
-    @include e(jump) {
-        margin-left: 24px;
-        font-weight: normal;
-        color: $color-text-regular;
-
-        .km-input__inner {
-            padding: 0 3px;
-        }
-    }
-
-    @include e(rightwrapper) {
-        float: right;
-    }
-
-    @include e(editor) {
-        line-height: 18px;
-        padding: 0 2px;
-        height: $pagination-button-height;
-
-        text-align: center;
-        margin: 0 2px;
-        box-sizing: border-box;
-        border-radius: $pagination-border-radius;
-
-        &.km-input {
-            width: 50px;
-        }
-
-        &.km-input .km-input__inner {
-            height: $pagination-button-height;
-        }
-
-        .km-input__inner::-webkit-inner-spin-button,
-        .km-input__inner::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    }
-
-    @include when(background) {
-        .btn-prev,
-        .btn-next,
-        .km-pager li {
-            margin: 0 5px;
-            background-color: $color-info-lighter;
-            color: $color-text-regular;
-            min-width: 30px;
-            border-radius: 2px;
-
-            &.disabled {
-                color: $color-text-placeholder;
-            }
-        }
-
-        .btn-prev, .btn-next {
-            padding: 0;
-
-            &:disabled {
-                color: $color-text-placeholder;
-            }
-        }
-
-        .km-pager li:not(.disabled) {
-            &:hover {
-                color: $pagination-hover-color;
-            }
-
-            &.active {
-                background-color: $color-primary;
-                color: $color-white;
-            }
-        }
-
-        &.km-pagination--small {
-            .btn-prev,
-            .btn-next,
-            .km-pager li {
-                margin: 0 3px;
-                min-width: 22px;
-            }
-        }
-    }
-}
-
-@include b(pager) {
-    user-select: none;
-    list-style: none;
-    display: inline-block;
-    vertical-align: top;
-    font-size: 0;
-    padding: 0;
-    margin: 0;
-
-    .more::before {
-        line-height: 30px;
-    }
-
-    li {
-        padding: 0 4px;
-        background: $pagination-background-color;
-        vertical-align: top;
-        display: inline-block;
-        font-size: $pagination-font-size;
-        min-width: $pagination-button-width;
-        height: $pagination-button-height;
-        line-height: $pagination-button-height;
-        cursor: pointer;
-        box-sizing: border-box;
-        text-align: center;
-        margin: 0;
-
-        &.btn-quicknext,
-        &.btn-quickprev {
-            line-height: 28px;
-            color: $pagination-button-color;
-
-            &.disabled {
-                color: $color-text-placeholder;
-            }
-        }
-
-        &.btn-quickprev:hover {
-            cursor: pointer;
-        }
-
-        &.btn-quicknext:hover {
-            cursor: pointer;
-        }
-
-        &.active + li {
-            border-left: 0;
-        }
-
-        &:hover {
-            color: $pagination-hover-color;
-        }
-
-        &.active {
-            color: $pagination-hover-color;
-            cursor: default;
-        }
-    }
-}*/
-

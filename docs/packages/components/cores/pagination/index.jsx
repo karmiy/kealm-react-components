@@ -35,13 +35,13 @@ function isWithin(num, current, max, scope = SCOPE) {
 function Pagination(props) {
     const {componentCls} = useContextConf('pagination');
     const {
-        children,
         className,
         defaultCurrent,
         current,
         onChange,
         defaultPageSize,
         pageSize: _pageSize,
+        pageSizeOptions,
         onPageSizeChange,
         total,
         disabled,
@@ -100,11 +100,14 @@ function Pagination(props) {
 
     // ---------------------------------- function ----------------------------------
     const getArrow = useCallback((icon, className, onClick) => {
+        const originalElement = (
+            <span className={`${componentCls}__link`}>
+                {itemRender(pageNo, ARROW_OPTIONS[icon], <Icon type={icon} />)}
+            </span>
+        )
         return (
-            <li className={className} tabIndex={0}>
-                <span className={`${componentCls}__link`} onClick={onClick}>
-                    {itemRender(pageNo, ARROW_OPTIONS[icon], <Icon type={icon} />)}
-                </span>
+            <li className={className} tabIndex={0} onClick={onClick}>
+                {itemRender(pageNo, ARROW_OPTIONS[icon], originalElement)}
             </li>
         )
     }, [componentCls, itemRender, pageNo]);
@@ -159,7 +162,12 @@ function Pagination(props) {
             setSimpleValue(pageNo);
             return;
         }
-        setPageNo(num =>  Math.max(Math.min(parseInt(value || num), maxPageNo), minPageNo));
+        const nextPageNo = Math.max(Math.min(parseInt(value || pageNo), maxPageNo), minPageNo);
+        if(nextPageNo === pageNo) {
+            setSimpleValue(pageNo);
+            return;
+        }
+        setPageNo(nextPageNo);
     }, [maxPageNo, pageNo]);
 
     // ---------------------------------- render mini chunk ----------------------------------
@@ -173,14 +181,13 @@ function Pagination(props) {
         return (
             <div className={`${componentCls}__size-changer`}>
                 <Select value={pageSize} onChange={size => setPageSize(size)} disabled={disabled}>
-                    <Option value={10} label={'10 条/页'}>10 条/页</Option>
-                    <Option value={20} label={'20 条/页'}>20 条/页</Option>
-                    <Option value={30} label={'30 条/页'}>30 条/页</Option>
-                    <Option value={40} label={'40 条/页'}>40 条/页</Option>
+                    {pageSizeOptions.map(option => {
+                        return <Option key={option} value={option} label={`${option} 条/页`}>{option} 条/页</Option>;
+                    })}
                 </Select>
             </div>
         )
-    }, [simple, showSizeChanger, componentCls, pageSize, disabled]);
+    }, [simple, showSizeChanger, componentCls, pageSize, disabled, pageSizeOptions]);
 
     const renderQuickJumper = useMemo(() => {
         if(!showQuickJumper || simple) return null;

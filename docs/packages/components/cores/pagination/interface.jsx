@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { noop } from 'utils/common/base';
 
-const PAGE_SIZE_OPTIONS = PropTypes.oneOf([10, 20, 30, 40]);
+const PAGE_SIZE_OPTIONS = [10, 20, 30, 40];
 
 const ITEM_RENDER = (current, type, originalElement) => originalElement;
 
@@ -9,9 +9,10 @@ const ITEM_RENDER = (current, type, originalElement) => originalElement;
 export const PaginationProps = {
     className: PropTypes.string,
     defaultCurrent: PropTypes.number,
-    defaultPageSize: PAGE_SIZE_OPTIONS,
+    defaultPageSize: PropTypes.number,
     current: PropTypes.number,
-    pageSize: PAGE_SIZE_OPTIONS,
+    pageSize: PropTypes.number,
+    pageSizeOptions: PropTypes.array,
     onChange: PropTypes.func,
     onPageSizeChange: PropTypes.func,
     total: PropTypes.number,
@@ -26,6 +27,7 @@ export const PaginationProps = {
 export const PaginationDefaultProps = {
     defaultCurrent: 1,
     defaultPageSize: 10,
+    pageSizeOptions: PAGE_SIZE_OPTIONS,
     onChange: noop,
     onPageSizeChange: noop,
     total: 0,
