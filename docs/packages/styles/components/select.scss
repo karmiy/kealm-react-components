@@ -204,3 +204,7 @@
     top: 0;
     transform-origin: 0 0;
 }
+
+@include b(select-dropdown__search) {
+    padding: 10px;
+}

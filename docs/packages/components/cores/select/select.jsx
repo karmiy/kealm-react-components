@@ -429,6 +429,11 @@ function Select(props) {
         }
         return (
             <SelectContext.Provider value={provider}>
+                <RenderWrapper visible={multiple && isEditableInput} unmountOnExit>
+                    <div className={`${componentCls}-dropdown__search`}>
+                        <Input.Search placeholder={'请输入'} />
+                    </div>
+                </RenderWrapper>
                 {dropdownContent}
                 <div className="popper__arrow" style={{left: '35px'}} />
             </SelectContext.Provider>
