@@ -159,7 +159,7 @@ function Select(props) {
     const filterOptions = useMemo(() => options.filter(child => filterMethod(child.props.value, child.props.label, inputValue)), [options, filterMethod, inputValue]);
     const childrenCount = Children.count(children);
     const filterChildrenCount = filterable ? filterOptions.length : childrenCount;
-    const readonly = !(isEditableInput && isVisible);
+    const readonly = !(isEditableInput && isVisible && !multiple);
     const isVirtualScrollEnable = virtualScroll && isVisible && !loading;
 
     // Virtual scrolling
@@ -224,38 +224,19 @@ function Select(props) {
         }
     }, [multiple, options, selectedValue]);
 
-    // Display value for Input
-    const inputDisplayValue = useMemo(() => {
-        // Editable input
-        if(isEditableInput) {
-            // Show inputValue when popper open
-            if(isVisible) return inputValue;
+    // Value for reference Input
+    const referenceInputValue = useMemo(() => {
+        if(isEditableInput && isVisible && !multiple) return inputValue;
 
-            return multiple ? '' : selectedOptions.label;
-        }
-
-        // Readonly input
         return multiple ? '' : selectedOptions.label;
     }, [isEditableInput, multiple, selectedOptions, isVisible, inputValue]);
 
-    // Placeholder for Input
+    // Placeholder for outsideInput
     const _placeholder = useMemo(() => {
-        // Editable input
-        if(isEditableInput) {
-            if(isVisible) {
-                if(multiple) {
-                    return selectedOptions.length ?
-                        `${selectedOptions[0].label} +${selectedOptions.length}`
-                        :
-                        placeholder;
-                }else {
-                    return selectedOptions.label || placeholder;
-                }
-            }
-            return multiple && selectedValue.length ? '' : placeholder;
+        if(isEditableInput && isVisible && !multiple) {
+            return selectedOptions.label || placeholder;
         }
 
-        // Readonly input
         return multiple && selectedValue.length ? '' : placeholder;
     }, [isEditableInput, multiple, selectedValue, placeholder, isVisible]);
 
@@ -282,22 +263,8 @@ function Select(props) {
 
     // Clear inputValue when popper open
     useDidUpdate(() => {
-        /*if(isEditableInput && isVisible)
-            setInputValue('');*/
-    }, [isVisible]);
-
-    // Show or hidden tags when it's filterable
-    useDidUpdate(() => {
-        if(multiple && isEditableInput) {
-            tagsRef.current.style.zIndex = isVisible ? '-1' : '';
-        }
-    }, [isVisible], true);
-
-    // Component is multiple and filterable, focus input when it need to show popper
-    useDidUpdate(() => {
-        if(multiple && isEditableInput && isVisible) {
-            selectRef.current.querySelector('input').focus();
-        }
+        if(isEditableInput && isVisible)
+            setInputValue('');
     }, [isVisible]);
 
     // Adjust popper position when filter children count changes or options changes
@@ -431,7 +398,11 @@ function Select(props) {
             <SelectContext.Provider value={provider}>
                 <RenderWrapper visible={multiple && isEditableInput} unmountOnExit>
                     <div className={`${componentCls}-dropdown__search`}>
-                        <Input.Search placeholder={'请输入'} />
+                        <Input.Search
+                            value={inputValue}
+                            onChange={onInputChange}
+                            placeholder={'请输入'}
+                        />
                     </div>
                 </RenderWrapper>
                 {dropdownContent}
@@ -505,7 +476,7 @@ function Select(props) {
             <div className={inputClassNames} style={selectorStyle} ref={selectRef}>
                 {renderTags}
                 <Input
-                    value={inputDisplayValue}
+                    value={referenceInputValue}
                     onChange={onInputChange}
                     inputStyle={inputStyle}
                     placeholder={_placeholder}
