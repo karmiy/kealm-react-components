@@ -207,4 +207,7 @@
 
 @include b(select-dropdown__search) {
     padding: 10px;
+    .km-input {
+        margin-right: -20px;
+    }
 }
