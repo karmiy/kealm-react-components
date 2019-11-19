@@ -9,7 +9,7 @@ module.exports = merge(baseConfig, {
     devtool: 'cheap-module-source-map', // 开启production调试
     output: {
         publicPath: './', 
-        filename: '[name]-[contenthash].js',
+        filename: 'js/[name]-[contenthash].js',
     },
     module: {
         rules: [
