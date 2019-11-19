@@ -1,0 +1,95 @@
+@import "../mixins/mixins";
+@import "../common/var";
+
+@include b(switch) {
+    display: inline-flex;
+    position: relative;
+    height: $switch-height;
+    line-height: $switch-height;
+    align-items: center;
+    font-size: $switch-font-size;
+    vertical-align: middle;
+    &.is-disabled, &.is-loading {
+        opacity: 0.6;
+        & .km-switch__core {
+            cursor: not-allowed;
+        }
+    }
+
+    @include e(input) {
+        position: absolute;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        margin: 0;
+    }
+
+    @include e(core) {
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        width: $switch-width;
+        height: $switch-height;
+        border: 1px solid $switch-off-color;
+        border-radius: $switch-core-border-radius;
+        outline: none;
+        margin: 0;
+        background-color: $switch-off-color;
+        transition: border-color $transition-duration-base,
+                    background-color $transition-duration-base;
+        color: $switch-off-color;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    @include e(button) {
+        position: absolute;
+        width: $switch-button-size;
+        height: $switch-button-size;
+        line-height: $switch-button-size;
+        top: 1px;
+        left: 1px;
+        border-radius: $border-radius-circle;
+        background-color: $color-white;
+        transition: $all-transition;
+        text-align: center;
+    }
+
+    @include e(inner) {
+        display: block;
+        height: 100%;
+        margin-right: 6px;
+        margin-left: 24px;
+        font-size: 12px;
+        color: #fff;
+        user-select: none;
+    }
+
+    @include when(checked) {
+        .km-switch__core {
+            border-color: $switch-on-color;
+            background-color: $switch-on-color;
+            color: $switch-on-color;
+        }
+        .km-switch__button {
+            left: 100%;
+            margin-left: -$switch-button-size - 1px;
+        }
+        .km-switch__inner {
+            margin-left: 6px;
+            margin-right: 24px;
+        }
+    }
+
+    /*@include m(small) {
+        .km-switch__core {
+            width: $switch-width-small;
+            height: $switch-height-small;
+        }
+        .km-switch__button {
+            width: $switch-button-size-small;
+            height: $switch-button-size-small;
+            line-height: $switch-button-size-small;
+        }
+    }*/
+}

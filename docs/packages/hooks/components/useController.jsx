@@ -21,8 +21,8 @@ function useController(defaultProp, prop, onChange, emptyProp = false, disabled 
 
     // logic setPropValue
     // v: value to set
-    // c: value to onChange
-    const setValue = useCallback((v, c) => {
+    // rest: value to onChange
+    const setValue = useCallback((v, ...rest) => {
         const { prop, value, onChange, disabled } = stateStoreRef.current;
 
 
@@ -30,13 +30,14 @@ function useController(defaultProp, prop, onChange, emptyProp = false, disabled 
 
         // Example like setIsVisible(v => !v)
         isFunction(v) && (v = v(value));
-        isEmpty(c) ? (c = v) : (isFunction(c) && (c = c(value)));
+        // isEmpty(c) ? (c = v) : (isFunction(c) && (c = c(value)));
+        rest = !rest.length ? [v] : rest.map(c => isFunction(c) ? c(value) : c);
         // if(isFunction(c)) c = c(value);
 
         if(v === value) return;
 
         // trigger change event
-        onChange(c);
+        onChange(...rest);
         // If there is prop, it is controlled by self
         if(prop !== undefined) return;
 

@@ -16,6 +16,7 @@ import Tooltip from './tooltip';
 import Tag from './tag';
 import Select from './select';
 import Pagination from './pagination';
+import Switch from './switch';
 
 export {
     Icon,
@@ -39,4 +40,5 @@ export {
     Tag,
     Select,
     Pagination,
+    Switch,
 }

@@ -47,6 +47,10 @@ const sidebarList = [
             {
                 name: 'Select 下拉选择器',
                 link: 'select',
+            },
+            {
+                name: 'Switch 开关',
+                link: 'switch',
             }
         ]
     },
