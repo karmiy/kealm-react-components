@@ -157,6 +157,9 @@
     }
 
     @include when(multiple) {
+        & .km-select-dropdown__item {
+            padding: 0 40px 0 20px;
+        }
         & .km-select-dropdown__item.selected {
             background-color: $select-dropdown-background;
             color: $select-option-selected-font-color;

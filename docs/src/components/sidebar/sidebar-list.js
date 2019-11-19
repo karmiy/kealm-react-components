@@ -51,6 +51,10 @@ const sidebarList = [
             {
                 name: 'Switch 开关',
                 link: 'switch',
+            },
+            {
+                name: 'Slider 滑块',
+                link: 'slider',
             }
         ]
     },

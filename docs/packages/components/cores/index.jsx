@@ -17,6 +17,7 @@ import Tag from './tag';
 import Select from './select';
 import Pagination from './pagination';
 import Switch from './switch';
+import Slider from './slider';
 
 export {
     Icon,
@@ -41,4 +42,5 @@ export {
     Select,
     Pagination,
     Switch,
+    Slider,
 }
