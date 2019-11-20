@@ -1,0 +1,268 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(slider) {
+
+    @include utils-clear-fix;
+
+    @include e(runway) {
+        position: relative;
+        width: 100%;
+        height: $slider-height;
+        border-radius: $slider-border-radius;
+        margin: $slider-margin;
+        background-color: $slider-runway-background-color;
+        cursor: pointer;
+        vertical-align: middle;
+
+        /* -----------------k------------------- */
+        &.show-input {
+            width: auto;
+            margin-right: 160px;
+        }
+
+        @include when(disabled){
+            cursor: default;
+
+            .km-slider__bar {
+                background-color: $slider-disable-color;
+            }
+
+            .km-slider__button {
+                border-color: $slider-disable-color;
+            }
+
+            .km-slider__button-wrapper {
+                &:hover,
+                &.hover {
+                    cursor: not-allowed;
+                }
+
+                &.dragging {
+                    cursor: not-allowed;
+                }
+
+                &:hover,
+                &.hover,
+                &.dragging {
+                    .km-slider__button {
+                        transform: scale(1);
+                    }
+                }
+            }
+
+            .km-slider__button {
+                /*&:hover,
+                &.hover,
+                &.dragging {
+                    transform: scale(1);
+                }*/
+
+                &:hover,
+                &.hover {
+                    cursor: not-allowed;
+                }
+
+                &.dragging {
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+
+    /* -----------------k------------------- */
+    @include e(input) {
+        float: right;
+        width: 130px;
+        margin-top: 3px;
+
+        &.km-input-number--mini {
+            margin-top: 5px;
+        }
+
+        &.km-input-number--medium {
+            margin-top: 0;
+        }
+
+        &.km-input-number--large {
+            margin-top: -2px;
+        }
+    }
+
+    @include e(bar) {
+        position: absolute;
+        height: $slider-height;
+        border-top-left-radius: $slider-border-radius;
+        border-bottom-left-radius: $slider-border-radius;
+        background-color: $slider-main-background-color;
+    }
+
+    @include e(button-wrapper) {
+        position: absolute;
+        width: $slider-button-wrapper-size;
+        height: $slider-button-wrapper-size;
+        line-height: normal;
+        top: $slider-button-wrapper-offset;
+        z-index: 1001;
+        background-color: transparent;
+        transform: translateX(-50%);
+        text-align: center;
+        user-select: none;
+        @include utils-vertical-center;
+
+        .km-tooltip {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        &:hover,
+        &.hover {
+            //cursor: grab;
+            cursor: pointer;
+        }
+
+        &:hover,
+        &.hover,
+        &.dragging {
+            .km-slider__button {
+                transform: scale(1.2);
+            }
+        }
+
+        &.dragging {
+            cursor: grabbing;
+        }
+    }
+
+    @include e(button) {
+        width: $slider-button-size;
+        height: $slider-button-size;
+        border: 2px solid $slider-main-background-color;
+        border-radius: 50%;
+        background-color: $color-white;
+        transition: .2s;
+        user-select: none;
+
+        /*&:hover,
+        &.hover,
+        &.dragging {
+            transform: scale(1.2);
+        }*/
+
+        &:hover,
+        &.hover {
+            //cursor: grab;
+            cursor: pointer;
+        }
+
+        &.dragging {
+            cursor: grabbing;
+        }
+    }
+
+    @include e(stop) {
+        position: absolute;
+        height: $slider-height;
+        width: $slider-height;
+        border-radius: $border-radius-circle;
+        background-color: $slider-stop-background-color;
+        transform: translateX(-50%);
+    }
+
+    @include e(marks) {
+        width: 18px;
+        height: 100%;
+        top: 0;
+        left: 12px;
+
+        @include e(marks-text) {
+            position: absolute;
+            margin-top: 15px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: $color-info;
+        }
+    }
+
+    @include when(vertical) {
+        position: relative;
+        .km-slider__runway {
+            width: $slider-height;
+            height: 100%;
+            margin: 0 16px;
+        }
+        .km-slider__bar {
+            width: $slider-height;
+            height: auto;
+            border-radius: 0 0 3px 3px;
+        }
+        .km-slider__button-wrapper {
+            top: auto;
+            left: $slider-button-wrapper-offset;
+            transform: translateY(50%);
+        }
+        .km-slider__stop {
+            transform: translateY(50%);
+        }
+        /* -----------------k------------------- */
+        &.km-slider--with-input {
+            padding-bottom: #{36px + 22px};
+            .km-slider__input {
+                float: none;
+                position: absolute;
+                width: 36px;
+                bottom: 22px;
+                margin-top: 15px;
+                overflow: visible;
+                .km-input__inner {
+                    padding-left: 5px;
+                    padding-right: 5px;
+                    text-align: center;
+                }
+                .km-input-number__decrease,
+                .km-input-number__increase
+                {
+                    box-sizing: border-box;
+                    line-height: 20px;
+                    border: $input-border;
+                    top: $input-small-height;
+                    margin-top: -1px;
+                    transition: $border-transition-base;
+                }
+                .km-input-number__decrease {
+                    width: 18px;
+                    right: 18px;
+                    border-bottom-left-radius: $input-border-radius;
+                }
+                .km-input-number__increase {
+                    width: 19px;
+                    border-bottom-right-radius: $input-border-radius;
+                    & ~ .km-input .km-input__inner {
+                        border-bottom-left-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
+                }
+                &:hover {
+                    .km-input-number__decrease,
+                    .km-input-number__increase
+                    {
+                        border-color: $input-hover-border;
+                    }
+                }
+                &:active {
+                    .km-input-number__decrease,
+                    .km-input-number__increase
+                    {
+                        border-color: $input-focus-border;
+                    }
+                }
+            }
+        }
+
+        @include e(marks-text) {
+            left: 15px;
+            margin-top: 0;
+            transform: translateY(50%);
+        }
+    }
+}

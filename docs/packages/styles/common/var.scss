@@ -665,3 +665,20 @@ $switch-button-size: 18px !default;
 $switch-width-small: 28px !default;
 $switch-height-small: 16px !default;
 $switch-button-size-small: 12px !default;*/
+
+
+/* --------------------------Slider-------------------------- */
+$slider-main-background-color: $color-primary !default;
+$slider-runway-background-color: $border-color-light !default;
+$slider-stop-background-color: $color-white !default;
+
+$slider-button-hover-color: mix($color-primary, black, 97%) !default;
+
+$slider-disable-color: $color-text-placeholder !default;
+
+$slider-margin: 16px 0 !default;
+$slider-border-radius: 3px !default;
+$slider-height: 6px !default;
+$slider-button-size: 16px !default;
+$slider-button-wrapper-size: 36px !default;
+$slider-button-wrapper-offset: -15px !default;

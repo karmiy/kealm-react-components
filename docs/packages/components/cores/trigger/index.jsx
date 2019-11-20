@@ -94,7 +94,7 @@ function Trigger(props) {
     useEffect(() => {
         const instance = instanceRef.current;
         isVisible && instance && instance.scheduleUpdate();
-    }, [isVisible]);
+    }, [isVisible, popup]);
 
     useEffect(() => {
         listenerRef.current.isVisible = isVisible;
