@@ -1,22 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SliderButtonProps, SliderButtonDefaultProps } from './interface';
-import { useStateStore } from 'hooks';
+import { useClassName, useStateStore, useSyncOnce } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import Tooltip from '../tooltip';
+import { offsetAttr, clientAttr } from './slider';
 
 /**
  * Find an adjacent value within the step limit
  * @param step
  * @param min
  * @param max
+ * @param current
  */
-function findWithinValueForStep(step, min, max) {
+export function findWithinValueForStep(step, min, max, current) {
     let count = Math.floor((max - min) / step);
+    // Example: ranges will be [-30, -20, -10, 0, 10, 20, 30] when min is -30 and max is 30
     const ranges = [];
     while (count >= 0) {
         ranges.unshift((step * count--) + min);
     }
-    return ranges;
+    const len = ranges.length;
+    if(len && ranges[len - 1] !== max) {
+        ranges.push(max);
+    }
+    // Example
+    const withinPrevIndex = ranges.findIndex((v, index) => {
+        return v <= current && ranges[index + 1] >= current;
+    });
+    const withinPrev = ranges[withinPrevIndex],
+        withinNext = ranges[withinPrevIndex + 1],
+        half = (withinPrev + withinNext) / 2;
+    return current <= half ? withinPrev : withinNext;
 }
 
 function SliderButton(props) {
@@ -31,11 +45,16 @@ function SliderButton(props) {
         max,
         min,
         step,
+        toolTipController,
+        defaultTooltipVisible,
+        range,
+        vertical,
+        index,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
     const buttonRef = useRef(null);
-    const [isTooltipShow, setIsTooltipShow] = useState(false);
+    const [isTooltipShow, setIsTooltipShow] = useState(defaultTooltipVisible);
     const [isDragging, setIsDragging] = useState(false);
     const stateRef = useStateStore({
         value,
@@ -44,24 +63,56 @@ function SliderButton(props) {
         max,
         min,
         step,
+        range,
+        vertical,
+        index,
     }, false);
 
+    // ---------------------------------- class ----------------------------------
+    const buttonWrapClassNames = useClassName({
+        [`${prefix}__button-wrapper`]: true,
+        'is-dragging': isDragging,
+    }, [prefix, isDragging]);
+
     // ---------------------------------- style ----------------------------------
+    const _value = range ? value[index] : value;
+    const buttonOffset = `${Math.round(((_value - min) / (max - min)) * 100)}%`;
     const buttonStyle = {
-        left: `${Math.round(((value - min) / (max - min)) * 100)}%`,
+        left: !vertical ? buttonOffset : null,
+        bottom: vertical ? buttonOffset : null,
     };
 
     // ---------------------------------- logic code ----------------------------------
+    // Save setIsDragging for Parent
+    useSyncOnce(() => {
+        toolTipController.current.push(setIsTooltipShow);
+    });
+
     // Show or hide tooltip when mouseenter/leave
     useEffect(() => {
         const buttonWrapper = buttonRef.current;
 
-        const enterListener = addDomEventListener(buttonWrapper, 'mouseenter', () => !stateRef.current.isDragging && setIsTooltipShow(true), false);
-        const leaveListener = addDomEventListener(buttonWrapper, 'mouseleave', () => !stateRef.current.isDragging && setIsTooltipShow(false), false);
+        const clickListener = addDomEventListener(buttonWrapper, 'click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
+        const mouseenterListener = addDomEventListener(buttonWrapper, 'mouseenter', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            !stateRef.current.isDragging && setIsTooltipShow(true);
+        }, false);
+        const mouseleaveListener = addDomEventListener(buttonWrapper, 'mouseleave', e => {
+            if(!e.relatedTarget) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+            !stateRef.current.isDragging && setIsTooltipShow(false)
+        }, false);
 
         return () => {
-            enterListener.remove();
-            leaveListener.remove();
+            clickListener.remove();
+            mouseenterListener.remove();
+            mouseleaveListener.remove();
         }
     }, []);
 
@@ -70,12 +121,13 @@ function SliderButton(props) {
         const buttonWrapper = buttonRef.current,
             runway = runwayRef.current;
 
-        const startListener = addDomEventListener(buttonWrapper, 'mousedown', e => {
+        const mousedownListener = addDomEventListener(buttonWrapper, 'mousedown', e => {
             e.preventDefault();
             e.stopPropagation();
 
-            const { value: startValue, disabled, max, min } = stateRef.current;
-            const startX = e.clientX;
+            const { value, disabled, max, min, range, index, vertical } = stateRef.current;
+            const startValue = range ? value[index] : value;
+            const startPos = clientAttr(e, vertical);
 
             // Disabled
             if(disabled) return;
@@ -83,30 +135,34 @@ function SliderButton(props) {
             setIsDragging(true);
             setIsTooltipShow(true);
 
-            const moveListener = addDomEventListener(window, 'mousemove', e => {
-                const movingX = e.clientX;
-                const diffValue = Math.round(((movingX - startX) / runway.offsetWidth) * (max - min));
-                // console.log(diffValue, step);
-                console.log(findWithinValueForStep(step, min, max));
-                const nextValue = diffValue + startValue;
-                nextValue !== startValue && onSliderChange(Math.max(Math.min(nextValue, max), min));
+            const mousemoveListener = addDomEventListener(window, 'mousemove', e => {
+                const movingPos = clientAttr(e, vertical);
+                const diffOffset = !vertical ? movingPos - startPos : startPos - movingPos;
+                const diffValue = Math.round((diffOffset / runway[offsetAttr(vertical)]) * (max - min));
+                const newValue = Math.max(Math.min(diffValue + startValue, max), min);
+                const nextValue = findWithinValueForStep(step, min, max, newValue);
+                const rangeChange = oldValue => {
+                    oldValue[index] = nextValue;
+                    return [...oldValue];
+                }
+                onSliderChange(range ? rangeChange : nextValue);
             });
 
-            const endListener = addDomEventListener(window, 'mouseup', e => {
+            const mouseupListener = addDomEventListener(window, 'mouseup', e => {
                 setIsDragging(false);
                 !buttonWrapper.contains(e.target) && setIsTooltipShow(false);
-                moveListener.remove();
-                endListener.remove();
+                mousemoveListener.remove();
+                mouseupListener.remove();
             });
         }, false);
 
-        return () => startListener.remove();
+        return () => mousedownListener.remove();
     }, []);
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div ref={buttonRef} className={`${prefix}__button-wrapper`} style={buttonStyle}>
-            <Tooltip manual visible={openTooltip && isTooltipShow} content={tipFormatter(value)}>
+        <div ref={buttonRef} className={buttonWrapClassNames} style={buttonStyle}>
+            <Tooltip manual visible={openTooltip && isTooltipShow} content={tipFormatter(_value)}>
                 <div tabIndex={0} className={`km-tooltip ${prefix}__button`} />
             </Tooltip>
         </div>

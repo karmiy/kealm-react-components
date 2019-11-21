@@ -4,6 +4,8 @@
 
 - variable
 
+- error validate
+
 - logic code
 
 - logic code: description

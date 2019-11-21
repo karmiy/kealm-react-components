@@ -103,7 +103,7 @@
         height: $slider-button-wrapper-size;
         line-height: normal;
         top: $slider-button-wrapper-offset;
-        z-index: 1001;
+        z-index: $z-index-extra-large;
         background-color: transparent;
         transform: translateX(-50%);
         text-align: center;
@@ -131,6 +131,10 @@
 
         &.dragging {
             cursor: grabbing;
+        }
+
+        @include when(dragging) {
+            z-index: $z-index-extra-large + 1;
         }
     }
 
