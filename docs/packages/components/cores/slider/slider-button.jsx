@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { SliderButtonProps, SliderButtonDefaultProps } from './interface';
-import { useClassName, useStateStore, useSyncOnce } from 'hooks';
+import { useClassName, useStateStore, useSyncOnce, useThrottle } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import Tooltip from '../tooltip';
 import { offsetAttr, clientAttr } from './slider';
+import draggable from 'utils/draggable';
 
 /**
  * Find an adjacent value within the step limit
@@ -82,6 +83,47 @@ function SliderButton(props) {
         bottom: vertical ? buttonOffset : null,
     };
 
+    // ---------------------------------- event ----------------------------------
+    const onDragStart = useCallback((e, dataFlow) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { value, disabled, range, index, vertical } = stateRef.current;
+        // Disabled
+        if(disabled) return;
+
+        // 数据流
+        const startValue = range ? value[index] : value;
+        const startPos = clientAttr(e, vertical);
+        Object.assign(dataFlow, { startValue, startPos });
+
+        // Status change
+        setIsDragging(true);
+        setIsTooltipShow(true);
+    }, []);
+
+    const onDragging = useThrottle((e, dataFlow) => {
+        const runwayEle = runwayRef.current;
+        const { startValue, startPos } = dataFlow;
+        const { max, min, range, index, vertical } = stateRef.current;
+        const movingPos = clientAttr(e, vertical);
+        const diffOffset = !vertical ? movingPos - startPos : startPos - movingPos;
+        const diffValue = Math.round((diffOffset / runwayEle[offsetAttr(vertical)]) * (max - min));
+        const newValue = Math.max(Math.min(diffValue + startValue, max), min);
+        const nextValue = findWithinValueForStep(step, min, max, newValue);
+        const rangeChange = oldValue => {
+            oldValue[index] = nextValue;
+            return [...oldValue];
+        }
+        onSliderChange(range ? rangeChange : nextValue);
+    }, 1000 / 60);
+
+    const onDragEnd = useCallback(e => {
+        const buttonWrapperEle = buttonRef.current;
+        setIsDragging(false);
+        !buttonWrapperEle.contains(e.target) && setIsTooltipShow(false);
+    }, []);
+
     // ---------------------------------- logic code ----------------------------------
     // Save setIsDragging for Parent
     useSyncOnce(() => {
@@ -118,43 +160,13 @@ function SliderButton(props) {
 
     // Change value when it's dragging
     useEffect(() => {
-        const buttonWrapperEle = buttonRef.current,
-            runwayEle = runwayRef.current;
+        const buttonWrapperEle = buttonRef.current;
 
-        const mousedownListener = addDomEventListener(buttonWrapperEle, 'mousedown', e => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const { value, disabled, max, min, range, index, vertical } = stateRef.current;
-            const startValue = range ? value[index] : value;
-            const startPos = clientAttr(e, vertical);
-
-            // Disabled
-            if(disabled) return;
-
-            setIsDragging(true);
-            setIsTooltipShow(true);
-
-            const mousemoveListener = addDomEventListener(window, 'mousemove', e => {
-                const movingPos = clientAttr(e, vertical);
-                const diffOffset = !vertical ? movingPos - startPos : startPos - movingPos;
-                const diffValue = Math.round((diffOffset / runwayEle[offsetAttr(vertical)]) * (max - min));
-                const newValue = Math.max(Math.min(diffValue + startValue, max), min);
-                const nextValue = findWithinValueForStep(step, min, max, newValue);
-                const rangeChange = oldValue => {
-                    oldValue[index] = nextValue;
-                    return [...oldValue];
-                }
-                onSliderChange(range ? rangeChange : nextValue);
-            });
-
-            const mouseupListener = addDomEventListener(window, 'mouseup', e => {
-                setIsDragging(false);
-                !buttonWrapperEle.contains(e.target) && setIsTooltipShow(false);
-                mousemoveListener.remove();
-                mouseupListener.remove();
-            });
-        }, false);
+        const mousedownListener = draggable(buttonWrapperEle, {
+            start: onDragStart,
+            drag: onDragging,
+            end: onDragEnd,
+        });
 
         return () => mousedownListener.remove();
     }, []);

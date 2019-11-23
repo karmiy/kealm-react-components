@@ -5,8 +5,22 @@ import { ApiTable, HighLight } from '@/components';
 function ButtonDoc() {
     const [value, setValue] = useState(10);
     const [values, setValues] = useState([-10, 10]);
+    const [vertical, setVertical] = useState(false);
 
     const onChange = useCallback(v => setValue(v), []);
+
+    const marks = {
+        0: '0°C',
+        26: '26°C',
+        37: '37°C',
+        100: {
+            style: {
+                fontWeight: 'bold',
+                color: 'rgb(255, 85, 0)',
+            },
+            label: '100°C',
+        },
+    }
 
     return (
         <div className='page-box'>
@@ -197,44 +211,32 @@ function ButtonDoc() {
                 )
             }, [])}
 
-            {/* 基本用法 */}
-            <h2>基本用法</h2>
-            <p>在拖动滑块时，显示当前值。</p>
+            {/* 展示标记 */}
+            <h2>展示标记</h2>
+            <p>设置 marks 属性可以展示标记。</p>
             {useMemo(() => {
                 return (
                     <>
                         <div className="detail-box">
-                            <Radio.Group defaultValue={0} name={'direction'}>
-                                <Radio value={0}>Horizontal</Radio>
-                                <Radio value={1}>Vertical</Radio>
+                            <Radio.Group value={vertical} onChange={(e, v) => {setVertical(v)}}>
+                                <Radio value={false}>Horizontal</Radio>
+                                <Radio value={true}>Vertical</Radio>
                             </Radio.Group>
-                            {/*<Radio.Group defaultValue={'a'} name={'kealm'}>
-                                <Radio value={'a'}>A</Radio>
-                                <Radio value={'b'}>B</Radio>
-                                <Radio value={'c'}>C</Radio>
-                                <Radio value={'d'}>D</Radio>
-                            </Radio.Group>*/}
                         </div>
                         <div className="detail-box">
                             <Row>
-                                <Col span={14}>
-                                    <Slider defaultValue={20} showStops step={10} marks={{
-                                        0: '0%',
-                                        10: '10%',
-                                        55: {
-                                            style: {
-                                                fontWeight: 'bold',
-                                                color: 'rgb(255, 85, 0)',
-                                            },
-                                            label: '55%',
-                                        },
-                                    }} />
+                                <Col span={vertical ? 2 : 14}>
+                                    <Slider
+                                        defaultValue={20}
+                                        vertical={vertical}
+                                        height={vertical ? 300 : null}
+                                        marks={marks} />
                                 </Col>
                             </Row>
                         </div>
                     </>
                 )
-            }, [])}
+            }, [vertical])}
 
             {/* API */}
             {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}

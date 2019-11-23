@@ -298,10 +298,6 @@ function Slider(props) {
                 {renderSliderButtons}
                 {renderStops}
                 {renderMarks}
-                {/*<div className={`${componentCls}__marks`}>
-                    <div className={`${componentCls}__marks-text`} style={{left: '0%'}}>0%</div>
-                    <div className={`${componentCls}__marks-text`} style={{left: '8%'}}>8%</div>
-                </div>*/}
             </div>
         </div>
     );
