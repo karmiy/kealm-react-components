@@ -132,3 +132,21 @@ export const setTranslate = function (dom, options = {}) {
     y !== undefined && (trans[5] = y);
     dom.style.transform = `matrix(${trans.toString()})`;
 }
+
+/**
+ * Find parentNode by className
+ * @param dom
+ * @param className
+ * @param self
+ * @returns {*}
+ */
+export const findParentNodeByClass = function (dom, className, self = true) {
+    if(self && hasClass(dom, className))
+        return dom;
+    const parentNode = dom.parentNode;
+
+    if(parentNode === document.documentElement)
+        return null;
+
+    return hasClass(parentNode, className) ? parentNode : findParentNodeByClass(parentNode, className, false);
+}

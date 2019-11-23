@@ -20,11 +20,11 @@ function useCheckValue(defaultChecked, checked, groupValues, value, onChange) {
     });
 
     // logic checkChange
-    const checkChange = useCallback(e => {
+    const checkChange = useCallback((e, changedValue) => {
         // if(disabled) return;
         const { onChange, checked } = stateStoreRef.current;
 
-        onChange(e);
+        onChange(e, changedValue);
         // If there is props.checked, it is controlled by props.checked
         if(checked !== undefined) return;
 

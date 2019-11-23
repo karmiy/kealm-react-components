@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Slider, Row, Col } from '@kealm/react-components';
+import { Slider, Row, Col, Radio } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
 function ButtonDoc() {
@@ -194,6 +194,45 @@ function ButtonDoc() {
                             </Col>
                         </Row>
                     </div>
+                )
+            }, [])}
+
+            {/* 基本用法 */}
+            <h2>基本用法</h2>
+            <p>在拖动滑块时，显示当前值。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Radio.Group defaultValue={0} name={'direction'}>
+                                <Radio value={0}>Horizontal</Radio>
+                                <Radio value={1}>Vertical</Radio>
+                            </Radio.Group>
+                            {/*<Radio.Group defaultValue={'a'} name={'kealm'}>
+                                <Radio value={'a'}>A</Radio>
+                                <Radio value={'b'}>B</Radio>
+                                <Radio value={'c'}>C</Radio>
+                                <Radio value={'d'}>D</Radio>
+                            </Radio.Group>*/}
+                        </div>
+                        <div className="detail-box">
+                            <Row>
+                                <Col span={14}>
+                                    <Slider defaultValue={20} showStops step={10} marks={{
+                                        0: '0%',
+                                        10: '10%',
+                                        55: {
+                                            style: {
+                                                fontWeight: 'bold',
+                                                color: 'rgb(255, 85, 0)',
+                                            },
+                                            label: '55%',
+                                        },
+                                    }} />
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
                 )
             }, [])}
 

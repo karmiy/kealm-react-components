@@ -11,7 +11,7 @@ import React, {
     useEffect,
     useCallback
 } from 'react';
-import {Button, Row, Col, Tag, Input, Popover} from '@kealm/react-components';
+import {Button, Row, Col, Tag, Input, Popover, Radio} from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
 import { useDebounce, useThrottle } from 'hooks';
@@ -53,10 +53,18 @@ class KK extends PureComponent {
     }
 }
 
+const values = [
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4}
+]
+
 function ExampleDoc() {
     const [count, setCount] = useState(0);
     const [visible, setVisible] = useState(false);
     const [pop, setPop] = useState(null);
+    const [value, setValue] = useState(null);
     const ref = useRef(null);
 
     const func = useDebounce((v) => console.log(v), 2000, {leading: true, trailing: false});
@@ -64,10 +72,13 @@ function ExampleDoc() {
 
     return (
         <div>
-            <KK>
-                {useMemo(() => <K>1</K>, [])}
-            </KK>
-            <Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>
+            <Radio.Group defaultValue={values[2]}>
+                <Radio value={values[0]}>A</Radio>
+                <Radio value={values[1]}>B</Radio>
+                <Radio value={values[2]}>C</Radio>
+                <Radio value={values[3]}>D</Radio>
+            </Radio.Group>
+            {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>
     )
 }

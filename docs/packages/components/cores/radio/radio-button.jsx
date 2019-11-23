@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { RadioButtonProps, RadioButtonDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from './context';
@@ -40,11 +40,15 @@ function RadioButton(props) {
         [className]: className,
     }, [className, componentCls, isChecked, disabled, solid, size]);
 
+    // ---------------------------------- event ----------------------------------
+    const onCheckChange = useCallback(e => {
+        checkChange(e, value);
+    }, [value]);
 
     // ---------------------------------- render ----------------------------------
     return (
         <label role={'radio-button'} tabIndex={0} className={classNames} {...rootOthers}>
-            <input type="radio" tabIndex={-1} className={`${componentCls}__orig-radio`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...radioOthers} />
+            <input type="radio" tabIndex={-1} className={`${componentCls}__orig-radio`} checked={isChecked} onChange={onCheckChange} value={value} disabled={disabled} name={name} {...radioOthers} />
             <span className={`${componentCls}__inner`}>{children}</span>
         </label>
     )

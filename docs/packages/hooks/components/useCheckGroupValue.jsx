@@ -25,14 +25,15 @@ function useCheckGroupValue(defaultValue, value, onChange) {
         value,
     })
 
-    const checkChange = useCallback(e => {
+    const checkChange = useCallback((e, changedValue) => {
         const { isCheckbox, checkedValue, onChange, value } = stateStoreRef.current;
 
         let nextValue = null;
         // When value is valued, it is controlled by the user's own onChange
         if(isCheckbox) {
             // changed value and checked of checkbox
-            const { value: changedValue, checked: changedChecked} = e.target;
+            // const { value: changedValue, checked: changedChecked} = e.target;
+            const { checked: changedChecked} = e.target;
             // value of checkbox group after change
             const nextCheckedValue = changedChecked
                 ? [...checkedValue, changedValue]
@@ -41,8 +42,9 @@ function useCheckGroupValue(defaultValue, value, onChange) {
             onChange(nextCheckedValue);
             nextValue = nextCheckedValue;
         }else {
-            onChange(e);
-            nextValue = e.target.value;
+            onChange(e, changedValue);
+            // nextValue = e.target.value;
+            nextValue = changedValue;
         }
         if(!isEmpty(value)) return;
 

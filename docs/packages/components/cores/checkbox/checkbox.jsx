@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { CheckboxProps, CheckboxDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
@@ -44,12 +44,17 @@ function Checkbox(props) {
         'is-indeterminate': indeterminate,
     }, [componentCls, isChecked, disabled, indeterminate]);
 
+    // ---------------------------------- event ----------------------------------
+    const onCheckChange = useCallback(e => {
+        checkChange(e, value);
+    }, [value]);
+
     // ---------------------------------- render chunk ----------------------------------
     // render-input
     const renderInput = useMemo(() => {
         return (
             <span className={_inputClassNames}>
-                <input type="checkbox" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...checkboxOthers} />
+                <input type="checkbox" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={onCheckChange} value={value} disabled={disabled} name={name} {...checkboxOthers} />
                 <span className={`${componentCls}__inner`} />
             </span>
         )

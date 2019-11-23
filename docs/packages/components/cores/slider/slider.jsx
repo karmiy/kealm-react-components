@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo, useState } from 'react';
+import React, { useRef, useEffect, useMemo, useState, useCallback } from 'react';
 import { useContextConf, useClassName, useController, useStateStore } from 'hooks';
 import { SliderProps, SliderDefaultProps } from './interface';
 import addDomEventListener from 'add-dom-event-listener';
@@ -7,6 +7,7 @@ import { RenderWrapper } from '../../common';
 import { findWithinValueForStep } from './slider-button';
 import { isArray, isObject } from 'utils/common/base';
 import { toArray } from 'utils/common/array';
+import { findParentNodeByClass } from 'utils/common/dom';
 
 const createStops = (range = 0, step = 1) => {
     let count = Math.floor(range / step);
@@ -69,6 +70,7 @@ function Slider(props) {
     const [num, setNum] = useController(defaultValue, value, onChange, range ? [] : 0, disabled);
     const sliderRef = useRef(null);
     const runwayRef = useRef(null);
+    const marksRef = useRef(null);
     const toolTipController = useRef([]); // Save slider-button's setIsTooltipShow
     const stateRef = useStateStore({
         value: num,
@@ -127,64 +129,75 @@ function Slider(props) {
         bottom: vertical ? barOffset : null,
     };
 
+    // ---------------------------------- event ----------------------------------
+    const handleSlider = useCallback(newValue => {
+        const tooltipFunc = toolTipController.current;
+        const { value, range, max, min, step } = stateRef.current;
+
+        const nextValue = findWithinValueForStep(step, min, max, newValue);
+
+        // If it is range selection, find the nearest
+        if(range) {
+            const [leftValue, rightValue] = value;
+            // D-value
+            const diffLeft = Math.abs(newValue - leftValue),
+                diffRight = Math.abs(rightValue - newValue);
+
+            if(diffLeft < diffRight) {
+                setNum([nextValue, rightValue]);
+                tooltipFunc[0](true);
+            } else if(diffLeft > diffRight) {
+                setNum([leftValue, nextValue]);
+                tooltipFunc[1](true);
+            } else {
+                // Same distance, smaller
+                if(leftValue === rightValue) {
+                    // 1. Buttons overlap
+                    if(nextValue <= leftValue) {
+                        // 1-1.Click the position on the left side of the button
+                        setNum([nextValue, rightValue]);
+                        tooltipFunc[0](true);
+                    } else {
+                        // 1-2.Click the position on the right side of the button
+                        setNum([leftValue, nextValue]);
+                        tooltipFunc[1](true);
+                    }
+                } else {
+                    // 2. Buttons do not overlap
+                    setNum(leftValue < rightValue ? [nextValue, rightValue] : [leftValue, nextValue]);
+                    tooltipFunc[leftValue <= rightValue ? 0 : 1](true);
+                }
+            }
+        } else {
+            setNum(nextValue);
+            tooltipFunc.forEach(func => func(true));
+        }
+    }, []);
+
     // ---------------------------------- logic code ----------------------------------
     useEffect(() => {
-        const runway = runwayRef.current;
+        const runwayEle = runwayRef.current;
         const tooltipFunc = toolTipController.current;
-        // Click event
-        const clickListener = addDomEventListener(runway, 'click', e => {
-            const { value, disabled, max, min, step, range, vertical } = stateRef.current;
+        const marksEle = marksRef.current;
+
+        // Runway click event
+        const clickListener = addDomEventListener(runwayEle, 'click', e => {
+            const { disabled, max, min, vertical } = stateRef.current;
 
             // Disabled
             if(disabled) return;
 
             const currentPos = clientAttr(e, vertical),
-                startPos = runway.getBoundingClientRect()[rectAttr(vertical)],
+                startPos = runwayEle.getBoundingClientRect()[rectAttr(vertical)],
                 diffOffset = !vertical ?
                         currentPos - startPos
                         :
-                        (runway[offsetAttr(vertical)] - (currentPos - startPos));
+                        (runwayEle[offsetAttr(vertical)] - (currentPos - startPos));
 
-            const newValue = Math.round((diffOffset / runway[offsetAttr(vertical)]) * (max - min)) + min;
+            const newValue = Math.round((diffOffset / runwayEle[offsetAttr(vertical)]) * (max - min)) + min;
 
-            const nextValue = findWithinValueForStep(step, min, max, newValue);
-
-            // If it is range selection, find the nearest
-            if(range) {
-                const [leftValue, rightValue] = value;
-                // D-value
-                const diffLeft = Math.abs(newValue - leftValue),
-                    diffRight = Math.abs(rightValue - newValue);
-
-                if(diffLeft < diffRight) {
-                    setNum([nextValue, rightValue]);
-                    tooltipFunc[0](true);
-                } else if(diffLeft > diffRight) {
-                    setNum([leftValue, nextValue]);
-                    tooltipFunc[1](true);
-                } else {
-                    // Same distance, smaller
-                    if(leftValue === rightValue) {
-                        // 1. Buttons overlap
-                        if(nextValue <= leftValue) {
-                            // 1-1.Click the position on the left side of the button
-                            setNum([nextValue, rightValue]);
-                            tooltipFunc[0](true);
-                        } else {
-                            // 1-2.Click the position on the right side of the button
-                            setNum([leftValue, nextValue]);
-                            tooltipFunc[1](true);
-                        }
-                    } else {
-                        // 2. Buttons do not overlap
-                        setNum(leftValue < rightValue ? [nextValue, rightValue] : [leftValue, nextValue]);
-                        tooltipFunc[leftValue <= rightValue ? 0 : 1](true);
-                    }
-                }
-            } else {
-                setNum(nextValue);
-                tooltipFunc.forEach(func => func(true));
-            }
+            // Change position for Slider
+            handleSlider(newValue);
         }, false);
 
         // Outside click
@@ -193,9 +206,20 @@ function Slider(props) {
             if(!sliderEle.contains(e.target)) tooltipFunc.forEach(func => func(false));
         }, false);
 
+        // Marks click
+        const marksClickListener = marksEle ? addDomEventListener(marksEle, 'click', e => {
+            e.stopPropagation();
+            const marksTextEle = findParentNodeByClass(e.target, `${componentCls}__marks-text`);
+            if(marksTextEle) {
+                const newValue = marksTextEle.dataset.value;
+                handleSlider(newValue);
+            }
+        }, false) : { remove: () => {} };
+
         return () => {
             clickListener.remove();
             outSideClickListener.remove();
+            marksClickListener && marksClickListener.remove();
         };
     }, []);
 
@@ -217,25 +241,6 @@ function Slider(props) {
         )
     })();
 
-    const renderMarks = useMemo(() => {
-        if(!marks) return null;
-
-        const marksTexts = [];
-        for(let pos in marks) {
-            if (marks.hasOwnProperty(pos)) {
-                const option = marks[pos];
-                if(isObject(option)) {
-                    const { style, label } = option;
-                    const textStyle = {
-                        ...style,
-                        left: '0%',
-                    }
-                    marksTexts.push(<div key={pos} className={`${componentCls}__marks-text`} style={textStyle}>{label}</div>);
-                }
-            }
-        }
-    }, [marks, componentCls]);
-
     const renderStops = (() => {
         if(!showStops) return null;
 
@@ -250,6 +255,40 @@ function Slider(props) {
             return <div key={stop} className={`${componentCls}__stop`} style={style} />
         });
     })();
+
+    const renderMarks = useMemo(() => {
+        if(!marks) return null;
+
+        const marksStops = [];
+        const marksTexts = [];
+        for(let pos in marks) {
+            if (marks.hasOwnProperty(pos)) {
+                const option = marks[pos];
+                const { style, label } = isObject(option) ? option : {};
+                const offset = `${(pos - min) * 100 / (max - min)}%`;
+                const stopStyle = {
+                    left: !vertical ? offset : null,
+                    bottom: vertical ? offset: null,
+                }
+                const textStyle = {
+                    ...style,
+                    ...stopStyle,
+                };
+                marksStops.push(<div key={pos} className={`${componentCls}__stop ${componentCls}__marks-stop`} style={stopStyle} />);
+                marksTexts.push(<div key={pos} className={`${componentCls}__marks-text`} style={textStyle} data-value={pos}>{label || option}</div>);
+            }
+        }
+        return (
+            <>
+                <div>
+                    {marksStops}
+                </div>
+                <div ref={marksRef} className={`${componentCls}__marks`}>
+                    {marksTexts}
+                </div>
+            </>
+        )
+    }, [marks, componentCls, min, max, vertical]);
 
     // ---------------------------------- render ----------------------------------
     return (

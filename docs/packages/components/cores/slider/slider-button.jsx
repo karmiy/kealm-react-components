@@ -90,18 +90,18 @@ function SliderButton(props) {
 
     // Show or hide tooltip when mouseenter/leave
     useEffect(() => {
-        const buttonWrapper = buttonRef.current;
+        const buttonWrapperEle = buttonRef.current;
 
-        const clickListener = addDomEventListener(buttonWrapper, 'click', e => {
+        const clickListener = addDomEventListener(buttonWrapperEle, 'click', e => {
             e.preventDefault();
             e.stopPropagation();
         }, false);
-        const mouseenterListener = addDomEventListener(buttonWrapper, 'mouseenter', e => {
+        const mouseenterListener = addDomEventListener(buttonWrapperEle, 'mouseenter', e => {
             e.preventDefault();
             e.stopPropagation();
             !stateRef.current.isDragging && setIsTooltipShow(true);
         }, false);
-        const mouseleaveListener = addDomEventListener(buttonWrapper, 'mouseleave', e => {
+        const mouseleaveListener = addDomEventListener(buttonWrapperEle, 'mouseleave', e => {
             if(!e.relatedTarget) return;
 
             e.preventDefault();
@@ -118,10 +118,10 @@ function SliderButton(props) {
 
     // Change value when it's dragging
     useEffect(() => {
-        const buttonWrapper = buttonRef.current,
-            runway = runwayRef.current;
+        const buttonWrapperEle = buttonRef.current,
+            runwayEle = runwayRef.current;
 
-        const mousedownListener = addDomEventListener(buttonWrapper, 'mousedown', e => {
+        const mousedownListener = addDomEventListener(buttonWrapperEle, 'mousedown', e => {
             e.preventDefault();
             e.stopPropagation();
 
@@ -138,7 +138,7 @@ function SliderButton(props) {
             const mousemoveListener = addDomEventListener(window, 'mousemove', e => {
                 const movingPos = clientAttr(e, vertical);
                 const diffOffset = !vertical ? movingPos - startPos : startPos - movingPos;
-                const diffValue = Math.round((diffOffset / runway[offsetAttr(vertical)]) * (max - min));
+                const diffValue = Math.round((diffOffset / runwayEle[offsetAttr(vertical)]) * (max - min));
                 const newValue = Math.max(Math.min(diffValue + startValue, max), min);
                 const nextValue = findWithinValueForStep(step, min, max, newValue);
                 const rangeChange = oldValue => {
@@ -150,7 +150,7 @@ function SliderButton(props) {
 
             const mouseupListener = addDomEventListener(window, 'mouseup', e => {
                 setIsDragging(false);
-                !buttonWrapper.contains(e.target) && setIsTooltipShow(false);
+                !buttonWrapperEle.contains(e.target) && setIsTooltipShow(false);
                 mousemoveListener.remove();
                 mouseupListener.remove();
             });

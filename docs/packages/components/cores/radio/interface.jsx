@@ -7,7 +7,7 @@ export const AbstractCheckProps = {
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.any,
     onChange: PropTypes.func,
     name: PropTypes.string,
     groupValues: PropTypes.array, // provide from check-group
@@ -21,8 +21,8 @@ export const AbstractCheckDefaultProps = {
 /* checked-group-common-props */
 export const AbstractCheckGroupProps = {
     className: PropTypes.string,
-    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    defaultValue: PropTypes.any,
+    value: PropTypes.any,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
     name: PropTypes.string,

@@ -165,6 +165,7 @@
     }
 
     @include e(stop) {
+        box-sizing: border-box;
         position: absolute;
         height: $slider-height;
         width: $slider-height;
@@ -185,6 +186,12 @@
             transform: translateX(-50%);
             font-size: 14px;
             color: $color-info;
+        }
+
+        @include e(marks-stop) {
+            border: 1px solid $color-primary;
+            box-shadow: 0 0 2px $color-primary;
+            transform: translateX(-50%) scale(2);
         }
     }
 
@@ -207,6 +214,10 @@
         }
         .km-slider__stop {
             transform: translateY(50%);
+        }
+
+        .km-slider__marks-stop {
+            transform: translateY(50%) scale(2);
         }
         /* -----------------k------------------- */
         &.km-slider--with-input {

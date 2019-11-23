@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CheckboxButtonProps, CheckboxButtonDefaultProps } from "./interface";
 import { useContextConf, useClassName, useCheckValue, useContextProps } from 'hooks';
 import { CheckedContext } from '../radio/context';
@@ -40,11 +40,15 @@ function CheckboxButton(props) {
         [className]: className,
     }, [className, componentCls, isChecked, disabled, solid, size]);
 
+    // ---------------------------------- event ----------------------------------
+    const onCheckChange = useCallback(e => {
+        checkChange(e, value);
+    }, [value]);
 
     // ---------------------------------- render ----------------------------------
     return (
         <label role={'checkbox-button'} tabIndex={0} className={classNames} {...rootOthers}>
-            <input type="checkbox" tabIndex={-1} className={`${componentCls}__orig-checkbox`} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...checkboxOthers} />
+            <input type="checkbox" tabIndex={-1} className={`${componentCls}__orig-checkbox`} checked={isChecked} onChange={onCheckChange} value={value} disabled={disabled} name={name} {...checkboxOthers} />
             <span className={`${componentCls}__inner`}>{children}</span>
         </label>
     )

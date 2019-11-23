@@ -23,7 +23,7 @@ export const checkboxProps = [
     {
         param: 'value',
         des: '根据 value 进行比较，判断是否选中',
-        type: 'string / number',
+        type: 'any',
         option: '--',
         default: '--',
     },
@@ -54,7 +54,7 @@ export const checkboxEvents = [
     {
         name: 'onChange',
         des: '选项变化时的回调函数',
-        callback: '(e: Event)',
+        callback: '(e: Event, value)',
     }
 ]
 
@@ -104,7 +104,11 @@ export const checkboxGroupProps = [
 ]
 
 export const checkboxGroupEvents = [
-    ...checkboxEvents
+    {
+        name: 'onChange',
+        des: '选项变化时的回调函数',
+        callback: '(checkedValue: array)',
+    }
 ]
 
 export const checkboxButtonProps = [
@@ -132,7 +136,7 @@ export const checkboxButtonProps = [
     {
         param: 'value',
         des: '根据 value 进行比较，判断是否选中',
-        type: 'string / number',
+        type: 'any',
         option: '--',
         default: '--',
     },

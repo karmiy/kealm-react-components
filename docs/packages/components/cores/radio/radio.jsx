@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { RadioProps, RadioDefaultProps } from "./interface";
 import { useContextConf, useClassName, useContextProps, useCheckValue } from 'hooks';
 import { CheckedContext } from './context';
@@ -42,12 +42,17 @@ function Radio(props) {
         'is-disabled': disabled,
     }, [componentCls, isChecked, disabled]);
 
+    // ---------------------------------- event ----------------------------------
+    const onCheckChange = useCallback(e => {
+        checkChange(e, value);
+    }, [value]);
+
     // ---------------------------------- render chunk ----------------------------------
     // render-input
     const renderInput = useMemo(() => {
         return (
             <span className={_inputClassNames}>
-                <input type="radio" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={checkChange} value={value} disabled={disabled} name={name} {...radioOthers} />
+                <input type="radio" tabIndex={-1} className={`${componentCls}__original `} checked={isChecked} onChange={onCheckChange} value={value} disabled={disabled} name={name} {...radioOthers} />
                 <span className={`${componentCls}__inner`} />
             </span>
         )

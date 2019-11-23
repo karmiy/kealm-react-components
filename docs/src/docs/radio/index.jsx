@@ -9,8 +9,8 @@ function RadioDoc() {
     const [disabled, setDisabled] = useState(true);
     const [groupValue, setGroupValue] = useState('a');
 
-    const change = useCallback((e) => setCheckedValue(e.target.value), []);
-    const groupChange = useCallback((e) => setGroupValue(e.target.value), []);
+    const change = useCallback(e => setCheckedValue(e.target.value), []);
+    const groupChange = useCallback(e => setGroupValue(e.target.value), []);
     return (
         <div className='page-box'>
             <h1>Radio 单选框</h1>
