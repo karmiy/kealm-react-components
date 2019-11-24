@@ -15,12 +15,6 @@
         cursor: pointer;
         vertical-align: middle;
 
-        /* -----------------k------------------- */
-        &.show-input {
-            width: auto;
-            margin-right: 160px;
-        }
-
         @include when(disabled){
             cursor: default;
 
@@ -33,18 +27,8 @@
             }
 
             .km-slider__button-wrapper {
-                &:hover,
-                &.hover {
+                &:hover {
                     cursor: not-allowed;
-                }
-
-                &.dragging {
-                    cursor: not-allowed;
-                }
-
-                &:hover,
-                &.hover,
-                &.dragging {
                     .km-slider__button {
                         transform: scale(1);
                     }
@@ -52,40 +36,10 @@
             }
 
             .km-slider__button {
-                /*&:hover,
-                &.hover,
-                &.dragging {
-                    transform: scale(1);
-                }*/
-
-                &:hover,
-                &.hover {
-                    cursor: not-allowed;
-                }
-
-                &.dragging {
+                &:hover {
                     cursor: not-allowed;
                 }
             }
-        }
-    }
-
-    /* -----------------k------------------- */
-    @include e(input) {
-        float: right;
-        width: 130px;
-        margin-top: 3px;
-
-        &.km-input-number--mini {
-            margin-top: 5px;
-        }
-
-        &.km-input-number--medium {
-            margin-top: 0;
-        }
-
-        &.km-input-number--large {
-            margin-top: -2px;
         }
     }
 
@@ -115,22 +69,12 @@
             vertical-align: middle;
         }
 
-        &:hover,
-        &.hover {
+        &:hover {
             //cursor: grab;
             cursor: pointer;
-        }
-
-        &:hover,
-        &.hover,
-        &.dragging {
             .km-slider__button {
                 transform: scale(1.2);
             }
-        }
-
-        &.dragging {
-            cursor: grabbing;
         }
 
         @include when(dragging) {
@@ -147,20 +91,9 @@
         transition: .2s;
         user-select: none;
 
-        /*&:hover,
-        &.hover,
-        &.dragging {
-            transform: scale(1.2);
-        }*/
-
-        &:hover,
-        &.hover {
+        &:hover {
             //cursor: grab;
             cursor: pointer;
-        }
-
-        &.dragging {
-            cursor: grabbing;
         }
     }
 
@@ -218,60 +151,6 @@
 
         .km-slider__marks-stop {
             transform: translateY(50%) scale(2);
-        }
-        /* -----------------k------------------- */
-        &.km-slider--with-input {
-            padding-bottom: #{36px + 22px};
-            .km-slider__input {
-                float: none;
-                position: absolute;
-                width: 36px;
-                bottom: 22px;
-                margin-top: 15px;
-                overflow: visible;
-                .km-input__inner {
-                    padding-left: 5px;
-                    padding-right: 5px;
-                    text-align: center;
-                }
-                .km-input-number__decrease,
-                .km-input-number__increase
-                {
-                    box-sizing: border-box;
-                    line-height: 20px;
-                    border: $input-border;
-                    top: $input-small-height;
-                    margin-top: -1px;
-                    transition: $border-transition-base;
-                }
-                .km-input-number__decrease {
-                    width: 18px;
-                    right: 18px;
-                    border-bottom-left-radius: $input-border-radius;
-                }
-                .km-input-number__increase {
-                    width: 19px;
-                    border-bottom-right-radius: $input-border-radius;
-                    & ~ .km-input .km-input__inner {
-                        border-bottom-left-radius: 0;
-                        border-bottom-right-radius: 0;
-                    }
-                }
-                &:hover {
-                    .km-input-number__decrease,
-                    .km-input-number__increase
-                    {
-                        border-color: $input-hover-border;
-                    }
-                }
-                &:active {
-                    .km-input-number__decrease,
-                    .km-input-number__increase
-                    {
-                        border-color: $input-focus-border;
-                    }
-                }
-            }
         }
 
         @include e(marks-text) {
