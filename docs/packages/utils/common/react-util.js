@@ -1,6 +1,15 @@
 import { Children, cloneElement } from 'react';
-import { isFragment } from 'react-is';
+import { isFragment, isElement } from 'react-is';
 import { isArray, isObject } from './base';
+
+/**
+ * Check if it's the React element
+ * @param element: <div>...</div>、<K>...</K>
+ * @returns {*}
+ */
+export const isReactElement = function (element) {
+    return isElement(element);
+}
 
 /**
  * Translate children of props without fragment

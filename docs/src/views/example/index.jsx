@@ -16,6 +16,8 @@ import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
 import { useDebounce, useThrottle } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
+import { isObject } from '../../../packages/utils/common/base';
+import { isElement } from 'react-is';
 
 function T(props) {
     console.log('T');
@@ -40,6 +42,8 @@ TT = memo(TT);
 class K extends PureComponent {
     render() {
         console.log('k');
+        // console.log(isElement(this));
+        console.log(this);
         return <div>K</div>
     }
 }
@@ -69,9 +73,12 @@ function ExampleDoc() {
 
     const func = useDebounce((v) => console.log(v), 2000, {leading: true, trailing: false});
     const func2 = useThrottle((v) => console.log(v), 2000);
-
+    const el = <K>123</K>
+    // console.log(isElement(el));
+    console.log(el);
     return (
         <div>
+            {el}
             <Radio.Group defaultValue={values[2]}>
                 <Radio value={values[0]}>A</Radio>
                 <Radio value={values[1]}>B</Radio>

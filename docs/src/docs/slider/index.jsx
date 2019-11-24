@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { Slider, Row, Col, Radio } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { sliderProps, sliderEvents } from 'api/slider';
+import { CodeBasic, CodeControlled, CodeTooltip, CodeDisabled, CodeSection, CodeSteps, CodeRange, CodeVertical, CodeMarks } from 'demos/slider';
 
 function ButtonDoc() {
     const [value, setValue] = useState(10);
@@ -41,6 +43,7 @@ function ButtonDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 受控用法 */}
             <h2>受控用法</h2>
@@ -56,6 +59,7 @@ function ButtonDoc() {
                     </div>
                 )
             }, [value])}
+            <HighLight code={CodeControlled} />
 
             {/* 隐藏与格式化Tooltip */}
             <h2>隐藏与格式化Tooltip</h2>
@@ -97,6 +101,7 @@ function ButtonDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeTooltip} />
 
             {/* 禁用 */}
             <h2>禁用</h2>
@@ -112,6 +117,7 @@ function ButtonDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDisabled} />
 
             {/* 数值区间 */}
             <h2>数值区间</h2>
@@ -128,6 +134,7 @@ function ButtonDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeSection} />
 
             {/* 自定义步数 */}
             <h2>自定义步数</h2>
@@ -159,6 +166,7 @@ function ButtonDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeSteps} />
 
             {/* 范围选择 */}
             <h2>范围选择</h2>
@@ -183,6 +191,7 @@ function ButtonDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeRange} />
 
             {/* 竖向模式 */}
             <h2>竖向模式</h2>
@@ -210,6 +219,7 @@ function ButtonDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeVertical} />
 
             {/* 展示标记 */}
             <h2>展示标记</h2>
@@ -237,9 +247,10 @@ function ButtonDoc() {
                     </>
                 )
             }, [vertical])}
+            <HighLight code={CodeMarks} />
 
             {/* API */}
-            {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
+            <ApiTable title='Slider' propsList={sliderProps} eventsList={sliderEvents} />
         </div>
     )
 }

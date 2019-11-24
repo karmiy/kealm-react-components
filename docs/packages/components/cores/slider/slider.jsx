@@ -8,6 +8,7 @@ import { findWithinValueForStep } from './slider-button';
 import { isArray, isObject } from 'utils/common/base';
 import { toArray } from 'utils/common/array';
 import { findParentNodeByClass } from 'utils/common/dom';
+import { isReactElement } from 'utils/common/react-util';
 
 const createStops = (range = 0, step = 1) => {
     let count = Math.floor(range / step);
@@ -264,7 +265,7 @@ function Slider(props) {
         for(let pos in marks) {
             if (marks.hasOwnProperty(pos)) {
                 const option = marks[pos];
-                const { style, label } = isObject(option) ? option : {};
+                const { style, label } = isObject(option) && !isReactElement(option) ? option : {};
                 const offset = `${(pos - min) * 100 / (max - min)}%`;
                 const stopStyle = {
                     left: !vertical ? offset : null,
