@@ -4,10 +4,21 @@ import { InputNumberProps, InputNumberDefaultProps } from './interface';
 import Input from '../input';
 import Icon from '../icon';
 import addDomEventListener from 'add-dom-event-listener';
-import { isEmpty } from 'utils/common/base';
+import { trim } from 'utils/common/base';
 
 const isNumber = (value) => {
     return !Number.isNaN(Number(value));
+}
+
+const getPrecision = (value) => {
+    if (value === undefined) return 0;
+    const valueString = value.toString();
+    const dotPosition = valueString.indexOf('.');
+    let precision = 0;
+    if (dotPosition !== -1) {
+        precision = valueString.length - dotPosition - 1;
+    }
+    return precision;
 }
 
 function InputNumber(props) {
@@ -25,12 +36,14 @@ function InputNumber(props) {
     } = props;
 
     // ---------------------------------- variable ----------------------------------
+    const _defaultValue = defaultValue === null ? '' : defaultValue,
+        _value = value === null ? '' : value;
     const [
         outerValue,
         innerValue,
         setOuterValue,
         setInnerValue
-    ] = usePuppet(defaultValue, value, onChange, '', disabled, false);
+    ] = usePuppet(_defaultValue, _value, onChange, '', disabled, false);
     const inputNumberRef = useRef(null);
     const stateStoreRef = useStateStore({ max, min }, false);
 
@@ -56,15 +69,19 @@ function InputNumber(props) {
 
     // ---------------------------------- event ----------------------------------
     const onHandler = useCallback((increase) => {
-        const { min, max } = stateStoreRef.current;
         setOuterValue(v => {
             if(v === '') return min === -Infinity ? 0 : min;
 
-            const nextValue = increase ? v + step : v - step;
+            const stepPrecision = getPrecision(step);
+            const precisionFactor = Math.pow(10, stepPrecision);
+            const nextValue = increase ?
+                (v * precisionFactor + step * precisionFactor) / precisionFactor
+                :
+                (v * precisionFactor - step * precisionFactor) / precisionFactor;
 
             return Math.min(Math.max(nextValue, min), max);
         });
-    }, [step]);
+    }, [step, min, max]);
 
     const onIncrease = useCallback(() => onHandler(true), [onHandler]);
     const onDecrease = useCallback(() => onHandler(false), [onHandler]);
@@ -81,12 +98,12 @@ function InputNumber(props) {
         let oldValue = '';
 
         const focusListener = addDomEventListener(inputEle, 'focus', function (e) {
-            oldValue = e.target.value;
+            oldValue = trim(e.target.value);
         }, false);
 
         const blurListener = addDomEventListener(inputEle, 'blur', function (e) {
             const { min, max } = stateStoreRef.current;
-            const targetValue = e.target.value;
+            const targetValue = trim(e.target.value);
 
             if(!isNumber(targetValue)) {
                 // Reload input when it's not a number

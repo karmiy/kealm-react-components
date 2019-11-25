@@ -1,15 +1,12 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { InputNumber } from '@kealm/react-components';
+import { InputNumber, Button, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
-import Input from "../../../packages/components/cores/input/input";
 
 function InputNumberDoc() {
     const [value, setValue] = useState(2);
-    const [loading, setLoading] = useState(true);
+    const [disabled, setDisabled] = useState(true);
 
-    const onChange = useCallback(v => {
-        setValue(v === null ? undefined : v);
-    }, []);
+    const onChange = useCallback(v => setValue(v), []);
 
     return (
         <div className='page-box'>
@@ -21,12 +18,10 @@ function InputNumberDoc() {
             <p>数字输入框。</p>
             {useMemo(() => {
                 return (
-                    <>
-                        <div className="detail-box">
-                            {/*<InputNumber value={3} onChange={v => console.log(v)}>默认按钮</InputNumber>*/}
-                            <InputNumber defaultValue={2} min={1} max={10} />
-                        </div>
-                    </>
+                    <div className="detail-box">
+                        {/*<InputNumber value={3} onChange={v => console.log(v)}>默认按钮</InputNumber>*/}
+                        <InputNumber defaultValue={2} min={1} max={10} />
+                    </div>
                 )
             }, [])}
 
@@ -35,13 +30,57 @@ function InputNumberDoc() {
             <p>配合 value 与 onChange 控制 InputNumber 改变。</p>
             {useMemo(() => {
                 return (
+                    <div className="detail-box">
+                        <InputNumber value={value} min={1} max={10} onChange={onChange} />
+                    </div>
+                )
+            }, [value])}
+
+            {/* 禁用状态 */}
+            <h2>禁用状态</h2>
+            <p>点击按钮切换可用状态。</p>
+            {useMemo(() => {
+                return (
                     <>
                         <div className="detail-box">
-                            <InputNumber value={value} min={1} max={10} onChange={onChange} />
+                            <Button type={'primary'} onClick={() => setDisabled(d => !d)}>Toggle Disabled</Button>
+                        </div>
+                        <div className="detail-box">
+                            <InputNumber defaultValue={2} min={1} max={10} disabled={disabled} />
                         </div>
                     </>
                 )
-            }, [value])}
+            }, [disabled])}
+
+            {/* 步数 */}
+            <h2>步数</h2>
+            <p>允许定义递增递减的步数控制。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Row type={'flex'} align={'middle'} gutter={20}>
+                                <Col>
+                                    <InputNumber defaultValue={2} min={0} max={10} step={2} />
+                                </Col>
+                                <Col className={'font-bold'}>
+                                    Step = 2
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row type={'flex'} align={'middle'} gutter={20}>
+                                <Col>
+                                    <InputNumber defaultValue={2.2} min={0} max={10} step={0.1} />
+                                </Col>
+                                <Col className={'font-bold'}>
+                                    Step = 0.1
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
+                )
+            }, [])}
 
             {/* API */}
             {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { isEmpty } from 'utils/common/base';
-import { useController, useStateStore } from 'hooks';
+import { useController, useStateStore, useTimeout } from 'hooks';
 
 /**
  * Bidirectional drive
@@ -11,6 +11,7 @@ function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = fa
     const [outerValue, setOutValue] = useController(defaultProp, prop, onChange, emptyProp, disabled);
     const [innerValue, setInnerValue] = useState(outerValue);
     const stateStoreRef = useStateStore({ prop, outerValue, disabled, strict }, false);
+    const [setTimer] = useTimeout(true);
 
     const onInnerChange = useCallback(v => {
         const { prop, disabled, strict } = stateStoreRef.current;
@@ -24,10 +25,15 @@ function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = fa
     const onOuterChange = useCallback((v, ...rest) => {
         const { prop, outerValue } = stateStoreRef.current;
 
-        // Prevent prop or outerValue from changing
-        if(!isEmpty(prop) || v === outerValue) {
+        // Prevent outerValue from changing
+        if(v === outerValue) {
             onInnerChange(outerValue);
         }
+
+        // Prevent prop from changing
+        setTimer(() => {
+            !isEmpty(prop) && outerValue === stateStoreRef.current.prop && onInnerChange(outerValue);
+        }, 0, 'input-number');
 
         setOutValue(v, ...rest);
     }, []);
