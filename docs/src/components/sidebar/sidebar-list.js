@@ -45,6 +45,10 @@ const sidebarList = [
                 link: 'input',
             },
             {
+                name: 'InputNumber 数字输入框',
+                link: 'input-number',
+            },
+            {
                 name: 'Select 下拉选择器',
                 link: 'select',
             },

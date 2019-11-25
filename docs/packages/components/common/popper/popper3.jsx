@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useRef } from 'react';
 import PopperJs from 'popper.js';
 import { useContextConf, useClassName } from 'hooks';
-import DomWrapper from '../domWrapper';
+import DomWrapper from '../dom-wrapper';
 import { filterEmptyProp } from 'utils/common/object';
 
 const initialStyle = {

@@ -18,6 +18,7 @@ import Select from './select';
 import Pagination from './pagination';
 import Switch from './switch';
 import Slider from './slider';
+import InputNumber from './input-number';
 
 export {
     Icon,
@@ -43,4 +44,5 @@ export {
     Pagination,
     Switch,
     Slider,
+    InputNumber,
 }

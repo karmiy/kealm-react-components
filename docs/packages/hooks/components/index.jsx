@@ -4,6 +4,7 @@ import useInputValue from './useInputValue';
 import useTabsValue from './useTabsValue';
 import useTrigger from './useTrigger';
 import useController from './useController';
+import usePuppet from './usePuppet';
 
 export {
     useCheckValue,
@@ -12,4 +13,5 @@ export {
     useTabsValue,
     useTrigger,
     useController,
+    usePuppet,
 }

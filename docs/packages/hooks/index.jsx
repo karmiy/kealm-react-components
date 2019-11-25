@@ -28,6 +28,7 @@ import {
     useTabsValue,
     useTrigger,
     useController,
+    usePuppet,
 } from './components';
 
 export {
@@ -59,4 +60,5 @@ export {
     useTabsValue,
     useTrigger,
     useController,
+    usePuppet,
 }

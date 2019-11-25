@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PopperJs from 'popper.js';
 import { PopperProps, PopperDefaultProps } from './interface';
-import DomWrapper from '../domWrapper';
+import DomWrapper from '../dom-wrapper';
 
 class Popper extends Component {
     popperRef = null;

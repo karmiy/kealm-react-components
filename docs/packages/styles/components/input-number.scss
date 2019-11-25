@@ -1,0 +1,70 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(input-number) {
+    position: relative;
+    width: $input-number-width;
+    .km-input__inner {
+        padding: 0 $input-number-handle-wrap-width + 2px 0 10px;
+    }
+
+    @include pseudo(hover) {
+        .km-input__inner {
+            border-color: $input-number-border-color-hover;
+            transition: border-color $transition-duration-base linear;
+        }
+    }
+
+    @include e(handler-wrap) {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        width: $input-number-handle-wrap-width;
+        height: calc(100% - 2px);
+        background-color: $color-white;
+        border-left: 1px solid $input-number-border-color;
+        border-radius: 0 4px 4px 0;
+        z-index: $z-index-base;
+        transition: $transition-duration-base;
+        @include e(handler) {
+            display: flex;
+            height: calc((100% - 1px) / 2);
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: $input-number-handler-color;
+            cursor: pointer;
+            @include pseudo(first-child) {
+                border-bottom: 1px solid $input-number-border-color;
+            }
+
+            @include pseudo(hover) {
+                color: $input-number-handler-color-hover;
+                @include utils-little-bold($input-number-handler-color-hover);
+            }
+
+            @include when(disabled) {
+                border-color: $input-number-border-color-disabled;
+                color: $input-number-border-color-disabled;
+                text-shadow: none;
+                cursor: not-allowed;
+            }
+
+            @include e(handler-inner) {
+                transform: scale(.75);
+            }
+        }
+    }
+
+    @include when(disabled) {
+        cursor: not-allowed;
+        @include pseudo(hover) {
+            .km-input__inner {
+                border-color: $input-number-border-color-disabled;
+            }
+        }
+        .km-input-number__handler-wrap {
+            border-color: $input-number-border-color-disabled;
+        }
+    }
+}

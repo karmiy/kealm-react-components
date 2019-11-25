@@ -1,6 +1,6 @@
 import React, { memo, useRef } from 'react';
 import { LazyWrapperProps, LazyWrapperDefaultProps } from './interface';
-import RenderWrapper from '../renderWrapper';
+import RenderWrapper from '../render-wrapper';
 
 /**
  * If visible is false initially, no rendering will be done

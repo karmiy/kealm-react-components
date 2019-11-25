@@ -1,10 +1,10 @@
-import ResizeObserver from './resizeObserver'
+import ResizeObserver from './resize-observer'
 import Portal from './portal';
 import Motion from './motion';
-import RenderWrapper from './renderWrapper';
-import LazyWrapper from './lazyWrapper';
-import DomWrapper from './domWrapper';
-import RenderOnce from './renderOnce';
+import RenderWrapper from './render-wrapper';
+import LazyWrapper from './lazy-wrapper';
+import DomWrapper from './dom-wrapper';
+import RenderOnce from './render-once';
 import Popper from './popper';
 
 export {

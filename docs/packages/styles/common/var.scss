@@ -682,3 +682,13 @@ $slider-height: 6px !default;
 $slider-button-size: 16px !default;
 $slider-button-wrapper-size: 36px !default;
 $slider-button-wrapper-offset: -15px !default;
+
+/* --------------------------InputNumber-------------------------- */
+$input-number-width: 90px !default;
+$input-number-border-color: $border-color-base !default;
+$input-number-border-color-hover: $color-primary !default;
+$input-number-border-color-disabled: $input-disabled-border !default;
+
+$input-number-handle-wrap-width: 22px !default;
+$input-number-handler-color: $color-text-thin-dark-7 !default;
+$input-number-handler-color-hover: $input-number-border-color-hover !default;

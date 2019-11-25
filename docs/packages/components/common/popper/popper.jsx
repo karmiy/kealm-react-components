@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import PopperJs from 'popper.js';
 import { PopperProps, PopperDefaultProps } from './interface';
-import DomWrapper from '../domWrapper';
+import DomWrapper from '../dom-wrapper';
 import { filterEmptyProp } from 'utils/common/object';
 
 function Popper(props) {
