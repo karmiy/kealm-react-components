@@ -4,13 +4,13 @@ import { InputNumberProps, InputNumberDefaultProps } from './interface';
 import Input from '../input';
 import Icon from '../icon';
 import addDomEventListener from 'add-dom-event-listener';
-import { trim } from 'utils/common/base';
+import { trim, isEmpty } from 'utils/common/base';
 
 const isNumber = (value) => {
     return !Number.isNaN(Number(value));
 }
 
-const getPrecision = (value) => {
+const getPrecision = value => {
     if (value === undefined) return 0;
     const valueString = value.toString();
     const dotPosition = valueString.indexOf('.');
@@ -19,6 +19,18 @@ const getPrecision = (value) => {
         precision = valueString.length - dotPosition - 1;
     }
     return precision;
+}
+
+const toPrecision = (value, precision) => {
+    if(isEmpty(precision)) return `${value}`;
+
+    if(value === '') return value;
+
+    const valuePrecision = getPrecision(value);
+
+    if(valuePrecision >= precision) return `${value}`;
+
+    return value.toFixed(precision);
 }
 
 function InputNumber(props) {
@@ -53,17 +65,20 @@ function InputNumber(props) {
 
     const classNames = useClassName({
         [componentCls]: true,
+        // 'is-controls-right': true,
         'is-disabled': disabled,
         [className]: className,
     }, [className, componentCls, disabled]);
 
     const handlerUpClassNames = useClassName({
-        [`${componentCls}__handler`]: true,
+        // [`${componentCls}__handler`]: true,
+        [`${componentCls}__increase`]: true,
         'is-disabled': disabled || overMax,
     }, [componentCls, disabled, overMax]);
 
     const handlerDownClassNames = useClassName({
-        [`${componentCls}__handler`]: true,
+        // [`${componentCls}__handler`]: true,
+        [`${componentCls}__decrease`]: true,
         'is-disabled': disabled || belowMin,
     }, [componentCls, disabled, belowMin]);
 
@@ -124,7 +139,7 @@ function InputNumber(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <div ref={inputNumberRef} className={classNames} {...others}>
-            <div className={`${componentCls}__handler-wrap`}>
+            {/*<div className={`${componentCls}__handler-wrap`}>
                 <span unselectable={'unselectable'} role={'button'} className={handlerUpClassNames} onClick={onIncrease}>
                     <Icon className={`${componentCls}__handler-inner`} type={'up'} />
                 </span>
@@ -132,6 +147,13 @@ function InputNumber(props) {
                     <Icon className={`${componentCls}__handler-inner`} type={'down'} />
                 </span>
             </div>
+            <Input value={toPrecision(innerValue, 2)} onChange={onInputChange} disabled={disabled} />*/}
+            <span unselectable={'unselectable'} role={'button'} className={handlerDownClassNames} onClick={onDecrease}>
+                <Icon type={'minus'} />
+            </span>
+            <span unselectable={'unselectable'} role={'button'} className={handlerUpClassNames} onClick={onIncrease}>
+                <Icon type={'plus'} />
+            </span>
             <Input value={`${innerValue}`} onChange={onInputChange} disabled={disabled} />
         </div>
     );

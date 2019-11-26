@@ -1,7 +1,9 @@
 @import "../mixins/index";
 @import "../common/var";
 
+/*
 @include b(input-number) {
+    display: inline-block;
     position: relative;
     width: $input-number-width;
     .km-input__inner {
@@ -68,6 +70,135 @@
         .km-input-number__handler-wrap {
             border-color: $input-number-border-color-disabled;
             background-color: $input-number-background-color-disabled;
+        }
+    }
+}*/
+@include b(input-number) {
+    position: relative;
+    display: inline-block;
+    width: $input-number-width;
+    line-height: #{$input-number-height - 2};
+
+    .km-input {
+        display: block;
+
+        &__inner {
+            padding-left: #{$input-number-height + 10};
+            padding-right: #{$input-number-height + 10};
+            text-align: center;
+        }
+    }
+
+    @include e((increase, decrease)) {
+        position: absolute;
+        width: $input-number-height;
+        height: auto;
+        top: 1px;
+        z-index: 1;
+        background-color: $input-number-handler-background-color;
+        font-size: $input-number-handler-font-size;
+        color: $input-number-handler-color;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            color: $input-number-color-hover;
+
+            &:not(.is-disabled) ~ .km-input .km-input__inner:not(.is-disabled) {
+                border-color: $input-number-color-hover;
+            }
+        }
+
+        &.is-disabled {
+            color: $input-number-handler-color-disabled;
+            cursor: not-allowed;
+        }
+    }
+
+    @include e(increase) {
+        right: 1px;
+        border-left: $border-base;
+        border-radius: 0 $border-radius-base $border-radius-base 0;
+    }
+
+    @include e(decrease) {
+        left: 1px;
+        border-right: $border-base;
+        border-radius: $border-radius-base 0 0 $border-radius-base;
+    }
+
+    @include when(disabled) {
+        @include e((increase, decrease)) {
+            border-color: $disabled-border-base;
+            color: $disabled-border-base;
+
+            &:hover {
+                color: $disabled-border-base;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    @include m(small) {
+        width: 130px;
+        line-height: #{$input-small-height - 2};
+
+        @include e((increase, decrease)) {
+            width: $input-small-height;
+            font-size: $font-size-small;
+
+            [class*=km-icon] {
+                transform: scale(.9);
+            }
+        }
+
+        .km-input__inner {
+            padding-left: #{$input-small-height + 7};
+            padding-right: #{$input-small-height + 7};
+        }
+    }
+
+    @include when(without-controls) {
+        .km-input__inner {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+
+    @include when(controls-right) {
+        .km-input__inner {
+            padding-left: 15px;
+            padding-right: #{$input-number-height + 10};
+        }
+
+        @include e((increase, decrease)) {
+            height: auto;
+            line-height: #{($input-number-height - 2) / 2};
+
+            [class*=km-icon] {
+                transform: scale(.8);
+            }
+        }
+
+        @include e(increase) {
+            border-bottom: $border-base;
+            border-radius: 0 $border-radius-base 0 0;
+        }
+
+        @include e(decrease) {
+            top: auto;
+            border-right: none;
+            right: 1px;
+            bottom: 1px;
+            left: auto;
+            border-left: $border-base;
+            border-radius: 0 0 $border-radius-base 0;
+        }
+
+        &[class*=small] {
+            [class*=increase], [class*=decrease] {
+                line-height: #{($input-small-height - 2) / 2};
+            }
         }
     }
 }
