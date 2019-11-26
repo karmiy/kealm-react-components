@@ -44,6 +44,8 @@ function InputNumber(props) {
         min,
         step,
         disabled,
+        size,
+        controlsRight,
         ...others
     } = props;
 
@@ -65,19 +67,18 @@ function InputNumber(props) {
 
     const classNames = useClassName({
         [componentCls]: true,
-        // 'is-controls-right': true,
+        'is-controls-right': controlsRight,
         'is-disabled': disabled,
+        [`${componentCls}--${size}`]: size,
         [className]: className,
-    }, [className, componentCls, disabled]);
+    }, [className, componentCls, disabled, size, controlsRight]);
 
     const handlerUpClassNames = useClassName({
-        // [`${componentCls}__handler`]: true,
         [`${componentCls}__increase`]: true,
         'is-disabled': disabled || overMax,
     }, [componentCls, disabled, overMax]);
 
     const handlerDownClassNames = useClassName({
-        // [`${componentCls}__handler`]: true,
         [`${componentCls}__decrease`]: true,
         'is-disabled': disabled || belowMin,
     }, [componentCls, disabled, belowMin]);
@@ -87,8 +88,8 @@ function InputNumber(props) {
         setOuterValue(v => {
             if(v === '') return min === -Infinity ? 0 : min;
 
-            const stepPrecision = getPrecision(step);
-            const precisionFactor = Math.pow(10, stepPrecision);
+            const stepPrecision = Math.max(getPrecision(step), getPrecision(v));
+            const precisionFactor = Math.pow(10, stepPrecision + 1);
             const nextValue = increase ?
                 (v * precisionFactor + step * precisionFactor) / precisionFactor
                 :
@@ -139,22 +140,13 @@ function InputNumber(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <div ref={inputNumberRef} className={classNames} {...others}>
-            {/*<div className={`${componentCls}__handler-wrap`}>
-                <span unselectable={'unselectable'} role={'button'} className={handlerUpClassNames} onClick={onIncrease}>
-                    <Icon className={`${componentCls}__handler-inner`} type={'up'} />
-                </span>
-                <span unselectable={'unselectable'} role={'button'} className={handlerDownClassNames} onClick={onDecrease}>
-                    <Icon className={`${componentCls}__handler-inner`} type={'down'} />
-                </span>
-            </div>
-            <Input value={toPrecision(innerValue, 2)} onChange={onInputChange} disabled={disabled} />*/}
             <span unselectable={'unselectable'} role={'button'} className={handlerDownClassNames} onClick={onDecrease}>
-                <Icon type={'minus'} />
+                <Icon type={controlsRight ? 'down' : 'minus'} />
             </span>
             <span unselectable={'unselectable'} role={'button'} className={handlerUpClassNames} onClick={onIncrease}>
-                <Icon type={'plus'} />
+                <Icon type={controlsRight ? 'up' : 'plus'} />
             </span>
-            <Input value={`${innerValue}`} onChange={onInputChange} disabled={disabled} />
+            <Input value={`${innerValue}`} onChange={onInputChange} disabled={disabled} size={size} />
         </div>
     );
 }

@@ -82,6 +82,48 @@ function InputNumberDoc() {
                 )
             }, [])}
 
+            {/* 尺寸 */}
+            <h2>尺寸</h2>
+            <p>三种大小的数字输入框。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row type={'flex'} align={'middle'} gutter={20}>
+                            <Col>
+                                <InputNumber defaultValue={2} min={0} max={10} size={'large'} />
+                            </Col>
+                            <Col>
+                                <InputNumber defaultValue={2} min={0} max={10} />
+                            </Col>
+                            <Col>
+                                <InputNumber defaultValue={2} min={0} max={10} size={'small'} />
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
+
+            {/* 按钮位置 */}
+            <h2>按钮位置</h2>
+            <p>传统的数字选择器中按钮默认位于右侧，可以通过配置 controlsRight 为 false 将按钮位置分布于左右方。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row type={'flex'} align={'middle'} gutter={20}>
+                            <Col>
+                                <InputNumber defaultValue={2.2} min={0} max={10} controlsRight={false} size={'large'} />
+                            </Col>
+                            <Col>
+                                <InputNumber defaultValue={2.2} min={0} max={10} controlsRight={false} />
+                            </Col>
+                            <Col>
+                                <InputNumber defaultValue={2.2} min={0} max={10} controlsRight={false} size={'small'} />
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
+
             {/* API */}
             {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
         </div>

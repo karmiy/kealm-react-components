@@ -11,6 +11,8 @@ export const InputNumberProps = {
     min: PropTypes.number,
     step: PropTypes.number,
     disabled: PropTypes.bool,
+    size: PropTypes.oneOf(['large', 'small']),
+    controlsRight: PropTypes.bool,
 }
 
 export const InputNumberDefaultProps = {
@@ -19,4 +21,5 @@ export const InputNumberDefaultProps = {
     min: -Infinity,
     step: 1,
     disabled: false,
+    controlsRight: true,
 }
