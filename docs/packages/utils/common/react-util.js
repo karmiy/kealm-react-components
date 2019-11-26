@@ -3,7 +3,7 @@ import { isFragment, isElement } from 'react-is';
 import { isArray, isObject } from './base';
 
 /**
- * 是否为 React 元素
+ * Check if it's the React element
  * @param element: <div>...</div>、<K>...</K>
  * @returns {*}
  */
@@ -12,7 +12,7 @@ export const isReactElement = function (element) {
 }
 
 /**
- * 转换 children，移除 fragment 包裹
+ * Translate children of props without fragment
  * @param {node} children
  * @returns {node}
  */
@@ -21,7 +21,7 @@ export const transChildren = function(children) {
 }
 
 /**
- * 克隆 React 元素(不包含 fragment)
+ * Clone react element(including fragment)
  * @param {node} ele
  * @param {object} props
  * @returns {node}
@@ -32,7 +32,7 @@ export const cloneVElement = function(ele, props) {
 }
 
 /**
- * 判断 children 中是否包含某个 React 元素类型
+ * Whether to include an react element
  * @param {node} children
  * @param {component / string} type
  * @returns {boolean}
@@ -48,7 +48,7 @@ export const isContainEle = function (children, type) {
 }
 
 /**
- * 校验 React 元素类型
+ * Validate type for ReactNode
  * @param {node} element
  * @param {component / string} type
  * @returns {boolean}
@@ -58,7 +58,7 @@ export const validateType = function (element, type) {
 }
 
 /**
- * 校验 child 类型
+ * Validate type of child
  * @param {node} child
  * @param {string / array} type
  */
@@ -73,10 +73,10 @@ export const validateChildType = function (child, type) {
     }
 }
 /**
- * 校验 children 类型
+ * Validate type of children
  * @param {node} children
  * @param {string / array} type
- * @param {boolean} traversal 是否深度遍历
+ * @param {boolean} traversal
  */
 export const validateChildrenType = function (children, type, traversal = false) {
     if(!Children.count(children)) return;
@@ -92,7 +92,7 @@ export const validateChildrenType = function (children, type, traversal = false)
 }
 
 /**
- * 找到 React 元素下指定类型的元素节点
+ * Find nodes of this type under the react element
  * @param {node} element
  * @param {component / string} type
  * @returns {node}
@@ -114,7 +114,7 @@ export const loopEleOfType = function (element, type) {
 }
 
 /**
- * 找到 React 元素下指定类型的元素节点并操作它
+ * Find nodes of this type under the react element
  * @param {node} element
  * @param {component / node} type
  * @param {function} handler
