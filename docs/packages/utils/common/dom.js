@@ -107,7 +107,7 @@ export const getStyle = ieVersion < 9 ? function(element, styleName) {
 };
 
 /**
- * get translate of dom
+ * 获取 translate
  * @param dom
  * @returns {{x: number, y: number}}
  */
@@ -121,6 +121,11 @@ export const getTranslate = function (dom) {
     }
 }
 
+/**
+ * 设置 translate
+ * @param dom
+ * @param options
+ */
 export const setTranslate = function (dom, options = {}) {
     const { x, y } = options;
     const transform = getStyle(dom, 'transform');
@@ -134,10 +139,10 @@ export const setTranslate = function (dom, options = {}) {
 }
 
 /**
- * Find parentNode by className
+ * 通过 class 找到父节点
  * @param dom
  * @param className
- * @param self
+ * @param self 是否包括自己
  * @returns {*}
  */
 export const findParentNodeByClass = function (dom, className, self = true) {
