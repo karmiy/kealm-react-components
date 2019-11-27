@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Slider, Row, Col, Radio } from '@kealm/react-components';
+import { Slider, Row, Col, Radio, InputNumber } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { sliderProps, sliderEvents } from 'api/slider';
 import { CodeBasic, CodeControlled, CodeTooltip, CodeDisabled, CodeSection, CodeSteps, CodeRange, CodeVertical, CodeMarks } from 'demos/slider';
@@ -51,9 +51,12 @@ function ButtonDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        <Row>
+                        <Row type={'flex'} align={'middle'} gutter={20}>
                             <Col span={14}>
                                 <Slider value={value} onChange={onChange} />
+                            </Col>
+                            <Col span={14}>
+                                <InputNumber value={value} onChange={onChange} min={0} max={100} />
                             </Col>
                         </Row>
                     </div>
@@ -122,13 +125,13 @@ function ButtonDoc() {
             {/* 数值区间 */}
             <h2>数值区间</h2>
             <p>可以通过 max 和 min 配置滑动块的数值区间。</p>
-            <p>下方将数值区间配置在 -500 ~ 1000</p>
+            <p>下方将数值区间配置在 -50 ~ 100</p>
             {useMemo(() => {
                 return (
                     <div className="detail-box">
                         <Row>
                             <Col span={14}>
-                                <Slider defaultValue={0} max={1000} min={-500} />
+                                <Slider defaultValue={0} max={100} min={-50} />
                             </Col>
                         </Row>
                     </div>

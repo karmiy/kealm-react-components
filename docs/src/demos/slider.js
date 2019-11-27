@@ -16,7 +16,7 @@ export const CodeBasic =
 /* 受控用法 */
 export const CodeControlled =
 `    import { useState, useCallback } from 'react';
-    import { Slider, Row, Col } from "@kealm/react-components";
+    import { Slider, Row, Col, InputNumber } from "@kealm/react-components";
     
     function Demo() {
         const [value, setValue] = useState(10);
@@ -24,9 +24,12 @@ export const CodeControlled =
         
         return (
             <div className="detail-box">
-                <Row>
+                <Row type={'flex'} align={'middle'} gutter={20}>
                     <Col span={14}>
                         <Slider value={value} onChange={onChange}></Slider>
+                    </Col>
+                    <Col span={14}>
+                        <InputNumber value={value} onChange={onChange} min={0} max={100}></InputNumber>
                     </Col>
                 </Row>
             </div>
@@ -96,7 +99,7 @@ export const CodeSection =
         <div className="detail-box">
             <Row>
                 <Col span={14}>
-                    <Slider defaultValue={0} max={1000} min={-500}></Slider>
+                    <Slider defaultValue={0} max={100} min={-50}></Slider>
                 </Col>
             </Row>
         </div>,
