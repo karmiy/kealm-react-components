@@ -19,6 +19,7 @@ import Pagination from './pagination';
 import Switch from './switch';
 import Slider from './slider';
 import InputNumber from './input-number';
+import TimePicker from './time-picker';
 
 export {
     Icon,
@@ -45,4 +46,5 @@ export {
     Switch,
     Slider,
     InputNumber,
+    TimePicker,
 }

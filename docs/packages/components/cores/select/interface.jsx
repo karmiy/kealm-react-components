@@ -10,12 +10,24 @@ const filterMethod = (value, label, inputValue) => label.includes(inputValue);
 const VALUE_TYPE = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object, PropTypes.array]);
 const VALUE_TYPE_OPTION = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
 
-/* select-props */
-export const SelectProps = {
+/* dropdown-common-props */
+export const dropdownCommonProps = {
     ...omit(CommonProps, ['trigger']),
     children: PropTypes.node,
     selectorClassName: PropTypes.string,
     selectorStyle: PropTypes.object,
+}
+
+export const dropdownCommonDefaultProps = {
+    ...omit(CommonDefaultProps, ['trigger']),
+    placement: 'bottom-start',
+    showArrow: false,
+    transitionName: 'km-zoom-top',
+}
+
+/* select-props */
+export const SelectProps = {
+    ...dropdownCommonProps,
     defaultValue: VALUE_TYPE,
     value: VALUE_TYPE,
     onChange: PropTypes.func,
@@ -39,10 +51,7 @@ export const SelectProps = {
 }
 
 export const SelectDefaultProps = {
-    ...omit(CommonDefaultProps, ['trigger']),
-    placement: 'bottom-start',
-    showArrow: false,
-    transitionName: 'km-zoom-top',
+    ...dropdownCommonDefaultProps,
     onChange: noop,
     placeholder: '请选择',
     clearable: false,

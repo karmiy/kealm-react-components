@@ -59,6 +59,10 @@ const sidebarList = [
             {
                 name: 'Slider 滑块',
                 link: 'slider',
+            },
+            {
+                name: 'TimePicker 时间选择器',
+                link: 'time-picker',
             }
         ]
     },

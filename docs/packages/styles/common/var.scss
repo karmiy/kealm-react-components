@@ -683,6 +683,7 @@ $slider-button-size: 16px !default;
 $slider-button-wrapper-size: 36px !default;
 $slider-button-wrapper-offset: -15px !default;
 
+
 /* --------------------------InputNumber-------------------------- */
 $input-number-width: 140px !default;
 $input-number-width-large: 175px !default;
@@ -703,3 +704,18 @@ $input-number-handler-color-disabled: $disabled-color-base !default;
 $input-number-color-hover: $input-focus-border !default;
 
 $input-number-handler-width-right: 22px !default;
+
+/* --------------------------TimePicker-------------------------- */
+$time-picker-width: 128px !default;
+$time-picker-font-size: $font-size-base !default;
+$time-picker-panel-border-color: $border-color-light !default;
+$time-picker-panel-border: 1px solid $time-picker-panel-border-color !default;
+$time-picker-panel-background: $color-white !default;
+$time-picker-panel-shadow: $box-shadow-light !default;
+
+$time-picker-select-width: 56px !default;
+$time-picker-select-max-height: 176px !default;
+$time-picker-item-height: 32px !default;
+$time-picker-item-color: $color-text-thin-dark-9 !default;
+$time-picker-item-background-color-hover: $background-color-base !default;
+
