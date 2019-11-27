@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { noop } from 'utils/common/base';
 
+const format = value => value;
+
 /* input-number-props */
 export const InputNumberProps = {
     className: PropTypes.string,
@@ -11,8 +13,11 @@ export const InputNumberProps = {
     min: PropTypes.number,
     step: PropTypes.number,
     disabled: PropTypes.bool,
+    precision: PropTypes.number,
     size: PropTypes.oneOf(['large', 'small']),
     controlsRight: PropTypes.bool,
+    formatter: PropTypes.func,
+    parser: PropTypes.func,
 }
 
 export const InputNumberDefaultProps = {
@@ -22,4 +27,6 @@ export const InputNumberDefaultProps = {
     step: 1,
     disabled: false,
     controlsRight: true,
+    formatter: format,
+    parser: format,
 }

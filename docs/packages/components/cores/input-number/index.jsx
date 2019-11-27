@@ -1,10 +1,11 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useContextConf, useClassName, usePuppet, useStateStore } from 'hooks';
 import { InputNumberProps, InputNumberDefaultProps } from './interface';
 import Input from '../input';
 import Icon from '../icon';
 import addDomEventListener from 'add-dom-event-listener';
 import { trim, isEmpty } from 'utils/common/base';
+import { add, subtraction } from 'utils/common/math';
 
 const isNumber = (value) => {
     return !Number.isNaN(Number(value));
@@ -30,7 +31,7 @@ const toPrecision = (value, precision) => {
 
     if(valuePrecision >= precision) return `${value}`;
 
-    return value.toFixed(precision);
+    return Number(value).toFixed(precision);
 }
 
 function InputNumber(props) {
@@ -44,8 +45,11 @@ function InputNumber(props) {
         min,
         step,
         disabled,
+        precision,
         size,
         controlsRight,
+        formatter,
+        parser,
         ...others
     } = props;
 
@@ -59,7 +63,7 @@ function InputNumber(props) {
         setInnerValue
     ] = usePuppet(_defaultValue, _value, onChange, '', disabled, false);
     const inputNumberRef = useRef(null);
-    const stateStoreRef = useStateStore({ max, min }, false);
+    const stateStoreRef = useStateStore({ max, min, parser }, false);
 
     // ---------------------------------- class ----------------------------------
     const overMax = outerValue !== '' && outerValue >= max,
@@ -88,12 +92,7 @@ function InputNumber(props) {
         setOuterValue(v => {
             if(v === '') return min === -Infinity ? 0 : min;
 
-            const stepPrecision = Math.max(getPrecision(step), getPrecision(v));
-            const precisionFactor = Math.pow(10, stepPrecision + 1);
-            const nextValue = increase ?
-                (v * precisionFactor + step * precisionFactor) / precisionFactor
-                :
-                (v * precisionFactor - step * precisionFactor) / precisionFactor;
+            const nextValue = increase ? add(v, step) : subtraction(v, step);
 
             return Math.min(Math.max(nextValue, min), max);
         });
@@ -103,8 +102,8 @@ function InputNumber(props) {
     const onDecrease = useCallback(() => onHandler(false), [onHandler]);
 
     const onInputChange = useCallback(e => {
-        setInnerValue(e.target.value);
-    }, []);
+        setInnerValue(parser(e.target.value));
+    }, [parser]);
 
     // ---------------------------------- logic code ----------------------------------
 
@@ -114,17 +113,18 @@ function InputNumber(props) {
         let oldValue = '';
 
         const focusListener = addDomEventListener(inputEle, 'focus', function (e) {
-            oldValue = trim(e.target.value);
+            const { parser } = stateStoreRef.current;
+            oldValue = parser(e.target.value);
         }, false);
 
         const blurListener = addDomEventListener(inputEle, 'blur', function (e) {
-            const { min, max } = stateStoreRef.current;
-            const targetValue = trim(e.target.value);
+            const { min, max, parser } = stateStoreRef.current;
+            const targetValue = parser(e.target.value);
 
             if(!isNumber(targetValue)) {
                 // Reload input when it's not a number
-                setInnerValue(oldValue === '' ? oldValue : Number(oldValue));
-            } else if(targetValue === '') {
+                setInnerValue(trim(oldValue) === '' ? oldValue : Number(oldValue));
+            } else if(trim(targetValue) === '') {
                 setOuterValue('', null);
             } else {
                 setOuterValue(Math.min(Math.max(Number(targetValue), min), max));
@@ -146,7 +146,7 @@ function InputNumber(props) {
             <span unselectable={'unselectable'} role={'button'} className={handlerUpClassNames} onClick={onIncrease}>
                 <Icon type={controlsRight ? 'up' : 'plus'} />
             </span>
-            <Input value={`${innerValue}`} onChange={onInputChange} disabled={disabled} size={size} />
+            <Input value={precision ? toPrecision(innerValue, precision) : formatter(`${innerValue}`)} onChange={onInputChange} disabled={disabled} size={size} />
         </div>
     );
 }
