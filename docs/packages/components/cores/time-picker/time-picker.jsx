@@ -4,6 +4,8 @@ import { TimePickerProps, TimePickerDefaultProps } from './interface';
 import Input from '../input';
 import {Icon} from "../index";
 import Trigger from '../trigger';
+import Panel from './panel';
+import Header from "./header";
 
 function TimePicker(props) {
     const {componentCls} = useContextConf('time-picker');
@@ -15,6 +17,9 @@ function TimePicker(props) {
         defaultVisible,
         visible,
         onVisibleChange,
+        defaultValue,
+        value,
+        onChange,
         placeholder,
         disabled,
         ...others
@@ -34,6 +39,7 @@ function TimePicker(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
+    const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const suffixIcon = useMemo(() => {
@@ -49,45 +55,17 @@ function TimePicker(props) {
     const renderPanel = useMemo(() => {
         return (
             <>
-                <div className={`${componentCls}-panel__inner`}>
-                    <div className={`${componentCls}-panel__input-wrap`}>
-                        <Input placeholder={placeholder} size={'small'} />
-                    </div>
-                    <div className={`${componentCls}-panel__combobox`}>
-                        <div className={`${componentCls}-panel__mask`} />
-                        <div className={`${componentCls}-panel__select km-scroll-hidden`}>
-                            <ul className={`${componentCls}-panel__list`}>
-                                {
-                                    Array(24).fill('').map((_, index) => {
-                                        return <li key={index} className={`${componentCls}-panel__item`}>{`${index}`.padStart(2, 0)}</li>
-                                    })
-                                }
-                            </ul>
-                        </div>
-                        <div className={`${componentCls}-panel__select km-scroll-hidden`}>
-                            <ul className={`${componentCls}-panel__list`}>
-                                {
-                                    Array(60).fill('').map((_, index) => {
-                                        return <li key={index} className={`${componentCls}-panel__item`}>{`${index}`.padStart(2, 0)}</li>
-                                    })
-                                }
-                            </ul>
-                        </div>
-                        <div className={`${componentCls}-panel__select km-scroll-hidden`}>
-                            <ul className={`${componentCls}-panel__list`}>
-                                {
-                                    Array(60).fill('').map((_, index) => {
-                                        return <li key={index} className={`${componentCls}-panel__item`}>{`${index}`.padStart(2, 0)}</li>
-                                    })
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <Panel
+                    prefix={`${componentCls}-panel`}
+                    value={dateValue}
+                    onChange={setDateValue}
+                    placeholder={placeholder}
+                    disabled={disabled}
+                />
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, [componentCls, placeholder]);
+    }, [componentCls, dateValue, setDateValue, placeholder, disabled]);
 
     // ---------------------------------- render ----------------------------------
     return (
