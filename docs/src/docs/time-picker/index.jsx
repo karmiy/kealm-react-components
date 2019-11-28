@@ -17,7 +17,8 @@ function TimePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        <TimePicker defaultValue={new Date('2019-12-01 9:23:45')} />
+                        <TimePicker defaultValue={new Date('2019-12-01 9:23:45')} onChange={d => console.log(d)} />
+                        {/*<TimePicker />*/}
                     </div>
                 )
             }, [])}

@@ -5,12 +5,10 @@ import Input from '../input';
 import {Icon} from "../index";
 import Trigger from '../trigger';
 import Panel from './panel';
-import Header from "./header";
 
 function TimePicker(props) {
     const {componentCls} = useContextConf('time-picker');
     const {
-        children,
         className,
         selectorClassName,
         selectorStyle,

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { HeaderProps, HeaderDefaultProps } from './interface';
-import { usePuppet } from 'hooks';
+import { useDidUpdate } from 'hooks';
 import Input from '../input';
-import { formatDate, isValidTime } from 'utils/common/date';
+import { formatDate, isValidTime, setTime } from 'utils/common/date';
 
 function Header(props) {
     const {
@@ -16,20 +16,23 @@ function Header(props) {
     // ---------------------------------- variable ----------------------------------
     const [inputValue, setInputValue] = useState(value ? formatDate(value, 'HH:mm:ss') : '');
 
+    // ---------------------------------- effect ----------------------------------
+    useDidUpdate(() => {
+        setInputValue(value ? formatDate(value, 'HH:mm:ss') : '');
+    }, [value], true);
+
     // ---------------------------------- event ----------------------------------
     const onInputChange = useCallback(e => {
         const v = e.target.value;
         setInputValue(v);
-        if(isValidTime(v)) {
-            // onChange()
-        }
-    }, []);
+        isValidTime(v) && onChange(new Date(setTime(value, v)));
+    }, [value, onChange]);
 
 
     // ---------------------------------- render ----------------------------------
     return (
         <div className={`${prefix}__input-wrap`}>
-            <Input value={inputValue} onChange={onInputChange} placeholder={placeholder} size={'small'} />
+            <Input value={inputValue} onChange={onInputChange} placeholder={placeholder} disabled={disabled} size={'small'} />
         </div>
     );
 }

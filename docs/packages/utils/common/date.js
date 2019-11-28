@@ -11,6 +11,21 @@ export function isValidTime(time, isStrict = true) {
 }
 
 /**
+ * 设置时间
+ * @param date
+ * @param time
+ * @returns {Date}
+ */
+export function setTime(date, time) {
+    date = date || new Date();
+    const [hour, minute, second] = time.split(':');
+    date.setHours(hour);
+    date.setMinutes(minute);
+    date.setSeconds(second);
+    return date;
+}
+
+/**
  * 格式化日期
  * @param date: Date
  * @param fmt: string, 如'YYYY-MM-DD hh:mm:ss'

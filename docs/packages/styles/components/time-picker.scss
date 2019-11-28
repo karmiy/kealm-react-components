@@ -120,5 +120,9 @@
         &:hover {
             background-color: $background-color-base;
         }
+        @include when(selected) {
+            font-weight: bold;
+            color: $time-picker-item-color-selected;
+        }
     }
 }
