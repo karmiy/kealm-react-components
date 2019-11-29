@@ -109,6 +109,44 @@ export const isEmpty = function(value) {
 };
 
 /**
+ * 左补位，如日期'1'补为'01'
+ * @param str: string
+ * @param len: number
+ * @param ch: string，用什么补位，默认空格补
+ * @returns {string}
+ */
+const spaceCache = [
+    '',
+    ' ',
+    '  ',
+    '   ',
+    '    ',
+    '     ',
+    '      ',
+    '       ',
+    '        ',
+    '         '
+];
+
+export function leftPad (str, len, ch) {
+    str = str + '';
+    len = len - str.length;
+    if (len <= 0) return str;
+
+    if (!ch && ch !== 0) ch = ' ';
+    ch = ch + '';
+    if (ch === ' ' && len < 10) return spaceCache[len] + str;
+    let pad = '';
+    while (true) {
+        if (len & 1) pad += ch;
+        len >>= 1;
+        if (len) ch += ch;
+        else break;
+    }
+    return pad + str;
+}
+
+/**
  * 节流
  * @param func 节流函数
  * @param wait 等待时长

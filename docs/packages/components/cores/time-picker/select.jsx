@@ -9,6 +9,9 @@ function Select(props) {
         prefix,
         selectedIndex,
         options,
+        onSelect: select,
+        type,
+        visible,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -23,6 +26,13 @@ function Select(props) {
         scrollTo(rootRef.current, to, duration);
     }, [selectedIndex]);
 
+    // ---------------------------------- event ----------------------------------
+    const onSelect = useCallback((option, index, type) => {
+        if(option.disabled) return;
+
+        select(option, index, type);
+    }, [select]);
+
     // ---------------------------------- effect ----------------------------------
     useDidMount(() => {
         scrollToSelected(0);
@@ -31,6 +41,11 @@ function Select(props) {
     useDidUpdate(() => {
         scrollToSelected(120);
     }, [selectedIndex], true);
+
+    useDidUpdate(() => {
+        // Prevent invalid scrolling when hidden
+        visible && scrollToSelected(0);
+    }, [visible], true);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -42,7 +57,7 @@ function Select(props) {
                             [`${prefix}__item`]: true,
                             'is-selected': index === selectedIndex,
                         })
-                        return <li key={option.key} className={className}>{option.value}</li>
+                        return <li key={option.key} className={className} onClick={() => onSelect(option, index, type)}>{option.value}</li>
                     })
                 }
             </ul>

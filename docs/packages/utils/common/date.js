@@ -1,10 +1,83 @@
+const formatOptions = [
+    'YYYY',
+    'MM',
+    'DD',
+    'HH',
+    'hh',
+    'mm',
+    'ss'
+]
+
+/**
+ * 校验日期格式，如 '2019-01-02 12:11' 是否符合 'YYYY-MM-DD HH:mm'
+ * @param dateStr
+ * @param format
+ * @param isStrict 是否严格判断，即 2019-1-1 能否匹配 YYYY-MM-DD
+ * @returns {boolean}
+ */
+export function isValidFormat(dateStr, format, isStrict = true) {
+    // 转为 'YYYY|MM|DD|HH|hh|mm|ss'
+    const formatExpStr = formatOptions.join('|');
+
+    // 将如 YYYY-MM-DD 转为 ^\d{1,4}-\d{1,2}-\d{1,2}$
+    const dateExpStr = '^' + format.replace(new RegExp(formatExpStr, 'g'), str => '\\d{1,' + str.length + '}') + '$';
+    return new RegExp(dateExpStr).test(dateStr);
+}
+
+/**
+ * 填补日期格式  如18:28 HH:mm 转 YYYY-MM-DD 18:28:ss
+ * @param dateStr
+ * @param format
+ * @param standardFormat
+ * @returns {string}
+ */
+export function padFormat(dateStr, format, standardFormat = 'YYYY-MM-DD HH:mm:ss') {
+    const obj = {};
+    // 1、如18:8 HH:mm  =>  { HH:18, mm: 8 }
+    // 转为 'YYYY|MM|DD|HH|hh|mm|ss'
+    const formatExpStr = formatOptions.join('|');
+
+    // 将如 HH:mm 转为 ^(\d{1,2}):(\d{1,2})$
+    const optionStore = []; // 顺序存如 ['YYYY', 'MM']
+    const dateExpStr = '^' + format.replace(new RegExp(formatExpStr, 'g'), str => {
+        optionStore.push(str);
+        return '(\\d{1,' + str.length + '})';
+    }) + '$';
+
+    // 获取正则里的组，如从18:8 获取 [18, 8]
+    const matchGroup = dateStr.match(new RegExp(dateExpStr)).slice(1);
+    // 遍历 matchGroup，构造 { HH:18, mm: 8 }
+    optionStore.forEach((option, index) => {
+        obj[option] = matchGroup[index]; // 顺序取
+    })
+
+
+    // 2、YYYY-MM-DD HH:mm:ss  =>  YYYY-MM-DD 18:28:ss
+    return standardFormat.replace(new RegExp(Object.keys(obj).join('|'), 'g'), key => obj[key]);
+}
+
+export function isValidDate(dateStr, format, isStrict = true) {
+    // 严格模式下，如 1:13 不能匹配 HH:mm，需要 01:13
+    if(isStrict && dateStr.length !== format.length) return false;
+
+    // 校验格式是否正确，如 '18:13' 与 'HH:mm'
+    if(!isValidFormat(dateStr, format)) return false;
+
+    // 校验日期是否有效
+    const _format = padFormat(dateStr, format);
+    const testDate = formatDate(new Date, _format);
+
+    return testDate.toString() !== 'Invalid Date';
+}
+
 /**
  * 是否有效的时间(时分秒)
  * @param time: string
+ * @param format: string
  * @param isStrict: boolean 是否格式判断，即 01:01:01 可以通过，1:1:1不可通过
  * @returns {boolean}
  */
-export function isValidTime(time, isStrict = true) {
+export function isValidTime(time, format = 'HH:mm:ss', isStrict = true) {
     const date = new Date(`2019-01-01 ${time}`);
     if(date.toString() === 'Invalid Date') return false;
     return !(isStrict && time.length !== 8);
@@ -22,6 +95,29 @@ export function setTime(date, time) {
     date.setHours(hour);
     date.setMinutes(minute);
     date.setSeconds(second);
+    return date;
+}
+
+/**
+ * 设置单个时间配置
+ * @param date
+ * @param time
+ * @param type
+ * @returns {Date}
+ */
+export function setTimeOption(date, time, type) {
+    date = date || new Date();
+    switch (type) {
+        case 'hour':
+            date.setHours(time);
+            break;
+        case 'minute':
+            date.setMinutes(time);
+            break;
+        case 'second':
+            date.setSeconds(time);
+            break;
+    }
     return date;
 }
 
@@ -44,7 +140,7 @@ export function formatDate(date, fmt) {
     };
     if (/(Y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (let k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
 
@@ -76,7 +172,7 @@ export function getRelativeDate(date = new Date(), dValue, type, after) {
             rDate = new Date(time);
             break;
         case 'month':
-            cloneDate = new Date(data.valueOf());
+            cloneDate = new Date(date.valueOf());
             cloneDate.setMonth(cloneDate.getMonth() + (after ? dValue : -dValue));
             rDate = cloneDate;
             break;

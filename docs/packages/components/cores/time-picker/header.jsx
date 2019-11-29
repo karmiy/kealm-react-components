@@ -11,22 +11,23 @@ function Header(props) {
         onChange,
         placeholder,
         disabled,
+        format,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    const [inputValue, setInputValue] = useState(value ? formatDate(value, 'HH:mm:ss') : '');
+    const [inputValue, setInputValue] = useState(value ? formatDate(value, format) : '');
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
-        setInputValue(value ? formatDate(value, 'HH:mm:ss') : '');
+        setInputValue(value ? formatDate(value, format) : '');
     }, [value], true);
 
     // ---------------------------------- event ----------------------------------
     const onInputChange = useCallback(e => {
         const v = e.target.value;
         setInputValue(v);
-        isValidTime(v) && onChange(new Date(setTime(value, v)));
-    }, [value, onChange]);
+        isValidTime(v, format) && onChange(new Date(setTime(value, v)));
+    }, [value, format]);
 
 
     // ---------------------------------- render ----------------------------------

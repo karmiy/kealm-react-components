@@ -21,14 +21,17 @@
         display: none;
     }
 
-    &:hover {
-        .km-time-picker__caret {
-            display: none;
-        }
-        .km-time-picker__clear {
-            display: inline-block;
+    @include when(clearable) {
+        &:hover {
+            .km-time-picker__caret {
+                display: none;
+            }
+            .km-time-picker__clear {
+                display: inline-block;
+            }
         }
     }
+
 }
 
 @include b(time-picker-panel) {

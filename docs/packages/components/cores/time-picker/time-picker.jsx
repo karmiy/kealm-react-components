@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { TimePickerProps, TimePickerDefaultProps } from './interface';
 import Input from '../input';
 import {Icon} from "../index";
 import Trigger from '../trigger';
 import Panel from './panel';
+import { RenderWrapper } from '../../common';
+import { formatDate } from 'utils/common/date'
 
 function TimePicker(props) {
     const {componentCls} = useContextConf('time-picker');
@@ -15,13 +17,22 @@ function TimePicker(props) {
         defaultVisible,
         visible,
         onVisibleChange,
+        defaultOpenValue,
         defaultValue,
         value,
         onChange,
         placeholder,
         disabled,
+        allowClear,
+        onClear: clear,
+        size,
+        format,
         ...others
     } = props;
+
+    // ---------------------------------- variable ----------------------------------
+    const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
+    const [dateValue, setDateValue, setInnerValue] = useController(defaultValue, value, onChange, null, disabled);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -33,21 +44,28 @@ function TimePicker(props) {
     const inputClassNames = useClassName({
         [componentCls]: true,
         [selectorClassName]: selectorClassName,
-    }, [componentCls, selectorClassName]);
+        'is-clearable': allowClear && dateValue,
+    }, [componentCls, selectorClassName, allowClear, dateValue]);
 
-    // ---------------------------------- variable ----------------------------------
-    const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
-    const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null);
+    // ---------------------------------- event ----------------------------------
+    const onClear = useCallback(e => {
+        e.stopPropagation();
+
+        setInnerValue(null);
+        clear(e);
+    }, [clear]);
 
     // ---------------------------------- render mini chunk ----------------------------------
-    const suffixIcon = useMemo(() => {
+    const renderSuffix = useMemo(() => {
         return (
             <div>
                 <Icon type={'time-circle'} className={`${componentCls}__caret`} />
-                <Icon type={'close-circle'} className={`${componentCls}__clear`} />
+                <RenderWrapper visible={allowClear} unmountOnExit>
+                    <Icon type={'close-circle'} className={`${componentCls}__clear`} onClick={onClear} />
+                </RenderWrapper>
             </div>
         )
-    }, [componentCls]);
+    }, [componentCls, allowClear, onClear]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderPanel = useMemo(() => {
@@ -55,15 +73,18 @@ function TimePicker(props) {
             <>
                 <Panel
                     prefix={`${componentCls}-panel`}
+                    defaultOpenValue={defaultOpenValue}
                     value={dateValue}
                     onChange={setDateValue}
                     placeholder={placeholder}
                     disabled={disabled}
+                    visible={isVisible}
+                    format={format}
                 />
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, [componentCls, dateValue, setDateValue, placeholder, disabled]);
+    }, [componentCls, dateValue, setDateValue, defaultOpenValue, placeholder, disabled, isVisible, format]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -82,7 +103,14 @@ function TimePicker(props) {
             {...others}
         >
             <div className={inputClassNames} style={selectorStyle}>
-                <Input readOnly suffix={suffixIcon} placeholder={placeholder} />
+                <Input
+                    value={dateValue ? formatDate(dateValue, format) : ''}
+                    readOnly
+                    suffix={renderSuffix}
+                    placeholder={placeholder}
+                    size={size}
+                    disabled={disabled}
+                />
             </div>
         </Trigger>
     );

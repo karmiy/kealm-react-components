@@ -6,10 +6,13 @@ import Combobox from './combobox';
 function Panel(props) {
     const {
         prefix,
+        defaultOpenValue,
         value,
         onChange,
         placeholder,
         disabled,
+        visible,
+        format,
     } = props;
 
     // ---------------------------------- render ----------------------------------
@@ -21,12 +24,15 @@ function Panel(props) {
                 onChange={onChange}
                 placeholder={placeholder}
                 disabled={disabled}
+                format={format}
             />
             <Combobox
                 prefix={prefix}
+                defaultOpenValue={defaultOpenValue}
                 value={value}
                 onChange={onChange}
                 disabled={disabled}
+                visible={visible}
             />
         </div>
     );
