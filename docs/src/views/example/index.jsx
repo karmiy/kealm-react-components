@@ -18,6 +18,8 @@ import { useDebounce, useThrottle } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import { isObject } from '../../../packages/utils/common/base';
 import { isElement } from 'react-is';
+import { isValidDate } from 'utils/common/date';
+window.isValidDate = isValidDate;
 
 function T(props) {
     console.log('T');
@@ -64,6 +66,11 @@ const values = [
     {id: 4}
 ]
 
+function logValidDate(dateStr, format, expect, isStrict = true) {
+    const result = isValidDate(dateStr, format, isStrict);
+    console.log(`validDate: ${dateStr}; expect: ${expect}; result: ${result}; ------------- pass: ${expect === result}`);
+}
+
 function ExampleDoc() {
     const [count, setCount] = useState(0);
     const [visible, setVisible] = useState(false);
@@ -75,10 +82,21 @@ function ExampleDoc() {
     const func2 = useThrottle((v) => console.log(v), 2000);
     const el = <K>123</K>
     // console.log(isElement(el));
-    console.log(el);
+    // console.log(el);
+    logValidDate('2019-01-01 12:13:21', 'YYYY-MM-DD HH:mm:ss', true);
+    logValidDate('2019-01-01 12:13:21', 'YYYY-MM-DD hh:mm:ss', true);
+    logValidDate('2019-01-01 13:13:21', 'YYYY-MM-DD hh:mm:ss', false);
+    logValidDate('2019-01-01 12:13:60', 'YYYY-MM-DD hh:mm:ss', false);
+    logValidDate('2019-02-28', 'YYYY-MM-DD', true);
+    logValidDate('2019-02-29', 'YYYY-MM-DD', false);
+    logValidDate('2019#01-29', 'YYYY#MM-DD', true);
+    logValidDate('19:23?59', 'HH:mm\\?ss', true);
+    logValidDate('1970#13', 'YYYY#mm', true);
+    logValidDate('1969#13', 'YYYY#mm', true);
+    logValidDate('59%@(11', 'mm%@\\(ss', true);
     return (
         <div>
-            {el}
+            {/*{el}*/}
             <Radio.Group defaultValue={values[2]}>
                 <Radio value={values[0]}>A</Radio>
                 <Radio value={values[1]}>B</Radio>

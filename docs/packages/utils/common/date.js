@@ -1,3 +1,5 @@
+import { leftPad } from './base';
+
 const formatOptions = [
     'YYYY',
     'MM',
@@ -6,7 +8,25 @@ const formatOptions = [
     'hh',
     'mm',
     'ss'
-]
+];
+export function verifySafeTime(option, num) {
+    switch (option) {
+        case 'YYYY':
+            return num > 99 && num < 10000;
+        case 'MM':
+            return num > 0 && num < 13; // 1 ~ 12
+        case 'DD':
+            return num > 0 && num < 32; // 1 ~ 31
+        case 'HH':
+            return num >= 0 && num < 24; // 0 ~ 23
+        case 'hh':
+            return num > 0 && num < 13; // 12 ~ 1 ~ 11
+        case 'mm':
+            return num >= 0 && num < 60; // 0 ~ 59
+        case 'ss':
+            return num >= 0 && num < 60; // 0 ~ 59
+    }
+}
 
 /**
  * 校验日期格式，如 '2019-01-02 12:11' 是否符合 'YYYY-MM-DD HH:mm'
@@ -20,54 +40,132 @@ export function isValidFormat(dateStr, format, isStrict = true) {
     const formatExpStr = formatOptions.join('|');
 
     // 将如 YYYY-MM-DD 转为 ^\d{1,4}-\d{1,2}-\d{1,2}$
-    const dateExpStr = '^' + format.replace(new RegExp(formatExpStr, 'g'), str => '\\d{1,' + str.length + '}') + '$';
+    const formatExp = new RegExp(formatExpStr, 'g');
+    const dateExpStr = '^' + format.replace(formatExp, str => {
+        return isStrict ? '\\d{' + str.length + '}' : '\\d{1,' + str.length + '}';
+    }) + '$';
     return new RegExp(dateExpStr).test(dateStr);
 }
 
 /**
- * 填补日期格式  如18:28 HH:mm 转 YYYY-MM-DD 18:28:ss
+ * 捕获日期信息， 18:30 HH:mm  => {HH: 18, mm: 30}
  * @param dateStr
  * @param format
- * @param standardFormat
- * @returns {string}
+ * @param isStrict 如果为false，则 8:30 HH:mm  => {mm: 30}
+ * @returns {}
  */
-export function padFormat(dateStr, format, standardFormat = 'YYYY-MM-DD HH:mm:ss') {
+export function catchFormatOptions(dateStr, format, isStrict = true) {
     const obj = {};
     // 1、如18:8 HH:mm  =>  { HH:18, mm: 8 }
     // 转为 'YYYY|MM|DD|HH|hh|mm|ss'
     const formatExpStr = formatOptions.join('|');
 
     // 将如 HH:mm 转为 ^(\d{1,2}):(\d{1,2})$
-    const optionStore = []; // 顺序存如 ['YYYY', 'MM']
+    const optionStore = []; // 顺序存如 ['HH', 'mm']
     const dateExpStr = '^' + format.replace(new RegExp(formatExpStr, 'g'), str => {
         optionStore.push(str);
         return '(\\d{1,' + str.length + '})';
     }) + '$';
 
     // 获取正则里的组，如从18:8 获取 [18, 8]
-    const matchGroup = dateStr.match(new RegExp(dateExpStr)).slice(1);
+    const matchItems = dateStr.match(new RegExp(dateExpStr));
+    // 预防格式错误
+    if(!matchItems || matchItems.length === 0) return obj;
+
+    const matchGroup = matchItems.slice(1);
     // 遍历 matchGroup，构造 { HH:18, mm: 8 }
     optionStore.forEach((option, index) => {
-        obj[option] = matchGroup[index]; // 顺序取
-    })
+        const num = matchGroup[index];
+        if(isStrict && option.length !== num.length) return;
+        obj[option] = num; // 顺序取
+    });
 
+    return obj;
+}
+
+/**
+ * 填补日期格式  如18:28 HH:mm 转 YYYY-MM-DD 18:28:ss
+ * @param dateStr
+ * @param format
+ * @param isStrict 是否严格填补，如 18:9 HH:mm 在 isStrict: false 时得到 18:mm
+ * @param standardFormat
+ * @returns {string}
+ */
+export function padFormat(dateStr, format, isStrict = true, standardFormat = 'YYYY-MM-DD HH:mm:ss') {
+    // 如是 hh 12小时制，标准格式改为 hh
+    !format.includes('HH') && format.includes('hh') && standardFormat === 'YYYY-MM-DD HH:mm:ss' && (standardFormat = 'YYYY-MM-DD hh:mm:ss');
+
+    const obj = catchFormatOptions(dateStr, format, isStrict);
+
+    if(Object.keys(obj).length === 0) return standardFormat;
 
     // 2、YYYY-MM-DD HH:mm:ss  =>  YYYY-MM-DD 18:28:ss
     return standardFormat.replace(new RegExp(Object.keys(obj).join('|'), 'g'), key => obj[key]);
 }
 
+export function createDateStr(options) {
+    // 创建一个临时日期
+    const fullOptions = {
+        'YYYY': 2019,
+        'MM': 1,
+        'DD': 1,
+        'HH': 12,
+        'hh': -1,
+        'mm': 12,
+        'ss': 12,
+        ...options,
+    };
+    fullOptions['hh'] !== -1 ? (delete fullOptions['HH']) : (delete fullOptions['hh']);
+
+    let fullDateStr = ''; // 2019-01-01 12:12:12
+    for(let option in fullOptions) {
+        const value = leftPad(fullOptions[option], option.length, '0');
+        switch (option) {
+            case 'YYYY':
+                fullDateStr += value;
+                break;
+            case 'MM':
+            case 'DD':
+                fullDateStr += `-${value}`;
+                break;
+            case 'HH':
+            case 'hh':
+                fullDateStr += ` ${value}`;
+                break;
+            case 'mm':
+            case 'ss':
+                fullDateStr += `:${value}`;
+                break;
+        }
+    }
+    return fullDateStr;
+}
+
 export function isValidDate(dateStr, format, isStrict = true) {
     // 严格模式下，如 1:13 不能匹配 HH:mm，需要 01:13
-    if(isStrict && dateStr.length !== format.length) return false;
+    // if(isStrict && dateStr.length !== format.length) return false;
 
     // 校验格式是否正确，如 '18:13' 与 'HH:mm'
-    if(!isValidFormat(dateStr, format)) return false;
+    if(!isValidFormat(dateStr, format, isStrict)) return false;
 
-    // 校验日期是否有效
-    const _format = padFormat(dateStr, format);
-    const testDate = formatDate(new Date, _format);
+    // 获取格式对应项 {HH: 18, mm: 13}
+    const formatOptions = catchFormatOptions(dateStr, format, isStrict);
 
-    return testDate.toString() !== 'Invalid Date';
+    // 校验各个格式对应项的有效性
+    if(Object.keys(formatOptions).length === 0) return false;
+
+    for(let option in formatOptions) {
+        if(formatOptions.hasOwnProperty(option) && !verifySafeTime(option, Number(formatOptions[option]))) return false;
+    }
+
+    // 构造完整的日期字符串 2019-01-01 18:13:12，校验日期是否有效
+    const fullDateStr = createDateStr(formatOptions);
+    const vDate = new Date(fullDateStr);
+    if(vDate.toString() === 'Invalid Date') return false;
+
+    // 将日期重新转为日期字符串，比对前后是否一致，预防2019-02-31这种情况
+    const _fullDateStr = formatDate(vDate, format.includes('hh') ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD HH:mm:ss');
+    return fullDateStr === _fullDateStr;
 }
 
 /**
@@ -138,7 +236,7 @@ export function formatDate(date, fmt) {
         "q+": Math.floor((date.getMonth() + 3) / 3), // 季度
         "S": date.getMilliseconds() //毫秒
     };
-    if (/(Y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    if (/(Y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, leftPad((date.getFullYear() + "").substr(4 - RegExp.$1.length), RegExp.$1.length, '0'));
     for (let k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
