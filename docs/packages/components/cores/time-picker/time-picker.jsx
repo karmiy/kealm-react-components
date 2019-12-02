@@ -27,12 +27,26 @@ function TimePicker(props) {
         onClear: clear,
         size,
         format,
+        hourStep,
+        minuteStep,
+        secondStep,
+        disabledHours: _disabledHours,
+        disabledMinutes: _disabledMinutes,
+        disabledSeconds: _disabledSeconds,
+        hideDisabledOptions,
+        addon,
         ...others
     } = props;
 
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
     const [dateValue, setDateValue, setInnerValue] = useController(defaultValue, value, onChange, null, disabled);
+    const isAM = dateValue ? dateValue.getHours() < 12 : (defaultOpenValue ? defaultOpenValue.getHours() < 12 : true); // am or pm for hh
+    const selectedHour = dateValue ? dateValue.getHours() : (defaultOpenValue ? defaultOpenValue.getHours() : 0),
+        selectedMinute = dateValue ? dateValue.getMinutes() : (defaultOpenValue ? defaultOpenValue.getMinutes() : 0);
+    const disabledHours = useMemo(() => _disabledHours(), [_disabledHours]),
+        disabledMinutes = useMemo(() => _disabledMinutes(selectedHour), [_disabledMinutes, selectedHour]),
+        disabledSeconds = useMemo(() => _disabledSeconds(selectedHour, selectedMinute), [_disabledSeconds, selectedHour, selectedMinute]);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -68,6 +82,25 @@ function TimePicker(props) {
     }, [componentCls, allowClear, onClear]);
 
     // ---------------------------------- render chunk ----------------------------------
+    const panelDependencies = [
+        componentCls,
+        dateValue,
+        setDateValue,
+        defaultOpenValue,
+        placeholder,
+        disabled,
+        isVisible,
+        format,
+        isAM,
+        hourStep,
+        minuteStep,
+        secondStep,
+        disabledHours,
+        disabledMinutes,
+        disabledSeconds,
+        hideDisabledOptions,
+        addon
+    ];
     const renderPanel = useMemo(() => {
         return (
             <>
@@ -80,11 +113,20 @@ function TimePicker(props) {
                     disabled={disabled}
                     visible={isVisible}
                     format={format}
+                    isAM={isAM}
+                    hourStep={hourStep}
+                    minuteStep={minuteStep}
+                    secondStep={secondStep}
+                    disabledHours={disabledHours}
+                    disabledMinutes={disabledMinutes}
+                    disabledSeconds={disabledSeconds}
+                    hideDisabledOptions={hideDisabledOptions}
+                    addon={addon}
                 />
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, [componentCls, dateValue, setDateValue, defaultOpenValue, placeholder, disabled, isVisible, format]);
+    }, panelDependencies);
 
     // ---------------------------------- render ----------------------------------
     return (

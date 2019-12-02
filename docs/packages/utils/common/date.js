@@ -9,10 +9,30 @@ const formatOptions = [
     'mm',
     'ss'
 ];
+
+const formatMethods = {
+    'YYYY': 'setFullYear',
+    'MM': 'setMonth',
+    'DD': 'setDate',
+    'HH': 'setHours',
+    'hh': 'setHours',
+    'mm': 'setMinutes',
+    'ss': 'setSeconds',
+};
+
+const nameMethods = {
+    'year': 'setFullYear',
+    'month': 'setMonth',
+    'date': 'setDate',
+    'hour': 'setHours',
+    'minute': 'setMinutes',
+    'second': 'setSeconds',
+};
+
 export function verifySafeTime(option, num) {
     switch (option) {
         case 'YYYY':
-            return num > 99 && num < 10000;
+            return num > 99 && num < 10000; // 100 ~ 9999
         case 'MM':
             return num > 0 && num < 13; // 1 ~ 12
         case 'DD':
@@ -52,7 +72,7 @@ export function isValidFormat(dateStr, format, isStrict = true) {
  * @param dateStr
  * @param format
  * @param isStrict 如果为false，则 8:30 HH:mm  => {mm: 30}
- * @returns {}
+ * @returns object: {string: number}
  */
 export function catchFormatOptions(dateStr, format, isStrict = true) {
     const obj = {};
@@ -77,7 +97,7 @@ export function catchFormatOptions(dateStr, format, isStrict = true) {
     optionStore.forEach((option, index) => {
         const num = matchGroup[index];
         if(isStrict && option.length !== num.length) return;
-        obj[option] = num; // 顺序取
+        obj[option] = Number(num); // 顺序取
     });
 
     return obj;
@@ -100,9 +120,14 @@ export function padFormat(dateStr, format, isStrict = true, standardFormat = 'YY
     if(Object.keys(obj).length === 0) return standardFormat;
 
     // 2、YYYY-MM-DD HH:mm:ss  =>  YYYY-MM-DD 18:28:ss
-    return standardFormat.replace(new RegExp(Object.keys(obj).join('|'), 'g'), key => obj[key]);
+    return standardFormat.replace(new RegExp(Object.keys(obj).join('|'), 'g'), key => leftPad(obj[key], key.length, '0'));
 }
 
+/**
+ * 构造一个临时日期字符串，如 2019-01-01 12:12:12
+ * @param options: {YYYY: 2019, MM: 1}
+ * @returns {string}
+ */
 export function createDateStr(options) {
     // 创建一个临时日期
     const fullOptions = {
@@ -141,6 +166,13 @@ export function createDateStr(options) {
     return fullDateStr;
 }
 
+/**
+ * 是否有效的日期
+ * @param dateStr
+ * @param format
+ * @param isStrict
+ * @returns {boolean}
+ */
 export function isValidDate(dateStr, format, isStrict = true) {
     // 严格模式下，如 1:13 不能匹配 HH:mm，需要 01:13
     // if(isStrict && dateStr.length !== format.length) return false;
@@ -155,7 +187,7 @@ export function isValidDate(dateStr, format, isStrict = true) {
     if(Object.keys(formatOptions).length === 0) return false;
 
     for(let option in formatOptions) {
-        if(formatOptions.hasOwnProperty(option) && !verifySafeTime(option, Number(formatOptions[option]))) return false;
+        if(formatOptions.hasOwnProperty(option) && !verifySafeTime(option, formatOptions[option])) return false;
     }
 
     // 构造完整的日期字符串 2019-01-01 18:13:12，校验日期是否有效
@@ -169,16 +201,22 @@ export function isValidDate(dateStr, format, isStrict = true) {
 }
 
 /**
- * 是否有效的时间(时分秒)
- * @param time: string
- * @param format: string
- * @param isStrict: boolean 是否格式判断，即 01:01:01 可以通过，1:1:1不可通过
- * @returns {boolean}
+ * 设置日期
+ * @param date
+ * @param Options: {hour: 12, minute: 1} / {HH: 12, mm: 1}
+ * @param isFormat: 是否配置项为格式化配置如 HH
+ * @returns {Date}
  */
-export function isValidTime(time, format = 'HH:mm:ss', isStrict = true) {
-    const date = new Date(`2019-01-01 ${time}`);
-    if(date.toString() === 'Invalid Date') return false;
-    return !(isStrict && time.length !== 8);
+export function handleDate(date, Options = {}, isFormat = false) {
+    date = date || new Date();
+    for(let item in Options) {
+        if(Options.hasOwnProperty(item)) {
+            const value = Number(Options[item]);
+            const method = isFormat ? formatMethods[item] : nameMethods[item];
+            date[method]((item === 'MM' || item === 'month') ? value - 1 : value);
+        }
+    }
+    return date;
 }
 
 /**
@@ -187,14 +225,14 @@ export function isValidTime(time, format = 'HH:mm:ss', isStrict = true) {
  * @param time
  * @returns {Date}
  */
-export function setTime(date, time) {
+/*export function setTime(date, time) {
     date = date || new Date();
     const [hour, minute, second] = time.split(':');
     date.setHours(hour);
     date.setMinutes(minute);
     date.setSeconds(second);
     return date;
-}
+}*/
 
 /**
  * 设置单个时间配置
@@ -203,7 +241,7 @@ export function setTime(date, time) {
  * @param type
  * @returns {Date}
  */
-export function setTimeOption(date, time, type) {
+/*export function setTimeOption(date, time, type) {
     date = date || new Date();
     switch (type) {
         case 'hour':
@@ -217,7 +255,7 @@ export function setTimeOption(date, time, type) {
             break;
     }
     return date;
-}
+}*/
 
 /**
  * 格式化日期

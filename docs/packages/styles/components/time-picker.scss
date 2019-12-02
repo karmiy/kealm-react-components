@@ -120,12 +120,20 @@
         user-select: none;
         font-size: $time-picker-font-size;
         color: $time-picker-item-color;
+
         &:hover {
             background-color: $background-color-base;
         }
+
         @include when(selected) {
             font-weight: bold;
             color: $time-picker-item-color-selected;
+        }
+
+        @include when(disabled) {
+            background-color: $color-white;
+            color: $time-picker-item-color-disabled;
+            cursor: not-allowed;
         }
     }
 }

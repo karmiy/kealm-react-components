@@ -3,15 +3,17 @@ import { SelectProps, SelectDefaultProps } from './interface';
 import { useDidMount, useDidUpdate } from 'hooks';
 import { mergeStr } from 'utils/common/base';
 import { scrollTo } from 'utils/common/scroll';
+import { RenderWrapper } from '../../common';
 
 function Select(props) {
     const {
         prefix,
         selectedIndex,
         options,
-        onSelect: select,
+        onSelect,
         type,
         visible,
+        hideDisabledOptions,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -27,11 +29,13 @@ function Select(props) {
     }, [selectedIndex]);
 
     // ---------------------------------- event ----------------------------------
-    const onSelect = useCallback((option, index, type) => {
+    const onItemClick = useCallback((option, index) => {
         if(option.disabled) return;
 
-        select(option, index, type);
-    }, [select]);
+        if(index === selectedIndex) return;
+
+        onSelect(option, index, type);
+    }, [onSelect, type, selectedIndex]);
 
     // ---------------------------------- effect ----------------------------------
     useDidMount(() => {
@@ -56,8 +60,17 @@ function Select(props) {
                         const className = mergeStr({
                             [`${prefix}__item`]: true,
                             'is-selected': index === selectedIndex,
-                        })
-                        return <li key={option.key} className={className} onClick={() => onSelect(option, index, type)}>{option.value}</li>
+                            'is-disabled': option.disabled,
+                        });
+
+                        if(hideDisabledOptions) {
+                            return (
+                                <RenderWrapper key={option.key} visible={!option.disabled}>
+                                    <li  className={className} onClick={() => onItemClick(option, index)}>{option.label}</li>
+                                </RenderWrapper>
+                            );
+                        }
+                        return <li key={option.key} className={className} onClick={() => onItemClick(option, index)}>{option.label}</li>
                     })
                 }
             </ul>

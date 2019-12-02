@@ -2,6 +2,14 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { TimePicker, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
+function createTimes(num) {
+    const times = [];
+    while (num > 0) {
+        times.unshift(--num);
+    }
+    return times;
+}
+
 function TimePickerDoc() {
     const [value, setValue] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -82,8 +90,99 @@ function TimePickerDoc() {
             <p>TimePicker 浮层中的列会随着 format 变化，当略去 format 中的某部分时，浮层中对应的列也会消失。</p>
             {useMemo(() => {
                 return (
+                    <>
+                        <div className="detail-box">
+                            <Row type={'flex'} align={'middle'} gutter={20}>
+                                <Col>
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} onChange={v => console.log(v)} />
+                                </Col>
+                                <Col className={'font-bold'}>
+                                    HH:mm:ss
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row type={'flex'} align={'middle'} gutter={20}>
+                                <Col>
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH:mm'} onChange={v => console.log(v)} />
+                                </Col>
+                                <Col className={'font-bold'}>
+                                    HH:mm
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row type={'flex'} align={'middle'} gutter={20}>
+                                <Col>
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'mm:ss'} onChange={v => console.log(v)} />
+                                </Col>
+                                <Col className={'font-bold'}>
+                                    mm:ss
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row type={'flex'} align={'middle'} gutter={20}>
+                                <Col>
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH~ss'} onChange={v => console.log(v)} />
+                                </Col>
+                                <Col className={'font-bold'}>
+                                    HH~ss
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
+                )
+            }, [])}
+
+            {/* 12 小时制 */}
+            <h2>12 小时制</h2>
+            <p>12 小时制的时间选择器，在 format 设置 hh 时生效。</p>
+            {useMemo(() => {
+                return (
                     <div className="detail-box">
-                        <TimePicker format={'HH:mm'} />
+                        <TimePicker defaultOpenValue={new Date('2019-12-31 08:23:45')} format={'hh:mm:ss'} onChange={v => console.log(v)} />
+                    </div>
+                )
+            }, [])}
+
+            {/* 步长选项 */}
+            <h2>步长选项</h2>
+            <p>可以使用 hourStep minuteStep secondStep 按步长展示可选的时分秒。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <TimePicker hourStep={2} minuteStep={15} secondStep={10} format={'hh:mm:ss'} onChange={v => console.log(v)} />
+                    </div>
+                )
+            }, [])}
+
+            {/* 禁用部分选项 */}
+            <h2>禁用部分选项</h2>
+            <p>通过 disabledHours、disabledMinutes、disabledSeconds 可以自定义禁用某些时间选项。</p>
+            <p>配置 hideDisabledOptions 选项可以将禁用项隐藏</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row gutter={20}>
+                            <Col>
+                                <TimePicker
+                                    disabledHours={() => [1, 2, 3]}
+                                    disabledMinutes={() => [4, 5, 6]}
+                                    disabledSeconds={() => [7, 8, 9]}
+                                    onChange={v => console.log(v)}
+                                />
+                            </Col>
+                            <Col>
+                                <TimePicker
+                                    hideDisabledOptions
+                                    disabledHours={() => [1, 2, 3]}
+                                    disabledMinutes={() => [4, 5, 6]}
+                                    disabledSeconds={() => [7, 8, 9]}
+                                    onChange={v => console.log(v)}
+                                />
+                            </Col>
+                        </Row>
                     </div>
                 )
             }, [])}
