@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PanelProps, PanelDefaultProps } from './interface';
 import Header from './header';
 import Combobox from './combobox';
-import { RenderWrapper } from '../../common';
 
 function Panel(props) {
     const {
@@ -24,6 +23,13 @@ function Panel(props) {
         hideDisabledOptions,
         addon,
     } = props;
+
+    // ---------------------------------- render chunk ----------------------------------
+    const renderAddon = useMemo(() => {
+        if(!addon) return null;
+
+        return addon(value, onChange);
+    }, [addon, value]);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {
@@ -52,9 +58,7 @@ function Panel(props) {
                 hideDisabledOptions={hideDisabledOptions}
                 {...commonProps}
             />
-            <RenderWrapper visible={addon} unmountOnExit>
-                {addon(value, onChange)}
-            </RenderWrapper>
+            {renderAddon}
         </div>
     );
 }

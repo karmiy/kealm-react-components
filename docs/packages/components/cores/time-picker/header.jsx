@@ -112,7 +112,7 @@ function Header(props) {
         const prevValue = value || defaultOpenValue;
         if(!verifyTimeChanged(prevValue, formatOptions)) return;
 
-        onChange(new Date(handleDate(value || defaultOpenValue, formatOptions, true)));
+        onChange(new Date(handleDate(prevValue, formatOptions, true)));
     }, [value, defaultOpenValue, format, isAM, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
 
 
