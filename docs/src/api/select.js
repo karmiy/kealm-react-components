@@ -72,8 +72,8 @@ export const selectProps = [
     {
         param: 'emptyContent',
         des: '下拉选择器可用选项为空时显示的文本',
-        type: 'boolean',
-        option: 'string / ReactNode',
+        type: 'string / ReactNode',
+        option: '--',
         default: '无数据',
     },
     {

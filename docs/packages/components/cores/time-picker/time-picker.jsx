@@ -4,7 +4,8 @@ import { TimePickerProps, TimePickerDefaultProps } from './interface';
 import Input from '../input';
 import {Icon} from "../index";
 import Trigger from '../trigger';
-import Panel from './panel';
+import Header from './header';
+import Combobox from './combobox';
 import { RenderWrapper } from '../../common';
 import { formatDate } from 'utils/common/date'
 
@@ -99,34 +100,52 @@ function TimePicker(props) {
         disabledMinutes,
         disabledSeconds,
         hideDisabledOptions,
-        addon
     ];
+
+    const renderAddon = useMemo(() => {
+        if(!addon) return null;
+
+        return (
+            <div className={`${componentCls}-panel__addon`}>
+                {addon(dateValue, setDateValue)}
+            </div>
+        );
+    }, [addon, dateValue]);
+
     const renderPanel = useMemo(() => {
+        const commonProps = {
+            prefix: `${componentCls}-panel`,
+            defaultOpenValue,
+            value: dateValue,
+            onChange: setDateValue,
+            disabled,
+            format,
+            isAM,
+            hourStep,
+            minuteStep,
+            secondStep,
+            disabledHours,
+            disabledMinutes,
+            disabledSeconds,
+        };
         return (
             <>
-                <Panel
-                    prefix={`${componentCls}-panel`}
-                    defaultOpenValue={defaultOpenValue}
-                    value={dateValue}
-                    onChange={setDateValue}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    visible={isVisible}
-                    format={format}
-                    isAM={isAM}
-                    hourStep={hourStep}
-                    minuteStep={minuteStep}
-                    secondStep={secondStep}
-                    disabledHours={disabledHours}
-                    disabledMinutes={disabledMinutes}
-                    disabledSeconds={disabledSeconds}
-                    hideDisabledOptions={hideDisabledOptions}
-                    addon={addon}
-                />
+                <div className={`${componentCls}-panel__inner`}>
+                    <Header
+                        placeholder={placeholder}
+                        {...commonProps}
+                    />
+                    <Combobox
+                        visible={visible}
+                        hideDisabledOptions={hideDisabledOptions}
+                        {...commonProps}
+                    />
+                    {renderAddon}
+                </div>
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, panelDependencies);
+    }, [...panelDependencies, renderAddon]);
 
     // ---------------------------------- render ----------------------------------
     return (

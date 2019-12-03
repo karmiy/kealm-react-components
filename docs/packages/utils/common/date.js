@@ -1,4 +1,4 @@
-import { leftPad } from './base';
+import { leftPad, transRegExpSpec } from './base';
 
 const formatOptions = [
     'YYYY',
@@ -56,6 +56,9 @@ export function verifySafeTime(option, num) {
  * @returns {boolean}
  */
 export function isValidFormat(dateStr, format, isStrict = true) {
+    // 转义正则特殊符号
+    format = transRegExpSpec(format);
+
     // 转为 'YYYY|MM|DD|HH|hh|mm|ss'
     const formatExpStr = formatOptions.join('|');
 
@@ -75,6 +78,9 @@ export function isValidFormat(dateStr, format, isStrict = true) {
  * @returns object: {string: number}
  */
 export function catchFormatOptions(dateStr, format, isStrict = true) {
+    // 转义正则特殊符号
+    format = transRegExpSpec(format);
+
     const obj = {};
     // 1、如18:8 HH:mm  =>  { HH:18, mm: 8 }
     // 转为 'YYYY|MM|DD|HH|hh|mm|ss'

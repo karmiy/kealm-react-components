@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { TimePicker, Row, Col } from '@kealm/react-components';
+import { TimePicker, Row, Col, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { timePickerProps, timePickerEvents } from 'api/time-picker';
+import { CodeBasic, CodeControlled, CodeClear, CodeSize, CodeDisabled, CodeFormat, Code12Hours, CodeStep, CodeDisabledOptions, CodeAddon } from 'demos/time-picker';
 
 function createTimes(num) {
     const times = [];
@@ -12,9 +14,10 @@ function createTimes(num) {
 
 function TimePickerDoc() {
     const [value, setValue] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [visible, setVisible] = useState(false);
 
     const onChange = useCallback(v => setValue(v), []);
+    const onVisibleChange = useCallback(v => setVisible(v), []);
 
     return (
         <div className='page-box'>
@@ -34,6 +37,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 受控组件 */}
             <h2>受控组件</h2>
@@ -45,6 +49,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [value])}
+            <HighLight code={CodeControlled} />
 
             {/* 可清空 */}
             <h2>可清空</h2>
@@ -56,6 +61,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeClear} />
 
             {/* <Row type={'flex'} align={'middle'} gutter={20}> */}
 
@@ -73,6 +79,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeSize} />
 
             {/* 禁用 */}
             <h2>禁用</h2>
@@ -84,6 +91,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDisabled} />
 
             {/* 自定义格式 */}
             <h2>自定义格式</h2>
@@ -134,6 +142,7 @@ function TimePickerDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeFormat} />
 
             {/* 12 小时制 */}
             <h2>12 小时制</h2>
@@ -145,6 +154,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={Code12Hours} />
 
             {/* 步长选项 */}
             <h2>步长选项</h2>
@@ -156,6 +166,7 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeStep} />
 
             {/* 禁用部分选项 */}
             <h2>禁用部分选项</h2>
@@ -186,9 +197,33 @@ function TimePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDisabledOptions} />
+
+            {/* 附加内容 */}
+            <h2>附加内容</h2>
+            <p>在 TimePicker 选择框底部显示自定义的内容。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <TimePicker visible={visible} onVisibleChange={onVisibleChange} addon={(value, setValue) => {
+                            return (
+                                <Row type={'flex'} justify={'end'} gutter={8}>
+                                    <Col>
+                                        <Button type={'primary'} size={'small'} onClick={() => setValue(new Date())}>此刻</Button>
+                                    </Col>
+                                    <Col>
+                                        <Button size={'small'} onClick={() => setVisible(false)}>关闭</Button>
+                                    </Col>
+                                </Row>
+                            )
+                        }} />
+                    </div>
+                )
+            }, [visible])}
+            <HighLight code={CodeAddon} />
 
             {/* API */}
-            {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
+            <ApiTable title='TimePicker' propsList={timePickerProps} eventsList={timePickerEvents} />
         </div>
     )
 }

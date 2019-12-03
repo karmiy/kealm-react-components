@@ -258,3 +258,11 @@ export const mergeStr = function (obj = {}, separator = ' ') {
     }
     return className.slice(0, -1);
 }
+
+/**
+ * Transforms special symbols in RegExp
+ * @param str
+ */
+export const transRegExpSpec = function (str = '') {
+    return str.replace(/[$\\^)}?(.{+*|\]\[]/g, s => '\\' + s);
+}

@@ -67,6 +67,11 @@
         @include utils-clear-fix;
     }
 
+    @include e(addon) {
+        padding: 8px;
+        border: 1px solid $time-picker-panel-border-color;
+    }
+
     @include e(mask) {
         position: absolute;
         width: 100%;

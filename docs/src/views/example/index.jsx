@@ -18,7 +18,7 @@ import { useDebounce, useThrottle } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import { isObject } from '../../../packages/utils/common/base';
 import { isElement } from 'react-is';
-import { isValidDate } from 'utils/common/date';
+import { isValidDate, isValidFormat } from 'utils/common/date';
 window.isValidDate = isValidDate;
 
 function T(props) {
@@ -68,7 +68,12 @@ const values = [
 
 function logValidDate(dateStr, format, expect, isStrict = true) {
     const result = isValidDate(dateStr, format, isStrict);
-    console.log(`validDate: ${dateStr}; expect: ${expect}; result: ${result}; ------------- pass: ${expect === result}`);
+    console.log(`verifyDate: ${dateStr}; expect: ${expect}; result: ${result}; ------------- pass: ${expect === result}`);
+}
+
+function logValidFormat(dateStr, format, expect, isStrict = true) {
+    const result = isValidFormat(dateStr, format, isStrict);
+    console.log(`verifyDate: ${dateStr}; expect: ${expect}; result: ${result}; ------------- pass: ${expect === result}`);
 }
 
 function ExampleDoc() {
@@ -90,10 +95,12 @@ function ExampleDoc() {
     logValidDate('2019-02-28', 'YYYY-MM-DD', true);
     logValidDate('2019-02-29', 'YYYY-MM-DD', false);
     logValidDate('2019#01-29', 'YYYY#MM-DD', true);
-    logValidDate('19:23?59', 'HH:mm\\?ss', true);
+    logValidDate('19:23?59', 'HH:mm?ss', true);
     logValidDate('1970#13', 'YYYY#mm', true);
     logValidDate('1969#13', 'YYYY#mm', true);
-    logValidDate('59%@(11', 'mm%@\\(ss', true);
+    logValidDate('59%@(11', 'mm%@(ss', true);
+
+    // logValidFormat('59?11', 'mm?ss', true);
     return (
         <div>
             {/*{el}*/}

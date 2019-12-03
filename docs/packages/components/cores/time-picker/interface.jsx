@@ -44,15 +44,12 @@ export const TimePickerDefaultProps = {
     hideDisabledOptions: false,
 }
 
-/* panel-props */
-export const PanelProps = {
+const HeaderComboboxCommonProps = {
     prefix: PropTypes.string,
     defaultOpenValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
-    placeholder: PropTypes.string,
-    visible: PropTypes.bool,
     format: PropTypes.string,
     isAM: PropTypes.bool,
     hourStep: PropTypes.number,
@@ -61,14 +58,11 @@ export const PanelProps = {
     disabledHours: PropTypes.array,
     disabledMinutes: PropTypes.array,
     disabledSeconds: PropTypes.array,
-    hideDisabledOptions: PropTypes.bool,
-    addon: PropTypes.func,
 }
 
-export const PanelDefaultProps = {
+const HeaderComboboxCommonDefaultProps = {
     onChange: noop,
     disabled: false,
-    placeholder: '请选择时间',
     format: 'HH:mm:ss',
     hourStep: 1,
     minuteStep: 1,
@@ -76,69 +70,28 @@ export const PanelDefaultProps = {
     disabledHours: emptyArr,
     disabledMinutes: emptyArr,
     disabledSeconds: emptyArr,
-    hideDisabledOptions: false,
 }
 
 /* header-props */
 export const HeaderProps = {
-    prefix: PropTypes.string,
-    defaultOpenValue: PropTypes.instanceOf(Date),
-    value: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func,
-    disabled: PropTypes.bool,
+    ...HeaderComboboxCommonProps,
     placeholder: PropTypes.string,
-    format: PropTypes.string,
-    isAM: PropTypes.bool,
-    hourStep: PropTypes.number,
-    minuteStep: PropTypes.number,
-    secondStep: PropTypes.number,
-    disabledHours: PropTypes.array,
-    disabledMinutes: PropTypes.array,
-    disabledSeconds: PropTypes.array,
 }
 
 export const HeaderDefaultProps = {
-    onChange: noop,
-    disabled: false,
+    ...HeaderComboboxCommonDefaultProps,
     placeholder: '请选择时间',
-    format: 'HH:mm:ss',
-    hourStep: 1,
-    minuteStep: 1,
-    secondStep: 1,
-    disabledHours: emptyArr,
-    disabledMinutes: emptyArr,
-    disabledSeconds: emptyArr,
 }
 
 /* combobox-props */
 export const ComboboxProps = {
-    prefix: PropTypes.string,
-    defaultOpenValue: PropTypes.instanceOf(Date),
-    value: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func,
-    disabled: PropTypes.bool,
+    ...HeaderComboboxCommonProps,
     visible: PropTypes.bool,
-    format: PropTypes.string,
-    isAM: PropTypes.bool,
-    hourStep: PropTypes.number,
-    minuteStep: PropTypes.number,
-    secondStep: PropTypes.number,
-    disabledHours: PropTypes.array,
-    disabledMinutes: PropTypes.array,
-    disabledSeconds: PropTypes.array,
     hideDisabledOptions: PropTypes.bool,
 }
 
 export const ComboboxDefaultProps = {
-    onChange: noop,
-    disabled: false,
-    format: 'HH:mm:ss',
-    hourStep: 1,
-    minuteStep: 1,
-    secondStep: 1,
-    disabledHours: emptyArr,
-    disabledMinutes: emptyArr,
-    disabledSeconds: emptyArr,
+    ...HeaderComboboxCommonDefaultProps,
     hideDisabledOptions: false,
 }
 
