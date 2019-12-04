@@ -10,11 +10,11 @@
         display: contents;
     }*/
 
-    &:hover:not(.is-disabled) {
+    /*&:hover:not(.is-disabled) {
         .km-input__inner {
             border-color: $select-border-color-hover;
         }
-    }
+    }*/
 
     .km-input__inner {
         cursor: pointer;

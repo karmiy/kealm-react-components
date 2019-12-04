@@ -12,6 +12,7 @@ export const DatePickerProps = {
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     format: PropTypes.string,
+    allowClear: PropTypes.bool,
 }
 
 export const DatePickerDefaultProps = {
@@ -20,4 +21,5 @@ export const DatePickerDefaultProps = {
     disabled: false,
     placeholder: '请选择日期',
     format: 'YYYY-MM-DD',
+    allowClear: false,
 }

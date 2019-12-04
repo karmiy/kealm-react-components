@@ -19,7 +19,7 @@ function DatePickerDoc() {
             <p>在浮层中可以选择或者输入日期。</p>
             {useMemo(() => {
                 return (
-                    <div className="detail-box">
+                    <div className="detail-box" style={{marginTop: '100px'}}>
                         <DatePicker />
                     </div>
                 )

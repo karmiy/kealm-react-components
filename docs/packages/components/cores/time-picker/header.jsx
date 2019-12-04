@@ -62,7 +62,7 @@ function verifyDisabledOptions(formatOptions, disabledHours = [], disabledMinute
 
 function Header(props) {
     const {
-        prefix,
+        prefixCls,
         defaultOpenValue,
         value,
         onChange,
@@ -129,7 +129,7 @@ function Header(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={`${prefix}__input-wrap`}>
+        <div className={`${prefixCls}__input-wrap`}>
             <Input value={inputValue} onChange={onInputChange} placeholder={placeholder} disabled={disabled} size={'small'} />
         </div>
     );

@@ -719,3 +719,12 @@ $time-picker-item-background-color-hover: $background-color-base !default;
 $time-picker-item-color-selected: $color-primary !default;
 $time-picker-item-color-disabled: $color-text-placeholder !default;
 
+/* --------------------------DatePicker-------------------------- */
+$date-picker-width: 174px !default;
+$date-picker-panel-border-color: $border-color-light !default;
+$date-picker-calendar-color: $color-text-regular !default;
+$date-picker-calendar-header-color: $color-text-primary !default;
+$date-picker-calendar-header-height: 40px !default;
+$date-picker-calendar-table-th-width: 33px !default;
+$date-picker-calendar-table-th-height: 18px !default;
+$date-picker-calendar-table-td-height: 30px !default;

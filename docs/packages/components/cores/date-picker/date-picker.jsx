@@ -4,9 +4,13 @@ import { DatePickerProps, DatePickerDefaultProps } from './interface';
 import Input from '../input';
 import Trigger from '../trigger';
 import { formatDate } from 'utils/common/date';
+import {Icon} from "../index";
+import { RenderWrapper } from '../../common';
+import Panel from './panel';
+import Header from "./header";
 
 function DatePicker(props) {
-    const {componentCls} = useContextConf('date-picker');
+    const { componentCls, prefix } = useContextConf('date-picker');
     const {
         className,
         selectorClassName,
@@ -21,6 +25,7 @@ function DatePicker(props) {
         disabled,
         placeholder,
         format,
+        allowClear,
         ...others
     } = props;
 
@@ -30,8 +35,7 @@ function DatePicker(props) {
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [`${componentCls}-panel`]: true,
-        'km-popper': true,
+        [`${prefix}-picker-panel`]: true,
         [className]: className,
     }, [className]);
 
@@ -40,15 +44,35 @@ function DatePicker(props) {
         [selectorClassName]: selectorClassName,
     }, [componentCls, selectorClassName]);
 
+    // ---------------------------------- event ----------------------------------
+    const onClear = useCallback(e => {
+        e.stopPropagation();
+
+        setDateValue(null);
+    }, []);
+
+    // ---------------------------------- render mini chunk ----------------------------------
+
+    const renderSuffix = useMemo(() => {
+        return (
+            <div>
+                <Icon type={'calendar'} className={`${componentCls}__caret`} />
+                <RenderWrapper visible={allowClear} unmountOnExit>
+                    <Icon type={'close-circle'} className={`${componentCls}__clear`} onClick={onClear} />
+                </RenderWrapper>
+            </div>
+        )
+    }, [componentCls, allowClear]);
+
     // ---------------------------------- render chunk ----------------------------------
     const renderPanel = useMemo(() => {
         return (
             <>
-                <div>123123111111111111111111111111</div>
+                <Panel prefixCls={componentCls} placeholder={placeholder} disabled={disabled} />
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, []);
+    }, [componentCls, placeholder, disabled]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -70,6 +94,7 @@ function DatePicker(props) {
                 <Input
                     value={dateValue ? formatDate(dateValue, format) : ''}
                     readOnly
+                    suffix={renderSuffix}
                     placeholder={placeholder}
                     disabled={disabled}
                 />

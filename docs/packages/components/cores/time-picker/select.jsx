@@ -7,7 +7,7 @@ import { RenderWrapper } from '../../common';
 
 function Select(props) {
     const {
-        prefix,
+        prefixCls,
         selectedIndex,
         options,
         onSelect,
@@ -53,12 +53,12 @@ function Select(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div ref={rootRef} className={`${prefix}__select km-scroll-hidden`}>
-            <ul ref={listRef} className={`${prefix}__list`}>
+        <div ref={rootRef} className={`${prefixCls}__select km-scroll-hidden`}>
+            <ul ref={listRef} className={`${prefixCls}__list`}>
                 {
                     options.map((option, index) => {
                         const className = mergeStr({
-                            [`${prefix}__item`]: true,
+                            [`${prefixCls}__item`]: true,
                             'is-selected': index === selectedIndex,
                             'is-disabled': option.disabled,
                         });

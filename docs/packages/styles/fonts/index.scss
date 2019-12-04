@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?vviyge');
-  src:  url('kealm-icon.eot?vviyge#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?vviyge') format('truetype'),
-    url('kealm-icon.woff?vviyge') format('woff'),
-    url('kealm-icon.svg?vviyge#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?eglylu');
+  src:  url('kealm-icon.eot?eglylu#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?eglylu') format('truetype'),
+    url('kealm-icon.woff?eglylu') format('woff'),
+    url('kealm-icon.svg?eglylu#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,11 +25,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.km-icon-double-left:before {
-  content: "\e7ed";
-}
-.km-icon-double-right:before {
-  content: "\e7ee";
+.km-icon-calendar:before {
+  content: "\e664";
 }
 .km-icon-loading:before {
   content: "\e61c";
@@ -130,11 +127,11 @@
 .km-icon-left:before {
   content: "\e7ec";
 }
-.km-icon-up:before {
-  content: "\e900";
+.km-icon-double-left:before {
+  content: "\e7ed";
 }
-.km-icon-down:before {
-  content: "\e901";
+.km-icon-double-right:before {
+  content: "\e7ee";
 }
 .km-icon-menu:before {
   content: "\e7f4";
@@ -253,6 +250,12 @@
 .km-icon-eye-fill-o:before {
   content: "\e8ff";
 }
+.km-icon-up:before {
+  content: "\e900";
+}
+.km-icon-down:before {
+  content: "\e901";
+}
 .km-icon-close-circle:before {
   content: "\e902";
 }
@@ -357,9 +360,6 @@
 }
 .km-icon-alarm:before {
   content: "\e950";
-}
-.km-icon-calendar:before {
-  content: "\e953";
 }
 .km-icon-printer:before {
   content: "\e954";

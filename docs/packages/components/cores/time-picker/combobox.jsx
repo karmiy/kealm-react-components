@@ -79,7 +79,7 @@ function createEmptyTime(date) {
 
 function Combobox(props) {
     const {
-        prefix,
+        prefixCls,
         defaultOpenValue,
         value,
         onChange,
@@ -141,7 +141,7 @@ function Combobox(props) {
         const selectedIndex = options.findIndex(item => item.value === hour);
         return (
             <Select
-                prefix={prefix}
+                prefixCls={prefixCls}
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
@@ -150,7 +150,7 @@ function Combobox(props) {
                 hideDisabledOptions={hideDisabledOptions}
             />
         );
-    }, [showHours, is12Hours, prefix, visible, hour, onSelect, disabled, isAM, hourStep, disabledHours, hideDisabledOptions]);
+    }, [showHours, is12Hours, prefixCls, visible, hour, onSelect, disabled, isAM, hourStep, disabledHours, hideDisabledOptions]);
 
     const renderMinutesSelect = useMemo(() => {
         if(!showMinutes) return null;
@@ -159,7 +159,7 @@ function Combobox(props) {
         const selectedIndex = options.findIndex(item => item.value === minute);
         return (
             <Select
-                prefix={prefix}
+                prefixCls={prefixCls}
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
@@ -168,7 +168,7 @@ function Combobox(props) {
                 hideDisabledOptions={hideDisabledOptions}
             />
         );
-    }, [showMinutes, prefix, visible, minute, onSelect, disabled, minuteStep, disabledMinutes, hideDisabledOptions]);
+    }, [showMinutes, prefixCls, visible, minute, onSelect, disabled, minuteStep, disabledMinutes, hideDisabledOptions]);
 
     const renderSecondsSelect = useMemo(() => {
         if(!showSeconds) return null;
@@ -177,7 +177,7 @@ function Combobox(props) {
         const selectedIndex = options.findIndex(item => item.value === second);
         return (
             <Select
-                prefix={prefix}
+                prefixCls={prefixCls}
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
@@ -186,7 +186,7 @@ function Combobox(props) {
                 hideDisabledOptions={hideDisabledOptions}
             />
         );
-    }, [showSeconds, prefix, visible, second, onSelect, disabled, secondStep, disabledSeconds, hideDisabledOptions]);
+    }, [showSeconds, prefixCls, visible, second, onSelect, disabled, secondStep, disabledSeconds, hideDisabledOptions]);
 
     const renderMeridianSelect = useMemo(() => {
         if(!is12Hours) return null;
@@ -195,7 +195,7 @@ function Combobox(props) {
         const selectedIndex = isAM ? 0 : 1;
         return (
             <Select
-                prefix={prefix}
+                prefixCls={prefixCls}
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
@@ -203,16 +203,16 @@ function Combobox(props) {
                 onSelect={onMeridianSelect}
             />
         );
-    }, [is12Hours, disabled, isAM, prefix, visible, onMeridianSelect]);
+    }, [is12Hours, disabled, isAM, prefixCls, visible, onMeridianSelect]);
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={`${prefix}__combobox`}>
+        <div className={`${prefixCls}__combobox`}>
             {renderHoursSelect}
             {renderMinutesSelect}
             {renderSecondsSelect}
             {renderMeridianSelect}
-            {/*<div className={`${prefix}__mask`} />*/}
+            {/*<div className={`${prefixCls}__mask`} />*/}
         </div>
     );
 }

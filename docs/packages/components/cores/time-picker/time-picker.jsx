@@ -112,7 +112,7 @@ function TimePicker(props) {
 
     const renderPanel = useMemo(() => {
         const commonProps = {
-            prefix: `${componentCls}-panel`,
+            prefixCls: `${componentCls}-panel`,
             defaultOpenValue,
             value: dateValue,
             onChange: setDateValue,

@@ -43,7 +43,7 @@ export const TimePickerDefaultProps = {
 }
 
 const HeaderComboboxCommonProps = {
-    prefix: PropTypes.string,
+    prefixCls: PropTypes.string,
     defaultOpenValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
@@ -95,7 +95,7 @@ export const ComboboxDefaultProps = {
 
 /* select-props */
 export const SelectProps = {
-    prefix: PropTypes.string,
+    prefixCls: PropTypes.string,
     options: PropTypes.array,
     selectedIndex: PropTypes.number,
     onSelect: PropTypes.func,
