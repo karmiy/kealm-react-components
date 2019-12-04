@@ -106,7 +106,7 @@ const getOptionsChildren = children => {
 export const SelectContext = createContext();
 
 function Select(props) {
-    const { componentCls } = useContextConf('select');
+    const { componentCls, prefix } = useContextConf('select');
     const {
         children,
         className,
@@ -177,8 +177,8 @@ function Select(props) {
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
+        [`${prefix}-picker-panel`]: true,
         [`${componentCls}-dropdown`]: true,
-        'km-popper': true,
         'is-multiple': multiple,
         [className]: className,
     }, [className, componentCls, multiple]);

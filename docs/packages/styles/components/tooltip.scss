@@ -11,6 +11,7 @@
         line-height: 1.5;
         padding: $tooltip-padding;
         border-radius: 4px;
+        outline: none;
         z-index: $z-index-extremely-large;
         font-size: $tooltip-font-size;
         word-wrap: break-word;
@@ -34,9 +35,9 @@
             border-width: 5px;
         }
 
-        &[x-placement^="top"] {
+        /*&[x-placement^="top"] {
             margin-bottom: #{$tooltip-arrow-size + 6px};
-        }
+        }*/
 
         &[x-placement^="top"] .popper__arrow {
             bottom: -$tooltip-arrow-size;

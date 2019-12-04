@@ -228,9 +228,10 @@ function CollapseTransition(props) {
         initStore
     } = _Transition;
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const elRef = useRef(null);
 
+    // ---------------------------------- effect ----------------------------------
     useDidMount(() => {
         handler && (handler.current = {
             getEle() {

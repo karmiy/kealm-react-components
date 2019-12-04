@@ -35,7 +35,7 @@ function TabNav(props) {
         ...others
     } = props;
 
-    // ---------------------------------- logic code: variable ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const [isScroll, setIsScroll] = useState(false);
     const [tabDisabled, setTabDisabled] = useState({prev: true, next: false});
     // const [prevDisabled, setPrevDisabled] = useState(false);

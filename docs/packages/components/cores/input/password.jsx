@@ -26,11 +26,12 @@ function Password(props) {
     const rootOthers = extract(others, ['style', 'onClick']);
     const inputOthers = omit(others, ['style', 'onClick']);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const [visible, setVisible] = useState(false);
     const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange);
     const inputRef = useRef(null);
 
+    // ---------------------------------- effect ----------------------------------
     // Prevent input Dom refresh
     useDidUpdate(() => {
         inputRef.current.type = visible ? 'text' : 'password';

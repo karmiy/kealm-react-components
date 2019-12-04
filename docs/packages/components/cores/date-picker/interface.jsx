@@ -9,10 +9,15 @@ export const DatePickerProps = {
     defaultValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
-
+    disabled: PropTypes.bool,
+    placeholder: PropTypes.string,
+    format: PropTypes.string,
 }
 
 export const DatePickerDefaultProps = {
     ...dropdownCommonDefaultProps,
     onChange: noop,
+    disabled: false,
+    placeholder: '请选择日期',
+    format: 'YYYY-MM-DD',
 }

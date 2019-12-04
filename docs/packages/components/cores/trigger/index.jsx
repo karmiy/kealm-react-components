@@ -1,5 +1,5 @@
 import React, { cloneElement, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useTrigger, useTimeout, useDidUpdate } from 'hooks';
+import { useTrigger, useTimeout, useContextConf, useClassName } from 'hooks';
 import { TriggerProps, TriggerDefaultProps } from './interface';
 import { Popper, Portal, DomWrapper, RenderWrapper } from '../../common';
 import { FadeTransition } from '../transition';
@@ -44,6 +44,8 @@ addDomEventListener(document, 'keydown', function (e) {
 }, false);
 
 function Trigger(props) {
+    const { componentCls } = useContextConf('popper');
+
     const {
         children,
         className,
@@ -69,6 +71,12 @@ function Trigger(props) {
         style, // Default style content unchanged
         ...others // Default others content unchanged
     } = props;
+
+    // ---------------------------------- class ----------------------------------
+    const classNames = useClassName({
+        [componentCls]: true,
+        [className]: className,
+    }, [className]);
 
     // ---------------------------------- style ----------------------------------
     const popperStyles = useMemo(() => {
@@ -240,7 +248,7 @@ function Trigger(props) {
                         ref={popperRef}
                         role={'tooltip'}
                         tabIndex={0}
-                        className={className}
+                        className={classNames}
                         onMouseEnter={onPopperMouseEnter}
                         onMouseLeave={onPopperMouseLeave}
                         style={popperStyles}
@@ -252,7 +260,7 @@ function Trigger(props) {
                 </Portal>
             </FadeTransition>
         )
-    }, [isMount, isVisible, transitionName, className, popup, popperStyles, onPopperMouseEnter, onPopperMouseLeave]);
+    }, [isMount, isVisible, transitionName, classNames, popup, popperStyles, onPopperMouseEnter, onPopperMouseLeave]);
 
     const reference = cloneElement(children, filterEmptyProp({
         onClick,

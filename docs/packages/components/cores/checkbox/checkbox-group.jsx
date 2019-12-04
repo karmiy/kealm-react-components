@@ -26,7 +26,7 @@ function CheckboxGroup(props) {
         [className]: className,
     }, [className, componentCls]);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const { checkedValue, checkChange } = useCheckGroupValue(defaultValue, value, onChange);
 
     // ---------------------------------- context.provider ----------------------------------

@@ -71,7 +71,7 @@ function Dialog(props) {
         [wrapClassName]: wrapClassName,
     }, [componentCls, wrapClassName, center]);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
 
     const [portalVisible, setPortalVisible] = useState(visible);
     const [wrapperVisible, setWrapperVisible] = useState(visible);
@@ -80,6 +80,7 @@ function Dialog(props) {
     const dialogRef = useRef(null);
     const lastFocusNode = useRef(null); // The element of the last focus
 
+    // ---------------------------------- logic code ----------------------------------
     useMemo(() => {
         // Initially hidden, don't create portal, and it's created when opened
         // Initially display, the display is created directly
@@ -91,6 +92,7 @@ function Dialog(props) {
         if(visible) setWrapperVisible(visible);
     }, [visible]);
 
+    // ---------------------------------- effect ----------------------------------
     // Change the entry position of dialog
     // Core: Here you can get the initial stage of animation preparation.
     useLayoutEffect(() => {

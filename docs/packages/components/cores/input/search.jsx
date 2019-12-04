@@ -29,7 +29,7 @@ function Search(props) {
     const rootOthers = extract(others, ['style', 'onClick']);
     const inputOthers = omit(others, ['style', 'onClick']);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const searchRef = useRef(null);
 
     // ---------------------------------- class ----------------------------------

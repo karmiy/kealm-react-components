@@ -1,0 +1,18 @@
+@import "../mixins/index";
+@import "../common/var";
+
+@include b(picker-panel) {
+    box-sizing: border-box;
+    position: absolute;
+    outline: none;
+    border: 1px solid $border-color-light;
+    border-radius: $border-radius-base;
+    margin: 5px 0;
+    z-index: #{$z-index-extremely-large + 1};
+    background-color: $color-white;
+    box-shadow: $box-shadow-light;
+
+    &[x-placement^="top"] {
+        transform-origin: center bottom;
+    }
+}

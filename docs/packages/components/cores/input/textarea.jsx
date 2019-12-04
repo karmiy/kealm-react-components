@@ -38,13 +38,14 @@ function TextArea(props) {
         [className]: className
     }, [className, componentCls, disabled]);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange);
     const [textareaStyles, setTextareaStyles] = useStateCallable(null);
     const [resizing, setResizing] = useState(false);
     const textareaRef = useRef(null);
     const resizeFrameIdRef = useRef(null);
 
+    // ---------------------------------- effect ----------------------------------
     // Calculate the height when props.value changes
     useLayoutEffect(() => {
         if (!autosize || !textareaRef.current) return;
@@ -52,6 +53,7 @@ function TextArea(props) {
         throttleResize();
     }, [value, autosize]);
 
+    // ---------------------------------- style ----------------------------------
     const styles = {
         ...inputStyle,
         ...textareaStyles,

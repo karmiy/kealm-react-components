@@ -18,7 +18,6 @@ function Popover(props) {
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [`${componentCls}`]: true,
-        [`km-popper`]: true,
         [className]: className,
     }, [componentCls, className]);
 

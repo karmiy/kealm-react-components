@@ -24,7 +24,7 @@ function Checkbox(props) {
     const rootOthers = extract(others, ['style', 'onClick']);
     const checkboxOthers = omit(others, ['style', 'onClick']);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange);
 
     // ---------------------------------- class ----------------------------------

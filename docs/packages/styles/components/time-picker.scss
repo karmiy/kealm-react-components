@@ -1,6 +1,7 @@
 @import "../mixins/index";
 @import "../common/var";
 @import "../common/base";
+@import "./picker";
 
 @include b(time-picker) {
     box-sizing: border-box;
@@ -35,19 +36,6 @@
 }
 
 @include b(time-picker-panel) {
-    box-sizing: border-box;
-    position: absolute;
-    outline: none;
-    border: $time-picker-panel-border;
-    border-radius: $border-radius-base;
-    margin: 5px 0;
-    z-index: #{$z-index-extremely-large + 1};
-    background-color: $time-picker-panel-background;
-    box-shadow: $time-picker-panel-shadow;
-
-    &[x-placement^="top"] {
-        transform-origin: center bottom;
-    }
 
     @include e(input-wrap) {
         padding: 7px 12px;

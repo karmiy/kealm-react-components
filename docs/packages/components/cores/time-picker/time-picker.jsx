@@ -10,7 +10,7 @@ import { RenderWrapper } from '../../common';
 import { formatDate } from 'utils/common/date'
 
 function TimePicker(props) {
-    const {componentCls} = useContextConf('time-picker');
+    const { componentCls, prefix } = useContextConf('time-picker');
     const {
         className,
         selectorClassName,
@@ -50,8 +50,7 @@ function TimePicker(props) {
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [`${componentCls}-panel`]: true,
-        'km-popper': true,
+        [`${prefix}-picker-panel`]: true,
         [className]: className,
     }, [className]);
 
@@ -130,7 +129,7 @@ function TimePicker(props) {
         };
         return (
             <>
-                <div className={`${componentCls}-panel__inner`}>
+                <div className={`${componentCls}-panel`}>
                     <Header
                         placeholder={placeholder}
                         {...commonProps}

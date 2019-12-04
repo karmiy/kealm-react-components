@@ -6,6 +6,7 @@ import React, { useMemo } from 'react';
 function useContextConf(name) {
     return useMemo(() => {
         return {
+            prefix: 'km',
             componentCls: `km-${name}`,
         }
     }, [name])

@@ -18,7 +18,7 @@ function Row(props) {
         ...others
     } = props;
 
-    // 分栏间隔
+    // Col spacing
     const gap = useMemo(() => {
         return gutter ? parseFloat(gutter) / 2 : 0;
     }, [gutter])

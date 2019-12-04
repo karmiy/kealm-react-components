@@ -20,7 +20,7 @@ function Card(props) {
     } = props;
     const { componentCls } = useContextConf(`card`);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const isContainGrid = isContainEle(transChildren(children), Grid);
 
     // ---------------------------------- class ----------------------------------

@@ -24,7 +24,6 @@ function CollapseItem(props) {
         ...others
     } = props;
     // ---------------------------------- class ----------------------------------
-    // 根元素class
     const classNames = useClassName({
         [componentCls]: true,
         'is-disabled': disabled,

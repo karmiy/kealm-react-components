@@ -28,26 +28,26 @@ function Collapse(props) {
     }, [className, componentCls]);
 
     // ---------------------------------- logic code ----------------------------------
-    // 转化children
+    // Transform children
     const _children = transChildren(children);
 
-    // 初始化当前active激活项
+    // Initialize current active activation
     let initValue = null;
     useSyncOnce(() => {
-        // 初始化当前active状态的collapse-item，默认[]
+        // Initialize the collapse-item in the current active state, default []
         initValue = toArray(value || defaultValue);
         // 手风琴模式只取一项
         accordion && (initValue = initValue.slice(0, 1));
     });
     const [activeNames, setActiveNames] = useState(initValue);
 
-    // value改变时修改激活状态
+    // ---------------------------------- effect ----------------------------------
+    // Modify activation status when value changes
     useDidUpdate(() => {
         setActiveNames(value);
     }, [value])
 
     // ---------------------------------- event ----------------------------------
-    // 展开/收起 回调
     const onExpandChange = useCallback((name, expand) => {
         let nextActiveNames = activeNames;
         if(expand && !activeNames.includes(name)) {
@@ -62,7 +62,6 @@ function Collapse(props) {
     }, [activeNames, value, onChange, accordion])
 
     // ---------------------------------- render chunk ----------------------------------
-    // 激活选中的collapse-item
     const renderChildren = useMemo(() => {
         return Children.map(_children, (child, index) => {
             if(child) {

@@ -23,7 +23,7 @@ function Radio(props) {
     const rootOthers = extract(others, ['style', 'onClick']);
     const radioOthers = omit(others, ['style', 'onClick']);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const { isChecked, checkChange } = useCheckValue(defaultChecked, checked, groupValues, value, onChange);
 
     // ---------------------------------- class ----------------------------------

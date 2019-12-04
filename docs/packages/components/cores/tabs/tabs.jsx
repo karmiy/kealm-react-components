@@ -36,7 +36,7 @@ function Tabs(props) {
         [className]: className,
     }, [className, componentCls, position, type]);
 
-    // ---------------------------------- logic code ----------------------------------
+    // ---------------------------------- variable ----------------------------------
     const {
         tabsValue,
         tabsChange
