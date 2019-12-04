@@ -70,6 +70,7 @@ function Header(props) {
         disabled,
         format,
         isAM,
+        visible,
         hourStep,
         minuteStep,
         secondStep,
@@ -86,10 +87,20 @@ function Header(props) {
         setInputValue(value ? formatDate(value, format) : '');
     }, [value], true);
 
+    useDidUpdate(() => {
+        setInputValue(value ? formatDate(value, format) : '');
+    }, [visible], true);
+
     // ---------------------------------- event ----------------------------------
     const onInputChange = useCallback(e => {
         const v = e.target.value;
         setInputValue(v);
+
+        if(v === '') {
+            onChange(null);
+            return;
+        }
+
         if(!isValidDate(v, format)) return;
 
         const formatOptions = catchFormatOptions(v, format);

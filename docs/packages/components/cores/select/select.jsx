@@ -120,8 +120,7 @@ function Select(props) {
         visible,
         onVisibleChange,
         placeholder,
-        clearable,
-        onClear: clear,
+        allowClear,
         disabled,
         multiple,
         collapseTags,
@@ -147,8 +146,8 @@ function Select(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange);
-    const [selectedValue, setSelectedValue, setInnerValue] = useController(defaultValue, value, onChange, multiple ? emptyArr : '');
-    const isClearable = clearable && (multiple ? !!selectedValue.length : !isEmpty(selectedValue) && selectedValue !== '');
+    const [selectedValue, setSelectedValue] = useController(defaultValue, value, onChange, multiple ? emptyArr : '');
+    const isClearable = allowClear && (multiple ? !!selectedValue.length : !isEmpty(selectedValue) && selectedValue !== '');
     const selectRef = useRef(null);
     const tagsRef = useRef(null);
     const popperJsInstanceRef = useRef(null);
@@ -186,9 +185,10 @@ function Select(props) {
 
     const inputClassNames = useClassName({
         [componentCls]: true,
-        'is-clearable': isClearable,
+        'is-clearable': isClearable && !disabled,
+        'is-disabled': disabled,
         [selectorClassName]: selectorClassName,
-    }, [componentCls, isClearable, selectorClassName]);
+    }, [componentCls, isClearable, selectorClassName, disabled]);
 
     const dropdownWrapClassNames = useClassName({
         [`${componentCls}-dropdown__wrap`]: true,
@@ -291,9 +291,8 @@ function Select(props) {
     const onClear = useCallback(e => {
         e.stopPropagation();
 
-        setInnerValue(multiple ? emptyArr : '');
-        clear(e);
-    }, [clear, multiple]);
+        setSelectedValue(multiple ? emptyArr : '');
+    }, [multiple]);
 
     const onSelect = useCallback((value, toSelect = true) => {
         if(multiple) {

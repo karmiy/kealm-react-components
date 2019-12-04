@@ -34,9 +34,9 @@ export const CodeSize =
 
     ReactDom.render(
         <Row type={'flex'} align={'middle'} gutter={20}>
-            <Col><TimePicker defaultValue={new Date()} size={'large'}></TimePicker></Col>
-            <Col><TimePicker defaultValue={new Date()}></TimePicker></Col>
-            <Col><TimePicker defaultValue={new Date()} size={'small'}></TimePicker></Col>
+            <Col><TimePicker defaultValue={new Date()} size={'large'} allowClear></TimePicker></Col>
+            <Col><TimePicker defaultValue={new Date()} allowClear></TimePicker></Col>
+            <Col><TimePicker defaultValue={new Date()} size={'small'} allowClear></TimePicker></Col>
         </Row>,
         mountNode
     );`
@@ -59,7 +59,11 @@ export const CodeFormat =
             <div className="detail-box">
                 <Row type={'flex'} align={'middle'} gutter={20}>
                     <Col>
-                        <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} onChange={v => console.log(v)}></TimePicker>
+                        <TimePicker 
+                            defaultValue={new Date('2019-12-31 09:23:45')} 
+                            onChange={v => console.log(v)} 
+                            allowClear
+                        ></TimePicker>
                     </Col>
                     <Col className={'font-bold'}>
                         HH:mm:ss
@@ -69,7 +73,12 @@ export const CodeFormat =
             <div className="detail-box">
                 <Row type={'flex'} align={'middle'} gutter={20}>
                     <Col>
-                        <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH:mm'} onChange={v => console.log(v)}></TimePicker>
+                        <TimePicker 
+                            defaultValue={new Date('2019-12-31 09:23:45')} 
+                            format={'HH:mm'} 
+                            onChange={v => console.log(v)} 
+                            allowClear
+                        ></TimePicker>
                     </Col>
                     <Col className={'font-bold'}>
                         HH:mm
@@ -79,7 +88,12 @@ export const CodeFormat =
             <div className="detail-box">
                 <Row type={'flex'} align={'middle'} gutter={20}>
                     <Col>
-                        <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'mm:ss'} onChange={v => console.log(v)}></TimePicker>
+                        <TimePicker 
+                            defaultValue={new Date('2019-12-31 09:23:45')} 
+                            format={'mm:ss'} 
+                            onChange={v => console.log(v)} 
+                            allowClear
+                        ></TimePicker>
                     </Col>
                     <Col className={'font-bold'}>
                         mm:ss
@@ -89,10 +103,15 @@ export const CodeFormat =
             <div className="detail-box">
                 <Row type={'flex'} align={'middle'} gutter={20}>
                     <Col>
-                        <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH~ss'} onChange={v => console.log(v)}></TimePicker>
+                        <TimePicker 
+                            defaultValue={new Date('2019-12-31 09:23:45')} 
+                            format={'HH~mm~ss'} 
+                            onChange={v => console.log(v)} 
+                            allowClear
+                        ></TimePicker>
                     </Col>
                     <Col className={'font-bold'}>
-                        HH~ss
+                        HH~mm~ss
                     </Col>
                 </Row>
             </div>
@@ -109,6 +128,7 @@ export const Code12Hours =
             defaultOpenValue={new Date('2019-12-31 08:23:45')} 
             format={'hh:mm:ss'} 
             onChange={v => console.log(v)}
+            allowClear
         ></TimePicker>,
         mountNode
     );`
@@ -124,6 +144,7 @@ export const CodeStep =
             secondStep={10} 
             format={'hh:mm:ss'} 
             onChange={v => console.log(v)}
+            allowClear
         ></TimePicker>,
         mountNode
     );`
@@ -140,6 +161,7 @@ export const CodeDisabledOptions =
                     disabledMinutes={() => [4, 5, 6]}
                     disabledSeconds={() => [7, 8, 9]}
                     onChange={v => console.log(v)}
+                    allowClear
                 ></TimePicker>
             </Col>
             <Col>
@@ -149,6 +171,7 @@ export const CodeDisabledOptions =
                     disabledMinutes={() => [4, 5, 6]}
                     disabledSeconds={() => [7, 8, 9]}
                     onChange={v => console.log(v)}
+                    allowClear
                 ></TimePicker>
             </Col>
         </Row>,
@@ -165,7 +188,7 @@ export const CodeAddon =
         const onVisibleChange = useCallback(v => setVisible(v), []);
         
         return (
-            <TimePicker visible={visible} onVisibleChange={onVisibleChange} addon={(value, setValue) => {
+            <TimePicker visible={visible} onVisibleChange={onVisibleChange} allowClear addon={(value, setValue) => {
                 return (
                     <Row type={'flex'} justify={'end'} gutter={8}>
                         <Col>

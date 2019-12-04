@@ -110,7 +110,7 @@ export const CodeClearable =
     ReactDom.render(
         <Row gutter={16}>
             <Col>
-                <Select clearable>
+                <Select allowClear>
                     <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                     <Option value={'2'} label={'Karloy'}>Karloy</Option>
                     <Option value={'3'} label={'Peppa'}>Peppa</Option>
@@ -119,7 +119,7 @@ export const CodeClearable =
                 </Select>
             </Col>
             <Col>
-                <Select clearable multiple>
+                <Select allowClear multiple>
                     <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                     <Option value={'2'} label={'Karloy'}>Karloy</Option>
                     <Option value={'3'} label={'Peppa'}>Peppa</Option>

@@ -14,7 +14,6 @@ export const TimePickerProps = {
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     allowClear: PropTypes.bool,
-    onClear: PropTypes.func,
     size: PropTypes.oneOf(['large', 'small']),
     format: PropTypes.string,
     hourStep: PropTypes.number,
@@ -33,7 +32,6 @@ export const TimePickerDefaultProps = {
     disabled: false,
     placeholder: '请选择时间',
     allowClear: false,
-    onClear: noop,
     format: 'HH:mm:ss',
     hourStep: 1,
     minuteStep: 1,
@@ -52,6 +50,7 @@ const HeaderComboboxCommonProps = {
     disabled: PropTypes.bool,
     format: PropTypes.string,
     isAM: PropTypes.bool,
+    visible: PropTypes.bool,
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
@@ -86,7 +85,6 @@ export const HeaderDefaultProps = {
 /* combobox-props */
 export const ComboboxProps = {
     ...HeaderComboboxCommonProps,
-    visible: PropTypes.bool,
     hideDisabledOptions: PropTypes.bool,
 }
 

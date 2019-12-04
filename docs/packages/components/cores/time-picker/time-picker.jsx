@@ -25,7 +25,6 @@ function TimePicker(props) {
         placeholder,
         disabled,
         allowClear,
-        onClear: clear,
         size,
         format,
         hourStep,
@@ -41,7 +40,7 @@ function TimePicker(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
-    const [dateValue, setDateValue, setInnerValue] = useController(defaultValue, value, onChange, null, disabled);
+    const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null, disabled);
     const isAM = dateValue ? dateValue.getHours() < 12 : (defaultOpenValue ? defaultOpenValue.getHours() < 12 : true); // am or pm for hh
     const selectedHour = dateValue ? dateValue.getHours() : (defaultOpenValue ? defaultOpenValue.getHours() : 0),
         selectedMinute = dateValue ? dateValue.getMinutes() : (defaultOpenValue ? defaultOpenValue.getMinutes() : 0);
@@ -59,16 +58,16 @@ function TimePicker(props) {
     const inputClassNames = useClassName({
         [componentCls]: true,
         [selectorClassName]: selectorClassName,
-        'is-clearable': allowClear && dateValue,
-    }, [componentCls, selectorClassName, allowClear, dateValue]);
+        'is-clearable': allowClear && dateValue && !disabled,
+        'is-disabled': disabled,
+    }, [componentCls, selectorClassName, allowClear, dateValue, disabled]);
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(e => {
         e.stopPropagation();
 
-        setInnerValue(null);
-        clear(e);
-    }, [clear]);
+        setDateValue(null);
+    }, []);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSuffix = useMemo(() => {
@@ -80,7 +79,7 @@ function TimePicker(props) {
                 </RenderWrapper>
             </div>
         )
-    }, [componentCls, allowClear, onClear]);
+    }, [componentCls, allowClear]);
 
     // ---------------------------------- render chunk ----------------------------------
     const panelDependencies = [
@@ -121,6 +120,7 @@ function TimePicker(props) {
             disabled,
             format,
             isAM,
+            visible: isVisible,
             hourStep,
             minuteStep,
             secondStep,
@@ -136,7 +136,6 @@ function TimePicker(props) {
                         {...commonProps}
                     />
                     <Combobox
-                        visible={visible}
                         hideDisabledOptions={hideDisabledOptions}
                         {...commonProps}
                     />

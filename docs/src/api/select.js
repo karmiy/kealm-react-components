@@ -35,7 +35,7 @@ export const selectProps = [
         default: '请选择',
     },
     {
-        param: 'clearable',
+        param: 'allowClear',
         des: '是否可清除选项',
         type: 'boolean',
         option: '--',
@@ -158,11 +158,6 @@ export const selectEvents = [
         name: 'onVisibleChange',
         des: '显示隐藏的回调',
         callback: '(visible) => void',
-    },
-    {
-        name: 'onClear',
-        des: '点击清空图标时触发',
-        callback: '(e: Event)',
     },
     {
         name: 'onRemote',

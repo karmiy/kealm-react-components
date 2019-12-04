@@ -63,6 +63,10 @@ const sidebarList = [
             {
                 name: 'TimePicker 时间选择器',
                 link: 'time-picker',
+            },
+            {
+                name: 'DatePicker 日期选择器',
+                link: 'date-picker',
             }
         ]
     },

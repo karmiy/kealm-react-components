@@ -39,7 +39,7 @@ export const CodeClear =
     `    import { Input } from "@kealm/react-components";
     
     ReactDom.render(
-        <Input placeholder={'请输入内容'} allowClear />,
+        <Input placeholder={'请输入内容'} allowClear onChange={e => console.log(e.target.value)} />,
         mountNode
     );`
 

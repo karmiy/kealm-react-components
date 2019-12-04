@@ -20,6 +20,7 @@ import Switch from './switch';
 import Slider from './slider';
 import InputNumber from './input-number';
 import TimePicker from './time-picker';
+import DatePicker from './date-picker';
 
 export {
     Icon,
@@ -47,4 +48,5 @@ export {
     Slider,
     InputNumber,
     TimePicker,
+    DatePicker,
 }

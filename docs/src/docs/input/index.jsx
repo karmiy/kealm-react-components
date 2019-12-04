@@ -62,7 +62,7 @@ function InputDoc() {
             <h2>可清空</h2>
             <p>允许清空输入值。</p>
             <div className="detail-box">
-                {useMemo(() => <Input placeholder={'请输入内容'} allowClear onClear={() => console.log('clear')} />, [])}
+                {useMemo(() => <Input placeholder={'请输入内容'} allowClear onChange={e => console.log(e.target.value)} />, [])}
             </div>
             <HighLight code={CodeClear} />
 

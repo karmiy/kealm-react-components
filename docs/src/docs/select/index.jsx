@@ -115,7 +115,7 @@ function SelectDoc() {
                 useMemo(() => {
                     return (
                         <div className="detail-box">
-                            <Select disabled>
+                            <Select defaultValue={'1'} disabled allowClear>
                                 <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                                 <Option value={'2'} label={'Karloy'}>Karloy</Option>
                                 <Option value={'3'} label={'Peppa'}>Peppa</Option>
@@ -170,7 +170,7 @@ function SelectDoc() {
                         <div className="detail-box">
                             <Row gutter={16}>
                                 <Col>
-                                    <Select clearable>
+                                    <Select allowClear>
                                         <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                                         <Option value={'2'} label={'Karloy'}>Karloy</Option>
                                         <Option value={'3'} label={'Peppa'}>Peppa</Option>
@@ -179,7 +179,7 @@ function SelectDoc() {
                                     </Select>
                                 </Col>
                                 <Col>
-                                    <Select clearable multiple>
+                                    <Select allowClear multiple>
                                         <Option value={'1'} label={'Karmiy'}>Karmiy</Option>
                                         <Option value={'2'} label={'Karloy'}>Karloy</Option>
                                         <Option value={'3'} label={'Peppa'}>Peppa</Option>

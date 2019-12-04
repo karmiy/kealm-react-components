@@ -8,7 +8,7 @@
         display: contents;
     }*/
 
-    &:hover {
+    &:hover:not(.is-disabled) {
         .km-input__inner {
             border-color: $select-border-color-hover;
         }
@@ -77,6 +77,12 @@
             & .km-select__clear {
                 display: inline-block;
             }
+        }
+    }
+
+    @include when(disabled) {
+        & .km-select__caret {
+            cursor: not-allowed;
         }
     }
 

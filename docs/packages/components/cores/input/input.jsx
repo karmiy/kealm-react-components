@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useCallback } from 'react';
+import React, { memo, useMemo, useCallback, useRef } from 'react';
 import Icon from '../icon';
 import { InputProps, InputDefaultProps } from "./interface";
 import { useContextConf, useClassName, useInputValue } from 'hooks';
@@ -19,7 +19,6 @@ function Input(props) {
         onKeyDown,
         onPressEnter,
         allowClear,
-        onClear: clear,
         prefix,
         suffix,
         prepend,
@@ -35,8 +34,9 @@ function Input(props) {
     const rootOthers = extract(others, ['style', 'onClick']);
     const inputOthers = omit(others, ['style', 'onClick']);
 
-    // ---------------------------------- logic code ----------------------------------
-    const { inputValue, setInputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
+    // ---------------------------------- variable ----------------------------------
+    const { inputValue, inputChange }  = useInputValue(defaultValue, value, onChange)
+    const inputRef = useRef(null);
     const hasSuffix = allowClear || suffix || showLimitCount;
 
     // ---------------------------------- class ----------------------------------
@@ -59,9 +59,16 @@ function Input(props) {
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(e => {
-        setInputValue('');
-        clear(e);
-    }, [clear]);
+        // Change e.target to input
+        const inputEle = inputRef.current;
+        const event = Object.create(e);
+        event.target = inputEle;
+        event.currentTarget = inputEle;
+        const originalInputValue = inputEle.value;
+        inputEle.value = '';
+        inputChange(event);
+        inputEle.value = originalInputValue;
+    }, []);
 
     const onClearMouseDown = useCallback(e => e.preventDefault(), []); // Prevent Focus Loss
 
@@ -170,6 +177,7 @@ function Input(props) {
         <div className={classNames} {...rootOthers}>
             {renderPrependWrapper}
             <input
+                ref={inputRef}
                 type="text"
                 className={_inputClassNames}
                 style={inputStyle}

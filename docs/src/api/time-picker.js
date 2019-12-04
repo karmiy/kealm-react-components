@@ -137,10 +137,5 @@ export const timePickerEvents = [
         name: 'onVisibleChange',
         des: '面板打开/关闭时的回调',
         callback: '(visible) => void',
-    },
-    {
-        name: 'onClear',
-        des: '点击清空图标时触发',
-        callback: '(e: Event)',
     }
 ]
