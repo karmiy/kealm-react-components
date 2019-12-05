@@ -335,13 +335,26 @@ const divisors = {
 };
 
 /**
+ * 获取日期该周的最后一天
+ * @param date: Date
+ * @returns {Date}
+ */
+export function endOfWeek(date) {
+    const _date = new Date(date);
+    const day = _date.getDay();
+    if(day === 0) return _date;
+    _date.setDate(date.getDate() + (7 - day));
+    return _date;
+}
+
+/**
  * 获取日期该月的最后一天
  * @param date: Date
  * @returns {Date}
  */
 export function endOfMonth(date) {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0);
-};
+}
 
 /**
  * 获取日期该年的第一天
@@ -454,4 +467,8 @@ export function diffYears(date1, date2) {
     let ret = date1.getFullYear() - date2.getFullYear();
     ret += (dayOfYear(date1) - dayOfYear(date2)) / daysInYear(date2);
     return ret;
+}
+
+export function getCalendar(year, month) {
+
 }

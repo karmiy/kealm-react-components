@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '../icon';
+import Button from '../button';
 
 const weeks = ['一', '二', '三', '四', '五', '六', '七'];
 const dates = [
@@ -24,10 +25,22 @@ function Calendar(props) {
     return (
         <div className={className}>
             <div className={`${className}__header`}>
-                <a className={`${className}__header-prev-year`} />
-                <a className={`${className}__header-prev-month`} />
-                <a className={`${className}__header-year`}>2019 年</a>
-                <a className={`${className}__header-month`}>12 月</a>
+                <button className={`${className}__header-btn ${className}__header-prev-year`}>
+                    <Icon type={'double-left'} />
+                </button>
+                <button className={`${className}__header-btn ${className}__header-prev-month`}>
+                    <Icon type={'left'} />
+                </button>
+                <span className={`${className}__header-select`}>
+                    <a className={`${className}__header-year`}>2019 年</a>
+                    <a className={`${className}__header-month`}>12 月</a>
+                </span>
+                <button className={`${className}__header-btn ${className}__header-next-year`}>
+                    <Icon type={'double-right'} />
+                </button>
+                <button className={`${className}__header-btn ${className}__header-next-month`}>
+                    <Icon type={'right'} />
+                </button>
             </div>
             <div className={`${className}__body`}>
                 <table className={`${className}__table`} cellSpacing={0}>
@@ -53,9 +66,9 @@ function Calendar(props) {
                                             row.map(date => {
                                                 return (
                                                     <td key={date} className={`${className}__ceil`}>
-                                                        <div className={`${className}__date`}>
+                                                        <span className={`${className}__date`}>
                                                             {date}
-                                                        </div>
+                                                        </span>
                                                     </td>
                                                 )
                                             })

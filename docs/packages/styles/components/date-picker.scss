@@ -59,52 +59,45 @@
         height: $date-picker-calendar-header-height;
         line-height: $date-picker-calendar-header-height;
         border-bottom: 1px solid $date-picker-panel-border-color;
+        padding: 0 10px;
         text-align: center;
         user-select: none;
 
-        a {
+        @include e(header-select) {
             display: inline-block;
             line-height: $date-picker-calendar-header-height;
-            padding: 0 2px;
-            color: $date-picker-calendar-header-color;
-            font-weight: 500;
-        }
-
-        i {
-            line-height: $date-picker-calendar-header-height;
-        }
-        @include e((header-prev-year, header-prev-month)) {
-            &:before, &:after {
-                position: relative;
-                top: -1px;
+            a {
                 display: inline-block;
-                width: 8px;
-                height: 8px;
-                vertical-align: middle;
-                border: 0 solid #aaa;
-                border-width: 1.5px 0 0 1.5px;
-                border-radius: 1px;
-                -webkit-transform: rotate(-45deg) scale(.8);
-                -ms-transform: rotate(-45deg) scale(.8);
-                transform: rotate(-45deg) scale(.8);
-                -webkit-transition: all .3s;
-                transition: all .3s;
-                content: '';
+                padding: 0 2px;
+                transition: color $transition-duration-base;
+                color: $date-picker-calendar-header-color;
+                cursor: pointer;
+                &:hover {
+                    color: $color-primary;
+                }
             }
         }
 
-        @include e(header-prev-year) {
-            &:after {
-                position: relative;
-                left: -3px;
-                display: inline-block;
+        @include e(header-btn) {
+            border: none;
+            outline: none;
+            padding: 0 3px;
+            background-color: transparent;
+            transition: color $transition-duration-base;
+            color: $color-text-thin-dark-4;
+            cursor: pointer;
+            &:hover {
+                color: $color-text-thin-dark-7;
+            }
+            i {
+                line-height: $date-picker-calendar-header-height;
             }
         }
-
-        @include e(header-prev-month) {
-            &:after {
-                content: none;
-            }
+        button[class*="prev"] {
+            float: left;
+        }
+        button[class*="next"] {
+            float: right;
         }
     }
 
@@ -143,15 +136,15 @@
             display: block;
             width: 24px;
             height: 24px;
-            margin: 0 auto;
-            padding: 0;
-            //color: rgba(0,0,0,0.65);
             line-height: 22px;
-            text-align: center;
-            background: transparent;
             border: 1px solid transparent;
             border-radius: 2px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: transparent;
             transition: background .3s ease;
+            text-align: center;
+            cursor: pointer;
         }
     }
 }
