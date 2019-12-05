@@ -18,7 +18,7 @@ import { useDebounce, useThrottle } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import { isObject } from '../../../packages/utils/common/base';
 import { isElement } from 'react-is';
-import { isValidDate, isValidFormat } from 'utils/common/date';
+import { isValidDate, isValidFormat, createCalendar } from 'utils/common/date';
 window.isValidDate = isValidDate;
 
 function T(props) {
@@ -88,7 +88,7 @@ function ExampleDoc() {
     const el = <K>123</K>
     // console.log(isElement(el));
     // console.log(el);
-    logValidDate('2019-01-01 12:13:21', 'YYYY-MM-DD HH:mm:ss', true);
+    /*logValidDate('2019-01-01 12:13:21', 'YYYY-MM-DD HH:mm:ss', true);
     logValidDate('2019-01-01 12:13:21', 'YYYY-MM-DD hh:mm:ss', true);
     logValidDate('2019-01-01 13:13:21', 'YYYY-MM-DD hh:mm:ss', false);
     logValidDate('2019-01-01 12:13:60', 'YYYY-MM-DD hh:mm:ss', false);
@@ -98,7 +98,8 @@ function ExampleDoc() {
     logValidDate('19:23?59', 'HH:mm?ss', true);
     logValidDate('1970#13', 'YYYY#mm', true);
     logValidDate('1969#13', 'YYYY#mm', true);
-    logValidDate('59%@(11', 'mm%@(ss', true);
+    logValidDate('59%@(11', 'mm%@(ss', true);*/
+    console.log(createCalendar(2019, 7));
 
     // logValidFormat('59?11', 'mm?ss', true);
     return (

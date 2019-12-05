@@ -7,7 +7,6 @@ import { formatDate } from 'utils/common/date';
 import {Icon} from "../index";
 import { RenderWrapper } from '../../common';
 import Panel from './panel';
-import Header from "./header";
 
 function DatePicker(props) {
     const { componentCls, prefix } = useContextConf('date-picker');

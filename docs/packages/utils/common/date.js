@@ -140,10 +140,10 @@ export function createDateStr(options) {
         'YYYY': 2019,
         'MM': 1,
         'DD': 1,
-        'HH': 12,
+        'HH': 0,
         'hh': -1,
-        'mm': 12,
-        'ss': 12,
+        'mm': 0,
+        'ss': 0,
         ...options,
     };
     fullOptions['hh'] !== -1 ? (delete fullOptions['HH']) : (delete fullOptions['hh']);
@@ -335,16 +335,29 @@ const divisors = {
 };
 
 /**
+ * 获取日期该周的第一天
+ * @param date: Date
+ * @returns {Date}
+ */
+export function beginOfWeek(date) {
+    date = new Date(date);
+    const day = date.getDay() || 7;
+    if(day === 1) return date;
+    date.setDate(date.getDate() - (day - 1));
+    return date;
+}
+
+/**
  * 获取日期该周的最后一天
  * @param date: Date
  * @returns {Date}
  */
 export function endOfWeek(date) {
-    const _date = new Date(date);
-    const day = _date.getDay();
-    if(day === 0) return _date;
-    _date.setDate(date.getDate() + (7 - day));
-    return _date;
+    date = new Date(date);
+    const day = date.getDay();
+    if(day === 0) return date;
+    date.setDate(date.getDate() + (7 - day));
+    return date;
 }
 
 /**
@@ -394,81 +407,122 @@ export function daysInYear(date) {
 
 /**
  * 求2个日期秒数之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffSeconds(date1, date2) {
-    return (date1 - date2) / divisors.seconds;
+export function diffSeconds(dateLeft, dateRight) {
+    return (dateLeft - dateRight) / divisors.seconds;
 }
 
 /**
  * 求2个日期分钟数之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffMinutes(date1, date2) {
-    return (date1 - date2) / divisors.minutes;
+export function diffMinutes(dateLeft, dateRight) {
+    return (dateLeft - dateRight) / divisors.minutes;
 }
 
 /**
  * 求2个日期小时数之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffHours(date1, date2) {
-    return (date1 - date2) / divisors.hours;
+export function diffHours(dateLeft, dateRight) {
+    return (dateLeft - dateRight) / divisors.hours;
 }
 
 /**
  * 求2个日期天数之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffDays(date1, date2) {
-    return (date1 - date2) / divisors.days;
+export function diffDays(dateLeft, dateRight) {
+    return (dateLeft - dateRight) / divisors.days;
 }
 
 /**
  * 求2个日期周数之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffWeeks(date1, date2) {
-    return diffDays(date1, date2) / 7;
+export function diffWeeks(dateLeft, dateRight) {
+    return diffDays(dateLeft, dateRight) / 7;
 }
 
 /**
  * 求2个日期月数之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffMonth(date1, date2) {
+export function diffMonth(dateLeft, dateRight) {
     let eom, ret;
-    ret = (date1.getFullYear() - date2.getFullYear()) * 12;
-    ret += date1.getMonth() - date2.getMonth();
-    eom = endOfMonth(date2).getDate();
-    ret += (date1.getDate() / eom) - (date2.getDate() / eom);
+    ret = (dateLeft.getFullYear() - dateRight.getFullYear()) * 12;
+    ret += dateLeft.getMonth() - dateRight.getMonth();
+    eom = endOfMonth(dateRight).getDate();
+    ret += (dateLeft.getDate() / eom) - (dateRight.getDate() / eom);
     return ret;
 }
 
 /**
  * 求2个日期年份之差
- * @param date1: Date
- * @param date2: Date
+ * @param dateLeft: Date
+ * @param dateRight: Date
  * @returns {number}
  */
-export function diffYears(date1, date2) {
-    let ret = date1.getFullYear() - date2.getFullYear();
-    ret += (dayOfYear(date1) - dayOfYear(date2)) / daysInYear(date2);
+export function diffYears(dateLeft, dateRight) {
+    let ret = dateLeft.getFullYear() - dateRight.getFullYear();
+    ret += (dayOfYear(dateLeft) - dayOfYear(dateRight)) / daysInYear(dateRight);
     return ret;
 }
 
-export function getCalendar(year, month) {
+export function createCalendar(year, month) {
+    const TOTAL_COUNT = 7 * 6;  // 共 7 * 6 = 42
+    let currentCount = 0;
+    const calendar = [];
+    function addCalendar(item, unShift = false) {
+        if(currentCount % 7 === 0) {
+            unShift ? calendar.unshift([item]) : calendar.push([item]);
+        } else {
+            unShift ? calendar[0].unshift(item) : calendar[calendar.length - 1].push(item);
+        }
+        currentCount++;
+    }
+    // 构造该月历的第一天 最后一天
+    const firstDay = new Date(createDateStr({YYYY: year, MM: month})),
+        lastDay = endOfMonth(firstDay),
+        lastDate = lastDay.getDate();
 
+    // 向前补全第一行在1号前的日期
+    const loopDay = new Date(firstDay);
+    while(loopDay.getDay() !== 1) {
+        loopDay.setDate(loopDay.getDate() - 1);
+        addCalendar({
+            date: loopDay.getDate(),
+            year: loopDay.getFullYear(),
+            month: loopDay.getMonth() + 1,
+            day: loopDay.getDay(),
+            dayNum: loopDay.getDay() || 7,
+        }, true);
+    }
+    // reset -01
+    loopDay.setTime(firstDay.getTime());
+
+    while (currentCount < TOTAL_COUNT) {
+        addCalendar({
+            date: loopDay.getDate(),
+            year: loopDay.getFullYear(),
+            month: loopDay.getMonth() + 1,
+            day: loopDay.getDay(),
+            dayNum: loopDay.getDay() || 7,
+        });
+        loopDay.setDate(loopDay.getDate() + 1);
+    }
+    return calendar;
 }
