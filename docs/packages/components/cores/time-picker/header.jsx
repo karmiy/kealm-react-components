@@ -88,7 +88,7 @@ function Header(props) {
     }, [value], true);
 
     useDidUpdate(() => {
-        setInputValue(value ? formatDate(value, format) : '');
+        visible && setInputValue(value ? formatDate(value, format) : '');
     }, [visible], true);
 
     // ---------------------------------- event ----------------------------------
@@ -124,7 +124,7 @@ function Header(props) {
         if(!verifyTimeChanged(prevValue, formatOptions)) return;
 
         onChange(new Date(handleDate(prevValue, formatOptions, true)));
-    }, [value, defaultOpenValue, format, isAM, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
+    }, [value, defaultOpenValue, onChange, format, isAM, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
 
 
     // ---------------------------------- render ----------------------------------

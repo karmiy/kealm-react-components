@@ -50,6 +50,11 @@ function DatePicker(props) {
         setDateValue(null);
     }, []);
 
+    const onSelect = useCallback((...rest) => {
+        setDateValue(...rest);
+        // setIsVisible(false);
+    }, []);
+
     // ---------------------------------- render mini chunk ----------------------------------
 
     const renderSuffix = useMemo(() => {
@@ -65,13 +70,23 @@ function DatePicker(props) {
 
     // ---------------------------------- render chunk ----------------------------------
     const renderPanel = useMemo(() => {
+        const panelProps = {
+            prefixCls: componentCls,
+            value: dateValue,
+            onChange: onSelect,
+            placeholder,
+            disabled,
+            format,
+            visible: isVisible,
+            onVisibleChange: setIsVisible,
+        }
         return (
             <>
-                <Panel prefixCls={componentCls} placeholder={placeholder} disabled={disabled} />
+                <Panel {...panelProps} />
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, [componentCls, placeholder, disabled]);
+    }, [componentCls, dateValue, placeholder, disabled, format, isVisible]);
 
     // ---------------------------------- render ----------------------------------
     return (

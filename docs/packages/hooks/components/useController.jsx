@@ -25,7 +25,6 @@ function useController(defaultProp, prop, onChange, emptyProp = false, disabled 
     const setValue = useCallback((v, ...rest) => {
         const { prop, value, onChange, disabled } = stateStoreRef.current;
 
-
         if(disabled) return;
 
         // Example like setIsVisible(v => !v)

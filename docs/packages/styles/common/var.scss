@@ -54,15 +54,22 @@ $border-color-light: #E4E7ED !default;
 $border-color-lighter: #EBEEF5 !default;
 $border-color-extra-light: #F2F6FC !default;
 $border-color-hover: $color-text-placeholder !default;
+$border-color-dark: #BBB !default;
 
 // background-color
 $background-color-base: #F5F7FA !default;
 $background-color-light: #FAFAFA !default;
+$background-color-dark: #DBDBDB !default;
+$background-color-colourful: #E6F7FF !default;
+$background-color-colourful-dark: #BAE7FF !default;
 
 // Disable color
 $disabled-fill-base: $background-color-base !default;
 $disabled-color-base: $color-text-disabled !default;
 $disabled-border-base: $border-color-light !default;
+$disabled-border-active: $border-color-dark !default;
+$disabled-background-base: $background-color-base !default;
+$disabled-background-active: $background-color-dark !default;
 
 /* --------------------------base-------------------------- */
 // border-radius
@@ -639,8 +646,8 @@ $pagination-item-width-simple: 24px !default;
 $pagination-item-height-simple: $pagination-item-width-simple !default;
 
 $pagination-disabled-color: $color-text-thin-dark-2 !default;
-$pagination-disabled-background-color: #f5f5f5 !default;
-$pagination-disabled-background-color-active: #dbdbdb !default;
+$pagination-disabled-background-color: $background-color-base !default;
+$pagination-disabled-background-color-active: $disabled-background-active !default;
 $pagination-disabled-border-color: $pagination-border-color !default;
 $pagination-ellipsis-color: $color-text-thin-dark-2 !default;
 
@@ -722,10 +729,28 @@ $time-picker-item-color-disabled: $color-text-placeholder !default;
 /* --------------------------DatePicker-------------------------- */
 $date-picker-width: 174px !default;
 $date-picker-panel-border-color: $border-color-light !default;
-$date-picker-calendar-color: $color-text-regular !default;
-//$date-picker-calendar-color: $color-text-thin-dark-7 !default;
-$date-picker-calendar-header-color: $color-text-primary !default;
-$date-picker-calendar-header-height: 40px !default;
-$date-picker-calendar-table-th-width: 33px !default;
-$date-picker-calendar-table-th-height: 18px !default;
-$date-picker-calendar-table-td-height: 30px !default;
+
+// calendar
+$calendar-color: $color-text-regular !default;
+$calendar-header-height: 40px !default;
+$calendar-header-select-color: $color-text-primary !default;
+$calendar-header-select-disabled-color: $color-text-placeholder !default;
+$calendar-header-btn-color: $color-text-thin-dark-4 !default;
+$calendar-header-btn-color-hover: $color-text-thin-dark-7 !default;
+
+$calendar-column-header-width: 33px !default;
+$calendar-column-header-height: 18px !default;
+
+$calendar-cell-height: 30px !default;
+$calendar-cell-date-width: 24px !default;
+$calendar-cell-hover-background-color: $background-color-colourful !default;
+$calendar-cell-prev-month-color: $color-text-placeholder !default;
+$calendar-cell-next-month-color: $calendar-cell-prev-month-color !default;
+
+$calendar-cell-disabled-color: $color-text-placeholder !default;
+$calendar-cell-disabled-background-color: $disabled-background-base !default;
+$calendar-cell-disabled-selected-color: $color-text-disabled !default;
+$calendar-cell-disabled-selected-background-color: $disabled-background-active !default;
+$calendar-cell-disabled-today-color: $color-text-disabled !default;
+$calendar-cell-disabled-today-border-color: $disabled-border-active !default;
+$calendar-cell-disabled-today-background-color: $disabled-background-active !default;

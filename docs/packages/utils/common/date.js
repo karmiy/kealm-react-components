@@ -1,5 +1,8 @@
 import { leftPad, transRegExpSpec } from './base';
 
+export const MAX_SAFE_YEAR = 9999;
+export const MIN_SAFE_YEAR = 100;
+
 const formatOptions = [
     'YYYY',
     'MM',
@@ -32,7 +35,7 @@ const nameMethods = {
 export function verifySafeTime(option, num) {
     switch (option) {
         case 'YYYY':
-            return num > 99 && num < 10000; // 100 ~ 9999
+            return num >= MIN_SAFE_YEAR && num <= MAX_SAFE_YEAR; // 100 ~ 9999
         case 'MM':
             return num > 0 && num < 13; // 1 ~ 12
         case 'DD':
@@ -496,8 +499,7 @@ export function createCalendar(year, month) {
     }
     // 构造该月历的第一天 最后一天
     const firstDay = new Date(createDateStr({YYYY: year, MM: month})),
-        lastDay = endOfMonth(firstDay),
-        lastDate = lastDay.getDate();
+        lastDay = endOfMonth(firstDay);
 
     // 向前补全第一行在1号前的日期
     const loopDay = new Date(firstDay);
@@ -509,18 +511,24 @@ export function createCalendar(year, month) {
             month: loopDay.getMonth() + 1,
             day: loopDay.getDay(),
             dayNum: loopDay.getDay() || 7,
+            isPrevMonth: true,
+            isNextMonth: false,
         }, true);
     }
     // reset -01
     loopDay.setTime(firstDay.getTime());
 
     while (currentCount < TOTAL_COUNT) {
+        const _year = loopDay.getFullYear(),
+            _month = loopDay.getMonth() + 1;
         addCalendar({
             date: loopDay.getDate(),
-            year: loopDay.getFullYear(),
-            month: loopDay.getMonth() + 1,
+            year: _year,
+            month: _month,
             day: loopDay.getDay(),
             dayNum: loopDay.getDay() || 7,
+            isPrevMonth: (_year === year && _month < month) || (_year < year),
+            isNextMonth: (_year === year && _month > month) || (_year > year),
         });
         loopDay.setDate(loopDay.getDate() + 1);
     }

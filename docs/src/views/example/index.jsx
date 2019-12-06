@@ -99,12 +99,18 @@ function ExampleDoc() {
     logValidDate('1970#13', 'YYYY#mm', true);
     logValidDate('1969#13', 'YYYY#mm', true);
     logValidDate('59%@(11', 'mm%@(ss', true);*/
-    console.log(createCalendar(2019, 7));
+    // console.log(createCalendar(2019, 7));
 
     // logValidFormat('59?11', 'mm?ss', true);
+
+    console.log('render');
     return (
         <div>
             {/*{el}*/}
+            <div onClick={() => {
+                setCount(1);
+                setTimeout(() => setVisible(true));
+            }}>test</div>
             <Radio.Group defaultValue={values[2]}>
                 <Radio value={values[0]}>A</Radio>
                 <Radio value={values[1]}>B</Radio>
