@@ -20,6 +20,7 @@ function DatePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box" style={{marginTop: '100px'}}>
+                        {/*<DatePicker defaultValue={new Date('9999-01-02')} onChange={v => console.log(v)} />*/}
                         <DatePicker onChange={v => console.log(v)} />
                     </div>
                 )

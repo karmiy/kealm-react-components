@@ -1,6 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { CalendarHeaderProps, CalendarHeaderDefaultProps } from './interface';
+import { useDidUpdate } from 'hooks';
 import Icon from '../../icon';
+import YearPanel from '../year';
+import { RenderWrapper } from '../../../common';
 import { leftPad, mergeStr } from 'utils/common/base';
 import { MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 
@@ -11,6 +14,7 @@ function CalendarHeader(props) {
         year,
         month,
         onChange,
+        visible,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -18,6 +22,12 @@ function CalendarHeader(props) {
         isMaxMonth = year === MAX_SAFE_YEAR && month === 12,
         isMinYear = year === MIN_SAFE_YEAR,
         isMaxYear = year === MAX_SAFE_YEAR;
+    const [YearPanelVisible, setYearPanelVisible] = useState(false);
+
+    // ---------------------------------- effect ----------------------------------
+    useDidUpdate(() => {
+        visible && setYearPanelVisible(false);
+    }, [visible]);
 
     // ---------------------------------- event ----------------------------------
     const onPrevYear = useCallback(() => {
@@ -47,6 +57,11 @@ function CalendarHeader(props) {
             _year = month === 12 ? year + 1 : year;
         onChange(_year, _month);
     }, [disabled, year, month, isMaxMonth]);
+
+    const onYearSelect = useCallback(selectedYear => {
+        setYearPanelVisible(false);
+        year !== selectedYear && onChange(selectedYear, month);
+    }, [year, month]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderPrevYear = useMemo(() => {
@@ -108,7 +123,7 @@ function CalendarHeader(props) {
         })
         return (
             <span className={className}>
-                <a className={`${prefixCls}__header-year`}>{leftPad(year, 4, '0')} 年</a>
+                <a className={`${prefixCls}__header-year`} onClick={() => setYearPanelVisible(true)}>{leftPad(year, 4, '0')} 年</a>
                 <a className={`${prefixCls}__header-month`}>{month} 月</a>
             </span>
         )
@@ -117,11 +132,16 @@ function CalendarHeader(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <div className={`${prefixCls}__header`}>
-            {renderPrevYear}
-            {renderPrevMonth}
-            {renderSelect}
-            {renderNextYear}
-            {renderNextMonth}
+            <div className={`${prefixCls}__header-wrap`}>
+                {renderPrevYear}
+                {renderPrevMonth}
+                {renderSelect}
+                {renderNextYear}
+                {renderNextMonth}
+            </div>
+            <RenderWrapper visible={YearPanelVisible}>
+                <YearPanel year={year} onSelect={onYearSelect} visible={visible} />
+            </RenderWrapper>
         </div>
     );
 }

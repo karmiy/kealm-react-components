@@ -50,6 +50,7 @@
 
 @include b(calendar) {
     position: relative;
+    width: $calendar-width;
     outline: none;
     font-size: $font-size-base;
     color: $calendar-color;
@@ -120,103 +121,195 @@
 
     @include e(body) {
         padding: 8px 12px;
-    }
 
-    @include e(table) {
-        width: 100%;
-        max-width: 100%;
-        border-collapse: collapse;
-        &, & th, & td {
-            border: none;
-            text-align: center;
-        }
-    }
-
-    @include e(column-header) {
-        width: $calendar-column-header-width;
-        line-height: $calendar-column-header-height;
-        padding: 6px 0;
-    }
-
-    @include e(column-inner) {
-        display: block;
-        font-weight: normal;
-    }
-
-    @include e(cell) {
-        box-sizing: border-box;
-        height: $calendar-cell-height;
-        padding: 3px 0;
-        transition: color $transition-duration-base;
-
-        @include e(date) {
-            box-sizing: border-box;
-            display: block;
-            width: $calendar-cell-date-width;
-            height: $calendar-cell-date-width;
-            line-height: $calendar-cell-date-width - 2px;
-            border: 1px solid transparent;
-            border-radius: 2px;
-            margin: 0 auto;
-            padding: 0;
-            background-color: transparent;
-            transition: background-color $transition-duration-base;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        &:hover .km-calendar__date {
-            background-color: $calendar-cell-hover-background-color;
-        }
-
-        @include when(prev-month) {
-            color: $calendar-cell-prev-month-color;
-            &:hover:not(.is-disabled) .km-calendar__date {
-                background-color: transparent;
+        @include e(table) {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            &, & th, & td {
+                border: none;
+                text-align: center;
             }
-        }
 
-        @include when(next-month) {
-            color: $calendar-cell-next-month-color;
-            &:hover:not(.is-disabled) .km-calendar__date {
-                background-color: transparent;
-            }
-        }
+            @include e(column-header) {
+                width: $calendar-column-header-width;
+                line-height: $calendar-column-header-height;
+                padding: 6px 0;
 
-        @include when(today) {
-            color: $color-primary;
-            .km-calendar__date {
-                border-color: $color-primary;
-            }
-        }
-
-        @include when(selected) {
-            color: $color-white;
-            .km-calendar__date {
-                background-color: $color-primary;
-            }
-        }
-
-        @include when(disabled) {
-            color: $calendar-cell-disabled-color;
-            cursor: not-allowed;
-            .km-calendar__date {
-                width: 100%;
-                background-color: $calendar-cell-disabled-background-color;
-            }
-            @include when(today) {
-                color: $calendar-cell-disabled-today-color;
-                .km-calendar__date {
-                    width: $calendar-cell-date-width;
-                    border-color: $calendar-cell-disabled-today-border-color;
-                    background-color: $calendar-cell-disabled-today-background-color;
+                @include e(column-inner) {
+                    display: block;
+                    font-weight: normal;
                 }
             }
-            @include when(selected) {
-                color: $calendar-cell-disabled-selected-color;
-                .km-calendar__date {
+
+
+            @include e(cell) {
+                box-sizing: border-box;
+                height: $calendar-cell-height;
+                padding: 3px 0;
+                //transition: color $transition-duration-base;
+
+                @include e(date) {
+                    box-sizing: border-box;
+                    display: block;
                     width: $calendar-cell-date-width;
-                    background-color: $calendar-cell-disabled-selected-background-color;
+                    height: $calendar-cell-date-width;
+                    line-height: $calendar-cell-date-width - 2px;
+                    border: 1px solid transparent;
+                    border-radius: 2px;
+                    margin: 0 auto;
+                    padding: 0;
+                    background-color: transparent;
+                    transition: background-color $transition-duration-base,
+                    color $transition-duration-base;
+                    text-align: center;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $calendar-cell-hover-background-color;
+                    }
+                }
+
+                &[class*="is-prev"], &[class*="is-next"] {
+                    .km-calendar__date {
+                        color: $calendar-cell-prev-color;
+                    }
+                    &:not(.is-disabled) .km-calendar__date:hover {
+                        background-color: transparent;
+                    }
+                }
+                /*@include when(prev-month) {
+                    .km-calendar__date {
+                        color: $calendar-cell-prev-month-color;
+                    }
+                    &:not(.is-disabled) .km-calendar__date:hover {
+                        background-color: transparent;
+                    }
+                }*/
+
+                /*@include when(next-month) {
+                    .km-calendar__date {
+                        color: $calendar-cell-next-month-color;
+                    }
+                    &:not(.is-disabled) .km-calendar__date:hover {
+                        background-color: transparent;
+                    }
+                }*/
+
+                @include when(today) {
+                    .km-calendar__date {
+                        border-color: $color-primary;
+                        color: $color-primary;
+                    }
+                }
+
+                @include when(selected) {
+                    .km-calendar__date {
+                        background-color: $color-primary;
+                        color: $color-white;
+                    }
+                }
+
+                @include when(disabled) {
+                    cursor: not-allowed;
+                    .km-calendar__date {
+                        width: 100%;
+                        background-color: $calendar-cell-disabled-background-color;
+                        color: $calendar-cell-disabled-color;
+                        cursor: not-allowed;
+                    }
+                    @include when(today) {
+                        .km-calendar__date {
+                            width: $calendar-cell-date-width;
+                            border-color: $calendar-cell-disabled-today-border-color;
+                            background-color: $calendar-cell-disabled-today-background-color;
+                            color: $calendar-cell-disabled-today-color;
+                        }
+                    }
+                    @include when(selected) {
+                        .km-calendar__date {
+                            width: $calendar-cell-date-width;
+                            background-color: $calendar-cell-disabled-selected-background-color;
+                            color: $calendar-cell-disabled-selected-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .km-calendar-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+@include b(calendar-panel) {
+    display: flex;
+    border-radius: 4px;
+    outline: none;
+    z-index: $z-index-large;
+    background-color: $color-white;
+    flex-direction: column;
+    font-size: $font-size-base;
+    color: $calendar-color;
+
+    @include e(table) {
+        height: 100%;
+
+        @include e(body) {
+            flex: 1;
+            padding: 0;
+
+            @include e(cell) {
+                @include e(date) {
+                    display: inline-block;
+                    width: auto;
+                    padding: 0 6px;
+
+                    &:hover {
+                        color: $color-primary;
+                    }
+                }
+                /*@include when(prev-decade) {
+                    .km-calendar-panel__date {
+                        color: $calendar-panel-cell-prev-decade-color;
+                    }
+                    &:not(.is-disabled) .km-calendar-panel__date:hover {
+                        background-color: transparent;
+                    }
+                }*/
+                /*@include when(next-decade) {
+                    .km-calendar-panel__date {
+                        color: $calendar-panel-cell-next-decade-color;
+                    }
+                    &:not(.is-disabled) .km-calendar-panel__date:hover {
+                        background-color: transparent;
+                    }
+                }*/
+                @include when(selected) {
+                    .km-calendar-panel__date:hover {
+                        color: $color-white;
+                    }
+                }
+
+                @include when(disabled) {
+                    .km-calendar-panel__date {
+                        width: auto;
+                        background-color: $calendar-cell-disabled-background-color;
+                        color: $calendar-cell-disabled-color;
+                        cursor: not-allowed;
+                    }
+                    @include when(selected) {
+                        .km-calendar-panel__date {
+                            width: auto;
+                            background-color: $calendar-cell-disabled-selected-background-color;
+                            color: $calendar-cell-disabled-selected-color;
+                        }
+                    }
                 }
             }
         }

@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { CalendarBodyProps, CalendarBodyDefaultProps } from './interface';
-import { createCalendar } from 'utils/common/date';
+import { createCalendar, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 
 const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '七'];
@@ -20,6 +20,7 @@ function CalendarBody(props) {
         year,
         month,
         selectedDate,
+        onSelect,
         onChange,
     } = props;
 
@@ -27,7 +28,7 @@ function CalendarBody(props) {
     const today = new Date();
 
     // ---------------------------------- event ----------------------------------
-    const onSelect = useCallback(item => {
+    const onItemSelect = useCallback(item => {
         if(disabled) return;
 
         const { year, month, date } = item;
@@ -36,10 +37,10 @@ function CalendarBody(props) {
             && selectedDate.getFullYear() === year
             && selectedDate.getMonth() + 1 === month
             && selectedDate.getDate() === date;
-        if(isCurrentSelected) return;
+        if(!isCurrentSelected) onChange(year, month, date);
 
-        onChange(year, month, date);
-    }, [disabled, onChange]);
+        onSelect(year, month, date);
+    }, [disabled, onSelect, onChange]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((dates, key) => {
@@ -56,17 +57,21 @@ function CalendarBody(props) {
                                     && today.getMonth() + 1 === item.month
                                     && today.getDate() === item.date;
 
+                        const isDisabled = disabled || item.year < MIN_SAFE_YEAR || item.year > MAX_SAFE_YEAR;
+
                         const cellClassName = mergeStr({
                             [`${prefixCls}__cell`]: true,
                             'is-prev-month': item.isPrevMonth,
                             'is-next-month': item.isNextMonth,
                             'is-selected': isSelected,
                             'is-today': isToday,
-                            // 'is-disabled': true,
-                        })
+                            'is-disabled': isDisabled,
+                        });
+
+                        const onClick = isDisabled ? null : () => onItemSelect(item);
                         return (
                             <td key={`${item.year}-${item.month}-${item.date}`} className={cellClassName}>
-                                <span className={`${prefixCls}__date`} onClick={() => onSelect(item)}>
+                                <span className={`${prefixCls}__date`} onClick={onClick}>
                                     {item.date}
                                 </span>
                             </td>
@@ -75,7 +80,7 @@ function CalendarBody(props) {
                 }
             </tr>
         )
-    }, [selectedDate, today]);
+    }, [prefixCls, selectedDate, today, disabled, onItemSelect]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderThead = useMemo(() => {

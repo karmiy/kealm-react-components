@@ -16,7 +16,7 @@ function Panel(props) {
     } = props;
 
     // ---------------------------------- event ----------------------------------
-    const onCalendarChange = useCallback((...rest) => {
+    const onCalendarSelect = useCallback((...rest) => {
         onChange(...rest);
         onVisibleChange(false);
     }, []);
@@ -27,12 +27,16 @@ function Panel(props) {
         value,
         disabled,
         onChange,
+        visible,
     };
 
     return (
         <div className={`${prefixCls}-panel`}>
-            <Header {...commonProps} placeholder={placeholder} format={format} visible={visible} />
-            <Calendar {...commonProps} onChange={onCalendarChange} />
+            <Header {...commonProps} placeholder={placeholder} format={format} />
+            {/*<div className={`${prefixCls}-panel__calendar`}>
+                <Calendar {...commonProps} onChange={onCalendarChange} />
+            </div>*/}
+            <Calendar {...commonProps} onSelect={onCalendarSelect} />
         </div>
     );
 }

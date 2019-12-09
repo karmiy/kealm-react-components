@@ -1,4 +1,4 @@
-import { leftPad, transRegExpSpec } from './base';
+import {leftPad, transRegExpSpec} from './base';
 
 export const MAX_SAFE_YEAR = 9999;
 export const MIN_SAFE_YEAR = 100;
@@ -485,12 +485,19 @@ export function diffYears(dateLeft, dateRight) {
     return ret;
 }
 
+/**
+ * 构造日历
+ * @param year
+ * @param month
+ * @returns {[]}
+ */
 export function createCalendar(year, month) {
-    const TOTAL_COUNT = 7 * 6;  // 共 7 * 6 = 42
+    const ROW_COUNT = 6, COL_COUNT = 7,
+        TOTAL_COUNT = ROW_COUNT * COL_COUNT;  // 共 6 * 7 = 42
     let currentCount = 0;
     const calendar = [];
     function addCalendar(item, unShift = false) {
-        if(currentCount % 7 === 0) {
+        if(currentCount % COL_COUNT === 0) {
             unShift ? calendar.unshift([item]) : calendar.push([item]);
         } else {
             unShift ? calendar[0].unshift(item) : calendar[calendar.length - 1].push(item);
@@ -498,8 +505,7 @@ export function createCalendar(year, month) {
         currentCount++;
     }
     // 构造该月历的第一天 最后一天
-    const firstDay = new Date(createDateStr({YYYY: year, MM: month})),
-        lastDay = endOfMonth(firstDay);
+    const firstDay = new Date(createDateStr({YYYY: year, MM: month}));
 
     // 向前补全第一行在1号前的日期
     const loopDay = new Date(firstDay);
@@ -533,4 +539,72 @@ export function createCalendar(year, month) {
         loopDay.setDate(loopDay.getDate() + 1);
     }
     return calendar;
+}
+
+/**
+ * 获取10年期
+ * @param year
+ */
+export function getDecades(year) {
+    const decades = [];
+
+    const lastYear = ((year / 10) | 0) * 10 + 9;
+    let loopYear = lastYear - 9;
+
+    while (loopYear <= lastYear) {
+        decades.push(loopYear);
+        loopYear++;
+    }
+    return decades;
+}
+
+/**
+ * 构造10年期表格 4 * 3
+ * @param year
+ * @param isPad: 是否补全到 12 项
+ */
+export function createDecadeTable(year, isPad = true) {
+    const COL_COUNT = 3;
+    const decadeTable = [];
+    let currentCount = 0;
+    function addDecade(item, unShift = false) {
+        if(currentCount % COL_COUNT === 0) {
+            unShift ? decadeTable.unshift([item]) : decadeTable.push([item]);
+        } else {
+            unShift ? decadeTable[0].unshift(item) : decadeTable[decadeTable.length - 1].push(item);
+        }
+        currentCount++;
+    }
+
+    const decades = getDecades(year);
+    const firstYear = decades[0],
+        lastYear = decades[decades.length - 1];
+
+    if(isPad) {
+        // 插入前一个10年期的最后一项
+        addDecade({
+            year: firstYear - 1,
+            isPrevDecade: true,
+            isNextDecade: false,
+        }, true);
+    }
+
+    decades.forEach(item => {
+        addDecade({
+            year: item,
+            isPrevDecade: false,
+            isNextDecade: false,
+        });
+    });
+
+    if(isPad) {
+        // 插入前一个10年期的最后一项
+        addDecade({
+            year: lastYear + 1,
+            isPrevDecade: false,
+            isNextDecade: true,
+        });
+    }
+
+    return decadeTable;
 }
