@@ -6,7 +6,7 @@ import { useStateStore } from 'hooks';
  * Build value、setValue for some components like defaultOpen、open、onOpenChange
  * setValue is constant
  */
-function useController(defaultProp, prop, onChange, emptyProp = false, disabled = false) {
+function useController(defaultProp, prop, onChange, emptyProp = false, disabled = false, forceTrigger = false) {
     // logic propValue
     const [innerProp, setInnerProp] = useState(isEmpty(defaultProp) ? emptyProp : defaultProp);
     const value = prop !== undefined ? prop : innerProp; // The actual value(depending on prop, no default)
@@ -17,13 +17,14 @@ function useController(defaultProp, prop, onChange, emptyProp = false, disabled 
         prop,
         value,
         disabled,
+        forceTrigger,
     });
 
     // logic setPropValue
     // v: value to set
     // rest: value to onChange
     const setValue = useCallback((v, ...rest) => {
-        const { prop, value, onChange, disabled } = stateStoreRef.current;
+        const { prop, value, onChange, disabled, forceTrigger } = stateStoreRef.current;
 
         if(disabled) return;
 
@@ -33,7 +34,7 @@ function useController(defaultProp, prop, onChange, emptyProp = false, disabled 
         rest = !rest.length ? [v] : rest.map(c => isFunction(c) ? c(value) : c);
         // if(isFunction(c)) c = c(value);
 
-        if(v === value) return;
+        if(v === value && !forceTrigger) return;
 
         // trigger change event
         onChange(...rest);

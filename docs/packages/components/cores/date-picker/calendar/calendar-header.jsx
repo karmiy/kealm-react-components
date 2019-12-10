@@ -140,7 +140,7 @@ function CalendarHeader(props) {
                 {renderNextMonth}
             </div>
             <RenderWrapper visible={YearPanelVisible}>
-                <YearPanel year={year} onSelect={onYearSelect} visible={visible} />
+                <YearPanel year={year} onSelect={onYearSelect} disabled={disabled} visible={visible} />
             </RenderWrapper>
         </div>
     );

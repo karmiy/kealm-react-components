@@ -4,16 +4,15 @@ import { noop } from 'utils/common/base';
 /* decade-panel-props */
 export const DecadePanelProps = {
     // prefixCls: PropTypes.string,
+    defaultYear: PropTypes.number,
     year: PropTypes.number,
     onSelect: PropTypes.func,
-    onChange: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
 }
 
 export const DecadePanelDefaultProps = {
     onSelect: noop,
-    onChange: noop,
     disabled: false,
 }
 
@@ -35,14 +34,13 @@ export const DecadeHeaderDefaultProps = {
 export const DecadeBodyProps = {
     prefixCls: PropTypes.string,
     year: PropTypes.number,
+    selectedYear: PropTypes.number,
     onSelect: PropTypes.func,
-    onChange: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
 }
 
 export const DecadeBodyDefaultProps = {
     onSelect: noop,
-    onChange: noop,
     disabled: false,
 }

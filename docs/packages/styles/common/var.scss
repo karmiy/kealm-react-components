@@ -747,8 +747,8 @@ $calendar-cell-date-width: 24px !default;
 $calendar-cell-hover-background-color: $background-color-colourful !default;
 //$calendar-cell-prev-month-color: $color-text-placeholder !default;
 //$calendar-cell-next-month-color: $calendar-cell-prev-month-color !default;
-$calendar-cell-prev-color: $color-text-placeholder !default;
-$calendar-cell-next-color: $calendar-cell-prev-color !default;
+$calendar-cell-prev-next-color: $color-text-placeholder !default;
+//$calendar-cell-next-color: $calendar-cell-prev-color !default;
 
 $calendar-cell-disabled-color: $color-text-placeholder !default;
 $calendar-cell-disabled-background-color: $disabled-background-base !default;

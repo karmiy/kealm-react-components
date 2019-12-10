@@ -7,8 +7,8 @@ import { useController, useStateStore, useTimeout } from 'hooks';
  * Build outerValue、innerValue、onInnerChange、onOuterChange for Two way control
  * strict: Control whether internal values can be changed freely
  */
-function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = false, strict = false) {
-    const [outerValue, setOutValue] = useController(defaultProp, prop, onChange, emptyProp, disabled);
+function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = false, strict = false, forceTrigger = false) {
+    const [outerValue, setOutValue] = useController(defaultProp, prop, onChange, emptyProp, disabled, forceTrigger);
     const [innerValue, setInnerValue] = useState(outerValue);
     const stateStoreRef = useStateStore({ prop, outerValue, disabled, strict }, false);
     const [setTimer] = useTimeout(true);
@@ -25,15 +25,15 @@ function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = fa
     const onOuterChange = useCallback((v, ...rest) => {
         const { prop, outerValue } = stateStoreRef.current;
 
-        // Prevent outerValue from changing
+        // Prevent outerValue from not changing
         if(v === outerValue) {
             onInnerChange(outerValue);
         }
 
-        // Prevent prop from changing
+        // Prevent prop from not changing
         setTimer(() => {
             !isEmpty(prop) && outerValue === stateStoreRef.current.prop && onInnerChange(outerValue);
-        }, 0, 'input-number');
+        }, 0, 'puppet');
 
         setOutValue(v, ...rest);
     }, []);

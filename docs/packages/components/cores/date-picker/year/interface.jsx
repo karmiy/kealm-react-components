@@ -4,16 +4,15 @@ import { noop } from 'utils/common/base';
 /* year-panel-props */
 export const YearPanelProps = {
     // prefixCls: PropTypes.string,
+    defaultYear: PropTypes.number,
     year: PropTypes.number,
     onSelect: PropTypes.func,
-    onChange: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
 }
 
 export const YearPanelDefaultProps = {
     onSelect: noop,
-    onChange: noop,
     disabled: false,
 }
 
@@ -35,14 +34,13 @@ export const YearHeaderDefaultProps = {
 export const YearBodyProps = {
     prefixCls: PropTypes.string,
     year: PropTypes.number,
+    selectedYear: PropTypes.number,
     onSelect: PropTypes.func,
-    onChange: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
 }
 
 export const YearBodyDefaultProps = {
     onSelect: noop,
-    onChange: noop,
     disabled: false,
 }

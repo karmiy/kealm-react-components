@@ -21,7 +21,6 @@ function CalendarBody(props) {
         month,
         selectedDate,
         onSelect,
-        onChange,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -33,14 +32,14 @@ function CalendarBody(props) {
 
         const { year, month, date } = item;
 
-        const isCurrentSelected = selectedDate
+        /*const isCurrentSelected = selectedDate
             && selectedDate.getFullYear() === year
             && selectedDate.getMonth() + 1 === month
             && selectedDate.getDate() === date;
-        if(!isCurrentSelected) onChange(year, month, date);
+        if(!isCurrentSelected) onChange(year, month, date);*/
 
         onSelect(year, month, date);
-    }, [disabled, onSelect, onChange]);
+    }, [disabled]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((dates, key) => {

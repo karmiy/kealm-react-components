@@ -11,7 +11,7 @@ import React, {
     useEffect,
     useCallback
 } from 'react';
-import {Button, Row, Col, Tag, Input, Popover, Radio} from '@kealm/react-components';
+import { Button, Row, Col, Tag, Input, Popover, Radio, DatePicker } from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
 import { useDebounce, useThrottle } from 'hooks';
@@ -19,6 +19,9 @@ import addDomEventListener from 'add-dom-event-listener';
 import { isObject } from '../../../packages/utils/common/base';
 import { isElement } from 'react-is';
 import { isValidDate, isValidFormat, createCalendar } from 'utils/common/date';
+import YearPanel from '../../../packages/components/cores/date-picker/year';
+import DecadePanel from '../../../packages/components/cores/date-picker/decade';
+import Calendar from '../../../packages/components/cores/date-picker/calendar';
 window.isValidDate = isValidDate;
 
 function T(props) {
@@ -103,11 +106,11 @@ function ExampleDoc() {
 
     // logValidFormat('59?11', 'mm?ss', true);
 
-    console.log('render');
+    // console.log('render');
     return (
         <div>
             {/*{el}*/}
-            <div onClick={() => {
+            {/*<div onClick={() => {
                 setCount(1);
                 setTimeout(() => setVisible(true));
             }}>test</div>
@@ -117,6 +120,11 @@ function ExampleDoc() {
                 <Radio value={values[2]}>C</Radio>
                 <Radio value={values[3]}>D</Radio>
             </Radio.Group>
+            <DatePicker />*/}
+            {/*<DecadePanel defaultYear={101} onSelect={(v, u) => console.log(v, u)} />*/}
+            {/*<Calendar defaultValue={new Date()} onSelect={v => console.log(v)} />*/}
+            <YearPanel year={2012} onSelect={v => console.log(v)} visible={visible} />
+            <Button onClick={() => setVisible(v => !v)} >Update</Button>
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>
     )

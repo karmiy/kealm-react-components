@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { CalendarProps, CalendarDefaultProps } from './interface';
-import { useContextConf, useClassName, useDidUpdate } from 'hooks';
+import { useContextConf, useClassName, usePuppet } from 'hooks';
 import CalendarHeader from './calendar-header';
 import CalendarBody from './calendar-body';
 import { handleDate } from 'utils/common/date';
@@ -9,16 +9,22 @@ function Calendar(props) {
     const { componentCls } = useContextConf('calendar');
     const {
         className,
+        defaultValue,
         value,
-        onChange,
         onSelect,
         disabled,
         visible,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    const [innerYear, setInnerYear] = useState(value ? value.getFullYear() : new Date().getFullYear());
-    const [innerMonth, setInnerMonth] = useState(value ? value.getMonth() + 1 : new Date().getMonth() + 1);
+    const [
+        outerValue,
+        innerValue,
+        setOuterValue,
+        setInnerValue
+    ] = usePuppet(defaultValue, value, onSelect, null, disabled, false, true);
+    const innerYear = innerValue ? innerValue.getFullYear() : new Date().getFullYear(),
+        innerMonth = innerValue ? innerValue.getMonth() + 1 : new Date().getMonth() + 1;
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -26,25 +32,14 @@ function Calendar(props) {
         [className]: className,
     }, [componentCls, className]);
 
-    // ---------------------------------- effect ----------------------------------
-    useDidUpdate(() => {
-        setInnerYear(value ? value.getFullYear() : new Date().getFullYear());
-        setInnerMonth(value ? value.getMonth() + 1 : new Date().getMonth() + 1);
-    }, [value], true);
-
     // ---------------------------------- event ----------------------------------
     const onHeaderChange = useCallback((year, month) => {
-        setInnerYear(year);
-        setInnerMonth(month);
+        setInnerValue(v => handleDate(new Date(v), { year, month }));
     }, []);
 
     const onDateSelect = useCallback((year, month, date) => {
-        onSelect(new Date(handleDate(value, { year, month, date })));
-    }, [onSelect, value]);
-
-    const onDateChange = useCallback((year, month, date) => {
-        onChange(new Date(handleDate(value, { year, month, date })));
-    }, [onChange, value]);
+        setOuterValue(v => handleDate(new Date(v), { year, month, date }));
+    }, []);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -62,9 +57,8 @@ function Calendar(props) {
                 disabled={disabled}
                 year={innerYear}
                 month={innerMonth}
-                selectedDate={value}
+                selectedDate={outerValue}
                 onSelect={onDateSelect}
-                onChange={onDateChange}
             />
         </div>
     );

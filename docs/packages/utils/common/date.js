@@ -586,7 +586,8 @@ export function createDecadeTable(year, isPad = true) {
             year: firstYear - 1,
             isPrevDecade: true,
             isNextDecade: false,
-        }, true);
+            isIncluded: firstYear - 1 === year,
+        });
     }
 
     decades.forEach(item => {
@@ -594,6 +595,7 @@ export function createDecadeTable(year, isPad = true) {
             year: item,
             isPrevDecade: false,
             isNextDecade: false,
+            isIncluded: item === year,
         });
     });
 
@@ -603,8 +605,87 @@ export function createDecadeTable(year, isPad = true) {
             year: lastYear + 1,
             isPrevDecade: false,
             isNextDecade: true,
+            isIncluded: lastYear + 1 === year,
         });
     }
 
     return decadeTable;
+}
+
+/**
+ * 获取一个世纪年份
+ * @param year
+ */
+export function getCenturies(year) {
+    const lastYear = ((year / 100) | 0) * 100 + 99;
+    let loopYear = lastYear - 99;
+    const centuries = [];
+    while (loopYear <= lastYear) {
+        centuries.push(loopYear);
+        loopYear++;
+    }
+
+    return centuries;
+}
+
+/**
+ * 构造世纪表格 4 * 3
+ * @param year
+ * @param isPad
+ * @returns {[]}
+ */
+export function createCenturyTable(year, isPad = true) {
+    const COL_COUNT = 3;
+    const centuryTable = [];
+    let currentCount = 0;
+    function addCentury(item, unShift = false) {
+        if(currentCount % COL_COUNT === 0) {
+            unShift ? centuryTable.unshift([item]) : centuryTable.push([item]);
+        } else {
+            unShift ? centuryTable[0].unshift(item) : centuryTable[centuryTable.length - 1].push(item);
+        }
+        currentCount++;
+    }
+
+    const centuries = getCenturies(year),
+        firstYear = centuries[0],
+        lastYear = centuries[centuries.length - 1];
+
+    if(isPad) {
+        // 插入前一个世纪最后一项
+        addCentury({
+            from: firstYear - 10,
+            to: firstYear - 1,
+            isIncluded: false,
+            isPrevCentury: true,
+            isNextCentury: false,
+        });
+    }
+
+    let index = 0, len = centuries.length;
+    while (index < len) {
+        const fromYear = centuries[index],
+            toYear = centuries[index + 9];
+        addCentury({
+            from: fromYear,
+            to: toYear,
+            isIncluded: fromYear <= year && toYear >= year,
+            isPrevCentury: false,
+            isNextCentury: false,
+        });
+        index += 10;
+    }
+
+    if(isPad) {
+        // 插入下一个世纪第一项
+        addCentury({
+            from: lastYear + 1,
+            to: lastYear + 10,
+            isIncluded: false,
+            isPrevCentury: false,
+            isNextCentury: true,
+        });
+    }
+
+    return centuryTable;
 }

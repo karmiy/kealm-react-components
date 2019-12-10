@@ -7,19 +7,19 @@ function YearBody(props) {
     const {
         prefixCls,
         year,
+        selectedYear,
         disabled,
         onSelect,
-        onChange,
     } = props;
 
     // ---------------------------------- event ----------------------------------
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
-        if(item.year !== year) onChange(item.year);
+        // if(item.year !== selectedYear) onChange(item.year);
 
         onSelect(item.year);
-    }, [disabled, onSelect, year]);
+    }, [selectedYear, disabled]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((decades, key) => {
@@ -33,7 +33,7 @@ function YearBody(props) {
                             [`${prefixCls}__cell`]: true,
                             'is-prev-decade': item.isPrevDecade,
                             'is-next-decade': item.isNextDecade,
-                            'is-selected': item.year === year,
+                            'is-selected': selectedYear === item.year,
                             'is-disabled': isDisabled,
                         });
 
@@ -50,7 +50,7 @@ function YearBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, year, onItemSelect]);
+    }, [prefixCls, selectedYear, onItemSelect]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderTbody = useMemo(() => {

@@ -169,15 +169,6 @@
                         background-color: $calendar-cell-hover-background-color;
                     }
                 }
-
-                &[class*="is-prev"], &[class*="is-next"] {
-                    .km-calendar__date {
-                        color: $calendar-cell-prev-color;
-                    }
-                    &:not(.is-disabled) .km-calendar__date:hover {
-                        background-color: transparent;
-                    }
-                }
                 /*@include when(prev-month) {
                     .km-calendar__date {
                         color: $calendar-cell-prev-month-color;
@@ -210,6 +201,19 @@
                     }
                 }
 
+                &[class*="is-prev"], &[class*="is-next"] {
+                    .km-calendar__date {
+                        background-color: transparent;
+                        color: $calendar-cell-prev-next-color;
+                    }
+                    &:not(.is-disabled) .km-calendar__date:hover {
+                        background-color: transparent;
+                    }
+                    &.is-today .km-calendar__date {
+                        border-color: $calendar-cell-prev-next-color;
+                    }
+                }
+
                 @include when(disabled) {
                     cursor: not-allowed;
                     .km-calendar__date {
@@ -231,6 +235,11 @@
                             width: $calendar-cell-date-width;
                             background-color: $calendar-cell-disabled-selected-background-color;
                             color: $calendar-cell-disabled-selected-color;
+                        }
+                    }
+                    &[class*="is-prev"], &[class*="is-next"] {
+                        .km-calendar__date {
+
                         }
                     }
                 }
@@ -293,6 +302,12 @@
                 @include when(selected) {
                     .km-calendar-panel__date:hover {
                         color: $color-white;
+                    }
+
+                    &[class*="is-prev"], &[class*="is-next"] {
+                        &:not(.is-disabled) .km-calendar-panel__date:hover {
+                            color: $calendar-cell-prev-next-color;
+                        }
                     }
                 }
 

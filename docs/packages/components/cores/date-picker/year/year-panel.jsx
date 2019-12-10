@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { YearPanelProps, YearPanelDefaultProps } from './interface';
-import { useContextConf, useClassName, useDidUpdate } from 'hooks';
+import { useContextConf, useClassName, useDidUpdate, usePuppet } from 'hooks';
 import YearHeader from './year-header';
 import YearBody from './year-body';
 
@@ -8,15 +8,20 @@ function YearPanel(props) {
     const { componentCls } = useContextConf('calendar');
     const {
         className,
+        defaultYear,
         year,
         disabled,
         onSelect,
-        onChange,
         visible,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    const [innerYear, setInnerYear] = useState(year || new Date().getFullYear());
+    const [
+        outerYear,
+        innerYear,
+        setOuterYear,
+        setInnerYear
+    ] = usePuppet(defaultYear, year, onSelect, null, disabled, false, true);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -27,30 +32,13 @@ function YearPanel(props) {
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
-        setInnerYear(year || new Date().getFullYear());
-    }, [year], true);
-
-    useDidUpdate(() => {
-        visible && setInnerYear(year || new Date().getFullYear());
+        visible && year && setInnerYear(year);
     }, [visible], true);
-
-    // ---------------------------------- event ----------------------------------
-    const onHeaderChange = useCallback(year => {
-        setInnerYear(year);
-    }, []);
-
-    const onYearSelect = useCallback(year => {
-        onSelect(year);
-    }, [onSelect]);
-
-    const onYearChange = useCallback(year => {
-        onChange(year);
-    }, [onChange]);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {
         prefixCls: componentCls,
-        year: innerYear,
+        year: innerYear || new Date().getFullYear(),
         disabled,
     };
 
@@ -58,12 +46,13 @@ function YearPanel(props) {
         <div className={classNames}>
             <YearHeader
                 {...commonProps}
-                onChange={onHeaderChange}
+                onChange={setInnerYear}
+                visible={visible}
             />
             <YearBody
                 {...commonProps}
-                onSelect={onYearSelect}
-                onChange={onYearChange}
+                selectedYear={outerYear}
+                onSelect={setOuterYear}
             />
         </div>
     );
