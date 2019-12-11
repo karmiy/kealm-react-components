@@ -5,19 +5,20 @@ import Icon from '../../icon';
 import YearPanel from '../year';
 import { RenderWrapper } from '../../../common';
 import { leftPad, mergeStr } from 'utils/common/base';
-import { MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
+import { handleDate, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 
 function CalendarHeader(props) {
     const {
         prefixCls,
         disabled,
-        year,
-        month,
+        value,
         onChange,
         visible,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
+    const year = value ? value.getFullYear() : new Date().getFullYear(),
+        month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
     const isMinMonth = year === MIN_SAFE_YEAR && month === 1,
         isMaxMonth = year === MAX_SAFE_YEAR && month === 12,
         isMinYear = year === MIN_SAFE_YEAR,
@@ -33,7 +34,7 @@ function CalendarHeader(props) {
     const onPrevYear = useCallback(() => {
         if(disabled || isMinYear) return;
 
-        onChange(year - 1, month);
+        onChange(v => handleDate(new Date(v || new Date()), { year: year - 1 }));
     }, [disabled, year, month, isMinYear]);
 
     const onPrevMonth = useCallback(() => {
@@ -41,26 +42,28 @@ function CalendarHeader(props) {
 
         let _month = month === 1 ? 12 : month - 1,
             _year = month === 1 ? year - 1 : year;
-        onChange(_year, _month);
+
+        onChange(v => handleDate(new Date(v || new Date()), { year: _year, month: _month }));
     }, [disabled, year, month, isMinMonth]);
 
     const onNextYear = useCallback(() => {
         if(disabled || isMaxYear) return;
 
-        onChange(year + 1, month);
-    }, [disabled, year, month, isMaxYear]);
+        onChange(v => handleDate(new Date(v || new Date()), { year: year + 1 }));
+    }, [disabled, year, isMaxYear]);
 
     const onNextMonth = useCallback(() => {
         if(disabled || isMaxMonth) return;
 
         let _month = month === 12 ? 1 : month + 1,
             _year = month === 12 ? year + 1 : year;
-        onChange(_year, _month);
+
+        onChange(v => handleDate(new Date(v || new Date()), { year: _year, month: _month }));
     }, [disabled, year, month, isMaxMonth]);
 
-    const onYearSelect = useCallback(selectedYear => {
+    const onYearSelect = useCallback(selectedDate => {
         setYearPanelVisible(false);
-        year !== selectedYear && onChange(selectedYear, month);
+        year !== selectedDate.getFullYear() && onChange(selectedDate);
     }, [year, month]);
 
     // ---------------------------------- render mini chunk ----------------------------------
@@ -140,7 +143,7 @@ function CalendarHeader(props) {
                 {renderNextMonth}
             </div>
             <RenderWrapper visible={YearPanelVisible}>
-                <YearPanel year={year} onSelect={onYearSelect} disabled={disabled} visible={visible} />
+                <YearPanel value={value} onSelect={onYearSelect} disabled={disabled} visible={visible} />
             </RenderWrapper>
         </div>
     );

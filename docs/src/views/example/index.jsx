@@ -121,9 +121,9 @@ function ExampleDoc() {
                 <Radio value={values[3]}>D</Radio>
             </Radio.Group>
             <DatePicker />*/}
-            {/*<DecadePanel defaultYear={101} onSelect={(v, u) => console.log(v, u)} />*/}
+            <DecadePanel onSelect={(v, u) => console.log(v, u)} />
             {/*<Calendar defaultValue={new Date()} onSelect={v => console.log(v)} />*/}
-            <YearPanel year={2012} onSelect={v => console.log(v)} visible={visible} />
+            {/*<YearPanel defaultValue={new Date('2018-01-01 12:11:10')} onSelect={v => console.log(v)} visible={visible} />*/}
             <Button onClick={() => setVisible(v => !v)} >Update</Button>
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>

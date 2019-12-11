@@ -8,8 +8,8 @@ function YearPanel(props) {
     const { componentCls } = useContextConf('calendar');
     const {
         className,
-        defaultYear,
-        year,
+        defaultValue,
+        value,
         disabled,
         onSelect,
         visible,
@@ -17,11 +17,11 @@ function YearPanel(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [
-        outerYear,
-        innerYear,
-        setOuterYear,
-        setInnerYear
-    ] = usePuppet(defaultYear, year, onSelect, null, disabled, false, true);
+        outerValue,
+        innerValue,
+        setOuterValue,
+        setInnerValue
+    ] = usePuppet(defaultValue, value, onSelect, null, disabled, false, true);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -32,13 +32,13 @@ function YearPanel(props) {
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
-        visible && year && setInnerYear(year);
+        visible && value && setInnerValue(value);
     }, [visible], true);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {
         prefixCls: componentCls,
-        year: innerYear || new Date().getFullYear(),
+        value: innerValue,
         disabled,
     };
 
@@ -46,13 +46,13 @@ function YearPanel(props) {
         <div className={classNames}>
             <YearHeader
                 {...commonProps}
-                onChange={setInnerYear}
+                onChange={setInnerValue}
                 visible={visible}
             />
             <YearBody
                 {...commonProps}
-                selectedYear={outerYear}
-                onSelect={setOuterYear}
+                selectedDate={outerValue}
+                onSelect={setOuterValue}
             />
         </div>
     );

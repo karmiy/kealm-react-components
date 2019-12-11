@@ -20,8 +20,9 @@ export const CalendarDefaultProps = {
 export const CalendarHeaderProps = {
     prefixCls: PropTypes.string,
     disabled: PropTypes.bool,
-    year: PropTypes.number,
-    month: PropTypes.number,
+    value: PropTypes.instanceOf(Date),
+    // year: PropTypes.number,
+    // month: PropTypes.number,
     onChange: PropTypes.func,
     visible: PropTypes.bool,
 }
@@ -35,8 +36,9 @@ export const CalendarHeaderDefaultProps = {
 export const CalendarBodyProps = {
     prefixCls: PropTypes.string,
     disabled: PropTypes.bool,
-    year: PropTypes.number,
-    month: PropTypes.number,
+    value: PropTypes.instanceOf(Date),
+    // year: PropTypes.number,
+    // month: PropTypes.number,
     selectedDate: PropTypes.instanceOf(Date),
     onSelect: PropTypes.func,
 }

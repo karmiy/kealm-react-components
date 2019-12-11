@@ -8,21 +8,20 @@ function DecadePanel(props) {
     const { componentCls } = useContextConf('calendar');
     const {
         className,
-        defaultYear,
-        year,
+        defaultValue,
+        value,
         disabled,
         onSelect,
         visible,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    // const [innerYear, setInnerYear] = useState(year || new Date().getFullYear());
     const [
-        outerYear,
-        innerYear,
-        setOuterYear,
-        setInnerYear
-    ] = usePuppet(defaultYear, year, onSelect, null, disabled, false, true);
+        outerValue,
+        innerValue,
+        setOuterValue,
+        setInnerValue
+    ] = usePuppet(defaultValue, value, onSelect, null, disabled, false, true);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -33,16 +32,16 @@ function DecadePanel(props) {
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
-        visible && year && setInnerYear(year);
+        visible && value && setInnerValue(value);
     }, [visible], true);
 
     // ---------------------------------- event ----------------------------------
-    const onDecadeSelect = useCallback((from, to) => setOuterYear(from, from, to), []);
+    const onDecadeSelect = useCallback((from, to) => setOuterValue(from, from, to), []);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {
         prefixCls: componentCls,
-        year: innerYear || new Date().getFullYear(),
+        value: innerValue,
         disabled,
     };
 
@@ -50,11 +49,11 @@ function DecadePanel(props) {
         <div className={classNames}>
             <DecadeHeader
                 {...commonProps}
-                onChange={setInnerYear}
+                onChange={setInnerValue}
             />
             <DecadeBody
                 {...commonProps}
-                selectedYear={outerYear}
+                selectedDate={outerValue}
                 onSelect={onDecadeSelect}
             />
         </div>

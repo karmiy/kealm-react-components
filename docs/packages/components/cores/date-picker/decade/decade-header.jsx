@@ -1,18 +1,19 @@
 import React, { useMemo, useCallback } from 'react';
 import { DecadeHeaderProps, DecadeHeaderDefaultProps } from './interface';
 import Icon from '../../icon';
-import { getCenturies, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
+import { getCenturies, handleDate, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 
 function DecadeHeader(props) {
     const {
         prefixCls,
-        year,
+        value,
         disabled,
         onChange,
     } = props;
 
     // ---------------------------------- variable ---------------------------------
+    const year = value ? value.getFullYear() : new Date().getFullYear();
     const isMinCentury = getCenturies(MIN_SAFE_YEAR).includes(year),
         isMaxCentury = getCenturies(MAX_SAFE_YEAR).includes(year);
 
@@ -20,13 +21,13 @@ function DecadeHeader(props) {
     const onPrevCentury = useCallback(() => {
         if(disabled || isMinCentury) return;
 
-        onChange(year - 100);
+        onChange(v => handleDate(new Date(v || new Date()), { year: year - 100 }));
     }, [disabled, year, isMinCentury]);
 
     const onNextCentury = useCallback(() => {
         if(disabled || isMaxCentury) return;
 
-        onChange(year + 100);
+        onChange(v => handleDate(new Date(v || new Date()), { year: year + 100 }));
     }, [disabled, year, isMaxCentury]);
 
     // ---------------------------------- render mini chunk ----------------------------------

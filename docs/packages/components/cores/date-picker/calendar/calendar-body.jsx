@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { CalendarBodyProps, CalendarBodyDefaultProps } from './interface';
-import { createCalendar, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
+import {createCalendar, MIN_SAFE_YEAR, MAX_SAFE_YEAR, handleDate} from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 
 const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '七'];
@@ -17,13 +17,14 @@ function CalendarBody(props) {
     const {
         prefixCls,
         disabled,
-        year,
-        month,
+        value,
         selectedDate,
         onSelect,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
+    const year = value ? value.getFullYear() : new Date().getFullYear(),
+        month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
     const today = new Date();
 
     // ---------------------------------- event ----------------------------------
@@ -37,8 +38,7 @@ function CalendarBody(props) {
             && selectedDate.getMonth() + 1 === month
             && selectedDate.getDate() === date;
         if(!isCurrentSelected) onChange(year, month, date);*/
-
-        onSelect(year, month, date);
+        onSelect(v => handleDate(new Date(v || new Date()), { year, month, date }));
     }, [disabled]);
 
     // ---------------------------------- function ----------------------------------

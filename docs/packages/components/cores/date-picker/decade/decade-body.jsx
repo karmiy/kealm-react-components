@@ -1,23 +1,29 @@
 import React, { useMemo, useCallback } from 'react';
 import { DecadeBodyProps, DecadeBodyDefaultProps } from './interface';
-import { createCenturyTable, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
+import { createCenturyTable, handleDate, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 
 function DecadeBody(props) {
     const {
         prefixCls,
-        year,
-        selectedYear,
+        value,
+        selectedDate,
         disabled,
         onSelect,
     } = props;
+
+    // ---------------------------------- variable ---------------------------------
+    const year = value ? value.getFullYear() : new Date().getFullYear();
 
     // ---------------------------------- event ----------------------------------
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
-        onSelect(item.from, item.to);
-    }, [disabled]);
+        onSelect(
+            handleDate(new Date(value || new Date()), { year: item.from }),
+            handleDate(new Date(value || new Date()), { year: item.to })
+        );
+    }, [value, disabled]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((centuries, key) => {
@@ -26,12 +32,13 @@ function DecadeBody(props) {
                 {
                     centuries.map(item => {
                         const isDisabled = disabled || item.from > MAX_SAFE_YEAR || item.to < MIN_SAFE_YEAR;
+                        const selectedYear = selectedDate && selectedDate.getFullYear();
                         const cellClassName = mergeStr({
                             [`${prefixCls}-panel__cell`]: true,
                             [`${prefixCls}__cell`]: true,
                             'is-prev-century': item.isPrevCentury,
                             'is-next-century': item.isNextCentury,
-                            'is-selected': item.from <= selectedYear && item.to >= selectedYear,
+                            'is-selected': selectedYear && item.from <= selectedYear && item.to >= selectedYear,
                             'is-disabled': isDisabled,
                         });
 
@@ -48,7 +55,7 @@ function DecadeBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, onItemSelect, selectedYear]);
+    }, [prefixCls, onItemSelect, selectedDate]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderTbody = useMemo(() => {

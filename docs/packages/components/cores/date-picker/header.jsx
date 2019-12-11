@@ -10,13 +10,13 @@ function verifyDateChanged(prevDate, formatOptions) {
 
     let yearChanged = false, monthChanged = false, dateChanged = false;
     if(!isEmpty(formatOptions['YYYY']) && formatOptions['YYYY'] !== prevDate.getFullYear()) yearChanged = true;
-    if(!isEmpty(formatOptions['MM']) && formatOptions['MM'] !== prevDate.getMonth()) monthChanged = true;
+    if(!isEmpty(formatOptions['MM']) && formatOptions['MM'] !== prevDate.getMonth() + 1) monthChanged = true;
     if(!isEmpty(formatOptions['DD']) && formatOptions['DD'] !== prevDate.getDate()) dateChanged = true;
 
     return yearChanged || monthChanged || dateChanged;
 }
 
-function Header(props) {
+function  Header(props) {
     const {
         prefixCls,
         value,

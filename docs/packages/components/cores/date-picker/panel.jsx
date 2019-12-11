@@ -16,10 +16,12 @@ function Panel(props) {
     } = props;
 
     // ---------------------------------- event ----------------------------------
-    const onCalendarSelect = useCallback((...rest) => {
-        onChange(...rest);
+    const onCalendarSelect = useCallback(selectedDate => {
         onVisibleChange(false);
-    }, []);
+        if(value && value.getTime() === selectedDate.getTime())
+            return;
+        onChange(selectedDate);
+    }, [value]);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {

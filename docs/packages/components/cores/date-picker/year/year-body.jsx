@@ -1,25 +1,26 @@
 import React, { useMemo, useCallback } from 'react';
 import { YearBodyProps, YearBodyDefaultProps } from './interface';
-import { createDecadeTable, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
+import { createDecadeTable, handleDate, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 
 function YearBody(props) {
     const {
         prefixCls,
-        year,
-        selectedYear,
+        value,
+        selectedDate,
         disabled,
         onSelect,
     } = props;
+
+    // ---------------------------------- variable ---------------------------------
+    const year = value ? value.getFullYear() : new Date().getFullYear();
 
     // ---------------------------------- event ----------------------------------
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
-        // if(item.year !== selectedYear) onChange(item.year);
-
-        onSelect(item.year);
-    }, [selectedYear, disabled]);
+        onSelect(v => handleDate(new Date(v || new Date()), { year: item.year }));
+    }, [disabled]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((decades, key) => {
@@ -33,7 +34,7 @@ function YearBody(props) {
                             [`${prefixCls}__cell`]: true,
                             'is-prev-decade': item.isPrevDecade,
                             'is-next-decade': item.isNextDecade,
-                            'is-selected': selectedYear === item.year,
+                            'is-selected': selectedDate && selectedDate.getFullYear() === item.year,
                             'is-disabled': isDisabled,
                         });
 
@@ -50,7 +51,7 @@ function YearBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, selectedYear, onItemSelect]);
+    }, [prefixCls, selectedDate, onItemSelect]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderTbody = useMemo(() => {

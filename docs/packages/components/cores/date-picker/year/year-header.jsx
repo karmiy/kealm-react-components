@@ -4,19 +4,20 @@ import { useDidUpdate } from 'hooks';
 import Icon from '../../icon';
 import DecadePanel from '../decade';
 import { RenderWrapper } from '../../../common';
-import { getDecades, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
+import { getDecades, handleDate, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 
 function YearHeader(props) {
     const {
         prefixCls,
-        year,
+        value,
         disabled,
         onChange,
         visible,
     } = props;
 
     // ---------------------------------- variable ---------------------------------
+    const year = value ? value.getFullYear() : new Date().getFullYear();
     const isMinDecade = getDecades(MIN_SAFE_YEAR).includes(year),
         isMaxDecade = getDecades(MAX_SAFE_YEAR).includes(year);
     const [decadePanelVisible, setDecadePanelVisible] = useState(false);
@@ -29,19 +30,18 @@ function YearHeader(props) {
     // ---------------------------------- event ----------------------------------
     const onPrevDecade = useCallback(() => {
         if(disabled || isMinDecade) return;
-
-        onChange(year - 10);
+        onChange(v => handleDate(new Date(v || new Date()), { year: year - 10 }));
     }, [disabled, year, isMinDecade]);
 
     const onNextDecade = useCallback(() => {
         if(disabled || isMaxDecade) return;
 
-        onChange(year + 10);
+        onChange(v => handleDate(new Date(v || new Date()), { year: year + 10 }));
     }, [disabled, year, isMaxDecade]);
 
-    const onDecadeSelect = useCallback(selectedYear => {
+    const onDecadeSelect = useCallback(selectedDate => {
         setDecadePanelVisible(false);
-        year !== selectedYear && onChange(selectedYear);
+        year !== selectedDate.getFullYear() && onChange(selectedDate);
     }, [year]);
 
     // ---------------------------------- render mini chunk ----------------------------------
@@ -97,7 +97,7 @@ function YearHeader(props) {
                 {renderNextDecade}
             </div>
             <RenderWrapper visible={decadePanelVisible}>
-                <DecadePanel year={year} onSelect={onDecadeSelect} disabled={disabled} visible={visible} />
+                <DecadePanel value={value} onSelect={onDecadeSelect} disabled={disabled} visible={visible} />
             </RenderWrapper>
         </div>
     );
