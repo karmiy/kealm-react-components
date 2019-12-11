@@ -83,3 +83,20 @@
         }
         
 ````````````````````````````````````
+
+- forceTrigger
+
+````````````````````````````````````
+
+    forceTrigger: false / true
+    
+    forceTrigger: {
+        onChange: false,
+        onSelect: true,
+    }
+    
+    forceTrigger: {
+        onChange: v => v === value
+    }
+
+````````````````````````````````````
