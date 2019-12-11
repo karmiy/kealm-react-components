@@ -1,6 +1,6 @@
 import React, { Children, useState, useCallback } from 'react';
 // import { isEmpty } from 'utils/common/base';
-import { useController } from 'hooks';
+import useController from './useController';
 
 function findFirstName(children = []) {
     let name = null;

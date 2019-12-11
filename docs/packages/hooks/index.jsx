@@ -22,12 +22,12 @@ import {
 } from './common';
 
 import {
+    useController,
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
     useTabsValue,
     useTrigger,
-    useController,
     usePuppet,
 } from './components';
 
@@ -54,11 +54,11 @@ export {
     useStateStore,
     useVirtualScroll,
     /* components */
+    useController,
     useCheckValue,
     useCheckGroupValue,
     useInputValue,
     useTabsValue,
     useTrigger,
-    useController,
     usePuppet,
 }

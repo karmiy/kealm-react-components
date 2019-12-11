@@ -1,6 +1,8 @@
 import React, { useRef, useCallback } from 'react';
-import { useController } from 'hooks';
+import useController from './useController';
 import { isArray } from 'utils/common/base';
+
+const { createConfig } = useController;
 
 /**
  * Build checkedValue and checkChange hook for radio-group、checkbox-group
@@ -24,7 +26,10 @@ function useCheckGroupValue(defaultValue, value, onChange) {
                     : checkedValue.filter(item => item !== changedValue);
             });
         } else {
-            setCheckedValue(changedValue, e, changedValue);
+            setCheckedValue(createConfig({
+                value: changedValue,
+                event: [e, changedValue],
+            }));
         }
     }, []);
 

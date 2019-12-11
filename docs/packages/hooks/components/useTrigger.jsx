@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
-import { useCorrectOnce, useController } from 'hooks';
+import { useCorrectOnce } from '../common';
+import useController from './useController';
 import { noop } from 'utils/common/base';
 
 /**

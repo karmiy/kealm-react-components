@@ -1,9 +1,9 @@
+import useController from './useController';
 import useCheckValue from './useCheckValue';
 import useCheckGroupValue from './useCheckGroupValue';
 import useInputValue from './useInputValue';
 import useTabsValue from './useTabsValue';
 import useTrigger from './useTrigger';
-import useController from './useController';
 import usePuppet from './usePuppet';
 
 export {

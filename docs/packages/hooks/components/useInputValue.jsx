@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
-import { useController } from 'hooks';
+import useController from './useController';
+
+const { createConfig } = useController;
 
 /**
  * Build inputValue, setInputValue and inputChange hook for input
@@ -9,7 +11,10 @@ function useInputValue(defaultValue, value, onChange) {
     const [inputValue, setInputValue, setInnerValue] = useController(defaultValue, value, onChange, '');
 
     const inputChange = useCallback(e => {
-        setInputValue(e.target.value, e);
+        setInputValue(createConfig({
+            value: e.target.value,
+            event: e,
+        }));
     }, []);
 
     return {

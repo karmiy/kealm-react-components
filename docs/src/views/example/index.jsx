@@ -14,7 +14,7 @@ import React, {
 import { Button, Row, Col, Tag, Input, Popover, Radio, DatePicker } from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
-import { useDebounce, useThrottle } from 'hooks';
+import { useDebounce, useThrottle, useController } from 'hooks';
 import addDomEventListener from 'add-dom-event-listener';
 import { isObject } from '../../../packages/utils/common/base';
 import { isElement } from 'react-is';
@@ -23,6 +23,7 @@ import YearPanel from '../../../packages/components/cores/date-picker/year';
 import DecadePanel from '../../../packages/components/cores/date-picker/decade';
 import Calendar from '../../../packages/components/cores/date-picker/calendar';
 window.isValidDate = isValidDate;
+// console.log(useController);
 
 function T(props) {
     console.log('T');

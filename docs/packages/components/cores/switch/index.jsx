@@ -4,6 +4,8 @@ import { SwitchProps, SwitchDefaultProps } from './interface';
 import { RenderWrapper } from '../../common';
 import Icon from '../icon';
 
+const { createConfig } = useController;
+
 function Switch(props) {
     const {componentCls} = useContextConf('switch');
     const {
@@ -42,7 +44,12 @@ function Switch(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div role={'switch'} className={classNames} {...others} onClick={e => setIsChecked(c => !c, c => !c, e)}>
+        <div
+            role={'switch'}
+            className={classNames}
+            onClick={e => setIsChecked(createConfig({ value: c => !c, event: [c => !c, e] }))}
+            {...others}
+        >
             {/*<input type="checkbox" className={`${componentCls}__input`} />*/}
             <span className={`${componentCls}__core`} style={switchCoreStyle}>
                 <span className={`${componentCls}__button`}>

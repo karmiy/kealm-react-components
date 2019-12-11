@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { isEmpty } from 'utils/common/base';
-import { useController, useStateStore, useTimeout } from 'hooks';
-
+import useController from './useController';
+import { useStateStore, useTimeout } from '../common';
 /**
  * Bidirectional drive
  * Build outerValue、innerValue、onInnerChange、onOuterChange for Two way control
  * strict: Control whether internal values can be changed freely
  */
-function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = false, strict = false, forceTrigger = false) {
-    const [outerValue, setOutValue] = useController(defaultProp, prop, onChange, emptyProp, disabled, forceTrigger);
+function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false, strict = false, forceTrigger = false) {
+    const [outerValue, setOutValue] = useController(defaultProp, prop, event, emptyProp, disabled, forceTrigger);
     const [innerValue, setInnerValue] = useState(outerValue);
     const stateStoreRef = useStateStore({ prop, outerValue, disabled, strict }, false);
     const [setTimer] = useTimeout(true);
@@ -22,10 +22,13 @@ function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = fa
         setInnerValue(v);
     }, []);
 
-    const onOuterChange = useCallback((v, ...rest) => {
-        const { prop, outerValue } = stateStoreRef.current;
+    const onOuterChange = useCallback(config => {
+        const { prop, outerValue, disabled } = stateStoreRef.current;
+
+        if(disabled) return;
 
         // Prevent outerValue from not changing
+        const v = useController.catchValue(config, outerValue);
         if(v === outerValue) {
             onInnerChange(outerValue);
         }
@@ -35,7 +38,7 @@ function usePuppet(defaultProp, prop, onChange, emptyProp = false, disabled = fa
             !isEmpty(prop) && outerValue === stateStoreRef.current.prop && onInnerChange(outerValue);
         }, 0, 'puppet');
 
-        setOutValue(v, ...rest);
+        setOutValue(config);
     }, []);
 
     // External values drive internal changes

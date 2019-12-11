@@ -1,5 +1,7 @@
 import React, { useRef, useCallback } from 'react';
-import { useController } from 'hooks';
+import useController from './useController';
+
+const { createConfig } = useController;
 
 /**
  * Build isChecked and checkChange hook for radio、checkbox
@@ -13,7 +15,10 @@ function useCheckValue(defaultChecked, checked, groupValues, value, onChange) {
 
     // logic checkChange
     const checkChange = useCallback((e, changedValue) => {
-        setIsChecked(e.target.checked, e, changedValue);
+        setIsChecked(createConfig({
+            value: e.target.checked,
+            event: [e, changedValue],
+        }));
     }, []);
 
     return {

@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { useContextConf, useClassName, usePuppet, useStateStore } from 'hooks';
+import { useContextConf, useClassName, usePuppet, useStateStore, useController } from 'hooks';
 import { InputNumberProps, InputNumberDefaultProps } from './interface';
 import Input from '../input';
 import Icon from '../icon';
 import addDomEventListener from 'add-dom-event-listener';
 import { trim, isEmpty } from 'utils/common/base';
 import { add, subtraction } from 'utils/common/math';
+
+const { createConfig } = useController;
 
 const isNumber = (value) => {
     return !Number.isNaN(Number(value));
@@ -125,7 +127,10 @@ function InputNumber(props) {
                 // Reload input when it's not a number
                 setInnerValue(trim(oldValue) === '' ? oldValue : Number(oldValue));
             } else if(trim(targetValue) === '') {
-                setOuterValue('', null);
+                setOuterValue(createConfig({
+                    value: '',
+                    event: null,
+                }));
             } else {
                 setOuterValue(Math.min(Math.max(Number(targetValue), min), max));
             }

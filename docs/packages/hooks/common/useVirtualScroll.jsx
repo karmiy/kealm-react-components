@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import addDomEventListener from 'add-dom-event-listener';
-import { useThrottle, useSyncOnce } from 'hooks';
+import useThrottle from './useThrottle';
+import useSyncOnce from './useSyncOnce';
 
 /**
  * Use for long list
