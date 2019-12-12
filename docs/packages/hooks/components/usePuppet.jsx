@@ -7,8 +7,8 @@ import { useStateStore, useTimeout } from '../common';
  * Build outerValue、innerValue、onInnerChange、onOuterChange for Two way control
  * strict: Control whether internal values can be changed freely
  */
-function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false, strict = false, forceTrigger = false) {
-    const [outerValue, setOutValue] = useController(defaultProp, prop, event, emptyProp, disabled, forceTrigger);
+function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false, strict = false) {
+    const [outerValue, setOutValue] = useController(defaultProp, prop, event, emptyProp, disabled);
     const [innerValue, setInnerValue] = useState(outerValue);
     const stateStoreRef = useStateStore({ prop, outerValue, disabled, strict }, false);
     const [setTimer] = useTimeout(true);
@@ -38,7 +38,7 @@ function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false
             !isEmpty(prop) && outerValue === stateStoreRef.current.prop && onInnerChange(outerValue);
         }, 0, 'puppet');
 
-        setOutValue(config);
+        setOutValue(useController.isConfig(config) ? {...config, value: v} : v);
     }, []);
 
     // External values drive internal changes

@@ -3,15 +3,16 @@ import { noop } from 'utils/common/base';
 
 /* calendar-props */
 export const CalendarProps = {
-    // prefixCls: PropTypes.string,
     defaultValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
+    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
 }
 
 export const CalendarDefaultProps = {
+    onChange: noop,
     onSelect: noop,
     disabled: false,
 }

@@ -247,6 +247,7 @@ export const debounce = function (func, wait, options = {}) {
 /**
  * merge String from object
  * @param obj
+ * @param separator
  * @returns {string}
  */
 export const mergeStr = function (obj = {}, separator = ' ') {

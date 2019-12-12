@@ -84,19 +84,50 @@
         
 ````````````````````````````````````
 
-- forceTrigger
+### createConfig
+
+- value
 
 ````````````````````````````````````
 
-    forceTrigger: false / true
+    value: 100,
+   
+    value: v => v + 100,
+
+````````````````````````````````````
+
+- event
+
+````````````````````````````````````
+
+    View param.event 
+
+````````````````````````````````````
+
+- shouldTrigger
+
+````````````````````````````````````
+    default: 
+    shouldTrigger: (prev, next) => prev !== next     
     
-    forceTrigger: {
+    custom:
+    shouldTrigger: false / true
+
+    shouldTrigger: (prev, next) => prev + 1 === next     
+    
+    shouldTrigger: {
         onChange: false,
         onSelect: true,
     }
     
-    forceTrigger: {
-        onChange: v => v === value
+    shouldTrigger: {
+        onChange: (prev, next) =>  prev !== next
+        onSelect: true,
+    }
+
+    shouldTrigger: {
+        // onChange will use default func
+        onSelect: true,
     }
 
 ````````````````````````````````````

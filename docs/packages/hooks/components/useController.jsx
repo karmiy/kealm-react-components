@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { isEmpty, isFunction, isArray, isObject, isString } from 'utils/common/base';
+import { isEmpty, isFunction, isArray, isObject, isString, isBoolean } from 'utils/common/base';
 import { useStateStore } from '../common';
 
 const mark = Symbol('controller');
@@ -8,7 +8,7 @@ const mark = Symbol('controller');
  * Build value、setValue for some components like defaultOpen、open、onOpenChange
  * setValue is constant
  */
-function useController(defaultProp, prop, event, emptyProp = false, disabled = false, forceTrigger = false) {
+function useController(defaultProp, prop, event, emptyProp = false, disabled = false) {
     // logic propValue
     const [innerProp, setInnerProp] = useState(isEmpty(defaultProp) ? emptyProp : defaultProp);
     const value = prop !== undefined ? prop : innerProp; // The actual value(depending on prop, no default)
@@ -19,38 +19,28 @@ function useController(defaultProp, prop, event, emptyProp = false, disabled = f
         prop,
         value,
         disabled,
-        forceTrigger,
     });
 
-    // logic setPropValue
-    // v: value to set
-    // rest: value to event
-    /*const setValue = useCallback((v, ...rest) => {
-        const { prop, value, event, disabled, forceTrigger } = stateStoreRef.current;
+    const shouldEventTrigger = useCallback((nextValue, shouldTrigger, name) => {
+        const { value } = stateStoreRef.current;
+        if(isEmpty(shouldTrigger)) {
+            return nextValue !== value;
+        }
+        if(isBoolean(shouldTrigger)) return shouldTrigger;
 
-        if(disabled) return;
+        if(isFunction(shouldTrigger)) return shouldTrigger(value, nextValue);
 
-        // Example like setIsVisible(v => !v)
-        isFunction(v) && (v = v(value));
-        // isEmpty(c) ? (c = v) : (isFunction(c) && (c = c(value)));
-        rest = !rest.length ? [v] : rest.map(c => isFunction(c) ? c(value) : c);
-        // if(isFunction(c)) c = c(value);
+        if(!isEmpty(name) && isObject(shouldTrigger) && !isEmpty(shouldTrigger[name])) {
+            return isFunction(shouldTrigger[name]) ? shouldTrigger[name](value, nextValue) : !!shouldTrigger[name];
+        }
 
-        if(v === value && !forceTrigger) return;
+        return nextValue !== value;
+    }, []);
 
-        // trigger change event
-        event(...rest);
-        // If there is prop, it is controlled by self
-        if(prop !== undefined) return;
+    const eventTrigger = useCallback(({nextValue, name, param, shouldTrigger, transform = true}) => {
+        const { value, event } = stateStoreRef.current;
 
-        setInnerProp(v);
-    }, []);*/
-
-    const eventTrigger = useCallback(({name, param, isChanged, transform = true}) => {
-        const { value, event, forceTrigger } = stateStoreRef.current;
-
-        if(isEmpty(name) && !forceTrigger && !isChanged) return; // single
-        if(!isEmpty(name) && isObject(forceTrigger) && !forceTrigger[name] && !isChanged) return; // multiple
+        if(!shouldEventTrigger(nextValue, shouldTrigger, name)) return;
 
         const params = transform ?
             (
@@ -72,48 +62,41 @@ function useController(defaultProp, prop, event, emptyProp = false, disabled = f
 
     const setValue = useCallback(config => {
         const { prop, value, event, disabled } = stateStoreRef.current;
+        let nextValue = null;
 
         if(disabled) return;
 
         if(useController.isConfig(config)) {
-            let { value: nextValue, event: eventConfig } = config;
+            let { value: _nextValue, event: eventConfig, shouldTrigger } = config;
 
             if(!Object.keys(config).includes('event')) console.error('The event parameter cannot be null');
 
             // Example like setIsVisible(v => !v)
-            isFunction(nextValue) && (nextValue = nextValue(value));
-
-            const isChanged = nextValue !== value;
+            nextValue = isFunction(_nextValue) ? _nextValue(value) : _nextValue;
 
             // Trigger change event
             // 1. Multiple event items
             if(isObject(event)) {
-                isObject(eventConfig) && Object.keys(eventConfig).forEach(name => eventTrigger({ name, param: eventConfig[name], isChanged }));
+                isObject(eventConfig) && Object.keys(eventConfig).forEach(name => eventTrigger({ nextValue, name, param: eventConfig[name], shouldTrigger }));
 
-                isArray(eventConfig) && eventConfig.forEach(name => eventTrigger({ name, param: nextValue, isChanged, transform: false }));
+                isArray(eventConfig) && eventConfig.forEach(name => eventTrigger({ nextValue, name, param: nextValue, shouldTrigger, transform: false }));
 
-                isString(eventConfig) && eventTrigger({ name: eventConfig, param: nextValue, isChanged, transform: false });
+                isString(eventConfig) && eventTrigger({ nextValue, name: eventConfig, param: nextValue, shouldTrigger, transform: false });
             }
 
             // 2. Single event items
             if(isFunction(event)) {
-                eventTrigger({ param: eventConfig, isChanged });
+                eventTrigger({ nextValue, param: eventConfig, shouldTrigger });
             }
-            // If there is prop, it is controlled by self
-            if(prop !== undefined) return;
-
-            setInnerProp(nextValue);
         } else {
-            const nextValue = isFunction(config) ? config(value) : config;
-            const isChanged = nextValue !== value;
+            nextValue = isFunction(config) ? config(value) : config;
 
-            eventTrigger({ param: nextValue, isChanged, transform: false});
-
-            // If there is prop, it is controlled by self
-            if(prop !== undefined) return;
-
-            setInnerProp(nextValue);
+            eventTrigger({ nextValue, param: nextValue, transform: false});
         }
+        // If there is prop, it is controlled by self
+        if(prop !== undefined) return;
+
+        setInnerProp(nextValue);
     }, []);
 
     return [value, setValue, setInnerProp];

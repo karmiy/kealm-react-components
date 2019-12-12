@@ -3,17 +3,16 @@ import { noop } from 'utils/common/base';
 
 /* year-panel-props */
 export const YearPanelProps = {
-    // prefixCls: PropTypes.string,
-    // defaultYear: PropTypes.number,
-    // year: PropTypes.number,
     defaultValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
+    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
 }
 
 export const YearPanelDefaultProps = {
+    onChange: noop,
     onSelect: noop,
     disabled: false,
 }

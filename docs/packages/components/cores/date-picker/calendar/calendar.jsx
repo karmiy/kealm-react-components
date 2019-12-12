@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CalendarProps, CalendarDefaultProps } from './interface';
-import { useContextConf, useClassName, usePuppet } from 'hooks';
+import { useContextConf, useClassName, usePuppet, useController } from 'hooks';
 import CalendarHeader from './calendar-header';
 import CalendarBody from './calendar-body';
+
+const { createConfig } = useController;
 
 function Calendar(props) {
     const { componentCls } = useContextConf('calendar');
@@ -10,6 +12,7 @@ function Calendar(props) {
         className,
         defaultValue,
         value,
+        onChange,
         onSelect,
         disabled,
         visible,
@@ -21,13 +24,25 @@ function Calendar(props) {
         innerValue,
         setOuterValue,
         setInnerValue
-    ] = usePuppet(defaultValue, value, onSelect, null, disabled, false, true);
+    ] = usePuppet(defaultValue, value, { onChange, onSelect }, null, disabled, false);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [componentCls]: true,
         [className]: className,
     }, [componentCls, className]);
+
+    // ---------------------------------- event ----------------------------------
+    const onCalendarSelect = useCallback(v => {
+        setOuterValue(createConfig({
+            value: v,
+            event: ['onChange', 'onSelect'],
+            shouldTrigger: {
+                onChange: (prev, next) => !prev || prev && prev.getTime() !== next.getTime(),
+                onSelect: true,
+            },
+        }))
+    }, []);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -44,7 +59,7 @@ function Calendar(props) {
                 disabled={disabled}
                 value={innerValue}
                 selectedDate={outerValue}
-                onSelect={setOuterValue}
+                onSelect={onCalendarSelect}
             />
         </div>
     );

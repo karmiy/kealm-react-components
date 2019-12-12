@@ -283,22 +283,6 @@
                         color: $color-primary;
                     }
                 }
-                /*@include when(prev-decade) {
-                    .km-calendar-panel__date {
-                        color: $calendar-panel-cell-prev-decade-color;
-                    }
-                    &:not(.is-disabled) .km-calendar-panel__date:hover {
-                        background-color: transparent;
-                    }
-                }*/
-                /*@include when(next-decade) {
-                    .km-calendar-panel__date {
-                        color: $calendar-panel-cell-next-decade-color;
-                    }
-                    &:not(.is-disabled) .km-calendar-panel__date:hover {
-                        background-color: transparent;
-                    }
-                }*/
                 @include when(selected) {
                     .km-calendar-panel__date:hover {
                         color: $color-white;

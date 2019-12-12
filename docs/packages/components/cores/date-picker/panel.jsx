@@ -25,17 +25,24 @@ function Panel(props) {
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {
-        prefixCls,
         value,
         disabled,
-        onChange,
         visible,
     };
 
     return (
         <div className={`${prefixCls}-panel`}>
-            <Header {...commonProps} placeholder={placeholder} format={format} />
-            <Calendar {...commonProps} onSelect={onCalendarSelect} />
+            <Header
+                {...commonProps}
+                prefixCls={prefixCls}
+                placeholder={placeholder}
+                format={format}
+                onChange={onChange}
+            />
+            <Calendar
+                {...commonProps}
+                onSelect={onCalendarSelect}
+            />
         </div>
     );
 }

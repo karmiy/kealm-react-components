@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState } from 'react';
 import { YearHeaderProps, YearHeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
 import Icon from '../../icon';
-import DecadePanel from '../decade';
+import DecadePanel from '../decade-discarded';
 import { RenderWrapper } from '../../../common';
 import { getDecades, handleDate, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';

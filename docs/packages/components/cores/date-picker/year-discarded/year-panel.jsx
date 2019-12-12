@@ -1,16 +1,19 @@
 import React, { useCallback } from 'react';
-import { DecadePanelProps, DecadePanelDefaultProps } from './interface';
-import { useContextConf, useClassName, useDidUpdate, usePuppet } from 'hooks';
-import DecadeHeader from './decade-header';
-import DecadeBody from './decade-body';
+import { YearPanelProps, YearPanelDefaultProps } from './interface';
+import { useContextConf, useClassName, useDidUpdate, usePuppet, useController } from 'hooks';
+import YearHeader from './year-header';
+import YearBody from './year-body';
 
-function DecadePanel(props) {
+const { createConfig } = useController;
+
+function YearPanel(props) {
     const { componentCls } = useContextConf('calendar');
     const {
         className,
         defaultValue,
         value,
         disabled,
+        onChange,
         onSelect,
         visible,
     } = props;
@@ -21,12 +24,12 @@ function DecadePanel(props) {
         innerValue,
         setOuterValue,
         setInnerValue
-    ] = usePuppet(defaultValue, value, onSelect, null, disabled, false, true);
+    ] = usePuppet(defaultValue, value, { onChange, onSelect }, null, disabled, false);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [`${componentCls}-panel`]: true,
-        [`${componentCls}-decade`]: true,
+        [`${componentCls}-year`]: true,
         [className]: className,
     }, [componentCls, className]);
 
@@ -36,7 +39,16 @@ function DecadePanel(props) {
     }, [visible], true);
 
     // ---------------------------------- event ----------------------------------
-    const onDecadeSelect = useCallback((from, to) => setOuterValue(from, from, to), []);
+    const onYearSelect = useCallback(v => {
+        setOuterValue(createConfig({
+            value: v,
+            event: ['onChange', 'onSelect'],
+            shouldTrigger: {
+                onChange: (prev, next) => !prev || prev && prev.getTime() !== next.getTime(),
+                onSelect: true,
+            },
+        }))
+    }, []);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {
@@ -47,20 +59,21 @@ function DecadePanel(props) {
 
     return (
         <div className={classNames}>
-            <DecadeHeader
+            <YearHeader
                 {...commonProps}
                 onChange={setInnerValue}
+                visible={visible}
             />
-            <DecadeBody
+            <YearBody
                 {...commonProps}
                 selectedDate={outerValue}
-                onSelect={onDecadeSelect}
+                onSelect={onYearSelect}
             />
         </div>
     );
 }
 
-DecadePanel.propTypes = DecadePanelProps;
-DecadePanel.defaultProps = DecadePanelDefaultProps;
+YearPanel.propTypes = YearPanelProps;
+YearPanel.defaultProps = YearPanelDefaultProps;
 
-export default DecadePanel;
+export default YearPanel;

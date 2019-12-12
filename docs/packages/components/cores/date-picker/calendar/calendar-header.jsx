@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { CalendarHeaderProps, CalendarHeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
 import Icon from '../../icon';
-import YearPanel from '../year';
+import { YearPanel } from '../panels';
 import { RenderWrapper } from '../../../common';
 import { leftPad, mergeStr } from 'utils/common/base';
 import { handleDate, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
