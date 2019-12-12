@@ -101,7 +101,10 @@ function YearPanel(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <CreatePanel
-            className={prefixCls => `${prefixCls}-year ${className}`}
+            className={prefixCls => mergeStr({
+                [`${prefixCls}-year`]: true,
+                [className]: className,
+            })}
             data={data}
             headerPrev={{
                 className: prefixCls => `${prefixCls}__header-prev-decade`,

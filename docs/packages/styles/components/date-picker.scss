@@ -126,6 +126,7 @@
             width: 100%;
             max-width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
             &, & th, & td {
                 border: none;
                 text-align: center;
@@ -258,6 +259,7 @@
 
 @include b(calendar-panel) {
     display: flex;
+    position: relative;
     border-radius: 4px;
     outline: none;
     z-index: $z-index-large;
@@ -312,5 +314,13 @@
                 }
             }
         }
+    }
+
+    .km-calendar-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
     }
 }

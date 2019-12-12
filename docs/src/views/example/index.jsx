@@ -19,8 +19,7 @@ import addDomEventListener from 'add-dom-event-listener';
 import { isObject } from '../../../packages/utils/common/base';
 import { isElement } from 'react-is';
 import { isValidDate, isValidFormat, createCalendar } from 'utils/common/date';
-import YearPanel from '../../../packages/components/cores/date-picker/year-discarded';
-import DecadePanel from '../../../packages/components/cores/date-picker/decade-discarded';
+import { YearPanel, DecadePanel, MonthPanel } from '../../../packages/components/cores/date-picker/panels';
 import Calendar from '../../../packages/components/cores/date-picker/calendar';
 window.isValidDate = isValidDate;
 // console.log(useController);
@@ -109,7 +108,11 @@ function ExampleDoc() {
 
     // console.log('render');
     return (
-        <div>
+        <div style={{
+            width: '500px',
+            height: '300px',
+            border: '1px solid #e4e7ed'
+        }}>
             {/*{el}*/}
             {/*<div onClick={() => {
                 setCount(1);
@@ -123,8 +126,9 @@ function ExampleDoc() {
             </Radio.Group>
             <DatePicker />*/}
             {/*<DecadePanel onSelect={(v, u) => console.log(v, u, 'select')} onChange={(v, u) => console.log(v, u, 'change')} />*/}
-            <Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />
+            {/*<Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />*/}
             {/*<YearPanel defaultValue={new Date('2018-01-01 12:11:10')} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />*/}
+            <MonthPanel onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />
             <Button onClick={() => setVisible(v => !v)} >Update</Button>
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>

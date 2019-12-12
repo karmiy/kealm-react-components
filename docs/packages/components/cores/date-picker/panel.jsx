@@ -21,7 +21,7 @@ function Panel(props) {
         if(value && value.getTime() === selectedDate.getTime())
             return;
         onChange(selectedDate);
-    }, [value]);
+    }, [value, onChange]);
 
     // ---------------------------------- render ----------------------------------
     const commonProps = {

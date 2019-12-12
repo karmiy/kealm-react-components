@@ -689,3 +689,52 @@ export function createCenturyTable(year, isPad = true) {
 
     return centuryTable;
 }
+
+export function getMonth() {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+}
+
+const monthOptions = {
+    1: '一',
+    2: '二',
+    3: '三',
+    4: '四',
+    5: '五',
+    6: '六',
+    7: '七',
+    8: '八',
+    9: '九',
+    10: '十',
+    11: '十一',
+    12: '十二',
+}
+
+/**
+ * 构造月份表格  4 * 3
+ * @param year
+ * @returns {[]}
+ */
+export function createMonthTable(year) {
+    const COL_COUNT = 3;
+    const monthTable = [];
+    let currentCount = 0;
+
+    function addMonth(item, unShift = false) {
+        if(currentCount % COL_COUNT === 0) {
+            unShift ? monthTable.unshift([item]) : monthTable.push([item]);
+        } else {
+            unShift ? monthTable[0].unshift(item) : monthTable[monthTable.length - 1].push(item);
+        }
+        currentCount++;
+    }
+    const months = getMonth();
+    months.forEach(item => {
+        addMonth({
+            year,
+            month: item,
+            character: monthOptions[item],
+        })
+    });
+
+    return monthTable;
+}

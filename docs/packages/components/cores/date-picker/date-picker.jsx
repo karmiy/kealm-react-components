@@ -8,6 +8,8 @@ import {Icon} from "../index";
 import { RenderWrapper } from '../../common';
 import Panel from './panel';
 
+const { createConfig } = useController;
+
 function DatePicker(props) {
     const { componentCls, prefix } = useContextConf('date-picker');
     const {
@@ -41,19 +43,27 @@ function DatePicker(props) {
     const inputClassNames = useClassName({
         [componentCls]: true,
         [selectorClassName]: selectorClassName,
-    }, [componentCls, selectorClassName]);
+        'is-clearable': allowClear && dateValue && !disabled,
+        'is-disabled': disabled,
+    }, [componentCls, selectorClassName, allowClear, dateValue, disabled]);
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(e => {
         e.stopPropagation();
 
-        setDateValue(null);
+        setDateValue(createConfig({
+            value: null,
+            event: [null, ''],
+        }));
     }, []);
 
-    const onSelect = useCallback((...rest) => {
-        setDateValue(...rest);
+    const onSelect = useCallback(v => {
+        setDateValue(createConfig({
+            value: v,
+            event: [v, formatDate(v, format)],
+        }));
         // setIsVisible(false);
-    }, []);
+    }, [format]);
 
     // ---------------------------------- render mini chunk ----------------------------------
 

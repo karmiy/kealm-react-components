@@ -33,3 +33,12 @@ export const DecadePanelProps = {
 export const DecadePanelDefaultProps = {
     ...panelDefaultProps,
 }
+
+/* month-panel-props */
+export const MonthPanelProps = {
+    ...panelProps,
+}
+
+export const MonthPanelDefaultProps = {
+    ...panelDefaultProps,
+}

@@ -20,8 +20,19 @@ function DatePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box" style={{marginTop: '100px'}}>
-                        {/*<DatePicker defaultValue={new Date('9999-01-02')} onChange={v => console.log(v)} />*/}
-                        <DatePicker onChange={v => console.log(v)} />
+                        {/*<DatePicker defaultValue={new Date('2009-01-02 12:11:10')} onChange={v => console.log(v)} />*/}
+                        <DatePicker onChange={(date, dateString) => console.log(date, dateString)} />
+                    </div>
+                )
+            }, [])}
+
+            {/* 可清空 */}
+            <h2>可清空</h2>
+            <p>配置 allowClear 可使日期选择器允许清空选中的值。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <DatePicker allowClear onChange={(date, dateString) => console.log(date, dateString)} />
                     </div>
                 )
             }, [])}
