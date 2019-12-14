@@ -79,6 +79,20 @@ function logValidFormat(dateStr, format, expect, isStrict = true) {
     console.log(`verifyDate: ${dateStr}; expect: ${expect}; result: ${result}; ------------- pass: ${expect === result}`);
 }
 
+function P(props) {
+    return <div>{props.id} - {props.name}</div>
+}
+
+function createP(Component) {
+    return function (props) {
+        return (
+            <Component {...props} id={10} />
+        )
+    }
+}
+
+const PP = createP(P);
+
 function ExampleDoc() {
     const [count, setCount] = useState(0);
     const [visible, setVisible] = useState(false);
@@ -88,7 +102,7 @@ function ExampleDoc() {
 
     const func = useDebounce((v) => console.log(v), 2000, {leading: true, trailing: false});
     const func2 = useThrottle((v) => console.log(v), 2000);
-    const el = <K>123</K>
+    // const el = <K>123</K>
     // console.log(isElement(el));
     // console.log(el);
     /*logValidDate('2019-01-01 12:13:21', 'YYYY-MM-DD HH:mm:ss', true);
@@ -113,6 +127,7 @@ function ExampleDoc() {
             height: '300px',
             border: '1px solid #e4e7ed'
         }}>
+            <PP name={'kar'} />
             {/*{el}*/}
             {/*<div onClick={() => {
                 setCount(1);

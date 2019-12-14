@@ -1,69 +1,50 @@
 import React, { useMemo, useCallback } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
-import { DatePickerProps, DatePickerDefaultProps } from './interface';
+import { PickerProps, PickerDefaultProps } from './interface';
 import Input from '../input';
 import Trigger from '../trigger';
-import { formatDate } from 'utils/common/date';
-import {Icon} from "../index";
+import Icon from '../icon';
 import { RenderWrapper } from '../../common';
-import Panel from './panel';
 
-const { createConfig } = useController;
-
-function DatePicker(props) {
-    const { componentCls, prefix } = useContextConf('date-picker');
+function Picker(props) {
+    const { componentCls } = useContextConf('picker');
     const {
         className,
+        children,
         pickerClassName,
         pickerStyle,
+        pickerValue,
         defaultVisible,
         visible,
         onVisibleChange,
-        defaultPickerValue,
-        defaultValue,
-        value,
-        onChange,
         disabled,
         placeholder,
-        format,
         allowClear,
+        onClear: _onClear,
         ...others
     } = props;
 
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
-    const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null, disabled);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
-        [`${prefix}-picker-panel`]: true,
+        [`${componentCls}-panel`]: true,
         [className]: className,
     }, [className]);
 
     const inputClassNames = useClassName({
-        [componentCls]: true,
         [pickerClassName]: pickerClassName,
-        'is-clearable': allowClear && dateValue && !disabled,
+        'is-clearable': allowClear && !disabled,
         'is-disabled': disabled,
-    }, [componentCls, pickerClassName, allowClear, dateValue, disabled]);
+    }, [pickerClassName, allowClear, disabled]);
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(e => {
         e.stopPropagation();
 
-        setDateValue(createConfig({
-            value: null,
-            event: [null, ''],
-        }));
-    }, []);
-
-    const onSelect = useCallback(v => {
-        setDateValue(createConfig({
-            value: v,
-            event: [v, formatDate(v, format)],
-        }));
-        // setIsVisible(false);
-    }, [format]);
+        _onClear(e);
+    }, [_onClear]);
 
     // ---------------------------------- render mini chunk ----------------------------------
 
@@ -76,27 +57,17 @@ function DatePicker(props) {
                 </RenderWrapper>
             </div>
         )
-    }, [componentCls, allowClear]);
+    }, [allowClear, onClear]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderPanel = useMemo(() => {
-        const panelProps = {
-            prefixCls: componentCls,
-            value: dateValue,
-            onChange: onSelect,
-            placeholder,
-            disabled,
-            format,
-            visible: isVisible,
-            onVisibleChange: setIsVisible,
-        }
         return (
             <>
-                <Panel {...panelProps} />
+                {children}
                 <div className="popper__arrow" style={{left: '35px'}} />
             </>
         )
-    }, [componentCls, dateValue, placeholder, disabled, format, isVisible]);
+    }, [children]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -116,7 +87,7 @@ function DatePicker(props) {
         >
             <div className={inputClassNames} style={pickerStyle}>
                 <Input
-                    value={dateValue ? formatDate(dateValue, format) : ''}
+                    value={pickerValue}
                     readOnly
                     suffix={renderSuffix}
                     placeholder={placeholder}
@@ -127,7 +98,7 @@ function DatePicker(props) {
     );
 }
 
-DatePicker.propTypes = DatePickerProps;
-DatePicker.defaultProps = DatePickerDefaultProps;
+Picker.propTypes = PickerProps;
+Picker.defaultProps = PickerDefaultProps;
 
-export default DatePicker;
+export default Picker;

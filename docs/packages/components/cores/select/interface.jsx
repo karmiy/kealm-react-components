@@ -14,8 +14,8 @@ const VALUE_TYPE_OPTION = PropTypes.oneOfType([PropTypes.string, PropTypes.numbe
 export const dropdownCommonProps = {
     ...omit(CommonProps, ['trigger']),
     children: PropTypes.node,
-    selectorClassName: PropTypes.string,
-    selectorStyle: PropTypes.object,
+    pickerClassName: PropTypes.string,
+    pickerStyle: PropTypes.object,
 }
 
 export const dropdownCommonDefaultProps = {
