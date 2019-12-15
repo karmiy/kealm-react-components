@@ -9,12 +9,14 @@ export const CalendarProps = {
     onSelect: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
+    showWeek: PropTypes.bool,
 }
 
 export const CalendarDefaultProps = {
     onChange: noop,
     onSelect: noop,
     disabled: false,
+    showWeek: false,
 }
 
 /* calendar-header-props */
@@ -36,15 +38,15 @@ export const CalendarHeaderDefaultProps = {
 /* calendar-body-props */
 export const CalendarBodyProps = {
     prefixCls: PropTypes.string,
-    disabled: PropTypes.bool,
     value: PropTypes.instanceOf(Date),
-    // year: PropTypes.number,
-    // month: PropTypes.number,
+    disabled: PropTypes.bool,
+    showWeek: PropTypes.bool,
     selectedDate: PropTypes.instanceOf(Date),
     onSelect: PropTypes.func,
 }
 
 export const CalendarBodyDefaultProps = {
     disabled: false,
+    showWeek: false,
     onSelect: noop,
 }

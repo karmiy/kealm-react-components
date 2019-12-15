@@ -1,7 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { CalendarBodyProps, CalendarBodyDefaultProps } from './interface';
-import {createCalendar, MIN_SAFE_YEAR, MAX_SAFE_YEAR, handleDate} from 'utils/common/date';
+import { createCalendar, handleDate, weekOfYear, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
+import { RenderWrapper } from '../../../common';
 
 const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '七'];
 /*const dates = [
@@ -20,12 +21,20 @@ function CalendarBody(props) {
         value,
         selectedDate,
         onSelect,
+        showWeek,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
     const year = value ? value.getFullYear() : new Date().getFullYear(),
         month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
     const today = new Date();
+    const selectedWeek = value ? weekOfYear(value) : 0;
+
+    // ---------------------------------- class ----------------------------------
+    const tableClassName = mergeStr({
+       [`${prefixCls}__table`]: true,
+       'is-week': showWeek,
+    });
 
     // ---------------------------------- event ----------------------------------
     const onItemSelect = useCallback(item => {
@@ -43,8 +52,19 @@ function CalendarBody(props) {
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((dates, key) => {
+        const lastDate = dates[dates.length - 1];
+        const currentWeek = weekOfYear(new Date(lastDate.year, lastDate.month - 1, lastDate.date)),
+            isActiveWeek = showWeek && currentWeek === selectedWeek;
+
         return (
-            <tr key={key}>
+            <tr key={key} className={isActiveWeek ? 'is-active-week' : null}>
+                <RenderWrapper visible={showWeek} unmountOnExit>
+                    <td className={`${prefixCls}__cell`}>
+                        <span className={`${prefixCls}__date ${prefixCls}__date-week`}>
+                            {currentWeek}
+                        </span>
+                    </td>
+                </RenderWrapper>
                 {
                     dates.map(item => {
                         const isSelected = selectedDate
@@ -79,13 +99,16 @@ function CalendarBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, selectedDate, today, disabled, onItemSelect]);
+    }, [prefixCls, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderThead = useMemo(() => {
         return (
             <thead>
                 <tr>
+                    <RenderWrapper visible={showWeek} unmountOnExit>
+                        <td className={`${prefixCls}__column-header`} />
+                    </RenderWrapper>
                     {
                         WEEK_NAMES.map(week => {
                             return (
@@ -98,7 +121,7 @@ function CalendarBody(props) {
                 </tr>
             </thead>
         )
-    }, []);
+    }, [showWeek]);
 
     const renderTbody = useMemo(() => {
         const dates = createCalendar(year, month);
@@ -114,7 +137,7 @@ function CalendarBody(props) {
     // ---------------------------------- render ----------------------------------
     return (
         <div className={`${prefixCls}__body`}>
-            <table className={`${prefixCls}__table`} cellSpacing={0}>
+            <table className={tableClassName} cellSpacing={0}>
                 {renderThead}
                 {renderTbody}
             </table>

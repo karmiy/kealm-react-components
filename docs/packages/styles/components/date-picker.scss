@@ -3,34 +3,15 @@
 @import "./picker";
 
 @include b(date-picker) {
-    box-sizing: border-box;
-    display: inline-block;
-    position: relative;
     width: $date-picker-width;
-    margin: 0;
-    padding: 0;
-    outline: none;
-    list-style: none;
-    cursor: pointer;
+}
 
-    .km-input__inner {
-        cursor: pointer;
-    }
+@include b(month-picker) {
+    width: $date-picker-width;
+}
 
-    @include e(clear) {
-        display: none;
-    }
-
-    @include when(clearable) {
-        &:hover {
-            .km-date-picker__caret {
-                display: none;
-            }
-            .km-date-picker__clear {
-                display: inline-block;
-            }
-        }
-    }
+@include b(week-picker) {
+    width: $date-picker-width;
 }
 
 @include b(date-picker-panel) {
@@ -143,6 +124,30 @@
                 }
             }
 
+            @include when(week) {
+                tr {
+                    transition: background-color $transition-duration-base;
+
+                    &:hover {
+                        background-color: $calendar-row-week-hover-background-color;
+                    }
+
+                    @include when(active-week) {
+                        background-color: $calendar-row-week-hover-background-color;
+                    }
+
+                    .km-calendar__date, .km-calendar__date:hover {
+                        background-color: transparent;
+                    }
+
+                    .km-calendar__cell.is-selected {
+                        .km-calendar__date, .km-calendar__date:hover {
+                            background-color: transparent;
+                            color: inherit;
+                        }
+                    }
+                }
+            }
 
             @include e(cell) {
                 box-sizing: border-box;
@@ -170,23 +175,13 @@
                         background-color: $calendar-cell-hover-background-color;
                     }
                 }
-                /*@include when(prev-month) {
-                    .km-calendar__date {
-                        color: $calendar-cell-prev-month-color;
-                    }
-                    &:not(.is-disabled) .km-calendar__date:hover {
-                        background-color: transparent;
-                    }
-                }*/
 
-                /*@include when(next-month) {
-                    .km-calendar__date {
-                        color: $calendar-cell-next-month-color;
-                    }
-                    &:not(.is-disabled) .km-calendar__date:hover {
+                @include e(date-week) {
+                    color: $calendar-cell-week-color;
+                    &:hover {
                         background-color: transparent;
                     }
-                }*/
+                }
 
                 @include when(today) {
                     .km-calendar__date {
@@ -238,11 +233,11 @@
                             color: $calendar-cell-disabled-selected-color;
                         }
                     }
-                    &[class*="is-prev"], &[class*="is-next"] {
+                    /*&[class*="is-prev"], &[class*="is-next"] {
                         .km-calendar__date {
 
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -250,6 +245,8 @@
 
     .km-calendar-panel {
         position: absolute;
+        width: auto;
+        height: auto;
         top: 0;
         right: 0;
         bottom: 0;
@@ -260,6 +257,8 @@
 @include b(calendar-panel) {
     display: flex;
     position: relative;
+    width: $calendar-width;
+    height: $calendar-height;
     border-radius: 4px;
     outline: none;
     z-index: $z-index-large;
@@ -318,6 +317,8 @@
 
     .km-calendar-panel {
         position: absolute;
+        width: auto;
+        height: auto;
         top: 0;
         right: 0;
         bottom: 0;

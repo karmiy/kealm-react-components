@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { HeaderProps, HeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
-import Input from '../input';
+import Input from '../../input';
 import { catchFormatOptions, formatDate, isValidDate, handleDate } from 'utils/common/date';
 import { isEmpty } from 'utils/common/base';
 

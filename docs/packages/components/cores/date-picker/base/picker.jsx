@@ -1,10 +1,10 @@
 import React, { useMemo, useCallback } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { PickerProps, PickerDefaultProps } from './interface';
-import Input from '../input';
-import Trigger from '../trigger';
-import Icon from '../icon';
-import { RenderWrapper } from '../../common';
+import Input from '../../input';
+import Trigger from '../../trigger';
+import Icon from '../../icon';
+import { RenderWrapper } from '../../../common';
 
 function Picker(props) {
     const { componentCls } = useContextConf('picker');
@@ -34,6 +34,7 @@ function Picker(props) {
     }, [className]);
 
     const inputClassNames = useClassName({
+        [componentCls]: true,
         [pickerClassName]: pickerClassName,
         'is-clearable': allowClear && !disabled,
         'is-disabled': disabled,

@@ -1,6 +1,36 @@
 @import "../mixins/index";
 @import "../common/var";
 
+@include b(picker) {
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    list-style: none;
+    cursor: pointer;
+
+    .km-input__inner {
+        cursor: pointer;
+    }
+
+    @include e(clear) {
+        display: none;
+    }
+
+    @include when(clearable) {
+        &:hover {
+            .km-picker__caret {
+                display: none;
+            }
+            .km-picker__clear {
+                display: inline-block;
+            }
+        }
+    }
+}
+
 @include b(picker-panel) {
     box-sizing: border-box;
     position: absolute;

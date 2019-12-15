@@ -48,6 +48,8 @@ export function verifySafeTime(option, num) {
             return num >= 0 && num < 60; // 0 ~ 59
         case 'ss':
             return num >= 0 && num < 60; // 0 ~ 59
+        default:
+            return true;
     }
 }
 
@@ -407,6 +409,21 @@ export function dayOfYear(date) {
 export function daysInYear(date) {
     return (endOfYear(date) - beginOfYear(date)) / divisors.days;
 };
+
+/**
+ * 求日期是该年的第几周
+ * @param date
+ * * @returns {number}
+ */
+export function weekOfYear(date) {
+    const _date = new Date(date);
+    _date.setMonth(0);
+    _date.setDate(1);
+    const day = date.getDay() || 7,
+        _day = _date.getDay() || 7;
+    const diffDays = (date.getTime() - _date.getTime() + (_day - day) * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60 * 24);
+    return diffDays / 7 + 1;
+}
 
 /**
  * 求2个日期秒数之差

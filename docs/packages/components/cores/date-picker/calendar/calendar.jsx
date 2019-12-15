@@ -16,6 +16,7 @@ function Calendar(props) {
         onSelect,
         disabled,
         visible,
+        showWeek,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -60,6 +61,7 @@ function Calendar(props) {
                 value={innerValue}
                 selectedDate={outerValue}
                 onSelect={onCalendarSelect}
+                showWeek={showWeek}
             />
         </div>
     );

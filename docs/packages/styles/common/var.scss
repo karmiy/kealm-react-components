@@ -732,6 +732,7 @@ $date-picker-panel-border-color: $border-color-light !default;
 
 // calendar
 $calendar-width: 280px !default;
+$calendar-height: 290px !default;
 $calendar-color: $color-text-regular !default;
 $calendar-header-height: 40px !default;
 $calendar-header-select-color: $color-text-primary !default;
@@ -742,12 +743,16 @@ $calendar-header-btn-color-hover: $color-text-thin-dark-7 !default;
 $calendar-column-header-width: 33px !default;
 $calendar-column-header-height: 18px !default;
 
+
+$calendar-row-week-hover-background-color: $background-color-colourful !default;
+
 $calendar-cell-height: 30px !default;
 $calendar-cell-date-width: 24px !default;
 $calendar-cell-hover-background-color: $background-color-colourful !default;
 //$calendar-cell-prev-month-color: $color-text-placeholder !default;
 //$calendar-cell-next-month-color: $calendar-cell-prev-month-color !default;
 $calendar-cell-prev-next-color: $color-text-placeholder !default;
+$calendar-cell-week-color: $color-text-disabled !default;
 //$calendar-cell-next-color: $calendar-cell-prev-color !default;
 
 $calendar-cell-disabled-color: $color-text-placeholder !default;
