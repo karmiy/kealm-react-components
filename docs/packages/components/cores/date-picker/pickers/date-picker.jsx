@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useContextConf, useController } from 'hooks';
 import { DatePickerProps, DatePickerDefaultProps } from './interface';
 import { formatDate } from 'utils/common/date';
@@ -76,7 +76,7 @@ function DatePicker(props) {
                 value={dateValue}
                 disabled={disabled}
                 visible={isVisible}
-                prefixCls={componentCls}
+                prefixCls={`${componentCls}-panel`}
                 placeholder={placeholder}
                 format={format}
                 onChange={onDateChange}

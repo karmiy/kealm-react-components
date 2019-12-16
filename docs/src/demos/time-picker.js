@@ -61,7 +61,7 @@ export const CodeFormat =
                     <Col>
                         <TimePicker 
                             defaultValue={new Date('2019-12-31 09:23:45')} 
-                            onChange={v => console.log(v)} 
+                            onChange={(time, timeStr) => console.log(time, timeStr)} 
                             allowClear
                         ></TimePicker>
                     </Col>
@@ -76,7 +76,7 @@ export const CodeFormat =
                         <TimePicker 
                             defaultValue={new Date('2019-12-31 09:23:45')} 
                             format={'HH:mm'} 
-                            onChange={v => console.log(v)} 
+                            onChange={(time, timeStr) => console.log(time, timeStr)} 
                             allowClear
                         ></TimePicker>
                     </Col>
@@ -91,7 +91,7 @@ export const CodeFormat =
                         <TimePicker 
                             defaultValue={new Date('2019-12-31 09:23:45')} 
                             format={'mm:ss'} 
-                            onChange={v => console.log(v)} 
+                            onChange={(time, timeStr) => console.log(time, timeStr)} 
                             allowClear
                         ></TimePicker>
                     </Col>
@@ -106,7 +106,7 @@ export const CodeFormat =
                         <TimePicker 
                             defaultValue={new Date('2019-12-31 09:23:45')} 
                             format={'HH~mm~ss'} 
-                            onChange={v => console.log(v)} 
+                            onChange={(time, timeStr) => console.log(time, timeStr)} 
                             allowClear
                         ></TimePicker>
                     </Col>
@@ -127,7 +127,7 @@ export const Code12Hours =
        <TimePicker 
             defaultOpenValue={new Date('2019-12-31 08:23:45')} 
             format={'hh:mm:ss'} 
-            onChange={v => console.log(v)}
+            onChange={(time, timeStr) => console.log(time, timeStr)}
             allowClear
         ></TimePicker>,
         mountNode
@@ -143,7 +143,7 @@ export const CodeStep =
             minuteStep={15} 
             secondStep={10} 
             format={'hh:mm:ss'} 
-            onChange={v => console.log(v)}
+            onChange={(time, timeStr) => console.log(time, timeStr)}
             allowClear
         ></TimePicker>,
         mountNode
@@ -160,7 +160,7 @@ export const CodeDisabledOptions =
                     disabledHours={() => [1, 2, 3]}
                     disabledMinutes={() => [4, 5, 6]}
                     disabledSeconds={() => [7, 8, 9]}
-                    onChange={v => console.log(v)}
+                    onChange={(time, timeStr) => console.log(time, timeStr)}
                     allowClear
                 ></TimePicker>
             </Col>
@@ -170,7 +170,7 @@ export const CodeDisabledOptions =
                     disabledHours={() => [1, 2, 3]}
                     disabledMinutes={() => [4, 5, 6]}
                     disabledSeconds={() => [7, 8, 9]}
-                    onChange={v => console.log(v)}
+                    onChange={(time, timeStr) => console.log(time, timeStr)}
                     allowClear
                 ></TimePicker>
             </Col>

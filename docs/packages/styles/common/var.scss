@@ -733,6 +733,7 @@ $date-picker-panel-border-color: $border-color-light !default;
 // calendar
 $calendar-width: 280px !default;
 $calendar-height: 290px !default;
+$calendar-week-width: 288px !default;
 $calendar-color: $color-text-regular !default;
 $calendar-header-height: 40px !default;
 $calendar-header-select-color: $color-text-primary !default;
@@ -749,11 +750,8 @@ $calendar-row-week-hover-background-color: $background-color-colourful !default;
 $calendar-cell-height: 30px !default;
 $calendar-cell-date-width: 24px !default;
 $calendar-cell-hover-background-color: $background-color-colourful !default;
-//$calendar-cell-prev-month-color: $color-text-placeholder !default;
-//$calendar-cell-next-month-color: $calendar-cell-prev-month-color !default;
 $calendar-cell-prev-next-color: $color-text-placeholder !default;
 $calendar-cell-week-color: $color-text-disabled !default;
-//$calendar-cell-next-color: $calendar-cell-prev-color !default;
 
 $calendar-cell-disabled-color: $color-text-placeholder !default;
 $calendar-cell-disabled-background-color: $disabled-background-base !default;
@@ -762,6 +760,3 @@ $calendar-cell-disabled-selected-background-color: $disabled-background-active !
 $calendar-cell-disabled-today-color: $color-text-disabled !default;
 $calendar-cell-disabled-today-border-color: $disabled-border-active !default;
 $calendar-cell-disabled-today-background-color: $disabled-background-active !default;
-
-//$calendar-panel-cell-prev-decade-color: $calendar-cell-prev-month-color !default;
-//$calendar-panel-cell-next-decade-color: $calendar-panel-cell-prev-decade-color !default;

@@ -18,7 +18,7 @@ export const CommonDefaultProps = {
     onChange: noop,
     disabled: false,
     placeholder: '请选择日期',
-    format: 'YYYY-MM-DD',
+    format: 'yyyy-MM-dd',
     allowClear: false,
 }
 
@@ -39,7 +39,7 @@ export const MonthPickerProps = {
 export const MonthPickerDefaultProps = {
     ...CommonDefaultProps,
     placeholder: '请选择月份',
-    format: 'YYYY-MM',
+    format: 'yyyy-MM',
 }
 
 /* week-picker-props */
@@ -50,5 +50,5 @@ export const WeekPickerProps = {
 export const WeekPickerDefaultProps = {
     ...CommonDefaultProps,
     placeholder: '请选择周数',
-    format: 'YYYY-MM',
+    format: 'YYYY 第ww周',
 }

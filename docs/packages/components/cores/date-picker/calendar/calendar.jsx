@@ -30,8 +30,9 @@ function Calendar(props) {
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
         [componentCls]: true,
+        'is-week': showWeek,
         [className]: className,
-    }, [componentCls, className]);
+    }, [componentCls, className, showWeek]);
 
     // ---------------------------------- event ----------------------------------
     const onCalendarSelect = useCallback(v => {

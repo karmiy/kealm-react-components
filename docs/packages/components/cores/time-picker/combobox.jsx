@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { ComboboxProps, ComboboxDefaultProps } from './interface';
 import { leftPad } from 'utils/common/base';
-import { handleDate } from 'utils/common/date';
+import { set } from 'date-fns';
 import Select from './select';
 
 function generateOptions(length, step = 1, disabledOptions = [], disabled = false) {
@@ -53,13 +53,13 @@ function meridianOptions(disabled = false) {
         {
             key: 0,
             value: 'am',
-            label: 'am',
+            label: 'AM',
             disabled,
         },
         {
             key: 1,
             value: 'pm',
-            label: 'pm',
+            label: 'PM',
             disabled,
         }
     ]
@@ -86,7 +86,6 @@ function Combobox(props) {
         disabled,
         visible,
         format,
-        isAM,
         hourStep,
         minuteStep,
         secondStep,
@@ -104,6 +103,7 @@ function Combobox(props) {
         showMinutes = format.includes('mm'),
         showSeconds = format.includes('ss');
     const is12Hours = format.includes('hh');
+    const isAM = value ? value.getHours() < 12 : (defaultOpenValue ? defaultOpenValue.getHours() < 12 : true); // am or pm for hh
 
     // ---------------------------------- event ----------------------------------
     const onSelect = useCallback((option, index, type) => {
@@ -112,9 +112,9 @@ function Combobox(props) {
             ?
             new Date(defaultOpenValue)
             :
-            handleDate(createEmptyTime(null), selectOptions);
-        onChange(v => new Date(handleDate(v || emptyDate, selectOptions)));
-    }, [defaultOpenValue, is12Hours, isAM]);
+            set(createEmptyTime(null), selectOptions);
+        onChange(set(value || emptyDate, selectOptions));
+    }, [value, onChange, defaultOpenValue, is12Hours, isAM]);
 
     const onMeridianSelect = useCallback(option => {
         const emptyDate = defaultOpenValue
@@ -122,12 +122,10 @@ function Combobox(props) {
             new Date(defaultOpenValue)
             :
             createEmptyTime(null);
-        onChange(v => {
-            v = v || emptyDate;
-            const selectOptions = {'hour': option.value === 'am' ? v.getHours() % 12 : (v.getHours() % 12 + 12)};
-            return new Date(handleDate(v, selectOptions));
-        })
-    }, [onChange, defaultOpenValue]);
+        const nextDate = value || emptyDate;
+        const selectOptions = {'hours': option.value === 'am' ? nextDate.getHours() % 12 : (nextDate.getHours() % 12 + 12)};
+        onChange(set(nextDate, selectOptions))
+    }, [value, onChange, defaultOpenValue]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderHoursSelect = useMemo(() => {
@@ -145,7 +143,7 @@ function Combobox(props) {
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
-                type={'hour'}
+                type={'hours'}
                 onSelect={onSelect}
                 hideDisabledOptions={hideDisabledOptions}
             />
@@ -163,7 +161,7 @@ function Combobox(props) {
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
-                type={'minute'}
+                type={'minutes'}
                 onSelect={onSelect}
                 hideDisabledOptions={hideDisabledOptions}
             />
@@ -181,7 +179,7 @@ function Combobox(props) {
                 visible={visible}
                 selectedIndex={selectedIndex}
                 options={options}
-                type={'second'}
+                type={'seconds'}
                 onSelect={onSelect}
                 hideDisabledOptions={hideDisabledOptions}
             />

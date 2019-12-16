@@ -1,4 +1,5 @@
-import {leftPad, transRegExpSpec} from './base';
+import { leftPad, transRegExpSpec } from './base';
+import { parse, format, isValid, differenceInMilliseconds, addMilliseconds } from 'date-fns';
 
 export const MAX_SAFE_YEAR = 9999;
 export const MIN_SAFE_YEAR = 100;
@@ -231,6 +232,24 @@ export function handleDate(date, Options = {}, isFormat = false) {
 }
 
 /**
+ * 根据 format 解析转换日期
+ * @param dateStr
+ * @param formatStr
+ * @param backupDate
+ * @param isStrict
+ * @returns {Date}
+ */
+export function parseDate(dateStr, formatStr, backupDate, isStrict = true) {
+    const _nextDate = parse(dateStr, formatStr, backupDate); // 转换后可能时分秒会变 00:00:00
+    if(!isValid(_nextDate)) return _nextDate;
+    if(isStrict && format(_nextDate, formatStr) !== dateStr) return new Date('');
+
+    const _prevDate = parse(format(backupDate, formatStr), formatStr, backupDate);
+    const diffMilliseconds = differenceInMilliseconds(_nextDate, _prevDate);
+    return addMilliseconds(backupDate, diffMilliseconds);
+}
+
+/**
  * 设置时间
  * @param date
  * @param time
@@ -271,24 +290,12 @@ export function handleDate(date, Options = {}, isFormat = false) {
 /**
  * 格式化日期
  * @param date: Date
- * @param fmt: string, 如'YYYY-MM-DD hh:mm:ss'
+ * @param fmt: string
+ * @param options
  * @returns {string}
  */
-export function formatDate(date, fmt) {
-    const o = {
-        "M+": date.getMonth() + 1, // 月
-        "D+": date.getDate(), // 日
-        "H+": date.getHours(), // 24小时制
-        "h+": date.getHours() % 12 === 0 ? 12 : date.getHours() % 12, // 12小时制
-        "m+": date.getMinutes(), // 分
-        "s+": date.getSeconds(), // 秒
-        "q+": Math.floor((date.getMonth() + 3) / 3), // 季度
-        "S": date.getMilliseconds() //毫秒
-    };
-    if (/(Y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, leftPad((date.getFullYear() + "").substr(4 - RegExp.$1.length), RegExp.$1.length, '0'));
-    for (let k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
+export function formatDate(date, fmt, options = { weekStartsOn: 1, useAdditionalWeekYearTokens: true }) {
+    return format(date, fmt, options)
 }
 
 /**

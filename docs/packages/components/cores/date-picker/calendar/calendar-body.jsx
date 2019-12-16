@@ -1,8 +1,9 @@
 import React, { useMemo, useCallback } from 'react';
 import { CalendarBodyProps, CalendarBodyDefaultProps } from './interface';
-import { createCalendar, handleDate, weekOfYear, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
+import { createCalendar, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
 import { RenderWrapper } from '../../../common';
+import { getWeek, set } from 'date-fns';
 
 const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '七'];
 /*const dates = [
@@ -28,7 +29,7 @@ function CalendarBody(props) {
     const year = value ? value.getFullYear() : new Date().getFullYear(),
         month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
     const today = new Date();
-    const selectedWeek = value ? weekOfYear(value) : 0;
+    const selectedWeek = value ? getWeek(value, { weekStartsOn: 1 }) : 0;
 
     // ---------------------------------- class ----------------------------------
     const tableClassName = mergeStr({
@@ -47,13 +48,13 @@ function CalendarBody(props) {
             && selectedDate.getMonth() + 1 === month
             && selectedDate.getDate() === date;
         if(!isCurrentSelected) onChange(year, month, date);*/
-        onSelect(v => handleDate(new Date(v || new Date()), { year, month, date }));
+        onSelect(v => set(v || new Date(), { year, month: month - 1, date }));
     }, [disabled]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((dates, key) => {
         const lastDate = dates[dates.length - 1];
-        const currentWeek = weekOfYear(new Date(lastDate.year, lastDate.month - 1, lastDate.date)),
+        const currentWeek = getWeek(new Date(lastDate.year, lastDate.month - 1, lastDate.date), { weekStartsOn: 1 }),
             isActiveWeek = showWeek && currentWeek === selectedWeek;
 
         return (

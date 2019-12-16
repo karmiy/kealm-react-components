@@ -102,7 +102,7 @@ function TimePickerDoc() {
                         <div className="detail-box">
                             <Row type={'flex'} align={'middle'} gutter={20}>
                                 <Col>
-                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} onChange={v => console.log(v)} allowClear />
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} onChange={(time, timeStr) => console.log(time, timeStr)} allowClear />
                                 </Col>
                                 <Col className={'font-bold'}>
                                     HH:mm:ss
@@ -112,7 +112,7 @@ function TimePickerDoc() {
                         <div className="detail-box">
                             <Row type={'flex'} align={'middle'} gutter={20}>
                                 <Col>
-                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH:mm'} onChange={v => console.log(v)} allowClear />
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH:mm'} onChange={(time, timeStr) => console.log(time, timeStr)} allowClear />
                                 </Col>
                                 <Col className={'font-bold'}>
                                     HH:mm
@@ -122,7 +122,7 @@ function TimePickerDoc() {
                         <div className="detail-box">
                             <Row type={'flex'} align={'middle'} gutter={20}>
                                 <Col>
-                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'mm:ss'} onChange={v => console.log(v)} allowClear />
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'mm:ss'} onChange={(time, timeStr) => console.log(time, timeStr)} allowClear />
                                 </Col>
                                 <Col className={'font-bold'}>
                                     mm:ss
@@ -132,7 +132,7 @@ function TimePickerDoc() {
                         <div className="detail-box">
                             <Row type={'flex'} align={'middle'} gutter={20}>
                                 <Col>
-                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH~mm~ss'} onChange={v => console.log(v)} allowClear />
+                                    <TimePicker defaultValue={new Date('2019-12-31 09:23:45')} format={'HH~mm~ss'} onChange={(time, timeStr) => console.log(time, timeStr)} allowClear />
                                 </Col>
                                 <Col className={'font-bold'}>
                                     HH~mm~ss
@@ -146,11 +146,11 @@ function TimePickerDoc() {
 
             {/* 12 小时制 */}
             <h2>12 小时制</h2>
-            <p>12 小时制的时间选择器，在 format 设置 hh 时生效。</p>
+            <p>12 小时制的时间选择器，在 format 设置 hh:mm:ss a 时生效。</p>
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        <TimePicker defaultOpenValue={new Date('2019-12-31 08:23:45')} format={'hh:mm:ss'} onChange={v => console.log(v)} allowClear />
+                        <TimePicker defaultOpenValue={new Date('2019-12-31 08:23:45')} format={'hh:mm:ss a'} onChange={(time, timeStr) => console.log(time, timeStr)} allowClear />
                     </div>
                 )
             }, [])}
@@ -162,7 +162,7 @@ function TimePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        <TimePicker hourStep={2} minuteStep={15} secondStep={10} format={'hh:mm:ss'} onChange={v => console.log(v)} allowClear />
+                        <TimePicker hourStep={2} minuteStep={15} secondStep={10} format={'hh:mm:ss a'} onChange={(time, timeStr) => console.log(time, timeStr)} allowClear />
                     </div>
                 )
             }, [])}
@@ -181,7 +181,7 @@ function TimePickerDoc() {
                                     disabledHours={() => [1, 2, 3]}
                                     disabledMinutes={() => [4, 5, 6]}
                                     disabledSeconds={() => [7, 8, 9]}
-                                    onChange={v => console.log(v)}
+                                    onChange={(time, timeStr) => console.log(time, timeStr)}
                                     allowClear
                                 />
                             </Col>
@@ -191,7 +191,7 @@ function TimePickerDoc() {
                                     disabledHours={() => [1, 2, 3]}
                                     disabledMinutes={() => [4, 5, 6]}
                                     disabledSeconds={() => [7, 8, 9]}
-                                    onChange={v => console.log(v)}
+                                    onChange={(time, timeStr) => console.log(time, timeStr)}
                                     allowClear
                                 />
                             </Col>

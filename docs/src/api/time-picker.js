@@ -145,7 +145,7 @@ export const timePickerEvents = [
     {
         name: 'onChange',
         des: '时间发生变化的回调',
-        callback: '(value: Date)',
+        callback: '(time: Date, timeStr: string)',
     },
     {
         name: 'onVisibleChange',

@@ -2,10 +2,11 @@ import React, { useCallback, useState, useMemo } from 'react';
 import { MonthPanelProps, MonthPanelDefaultProps } from './interface';
 import { useDidUpdate, usePuppet, useController } from 'hooks';
 import CreatePanel from '../utils/create-panel';
-import { createMonthTable, handleDate, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
+import { createMonthTable, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 import YearPanel from './year-panel';
 import { RenderWrapper } from '../../../common';
 import { mergeStr } from 'utils/common/base';
+import { set } from 'date-fns';
 
 const { createConfig } = useController;
 
@@ -53,13 +54,13 @@ function MonthPanel(props) {
 
     const onPrevYear = useCallback(() => {
         if(disabled || isMinYear) return;
-        setInnerValue(v => handleDate(new Date(v || new Date()), { year: year - 1 }));
+        setInnerValue(v => set(v || new Date(), { year: year - 1 }));
     }, [disabled, year, isMinYear]);
 
     const onNextYear = useCallback(() => {
         if(disabled || isMaxYear) return;
 
-        setInnerValue(v => handleDate(new Date(v || new Date()), { year: year + 1 }));
+        setInnerValue(v => set(v || new Date(), { year: year + 1 }));
     }, [disabled, year, isMaxYear]);
 
     const onYearSelect = useCallback(selectedDate => {
@@ -70,7 +71,7 @@ function MonthPanel(props) {
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
-        onMonthSelect(v => handleDate(new Date(v || new Date()), { year: item.year, month: item.month }));
+        onMonthSelect(v => set(v || new Date(), { year: item.year, month: item.month - 1 }));
     }, [disabled]);
 
     // ---------------------------------- function ----------------------------------

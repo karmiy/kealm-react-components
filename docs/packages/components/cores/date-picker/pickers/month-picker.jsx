@@ -1,10 +1,10 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useContextConf, useController } from 'hooks';
 import { MonthPickerProps, MonthPickerDefaultProps } from './interface';
-import { formatDate } from 'utils/common/date';
 import { MonthPanel } from '../panels'
 import Picker from '../base/picker';
 import { mergeStr } from 'utils/common/base';
+import { formatDate } from 'utils/common/date';
 
 const { createConfig } = useController;
 

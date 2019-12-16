@@ -1,10 +1,10 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useContextConf, useController } from 'hooks';
 import { WeekPickerProps, WeekPickerDefaultProps } from './interface';
-import { formatDate } from 'utils/common/date';
 import Calendar from '../calendar';
 import Picker from '../base/picker';
 import { mergeStr } from 'utils/common/base';
+import { formatDate } from 'utils/common/date';
 
 const { createConfig } = useController;
 
@@ -42,7 +42,7 @@ function WeekPicker(props) {
     const onDateChange = useCallback(v => {
         setDateValue(createConfig({
             value: v,
-            event: [v, formatDate(v, format)],
+            event: [v, formatDate(v, format, { weekStartsOn: 1, useAdditionalWeekYearTokens: true })],
         }));
     }, [format]);
 
@@ -62,7 +62,7 @@ function WeekPicker(props) {
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
-            pickerValue={dateValue ? formatDate(dateValue, format) : ''}
+            pickerValue={dateValue ? formatDate(dateValue, format, { weekStartsOn: 1, useAdditionalWeekYearTokens: true }) : ''}
             visible={isVisible}
             onVisibleChange={setIsVisible}
             disabled={disabled}
@@ -72,6 +72,7 @@ function WeekPicker(props) {
             {...others}
         >
             <Calendar
+                className={`${componentCls}-week`}
                 value={dateValue}
                 disabled={disabled}
                 visible={isVisible}

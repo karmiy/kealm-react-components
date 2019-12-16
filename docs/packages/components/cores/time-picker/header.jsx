@@ -2,62 +2,19 @@ import React, { useState, useCallback } from 'react';
 import { HeaderProps, HeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
 import Input from '../input';
-import { formatDate, isValidDate, handleDate, catchFormatOptions } from 'utils/common/date';
-import { isEmpty } from 'utils/common/base';
+import { formatDate, parseDate } from 'utils/common/date';
+import { isValid, isEqual } from 'date-fns';
 
-function verifySteps(formatOptions, hourStep = 1, minuteStep = 1, secondStep = 1) {
-    const optionSteps = {
-        'HH': hourStep,
-        'hh': hourStep,
-        'mm': minuteStep,
-        'ss': secondStep,
-    };
-    let isPass = true;
-    for(let option in formatOptions) {
-        if(formatOptions.hasOwnProperty(option)) {
-            const value = formatOptions[option];
-            if(value % optionSteps[option] !== 0) {
-                isPass = false;
-                break;
-            }
-        }
-    }
-    return isPass;
+function verifySteps(date, hourStep = 1, minuteStep = 1, secondStep = 1) {
+    return date.getHours() % hourStep === 0
+        && date.getMinutes() % minuteStep === 0
+        && date.getSeconds() % secondStep === 0;
 }
 
-function verifyTimeChanged(prevDate, formatOptions) {
-    if(!prevDate) return true;
-
-    let hourChanged = false, minuteChanged = false, secondChanged = false;
-    if(!isEmpty(formatOptions['HH']) && formatOptions['HH'] !== prevDate.getHours()) hourChanged = true;
-    if(!isEmpty(formatOptions['hh']) && formatOptions['hh'] !== prevDate.getHours()) hourChanged = true;
-    if(!isEmpty(formatOptions['mm']) && formatOptions['mm'] !== prevDate.getMinutes()) minuteChanged = true;
-    if(!isEmpty(formatOptions['ss']) && formatOptions['ss'] !== prevDate.getSeconds()) secondChanged = true;
-
-    return hourChanged || minuteChanged || secondChanged;
-}
-
-function verifyDisabledOptions(formatOptions, disabledHours = [], disabledMinutes = [], disabledSeconds = []) {
-    let isPass = true;
-    for(let option in formatOptions) {
-        if(formatOptions.hasOwnProperty(option)) {
-            const value = formatOptions[option];
-            switch (option) {
-                case 'HH':
-                case 'hh':
-                    disabledHours.includes(value) && (isPass = false);
-                    break;
-                case 'mm':
-                    disabledMinutes.includes(value) && (isPass = false);
-                    break;
-                case 'ss':
-                    disabledSeconds.includes(value) && (isPass = false);
-                    break;
-            }
-            if(!isPass) break;
-        }
-    }
-    return isPass;
+function verifyDisabledOptions(date, disabledHours = [], disabledMinutes = [], disabledSeconds = []) {
+    return !disabledHours.includes(date.getHours())
+        && !disabledMinutes.includes(date.getMinutes())
+        && !disabledSeconds.includes(date.getSeconds());
 }
 
 function Header(props) {
@@ -69,7 +26,6 @@ function Header(props) {
         placeholder,
         disabled,
         format,
-        isAM,
         visible,
         hourStep,
         minuteStep,
@@ -101,30 +57,23 @@ function Header(props) {
             return;
         }
 
-        if(!isValidDate(v, format)) return;
+        const prevDate = value || defaultOpenValue || new Date();
+        const nextDate = parseDate(v, format, prevDate);
+        // is format error ?
+        if(!isValid(nextDate)) return;
 
-        const formatOptions = catchFormatOptions(v, format);
-
-        // am: 12:YY:YY === 00:YY:YY
-        if(formatOptions['hh'] === 12) formatOptions['hh'] = 0;
-
-        if(!verifySteps(formatOptions, hourStep, minuteStep, secondStep)) return;
-
-        // hh(pm): XX:YY:YY === HH: (XX+12):YY:YY
-        if(!isAM && !isEmpty(formatOptions['hh'])) {
-            formatOptions['HH'] = formatOptions['hh'] + 12;
-            delete formatOptions['hh'];
-        }
+        // is step error ?
+        if(!verifySteps(nextDate, hourStep, minuteStep, secondStep)) return;
 
         // in disabledOptions ?
-        if(!verifyDisabledOptions(formatOptions, disabledHours, disabledMinutes, disabledSeconds)) return;
+        if(!verifyDisabledOptions(nextDate, disabledHours, disabledMinutes, disabledSeconds)) return;
 
         // is value changed ?
-        const prevValue = value || defaultOpenValue;
-        if(!verifyTimeChanged(prevValue, formatOptions)) return;
+        if(isEqual(prevDate, nextDate)) return;
 
-        onChange(new Date(handleDate(prevValue, formatOptions, true)));
-    }, [value, defaultOpenValue, onChange, format, isAM, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
+        onChange(nextDate);
+
+    }, [value, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
 
 
     // ---------------------------------- render ----------------------------------

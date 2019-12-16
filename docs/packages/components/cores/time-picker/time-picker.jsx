@@ -4,10 +4,13 @@ import { TimePickerProps, TimePickerDefaultProps } from './interface';
 import Input from '../input';
 import {Icon} from "../index";
 import Trigger from '../trigger';
-import Header from './header';
+// import Header from './header';
+import Header from '../date-picker/parts/header';
 import Combobox from './combobox';
 import { RenderWrapper } from '../../common';
 import { formatDate } from 'utils/common/date'
+
+const { createConfig } = useController;
 
 function TimePicker(props) {
     const { componentCls, prefix } = useContextConf('time-picker');
@@ -41,7 +44,6 @@ function TimePicker(props) {
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
     const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null, disabled);
-    const isAM = dateValue ? dateValue.getHours() < 12 : (defaultOpenValue ? defaultOpenValue.getHours() < 12 : true); // am or pm for hh
     const selectedHour = dateValue ? dateValue.getHours() : (defaultOpenValue ? defaultOpenValue.getHours() : 0),
         selectedMinute = dateValue ? dateValue.getMinutes() : (defaultOpenValue ? defaultOpenValue.getMinutes() : 0);
     const disabledHours = useMemo(() => _disabledHours(), [_disabledHours]),
@@ -65,8 +67,18 @@ function TimePicker(props) {
     const onClear = useCallback(e => {
         e.stopPropagation();
 
-        setDateValue(null);
+        setDateValue(createConfig({
+            value: null,
+            event: [null, ''],
+        }));
     }, []);
+
+    const onDateChange = useCallback(v => {
+        setDateValue(createConfig({
+            value: v,
+            event: [v, formatDate(v, format)],
+        }));
+    }, [format]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSuffix = useMemo(() => {
@@ -84,13 +96,12 @@ function TimePicker(props) {
     const panelDependencies = [
         componentCls,
         dateValue,
-        setDateValue,
+        onDateChange,
         defaultOpenValue,
         placeholder,
         disabled,
         isVisible,
         format,
-        isAM,
         hourStep,
         minuteStep,
         secondStep,
@@ -105,7 +116,7 @@ function TimePicker(props) {
 
         return (
             <div className={`${componentCls}-panel__addon`}>
-                {addon(dateValue, setDateValue)}
+                {addon(dateValue, onDateChange)}
             </div>
         );
     }, [addon, dateValue]);
@@ -115,10 +126,9 @@ function TimePicker(props) {
             prefixCls: `${componentCls}-panel`,
             defaultOpenValue,
             value: dateValue,
-            onChange: setDateValue,
+            onChange: onDateChange,
             disabled,
             format,
-            isAM,
             visible: isVisible,
             hourStep,
             minuteStep,

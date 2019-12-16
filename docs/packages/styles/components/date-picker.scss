@@ -36,6 +36,10 @@
     font-size: $font-size-base;
     color: $calendar-color;
 
+    @include when(week) {
+        width: $calendar-week-width;
+    }
+
     @include e(header) {
         box-sizing: border-box;
         height: $calendar-header-height;

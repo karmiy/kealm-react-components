@@ -49,7 +49,6 @@ const HeaderComboboxCommonProps = {
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
     format: PropTypes.string,
-    isAM: PropTypes.bool,
     visible: PropTypes.bool,
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,

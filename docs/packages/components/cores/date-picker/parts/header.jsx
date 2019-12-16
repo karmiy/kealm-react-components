@@ -2,29 +2,37 @@ import React, { useState, useCallback } from 'react';
 import { HeaderProps, HeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
 import Input from '../../input';
-import { catchFormatOptions, formatDate, isValidDate, handleDate } from 'utils/common/date';
-import { isEmpty } from 'utils/common/base';
+import { parseDate, formatDate } from 'utils/common/date';
+import { isValid, isEqual } from 'date-fns';
 
-function verifyDateChanged(prevDate, formatOptions) {
-    if(!prevDate) return true;
+function verifySteps(date, hourStep = 1, minuteStep = 1, secondStep = 1) {
+    return date.getHours() % hourStep === 0
+        && date.getMinutes() % minuteStep === 0
+        && date.getSeconds() % secondStep === 0;
+}
 
-    let yearChanged = false, monthChanged = false, dateChanged = false;
-    if(!isEmpty(formatOptions['YYYY']) && formatOptions['YYYY'] !== prevDate.getFullYear()) yearChanged = true;
-    if(!isEmpty(formatOptions['MM']) && formatOptions['MM'] !== prevDate.getMonth() + 1) monthChanged = true;
-    if(!isEmpty(formatOptions['DD']) && formatOptions['DD'] !== prevDate.getDate()) dateChanged = true;
-
-    return yearChanged || monthChanged || dateChanged;
+function verifyDisabledOptions(date, disabledHours = [], disabledMinutes = [], disabledSeconds = []) {
+    return !disabledHours.includes(date.getHours())
+        && !disabledMinutes.includes(date.getMinutes())
+        && !disabledSeconds.includes(date.getSeconds());
 }
 
 function  Header(props) {
     const {
         prefixCls,
+        defaultOpenValue,
         value,
         onChange,
         placeholder,
         disabled,
         format,
         visible,
+        hourStep,
+        minuteStep,
+        secondStep,
+        disabledHours,
+        disabledMinutes,
+        disabledSeconds,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -49,19 +57,26 @@ function  Header(props) {
             return;
         }
 
-        if(!isValidDate(v, format)) return;
+        const prevDate = value || defaultOpenValue || new Date();
+        const nextDate = parseDate(v, format, prevDate);
+        // is format error ?
+        if(!isValid(nextDate)) return;
 
-        const formatOptions = catchFormatOptions(v, format);
+        // is step error ?
+        if(!verifySteps(nextDate, hourStep, minuteStep, secondStep)) return;
+
+        // in disabledOptions ?
+        if(!verifyDisabledOptions(nextDate, disabledHours, disabledMinutes, disabledSeconds)) return;
 
         // is value changed ?
-        if(!verifyDateChanged(value, formatOptions)) return;
+        if(isEqual(prevDate, nextDate)) return;
 
-        onChange(new Date(handleDate(value, formatOptions, true)));
-    }, [value, onChange, format]);
+        onChange(nextDate);
+    }, [value, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div className={`${prefixCls}-panel__input-wrap`}>
+        <div className={`${prefixCls}__input-wrap`}>
             <Input value={inputValue} onChange={onInputChange} placeholder={placeholder} disabled={disabled} size={'small'} />
         </div>
     );
