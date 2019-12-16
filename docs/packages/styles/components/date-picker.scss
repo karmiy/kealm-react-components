@@ -14,6 +14,10 @@
     width: $date-picker-width;
 }
 
+@include b(range-picker) {
+    width: $date-picker-width;
+}
+
 @include b(date-picker-panel) {
     @include e(input-wrap) {
         padding: 7px 12px;
@@ -201,6 +205,23 @@
                     }
                 }
 
+                @include when(range) {
+                    position: relative;
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        display: block;
+                        top: 4px;
+                        right: 0;
+                        bottom: 4px;
+                        left: 0;
+                        z-index: $z-index-negative;
+                        border: 0;
+                        border-radius: 0;
+                        background-color: $calendar-cell-range-color;
+                    }
+                }
+
                 &[class*="is-prev"], &[class*="is-next"] {
                     .km-calendar__date {
                         background-color: transparent;
@@ -327,5 +348,15 @@
         right: 0;
         bottom: 0;
         left: 0;
+    }
+}
+
+@include b(range-calendar) {
+    @include e(body) {
+        display: flex;
+
+        @include e(part) {
+
+        }
     }
 }

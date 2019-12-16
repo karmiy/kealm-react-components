@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { DatePicker } from '@kealm/react-components';
+import { DatePicker, Row, Col } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 
-const { MonthPicker, WeekPicker } = DatePicker;
+const { MonthPicker, WeekPicker, RangePicker } = DatePicker;
 
 function DatePickerDoc() {
     const [value, setValue] = useState(null);
@@ -44,14 +44,27 @@ function DatePickerDoc() {
             <p>更多的日期选择单位，可以选择月、周。</p>
             {useMemo(() => {
                 return (
-                    <>
-                        <div className="detail-box">
-                            <MonthPicker allowClear onChange={(date, dateString) => console.log(date, dateString)} />
-                        </div>
-                        <div className="detail-box">
-                            <WeekPicker allowClear onChange={(date, dateString) => console.log(date, dateString)} />
-                        </div>
-                    </>
+                    <div className="detail-box">
+                        <Row gutter={16}>
+                            <Col>
+                                <MonthPicker allowClear onChange={(date, dateString) => console.log(date, dateString)} />
+                            </Col>
+                            <Col>
+                                <WeekPicker allowClear onChange={(date, dateString) => console.log(date, dateString)} />
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
+
+            {/* 选择日期范围 */}
+            <h2>选择日期范围</h2>
+            <p>可在一个选择器中便捷地选择一个日期范围。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <RangePicker onChange={(date, dateString) => console.log(date, dateString)} />
+                    </div>
                 )
             }, [])}
 

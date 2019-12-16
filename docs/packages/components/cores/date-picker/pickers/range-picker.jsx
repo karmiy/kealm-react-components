@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
 import { useContextConf, useController } from 'hooks';
-import { WeekPickerProps, WeekPickerDefaultProps } from './interface';
-import Calendar from '../calendar';
-import Picker from '../base/picker';
-import { mergeStr } from 'utils/common/base';
+import { RangePickerProps, RangePickerDefaultProps } from './interface';
 import { formatDate } from 'utils/common/date';
+import Picker from '../base/picker';
+import RangeCalendar from '../range';
+import { mergeStr } from 'utils/common/base';
 
 const { createConfig } = useController;
 
-function WeekPicker(props) {
-    const { componentCls } = useContextConf('week-picker');
+function RangePicker(props) {
+    const { componentCls } = useContextConf('range-picker');
     const {
         className,
         pickerClassName,
@@ -34,15 +34,15 @@ function WeekPicker(props) {
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(() => {
         setDateValue(createConfig({
-            value: null,
-            event: [null, ''],
+            value: [],
+            event: [[], ['', '']],
         }));
     }, []);
 
     const onDateChange = useCallback(v => {
         setDateValue(createConfig({
             value: v,
-            event: [v, formatDate(v, format, { weekStartsOn: 1, useAdditionalWeekYearTokens: true })],
+            event: [v, formatDate(v, format)],
         }));
     }, [format]);
 
@@ -62,7 +62,7 @@ function WeekPicker(props) {
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
-            pickerValue={dateValue ? formatDate(dateValue, format, { weekStartsOn: 1, useAdditionalWeekYearTokens: true }) : ''}
+            pickerValue={dateValue ? formatDate(dateValue, format) : ''}
             visible={isVisible}
             onVisibleChange={setIsVisible}
             disabled={disabled}
@@ -71,18 +71,12 @@ function WeekPicker(props) {
             onClear={onClear}
             {...others}
         >
-            <Calendar
-                value={dateValue}
-                disabled={disabled}
-                visible={isVisible}
-                onSelect={onCalendarSelect}
-                showWeek
-            />
+            <RangeCalendar />
         </Picker>
     );
 }
 
-WeekPicker.propTypes = WeekPickerProps;
-WeekPicker.defaultProps = WeekPickerDefaultProps;
+RangePicker.propTypes = RangePickerProps;
+RangePicker.defaultProps = RangePickerDefaultProps;
 
-export default WeekPicker;
+export default RangePicker;

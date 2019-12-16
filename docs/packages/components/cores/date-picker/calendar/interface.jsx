@@ -5,6 +5,8 @@ import { noop } from 'utils/common/base';
 export const CalendarProps = {
     defaultValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
+    hoverValue: PropTypes.array,
+    selectedValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     disabled: PropTypes.bool,

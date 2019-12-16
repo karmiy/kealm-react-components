@@ -12,6 +12,7 @@ function Calendar(props) {
         className,
         defaultValue,
         value,
+        selectedValue,
         onChange,
         onSelect,
         disabled,

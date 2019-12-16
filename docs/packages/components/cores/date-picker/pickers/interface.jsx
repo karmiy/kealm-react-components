@@ -52,3 +52,14 @@ export const WeekPickerDefaultProps = {
     placeholder: '请选择周数',
     format: 'YYYY 第ww周',
 }
+
+/* range-picker-props */
+export const RangePickerProps = {
+    ...CommonProps,
+    defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+    value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+}
+
+export const RangePickerDefaultProps = {
+    ...CommonDefaultProps,
+}
