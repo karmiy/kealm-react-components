@@ -125,7 +125,8 @@ function ExampleDoc() {
     // console.log('render');
     const [rangeValue, setRangeValue] = useState();
     const rangeChange = (e1, e2) => {
-        setRangeValue([e1.target.value, e2.target.value])
+        // setRangeValue([e1.target.value, e2.target.value])
+        console.log(e1.target.value, e2.target.value);
     }
     return (
         <div style={{
@@ -136,7 +137,7 @@ function ExampleDoc() {
             {/*<PP name={'kar'} />*/}
             <Input style={{marginBottom: '20px'}} suffix={'star-full'} allowClear />
             <RangeInput
-                value={rangeValue}
+                defaultValue={rangeValue}
                 // allowClear
                 startPlaceholder={'开始日期'}
                 endPlaceholder={'结束日期'}
@@ -145,6 +146,8 @@ function ExampleDoc() {
                 // onKeyDown={(e) => console.log(e.target.value)}
                 // onKeyUp={(e) => console.log(e.target.value)}
                 suffix={'calendar'}
+                // disabled
+                // readOnly
             />
             {/*{el}*/}
             {/*<div onClick={() => {

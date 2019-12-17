@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useMemo } from 'react';
+import React, { useCallback, useRef, useMemo, useState } from 'react';
 import { RangeInputProps, RangeInputDefaultProps } from './interface';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { extract, omit } from 'utils/common/object';
@@ -20,7 +20,6 @@ function RangeInput(props) {
     const { componentCls } = useContextConf('input');
     const { componentCls: rangeCls } = useContextConf('range-input');
     const {
-        children,
         className,
         defaultValue,
         value,
@@ -28,6 +27,7 @@ function RangeInput(props) {
         onKeyDown,
         onPressEnter,
         onFocus,
+        onBlur,
         disabled,
         allowClear,
         startPlaceholder,
@@ -35,7 +35,6 @@ function RangeInput(props) {
         prefix,
         suffix,
         size,
-        maxLength,
         inputStyle,
         separator,
         ...others
@@ -47,9 +46,9 @@ function RangeInput(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [rangeValue, setRangeValue] = useController(defaultValue, value, onChange, [], disabled);
-    const rootRef = useRef(null);
     const leftInputRef = useRef(null), rightInputRef = useRef(null);
     const hasSuffix = allowClear || suffix;
+    const [isFocus, setIsFocus] = useState(false);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -59,32 +58,22 @@ function RangeInput(props) {
         [`${rangeCls}--suffix`] : hasSuffix,
         [`${rangeCls}--prefix`] : prefix,
         [`${rangeCls}--${size}`] : size,
+        'is-focus': isFocus,
         [className]: className,
-    }, [className, componentCls, rangeCls, disabled, hasSuffix, prefix, size]);
+    }, [className, componentCls, rangeCls, disabled, hasSuffix, prefix, size, isFocus]);
 
     // ---------------------------------- event ----------------------------------
-    const onLeftInputChange = useCallback(e => {
-        const rightInputEle = rightInputRef.current;
+    const onInputChange = useCallback(e => {
+        const isLeft = e.target === leftInputRef.current;
+         const anotherInputEle = isLeft ? rightInputRef.current : leftInputRef.current;
         const event = Object.create(e);
-        event.target = rightInputEle;
-        event.currentTarget = rightInputEle;
+        event.target = anotherInputEle;
+        event.currentTarget = anotherInputEle;
 
         setRangeValue(createConfig({
-            value: [e.target.value, event.target.value],
-            event: [e, event],
+            value: isLeft ? [e.target.value, event.target.value] : [event.target.value, e.target.value],
+            event: isLeft ? [e, event] : [event, e],
         }))
-    }, []);
-
-    const onRightInputChange = useCallback(e => {
-        const leftInputEle = leftInputRef.current;
-        const event = Object.create(e);
-        event.target = leftInputEle;
-        event.currentTarget = leftInputEle;
-
-        setRangeValue(createConfig({
-            value: [event.target.value, e.target.value],
-            event: [event, e],
-        }));
     }, []);
 
     const onClear = useCallback(e => {
@@ -119,10 +108,14 @@ function RangeInput(props) {
     }, [onPressEnter, onKeyDown]);
 
     const onFocusTrigger = useCallback((e) => {
-        // rootRef.current.focus();
-
+        setIsFocus(true);
         onFocus && onFocus(e);
     }, [onFocus]);
+
+    const onBlurTrigger = useCallback((e) => {
+        setIsFocus(false);
+        onBlur && onBlur(e);
+    }, [onBlur]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderPrefixEle = useMemo(() => {
@@ -188,16 +181,17 @@ function RangeInput(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <div ref={rootRef} tabIndex={0} className={classNames} {...rootOthers}>
+        <div tabIndex={0} className={classNames} {...rootOthers}>
             <input
                 ref={leftInputRef}
-                className={`${rangeCls}__inner`}
+                className={`${componentCls}__inner`}
                 style={inputStyle}
                 type="text"
                 value={rangeValue[0] || ''}
-                onChange={onLeftInputChange}
+                onChange={onInputChange}
                 onKeyDown={onKeydownTrigger}
                 onFocus={onFocusTrigger}
+                onBlur={onBlurTrigger}
                 placeholder={startPlaceholder}
                 disabled={disabled}
                 {...inputOthers}
@@ -205,15 +199,17 @@ function RangeInput(props) {
             <span className={`${rangeCls}__separator`}>{separator}</span>
             <input
                 ref={rightInputRef}
-                className={`${rangeCls}__inner`}
+                className={`${componentCls}__inner`}
                 style={inputStyle}
                 type="text"
                 value={rangeValue[1] || ''}
-                onChange={onRightInputChange}
+                onChange={onInputChange}
                 onKeyDown={onKeydownTrigger}
                 onFocus={onFocusTrigger}
+                onBlur={onBlurTrigger}
                 placeholder={endPlaceholder}
                 disabled={disabled}
+                {...inputOthers}
             />
             {renderPrefixWrapper}
             {renderSuffixWrapper}

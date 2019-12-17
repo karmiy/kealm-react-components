@@ -6,9 +6,10 @@ import Trigger from '../../trigger';
 import Icon from '../../icon';
 import { RenderWrapper } from '../../../common';
 
+const { RangeInput } = Input;
+
 function Picker(props) {
     const { componentCls } = useContextConf('picker');
-    const { componentCls: rangeComponentCls } = useContextConf('range-input');
     const {
         className,
         children,
@@ -99,25 +100,10 @@ function Picker(props) {
                     />
                 </RenderWrapper>
                 <RenderWrapper visible={isRange} unmountOnExit>
-                    <div tabIndex={0} className={rangeComponentCls}>
-                        <input
-                            className={`${rangeComponentCls}__inner`}
-                            type="text"
-                            value={pickerValue}
-                            readOnly
-                            placeholder={placeholder}
-                            disabled={disabled}
-                        />
-                        <span className={`${rangeComponentCls}__separator`}>~</span>
-                        <input
-                            className={`${rangeComponentCls}__inner`}
-                            type="text"
-                            value={pickerValue}
-                            readOnly
-                            placeholder={placeholder}
-                            disabled={disabled}
-                        />
-                    </div>
+                    <RangeInput
+                        value={pickerValue}
+
+                    />
                 </RenderWrapper>
             </div>
         </Trigger>
