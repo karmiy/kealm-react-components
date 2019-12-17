@@ -5,8 +5,16 @@ import { formatDate } from 'utils/common/date';
 import Picker from '../base/picker';
 import RangeCalendar from '../range';
 import { mergeStr } from 'utils/common/base';
+import Calendar from "../calendar";
 
 const { createConfig } = useController;
+
+/*function formatRangeDate(rangeDate = []) {
+    if(!rangeDate || !rangeDate.length) return '';
+
+    const dateStr = '';
+
+}*/
 
 function RangePicker(props) {
     const { componentCls } = useContextConf('range-picker');
@@ -62,16 +70,21 @@ function RangePicker(props) {
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
-            pickerValue={dateValue ? formatDate(dateValue, format) : ''}
+            pickerValue={''}
             visible={isVisible}
             onVisibleChange={setIsVisible}
             disabled={disabled}
             placeholder={placeholder}
             allowClear={!!(allowClear && dateValue)}
             onClear={onClear}
+            isRange
             {...others}
         >
-            <RangeCalendar />
+            <RangeCalendar
+                value={dateValue}
+                disabled={disabled}
+                visible={isVisible}
+            />
         </Picker>
     );
 }

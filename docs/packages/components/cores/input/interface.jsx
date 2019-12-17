@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { noop } from 'utils/common/base';
+import { omit } from 'utils/common/object';
 
 /* input-common-props */
 export const AbstractInputProps = {
@@ -78,6 +79,26 @@ export const SearchDefaultProps = {
     ...AbstractInputDefaultProps,
     enterButton: false,
     onSearch: noop,
+}
+
+/* range-input-props */
+export const RangeInputProps = {
+    ...omit(AbstractInputProps, ['placeholder']),
+    defaultValue: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.arrayOf(PropTypes.string),
+    allowClear: PropTypes.bool,
+    prefix: PropTypes.node,
+    suffix: PropTypes.node,
+    size: PropTypes.oneOf(['large', 'small']),
+    startPlaceholder: PropTypes.string,
+    endPlaceholder: PropTypes.string,
+    separator: PropTypes.node,
+}
+
+export const RangeInputDefaultProps = {
+    ...AbstractInputDefaultProps,
+    allowClear: false,
+    separator: '~'
 }
 
 /*

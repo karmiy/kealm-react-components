@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types';
-import { noop } from 'utils/common/base';
+import { noop, emptyArr } from 'utils/common/base';
 
 /* calendar-props */
 export const CalendarProps = {
     defaultValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
-    hoverValue: PropTypes.array,
-    selectedValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
     showWeek: PropTypes.bool,
+    cellRender: PropTypes.func,
 }
 
 export const CalendarDefaultProps = {
@@ -40,11 +39,13 @@ export const CalendarHeaderDefaultProps = {
 /* calendar-body-props */
 export const CalendarBodyProps = {
     prefixCls: PropTypes.string,
+    defaultPickerValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     disabled: PropTypes.bool,
     showWeek: PropTypes.bool,
     selectedDate: PropTypes.instanceOf(Date),
     onSelect: PropTypes.func,
+    cellRender: PropTypes.func,
 }
 
 export const CalendarBodyDefaultProps = {

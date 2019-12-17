@@ -11,9 +11,10 @@ import { set } from 'date-fns';
 function CalendarHeader(props) {
     const {
         prefixCls,
-        disabled,
+        defaultPickerValue,
         value,
         onChange,
+        disabled,
         visible,
     } = props;
 

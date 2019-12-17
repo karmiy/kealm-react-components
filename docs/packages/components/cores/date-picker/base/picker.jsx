@@ -8,6 +8,7 @@ import { RenderWrapper } from '../../../common';
 
 function Picker(props) {
     const { componentCls } = useContextConf('picker');
+    const { componentCls: rangeComponentCls } = useContextConf('range-input');
     const {
         className,
         children,
@@ -21,6 +22,7 @@ function Picker(props) {
         placeholder,
         allowClear,
         onClear: _onClear,
+        isRange,
         ...others
     } = props;
 
@@ -87,13 +89,36 @@ function Picker(props) {
             {...others}
         >
             <div className={inputClassNames} style={pickerStyle}>
-                <Input
-                    value={pickerValue}
-                    readOnly
-                    suffix={renderSuffix}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                />
+                <RenderWrapper visible={!isRange} unmountOnExit>
+                    <Input
+                        value={pickerValue}
+                        readOnly
+                        suffix={renderSuffix}
+                        placeholder={placeholder}
+                        disabled={disabled}
+                    />
+                </RenderWrapper>
+                <RenderWrapper visible={isRange} unmountOnExit>
+                    <div tabIndex={0} className={rangeComponentCls}>
+                        <input
+                            className={`${rangeComponentCls}__inner`}
+                            type="text"
+                            value={pickerValue}
+                            readOnly
+                            placeholder={placeholder}
+                            disabled={disabled}
+                        />
+                        <span className={`${rangeComponentCls}__separator`}>~</span>
+                        <input
+                            className={`${rangeComponentCls}__inner`}
+                            type="text"
+                            value={pickerValue}
+                            readOnly
+                            placeholder={placeholder}
+                            disabled={disabled}
+                        />
+                    </div>
+                </RenderWrapper>
             </div>
         </Trigger>
     );

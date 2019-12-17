@@ -24,6 +24,8 @@ import Calendar from '../../../packages/components/cores/date-picker/calendar';
 window.isValidDate = isValidDate;
 // console.log(useController);
 
+const { RangeInput } = Input;
+
 function T(props) {
     console.log('T');
     return (
@@ -121,13 +123,29 @@ function ExampleDoc() {
     // logValidFormat('59?11', 'mm?ss', true);
 
     // console.log('render');
+    const [rangeValue, setRangeValue] = useState();
+    const rangeChange = (e1, e2) => {
+        setRangeValue([e1.target.value, e2.target.value])
+    }
     return (
         <div style={{
-            width: '500px',
+            width: '334px',
             height: '300px',
             border: '1px solid #e4e7ed'
         }}>
-            <PP name={'kar'} />
+            {/*<PP name={'kar'} />*/}
+            <Input style={{marginBottom: '20px'}} suffix={'star-full'} allowClear />
+            <RangeInput
+                value={rangeValue}
+                // allowClear
+                startPlaceholder={'开始日期'}
+                endPlaceholder={'结束日期'}
+                onChange={rangeChange}
+                onPressEnter={(v, e) => console.log(v, e)}
+                // onKeyDown={(e) => console.log(e.target.value)}
+                // onKeyUp={(e) => console.log(e.target.value)}
+                suffix={'calendar'}
+            />
             {/*{el}*/}
             {/*<div onClick={() => {
                 setCount(1);
@@ -143,8 +161,8 @@ function ExampleDoc() {
             {/*<DecadePanel onSelect={(v, u) => console.log(v, u, 'select')} onChange={(v, u) => console.log(v, u, 'change')} />*/}
             {/*<Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />*/}
             {/*<YearPanel defaultValue={new Date('2018-01-01 12:11:10')} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />*/}
-            <MonthPanel onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />
-            <Button onClick={() => setVisible(v => !v)} >Update</Button>
+            {/*<MonthPanel onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />*/}
+            {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>
     )

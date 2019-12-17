@@ -15,7 +15,7 @@
 }
 
 @include b(range-picker) {
-    width: $date-picker-width;
+    width: $range-picker-width;
 }
 
 @include b(date-picker-panel) {
@@ -205,6 +205,20 @@
                     }
                 }
 
+                @include when(start-date) {
+                    .km-calendar__date {
+                        background-color: $color-primary;
+                        color: $color-white;
+                    }
+                }
+
+                @include when(end-date) {
+                    .km-calendar__date {
+                        background-color: $color-primary;
+                        color: $color-white;
+                    }
+                }
+
                 @include when(range) {
                     position: relative;
                     &:before {
@@ -258,6 +272,20 @@
                             color: $calendar-cell-disabled-selected-color;
                         }
                     }
+                    /*@include when(start-date) {
+                        .km-calendar__date {
+                            width: $calendar-cell-date-width;
+                            background-color: $calendar-cell-disabled-selected-background-color;
+                            color: $calendar-cell-disabled-selected-color;
+                        }
+                    }
+                    @include when(end-date) {
+                        .km-calendar__date {
+                            width: $calendar-cell-date-width;
+                            background-color: $calendar-cell-disabled-selected-background-color;
+                            color: $calendar-cell-disabled-selected-color;
+                        }
+                    }*/
                     /*&[class*="is-prev"], &[class*="is-next"] {
                         .km-calendar__date {
 

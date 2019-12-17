@@ -12,12 +12,12 @@ function Calendar(props) {
         className,
         defaultValue,
         value,
-        selectedValue,
         onChange,
         onSelect,
         disabled,
         visible,
         showWeek,
+        cellRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -52,18 +52,19 @@ function Calendar(props) {
         <div className={classNames}>
             <CalendarHeader
                 prefixCls={componentCls}
-                disabled={disabled}
                 value={innerValue}
                 onChange={setInnerValue}
+                disabled={disabled}
                 visible={visible}
             />
             <CalendarBody
                 prefixCls={componentCls}
-                disabled={disabled}
                 value={innerValue}
                 selectedDate={outerValue}
                 onSelect={onCalendarSelect}
+                disabled={disabled}
                 showWeek={showWeek}
+                cellRender={cellRender}
             />
         </div>
     );

@@ -37,8 +37,8 @@ function CreatePanel(props) {
                         });
 
                         return (
-                            <td key={key} className={cellClassName}>
-                                <span className={`${componentCls}-panel__date ${componentCls}__date`} onClick={isDisabled ? null : onClick}>
+                            <td key={key} className={cellClassName} onClick={isDisabled ? null : onClick}>
+                                <span className={`${componentCls}-panel__date ${componentCls}__date`}>
                                     {content}
                                 </span>
                             </td>

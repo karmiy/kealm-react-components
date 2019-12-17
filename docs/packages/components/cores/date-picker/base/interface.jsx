@@ -10,6 +10,7 @@ export const PickerProps = {
     placeholder: PropTypes.string,
     allowClear: PropTypes.bool,
     onClear: PropTypes.func,
+    isRange: PropTypes.bool,
 }
 
 export const PickerDefaultProps = {
@@ -19,4 +20,5 @@ export const PickerDefaultProps = {
     placeholder: '请选择',
     allowClear: false,
     onClear: noop,
+    isRange: false,
 }

@@ -144,8 +144,8 @@ function Input(props) {
         return (
             <span className={`${componentCls}__suffix`}>
                 <span className={`${componentCls}__suffix-inner`}>
-                    {renderClearEle}
                     {renderSuffixEle}
+                    {renderClearEle}
                     {renderLimitCount}
                 </span>
             </span>

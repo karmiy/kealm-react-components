@@ -762,3 +762,12 @@ export function createMonthTable(year) {
 
     return monthTable;
 }
+
+/**
+ * 日期排序
+ * @param dates
+ * @param isASC
+ */
+export function sortDates(dates, isASC = true) {
+    return [...dates].sort((a, b) => sortDates ? a.getTime() - b.getTime() : b.getTime() - a.getTime());
+}
