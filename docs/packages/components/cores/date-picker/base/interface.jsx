@@ -5,12 +5,15 @@ import { noop } from 'utils/common/base';
 /* picker-props */
 export const PickerProps = {
     ...dropdownCommonProps, // defaultVisible ...
-    pickerValue: PropTypes.string,
+    pickerValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     allowClear: PropTypes.bool,
     onClear: PropTypes.func,
+    size: PropTypes.oneOf(['large', 'small']),
     isRange: PropTypes.bool,
+    startPlaceholder: PropTypes.string,
+    endPlaceholder: PropTypes.string,
 }
 
 export const PickerDefaultProps = {

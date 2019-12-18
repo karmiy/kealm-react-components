@@ -22,11 +22,13 @@ function Picker(props) {
         disabled,
         placeholder,
         allowClear,
+        size,
         onClear: _onClear,
         isRange,
+        startPlaceholder,
+        endPlaceholder,
         ...others
     } = props;
-
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
 
@@ -90,21 +92,27 @@ function Picker(props) {
             {...others}
         >
             <div className={inputClassNames} style={pickerStyle}>
-                <RenderWrapper visible={!isRange} unmountOnExit>
+                {
+                    !isRange ?
                     <Input
                         value={pickerValue}
                         readOnly
                         suffix={renderSuffix}
                         placeholder={placeholder}
+                        size={size}
                         disabled={disabled}
                     />
-                </RenderWrapper>
-                <RenderWrapper visible={isRange} unmountOnExit>
+                    :
                     <RangeInput
                         value={pickerValue}
-
+                        readOnly
+                        suffix={renderSuffix}
+                        startPlaceholder={startPlaceholder}
+                        endPlaceholder={endPlaceholder}
+                        size={size}
+                        disabled={disabled}
                     />
-                </RenderWrapper>
+                }
             </div>
         </Trigger>
     );

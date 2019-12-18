@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { dropdownCommonProps, dropdownCommonDefaultProps } from '../../select/interface';
 import { noop } from 'utils/common/base';
+import { omit } from 'utils/common/object';
 
 export const CommonProps = {
     ...dropdownCommonProps, // defaultVisible ...
@@ -55,11 +56,15 @@ export const WeekPickerDefaultProps = {
 
 /* range-picker-props */
 export const RangePickerProps = {
-    ...CommonProps,
+    ...omit(CommonProps, ['placeholder']),
     defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+    startPlaceholder: PropTypes.string,
+    endPlaceholder: PropTypes.string,
 }
 
 export const RangePickerDefaultProps = {
-    ...CommonDefaultProps,
+    ...omit(CommonDefaultProps, ['placeholder']),
+    startPlaceholder: '开始日期',
+    endPlaceholder: '结束日期',
 }

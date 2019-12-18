@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { ComboboxProps, ComboboxDefaultProps } from './interface';
 import { leftPad } from 'utils/common/base';
-import { set } from 'date-fns';
+import { set, startOfDay } from 'date-fns';
 import Select from './select';
 
 function generateOptions(length, step = 1, disabledOptions = [], disabled = false) {
@@ -65,18 +65,6 @@ function meridianOptions(disabled = false) {
     ]
 }
 
-/**
- * Create a date, hour minute second is 0
- * @param date
- */
-function createEmptyTime(date) {
-    date = date || new Date();
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    return date;
-}
-
 function Combobox(props) {
     const {
         prefixCls,
@@ -112,7 +100,7 @@ function Combobox(props) {
             ?
             new Date(defaultOpenValue)
             :
-            set(createEmptyTime(null), selectOptions);
+            set(startOfDay(new Date()), selectOptions);
         onChange(set(value || emptyDate, selectOptions));
     }, [value, onChange, defaultOpenValue, is12Hours, isAM]);
 
@@ -121,7 +109,7 @@ function Combobox(props) {
             ?
             new Date(defaultOpenValue)
             :
-            createEmptyTime(null);
+            startOfDay(new Date());
         const nextDate = value || emptyDate;
         const selectOptions = {'hours': option.value === 'am' ? nextDate.getHours() % 12 : (nextDate.getHours() % 12 + 12)};
         onChange(set(nextDate, selectOptions))

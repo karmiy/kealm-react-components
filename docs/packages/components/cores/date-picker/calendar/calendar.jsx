@@ -18,6 +18,7 @@ function Calendar(props) {
         visible,
         showWeek,
         cellRender,
+        disabledDate,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -26,7 +27,7 @@ function Calendar(props) {
         innerValue,
         setOuterValue,
         setInnerValue
-    ] = usePuppet(defaultValue, value, { onChange, onSelect }, null, disabled, false);
+    ] = usePuppet(defaultValue, value, { onChange, onSelect }, null, disabled, false, false);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -65,6 +66,7 @@ function Calendar(props) {
                 disabled={disabled}
                 showWeek={showWeek}
                 cellRender={cellRender}
+                disabledDate={disabledDate}
             />
         </div>
     );

@@ -3,7 +3,7 @@ import { CalendarBodyProps, CalendarBodyDefaultProps } from './interface';
 import { createCalendar, MIN_SAFE_YEAR, MAX_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr, isFunction } from 'utils/common/base';
 import { RenderWrapper } from '../../../common';
-import { getWeek, set, isBefore, isAfter } from 'date-fns';
+import { getWeek, set, startOfDay } from 'date-fns';
 
 const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '七'];
 /*const dates = [
@@ -24,6 +24,7 @@ function CalendarBody(props) {
         disabled,
         showWeek,
         cellRender,
+        disabledDate,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -49,7 +50,7 @@ function CalendarBody(props) {
             && selectedDate.getMonth() + 1 === month
             && selectedDate.getDate() === date;
         if(!isCurrentSelected) onChange(year, month, date);*/
-        onSelect(v => set(v || new Date(), { year, month: month - 1, date }));
+        onSelect(v => set(v || startOfDay(new Date()), { year, month: month - 1, date }));
     }, [disabled]);
 
     // ---------------------------------- function ----------------------------------
@@ -69,8 +70,8 @@ function CalendarBody(props) {
                 </RenderWrapper>
                 {
                     dates.map(item => {
-                        const { year: _year, month: _month, date: _date } = item;
-                        // const currentDate = new Date(_year, _month - 1, _date);
+                        const { year: _year, month: _month, date: _date } = item,
+                            currentDate = new Date(_year, _month - 1, _date);
 
                         const isSelected = selectedDate
                                     && selectedDate.getFullYear() === _year
@@ -81,27 +82,7 @@ function CalendarBody(props) {
                                     && today.getMonth() + 1 === _month
                                     && today.getDate() === _date;
 
-                        const isDisabled = disabled || _year < MIN_SAFE_YEAR || _year > MAX_SAFE_YEAR;
-
-                        /*const startDate = rangeValue.length ? rangeValue[0] : null,
-                            endDate = rangeValue.length === 2 ? rangeValue[1] : null;
-                        const isStartDate = startDate
-                                && startDate.getFullYear() === _year
-                                && startDate.getMonth() + 1 === _month
-                                && startDate.getDate() === _date;
-                        const isEndDate = endDate
-                                && endDate.getFullYear() === _year
-                                && endDate.getMonth() + 1 === _month
-                                && endDate.getDate() === _date;
-
-                        const isRange =
-                            !isStartDate && !isEndDate
-                            &&
-                            (
-                                startDate && !endDate && isBefore(startDate, currentDate)
-                                ||
-                                startDate && endDate && isBefore(startDate, currentDate) && isAfter(endDate, currentDate)
-                            );*/
+                        const isDisabled = disabled || disabledDate(currentDate) || _year < MIN_SAFE_YEAR || _year > MAX_SAFE_YEAR;
 
                         const cellClassName = mergeStr({
                             [`${prefixCls}__cell`]: true,
@@ -110,9 +91,6 @@ function CalendarBody(props) {
                             'is-selected': isSelected,
                             'is-today': isToday,
                             'is-disabled': isDisabled,
-                            // 'is-start-date': isStartDate && !item.isPrevMonth && !item.isNextMonth && !isDisabled,
-                            // 'is-end-date': isEndDate && !item.isPrevMonth && !item.isNextMonth && !isDisabled,
-                            // 'is-range': isRange && !item.isPrevMonth && !item.isNextMonth && !isDisabled,
                         });
 
                         const onClick = isDisabled ? null : () => onItemSelect(item);
@@ -140,7 +118,7 @@ function CalendarBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek, cellRender]);
+    }, [prefixCls, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek, cellRender, disabledDate]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderThead = useMemo(() => {

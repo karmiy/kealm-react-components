@@ -4,7 +4,7 @@ import { useDidUpdate, usePuppet, useController } from 'hooks';
 import CreatePanel from '../utils/create-panel';
 import { createCenturyTable, getCenturies, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 import { mergeStr } from 'utils/common/base';
-import { set } from 'date-fns';
+import { set, startOfDay } from 'date-fns';
 
 const { createConfig } = useController;
 
@@ -56,21 +56,21 @@ function DecadePanel(props) {
     const onPrevCentury = useCallback(() => {
         if(disabled || isMinCentury) return;
 
-        setInnerValue(v => set(v || new Date(), { year: year - 100 }));
+        setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 100 }));
     }, [disabled, year, isMinCentury]);
 
     const onNextCentury = useCallback(() => {
         if(disabled || isMaxCentury) return;
 
-        setInnerValue(v => set(v || new Date(), { year: year + 100 }));
+        setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 100 }));
     }, [disabled, year, isMaxCentury]);
 
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
         onDecadeSelect(
-            v => set(v || new Date(), { year: item.from }),
-            v => set(v || new Date(), { year: item.to })
+            v => set(v || startOfDay(new Date()), { year: item.from }),
+            v => set(v || startOfDay(new Date()), { year: item.to })
         );
     }, [disabled]);
 

@@ -3,7 +3,7 @@ import { HeaderProps, HeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
 import Input from '../../input';
 import { parseDate, formatDate } from 'utils/common/date';
-import { isValid, isEqual } from 'date-fns';
+import { isValid, isEqual, startOfDay } from 'date-fns';
 
 function verifySteps(date, hourStep = 1, minuteStep = 1, secondStep = 1) {
     return date.getHours() % hourStep === 0
@@ -57,7 +57,7 @@ function  Header(props) {
             return;
         }
 
-        const prevDate = value || defaultOpenValue || new Date();
+        const prevDate = value || defaultOpenValue || startOfDay(new Date());
         const nextDate = parseDate(v, format, prevDate);
         // is format error ?
         if(!isValid(nextDate)) return;

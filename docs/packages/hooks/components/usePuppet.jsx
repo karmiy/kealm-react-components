@@ -1,13 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useLayoutEffect } from 'react';
 import { isEmpty } from 'utils/common/base';
 import useController from './useController';
+import useDidUpdate from '../common/useDidUpdate';
 import { useStateStore, useTimeout } from '../common';
 /**
  * Bidirectional drive
  * Build outerValue、innerValue、onInnerChange、onOuterChange for Two way control
  * strict: Control whether internal values can be changed freely
  */
-function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false, strict = false) {
+function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false, strict = false, isAsync = true) {
     const [outerValue, setOutValue] = useController(defaultProp, prop, event, emptyProp, disabled);
     const [innerValue, setInnerValue] = useState(outerValue);
     const stateStoreRef = useStateStore({ prop, outerValue, disabled, strict }, false);
@@ -42,9 +43,9 @@ function usePuppet(defaultProp, prop, event, emptyProp = false, disabled = false
     }, []);
 
     // External values drive internal changes
-    useEffect(() => {
+    useDidUpdate(() => {
         setInnerValue(outerValue);
-    }, [outerValue]);
+    }, [outerValue], isAsync);
 
     return [outerValue, innerValue, onOuterChange, onInnerChange];
 }

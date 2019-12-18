@@ -21,6 +21,7 @@ import { isElement } from 'react-is';
 import { isValidDate, isValidFormat, createCalendar } from 'utils/common/date';
 import { YearPanel, DecadePanel, MonthPanel } from '../../../packages/components/cores/date-picker/panels';
 import Calendar from '../../../packages/components/cores/date-picker/calendar';
+import { RenderWrapper } from '../../../packages/components/common';
 window.isValidDate = isValidDate;
 // console.log(useController);
 
@@ -93,6 +94,10 @@ function createP(Component) {
     }
 }
 
+function RenderIf(i, e, v) {
+    return v ? i : e
+}
+
 const PP = createP(P);
 
 function ExampleDoc() {
@@ -136,19 +141,28 @@ function ExampleDoc() {
         }}>
             {/*<PP name={'kar'} />*/}
             <Input style={{marginBottom: '20px'}} suffix={'star-full'} allowClear />
-            <RangeInput
-                defaultValue={rangeValue}
-                // allowClear
-                startPlaceholder={'开始日期'}
-                endPlaceholder={'结束日期'}
-                onChange={rangeChange}
-                onPressEnter={(v, e) => console.log(v, e)}
-                // onKeyDown={(e) => console.log(e.target.value)}
-                // onKeyUp={(e) => console.log(e.target.value)}
-                suffix={'calendar'}
-                // disabled
-                // readOnly
-            />
+            {
+                RenderIf(
+                    <RangeInput
+                        defaultValue={rangeValue}
+                        // allowClear
+                        startPlaceholder={'开始日期'}
+                        endPlaceholder={'结束日期'}
+                        onChange={rangeChange}
+                        onPressEnter={(v, e) => console.log(v, e)}
+                        // onKeyDown={(e) => console.log(e.target.value)}
+                        // onKeyUp={(e) => console.log(e.target.value)}
+                        suffix={'calendar'}
+                        // prepend={'Http://'}
+                        // disabled
+                        // readOnly
+                    />
+                    ,
+                    '123'
+                    ,false
+                )
+            }
+
             {/*{el}*/}
             {/*<div onClick={() => {
                 setCount(1);

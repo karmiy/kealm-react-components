@@ -6,7 +6,7 @@ import { createDecadeTable, getDecades, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'uti
 import DecadePanel from './decade-panel';
 import { RenderWrapper } from '../../../common';
 import { mergeStr } from "utils/common/base";
-import { set } from 'date-fns';
+import { set, startOfDay } from 'date-fns';
 
 const { createConfig } = useController;
 
@@ -55,13 +55,13 @@ function YearPanel(props) {
 
     const onPrevDecade = useCallback(() => {
         if(disabled || isMinDecade) return;
-        setInnerValue(v => set(v || new Date(), { year: year - 10 }));
+        setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 10 }));
     }, [disabled, year, isMinDecade]);
 
     const onNextDecade = useCallback(() => {
         if(disabled || isMaxDecade) return;
 
-        setInnerValue(v => set(v || new Date(), { year: year + 10 }));
+        setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 10 }));
     }, [disabled, year, isMaxDecade]);
 
     const onDecadeSelect = useCallback(selectedDate => {
@@ -72,7 +72,7 @@ function YearPanel(props) {
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
-        onYearSelect(v => set(v || new Date(), { year: item.year }));
+        onYearSelect(v => set(v || startOfDay(new Date()), { year: item.year }));
     }, [disabled]);
 
     // ---------------------------------- function ----------------------------------

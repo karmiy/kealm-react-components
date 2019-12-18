@@ -63,8 +63,8 @@ function DatePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        <RangePicker defaultValue={[new Date('2019-02-02'), new Date('2019-02-12')]} onChange={(date, dateString) => console.log(date, dateString)} />
-                        {/*<RangePicker onChange={(date, dateString) => console.log(date, dateString)} />*/}
+                        {/*<RangePicker defaultValue={[new Date('2019-12-02'), new Date('2019-02-12')]} onChange={(date, dateString) => console.log(date, dateString)} />*/}
+                        <RangePicker onChange={(date, dateString) => console.log(date, dateString)} />
                     </div>
                 )
             }, [])}

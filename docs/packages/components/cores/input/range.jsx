@@ -51,6 +51,9 @@ function RangeInput(props) {
     const [isFocus, setIsFocus] = useState(false);
 
     // ---------------------------------- class ----------------------------------
+    const rootClassNames = useClassName({
+
+    }, []);
     const classNames = useClassName({
         [componentCls]: true,
         [rangeCls]: true,

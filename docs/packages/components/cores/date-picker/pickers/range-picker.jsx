@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import { useContextConf, useController } from 'hooks';
 import { RangePickerProps, RangePickerDefaultProps } from './interface';
-import { formatDate } from 'utils/common/date';
+import { formatDate, sortDates } from 'utils/common/date';
 import Picker from '../base/picker';
 import RangeCalendar from '../range';
 import { mergeStr } from 'utils/common/base';
-import Calendar from "../calendar";
+import { isSameRange } from '../range/range-calendar';
 
 const { createConfig } = useController;
 
@@ -32,34 +32,38 @@ function RangePicker(props) {
         placeholder,
         format,
         allowClear,
+        startPlaceholder,
+        endPlaceholder,
         ...others
     } = props;
 
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
-    const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null, disabled);
+    const [rangeValue, setRangeValue] = useController(defaultValue, value, onChange, [], disabled);
+
+    const pickerValue = sortDates(rangeValue.filter(v => !!v)).map(item => formatDate(item, format));
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(() => {
-        setDateValue(createConfig({
+        setRangeValue(createConfig({
             value: [],
             event: [[], ['', '']],
         }));
     }, []);
 
-    const onDateChange = useCallback(v => {
-        setDateValue(createConfig({
-            value: v,
-            event: [v, formatDate(v, format)],
+    const onRangeChange = useCallback(rangeV => {
+        setRangeValue(createConfig({
+            value: rangeV,
+            event: [rangeV, [formatDate(rangeV[0], format), formatDate(rangeV[1], format)]],
         }));
     }, [format]);
 
-    const onCalendarSelect = useCallback(selectedDate => {
-        setIsVisible(false);
-        if(dateValue && dateValue.getTime() === selectedDate.getTime())
-            return;
-        onDateChange(selectedDate);
-    }, [dateValue, onDateChange]);
+    const onRangeCalendarSelect = useCallback(selectedRange => {
+        // setIsVisible(false);
+        if(isSameRange(rangeValue, selectedRange)) return;
+
+        onRangeChange(selectedRange);
+    }, [rangeValue, onRangeChange]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -70,20 +74,23 @@ function RangePicker(props) {
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
-            pickerValue={''}
+            pickerValue={pickerValue}
             visible={isVisible}
             onVisibleChange={setIsVisible}
             disabled={disabled}
-            placeholder={placeholder}
-            allowClear={!!(allowClear && dateValue)}
+            startPlaceholder={startPlaceholder}
+            endPlaceholder={endPlaceholder}
+            allowClear={!!(allowClear && rangeValue && rangeValue.length)}
             onClear={onClear}
             isRange
             {...others}
         >
             <RangeCalendar
-                value={dateValue}
+                value={rangeValue}
                 disabled={disabled}
                 visible={isVisible}
+                onSelect={onRangeCalendarSelect}
+                // onChange={(a) => console.log('change', a)}
             />
         </Picker>
     );

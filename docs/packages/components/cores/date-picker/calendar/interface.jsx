@@ -11,6 +11,7 @@ export const CalendarProps = {
     visible: PropTypes.bool,
     showWeek: PropTypes.bool,
     cellRender: PropTypes.func,
+    disabledDate: PropTypes.func,
 }
 
 export const CalendarDefaultProps = {
@@ -18,6 +19,7 @@ export const CalendarDefaultProps = {
     onSelect: noop,
     disabled: false,
     showWeek: false,
+    disabledDate: noop,
 }
 
 /* calendar-header-props */
@@ -46,10 +48,12 @@ export const CalendarBodyProps = {
     selectedDate: PropTypes.instanceOf(Date),
     onSelect: PropTypes.func,
     cellRender: PropTypes.func,
+    disabledDate: PropTypes.func,
 }
 
 export const CalendarBodyDefaultProps = {
     disabled: false,
     showWeek: false,
     onSelect: noop,
+    disabledDate: noop,
 }
