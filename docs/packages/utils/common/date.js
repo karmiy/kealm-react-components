@@ -1,5 +1,5 @@
 import { leftPad, transRegExpSpec } from './base';
-import { parse, format, isValid, differenceInMilliseconds, addMilliseconds } from 'date-fns';
+import { parse, format, isValid, differenceInMilliseconds, addMilliseconds, compareAsc, compareDesc } from 'date-fns';
 
 export const MAX_SAFE_YEAR = 9999;
 export const MIN_SAFE_YEAR = 100;
@@ -769,5 +769,5 @@ export function createMonthTable(year) {
  * @param isASC
  */
 export function sortDates(dates, isASC = true) {
-    return [...dates].sort((a, b) => sortDates ? a.getTime() - b.getTime() : b.getTime() - a.getTime());
+    return [...dates].sort(isASC ? compareAsc : compareDesc);
 }

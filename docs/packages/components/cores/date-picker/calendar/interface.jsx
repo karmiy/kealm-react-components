@@ -7,19 +7,27 @@ export const CalendarProps = {
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
+    onPanelChange: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
     showWeek: PropTypes.bool,
     cellRender: PropTypes.func,
     disabledDate: PropTypes.func,
+    disabledMonth: PropTypes.func,
+    disabledYear: PropTypes.func,
+    disabledDecade: PropTypes.func,
 }
 
 export const CalendarDefaultProps = {
     onChange: noop,
     onSelect: noop,
+    onPanelChange: noop,
     disabled: false,
     showWeek: false,
     disabledDate: noop,
+    disabledMonth: noop,
+    disabledYear: noop,
+    disabledDecade: noop,
 }
 
 /* calendar-header-props */
@@ -31,11 +39,17 @@ export const CalendarHeaderProps = {
     // month: PropTypes.number,
     onChange: PropTypes.func,
     visible: PropTypes.bool,
+    disabledMonth: PropTypes.func,
+    disabledYear: PropTypes.func,
+    disabledDecade: PropTypes.func,
 }
 
 export const CalendarHeaderDefaultProps = {
     disabled: false,
     onChange: noop,
+    disabledMonth: noop,
+    disabledYear: noop,
+    disabledDecade: noop,
 }
 
 /* calendar-body-props */

@@ -140,7 +140,7 @@ function ExampleDoc() {
             border: '1px solid #e4e7ed'
         }}>
             {/*<PP name={'kar'} />*/}
-            <Input style={{marginBottom: '20px'}} suffix={'star-full'} allowClear />
+            {/*<Input style={{marginBottom: '20px'}} suffix={'star-full'} allowClear />
             {
                 RenderIf(
                     <RangeInput
@@ -161,7 +161,7 @@ function ExampleDoc() {
                     '123'
                     ,false
                 )
-            }
+            }*/}
 
             {/*{el}*/}
             {/*<div onClick={() => {
@@ -175,10 +175,37 @@ function ExampleDoc() {
                 <Radio value={values[3]}>D</Radio>
             </Radio.Group>
             <DatePicker />*/}
-            {/*<DecadePanel onSelect={(v, u) => console.log(v, u, 'select')} onChange={(v, u) => console.log(v, u, 'change')} />*/}
+            {/*<DecadePanel
+                // defaultValue={new Date('2018-03-24 12:13:14')}
+                onSelect={(v, u) => console.log(v, u, 'select')}
+                onChange={(v, u) => console.log(v, u, 'change')}
+                disabledDate={(v, u) => {
+                    return u.getFullYear() < 2018
+                }}
+            />*/}
             {/*<Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />*/}
-            {/*<YearPanel defaultValue={new Date('2018-01-01 12:11:10')} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />*/}
-            {/*<MonthPanel onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} visible={visible} />*/}
+            {/*<YearPanel
+                defaultValue={new Date('2018-03-02 12:11:10')}
+                onSelect={(v) => console.log(v, 'select')}
+                onChange={(v) => console.log(v, 'change')}
+                visible={visible}
+                disabledDate={v => v.getFullYear() < 2018}
+                disabledDecade={(v, u) => {
+                    return u.getFullYear() < 2030
+                }}
+            />*/}
+            <MonthPanel
+                defaultValue={new Date('2018-03-02 12:11:10')}
+                onSelect={(v) => console.log(v, 'select')}
+                onChange={(v) => console.log(v, 'change')}
+                visible={visible}
+                disabledDate={v => v < new Date(2018, 3) }
+                disabledYear={v => v.getFullYear() < 2016}
+                disabledDecade={(v, u) => {
+                    return u.getFullYear() < 2030
+                }}
+                // disabled={true}
+            />
             {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>

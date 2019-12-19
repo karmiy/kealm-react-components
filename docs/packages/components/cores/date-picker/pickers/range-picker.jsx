@@ -29,7 +29,6 @@ function RangePicker(props) {
         value,
         onChange,
         disabled,
-        placeholder,
         format,
         allowClear,
         startPlaceholder,

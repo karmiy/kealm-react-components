@@ -11,11 +11,13 @@ import { set, startOfDay } from 'date-fns';
 function CalendarHeader(props) {
     const {
         prefixCls,
-        defaultPickerValue,
         value,
         onChange,
         disabled,
         visible,
+        disabledMonth,
+        disabledYear,
+        disabledDecade,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -152,10 +154,25 @@ function CalendarHeader(props) {
                 {renderNextMonth}
             </div>
             <RenderWrapper visible={yearPanelVisible}>
-                <YearPanel value={value} onSelect={onYearSelect} disabled={disabled} visible={visible} />
+                <YearPanel
+                    value={value}
+                    onSelect={onYearSelect}
+                    disabled={disabled}
+                    disabledDate={disabledYear}
+                    disabledDecade={disabledDecade}
+                    visible={visible}
+                />
             </RenderWrapper>
             <RenderWrapper visible={monthPanelVisible}>
-                <MonthPanel value={value} onSelect={onMonthSelect} disabled={disabled} visible={visible} />
+                <MonthPanel
+                    value={value}
+                    onSelect={onMonthSelect}
+                    disabled={disabled}
+                    disabledDate={disabledMonth}
+                    disabledYear={disabledYear}
+                    disabledDecade={disabledDecade}
+                    visible={visible}
+                />
             </RenderWrapper>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { CalendarProps, CalendarDefaultProps } from './interface';
-import { useContextConf, useClassName, usePuppet, useController } from 'hooks';
+import { useContextConf, useClassName, usePuppet, useController, useDidUpdate } from 'hooks';
 import CalendarHeader from './calendar-header';
 import CalendarBody from './calendar-body';
 
@@ -14,11 +14,15 @@ function Calendar(props) {
         value,
         onChange,
         onSelect,
+        onPanelChange,
         disabled,
         visible,
         showWeek,
         cellRender,
         disabledDate,
+        disabledMonth,
+        disabledYear,
+        disabledDecade,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -35,6 +39,11 @@ function Calendar(props) {
         'is-week': showWeek,
         [className]: className,
     }, [componentCls, className, showWeek]);
+
+    // ---------------------------------- effect ----------------------------------
+    useDidUpdate(() => {
+        onPanelChange(innerValue)
+    }, [innerValue]);
 
     // ---------------------------------- event ----------------------------------
     const onCalendarSelect = useCallback(v => {
@@ -57,6 +66,9 @@ function Calendar(props) {
                 onChange={setInnerValue}
                 disabled={disabled}
                 visible={visible}
+                disabledMonth={disabledMonth}
+                disabledYear={disabledYear}
+                disabledDecade={disabledDecade}
             />
             <CalendarBody
                 prefixCls={componentCls}

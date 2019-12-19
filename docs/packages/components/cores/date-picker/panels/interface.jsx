@@ -8,21 +8,25 @@ const panelProps = {
     onSelect: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
+    disabledDate: PropTypes.func,
 }
 
 const panelDefaultProps = {
     onChange: noop,
     onSelect: noop,
     disabled: false,
+    disabledDate: noop,
 }
 
 /* year-panel-props */
 export const YearPanelProps = {
     ...panelProps,
+    disabledDecade: PropTypes.func,
 }
 
 export const YearPanelDefaultProps = {
     ...panelDefaultProps,
+    disabledDecade: noop,
 }
 
 /* decade-panel-props */
@@ -37,8 +41,12 @@ export const DecadePanelDefaultProps = {
 /* month-panel-props */
 export const MonthPanelProps = {
     ...panelProps,
+    disabledYear: PropTypes.func,
+    disabledDecade: PropTypes.func,
 }
 
 export const MonthPanelDefaultProps = {
     ...panelDefaultProps,
+    disabledYear: noop,
+    disabledDecade: noop,
 }

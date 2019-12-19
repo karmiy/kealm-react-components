@@ -2,15 +2,11 @@ import React, { useCallback, useState } from 'react';
 // import { CalendarProps, CalendarDefaultProps } from './interface';
 import { useContextConf, useClassName, useController, useDidUpdate } from 'hooks';
 import Calendar from '../calendar';
-import { addMonths, isBefore, isAfter, isSameMonth, isSameYear, isSameDay, set, startOfDay } from 'date-fns';
+import { addMonths, isBefore, isAfter, isSameMonth, isSameYear, isSameDay, set, startOfDay, startOfMonth } from 'date-fns';
 import { mergeStr } from 'utils/common/base';
 import { sortDates } from 'utils/common/date';
 
 const { createConfig } = useController;
-
-function isUnderSameCalendar(dateLeft, dateRight) {
-    return isSameYear(dateLeft, dateRight) && isSameMonth(dateLeft, dateRight);
-}
 
 /**
  * Used to control the display status of calendars on both sides
@@ -19,7 +15,7 @@ function isUnderSameCalendar(dateLeft, dateRight) {
  */
 function getRangeCalendarControls(rangeValue) {
     const leftValue = rangeValue.length === 0 ? startOfDay(new Date()) : rangeValue[0],
-        rightValue = rangeValue.length === 2 && !isUnderSameCalendar(...rangeValue) ? rangeValue[1] : addMonths(leftValue, 1);
+        rightValue = rangeValue.length === 2 && !isSameMonth(...rangeValue) ? rangeValue[1] : addMonths(leftValue, 1);
     return [leftValue, rightValue];
 }
 
@@ -55,6 +51,7 @@ function RangeCalendar(props) {
     const calendarControls = getRangeCalendarControls(_rangeValue);
     const [leftValue, setLeftValue] = useState(calendarControls[0]);
     const [rightValue, setRightValue] = useState(calendarControls[1]);
+    const [leftPanelValue, setLeftPanelValue] = useState(leftValue); // Calendar current year and month
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -113,6 +110,8 @@ function RangeCalendar(props) {
         setHoverValue(sortDates([...selectedValue, _v]));
     }, [selectedValue]);
 
+    const onPanelChange = useCallback(v => setLeftPanelValue(v), []);
+
     // ---------------------------------- function ----------------------------------
     const cellRender = useCallback((prefixCls, item, onClick, content) => {
         const [startDate, endDate] = hoverValue;
@@ -152,6 +151,14 @@ function RangeCalendar(props) {
         );
     }, [selectedValue, hoverValue]);
 
+    const disabledMonth = useCallback(v => {
+        return !isAfter(startOfMonth(v), startOfMonth(leftPanelValue));
+    }, [leftPanelValue]);
+
+    const disabledYear = useCallback(v => {
+        return v.getMonth() - 1 < 8;
+    }, []);
+
     return (
         <div className={classNames}>
             <div className={`${componentCls}__body`}>
@@ -160,6 +167,9 @@ function RangeCalendar(props) {
                         value={leftValue}
                         onSelect={onCalendarLeftSelect}
                         cellRender={cellRender}
+                        onPanelChange={onPanelChange}
+                        disabled={disabled}
+                        visible={visible}
                     />
                 </div>
                 <div className={`${componentCls}__part`}>
@@ -167,6 +177,9 @@ function RangeCalendar(props) {
                         value={rightValue}
                         onSelect={onCalendarRightSelect}
                         cellRender={cellRender}
+                        disabled={disabled}
+                        disabledMonth={disabledMonth}
+                        visible={visible}
                     />
                 </div>
             </div>

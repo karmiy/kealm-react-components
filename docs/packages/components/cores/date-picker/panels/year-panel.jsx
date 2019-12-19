@@ -19,6 +19,8 @@ function YearPanel(props) {
         onChange,
         onSelect,
         visible,
+        disabledDate,
+        disabledDecade,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -81,8 +83,9 @@ function YearPanel(props) {
             'is-prev-decade': item.isPrevDecade,
             'is-next-decade': item.isNextDecade,
         });
+        const isDisabledYear = disabledDate(outerValue ? set(outerValue, {year: item.year}) : startOfDay(set(new Date(), {year: item.year})));
         const isSelected = outerValue && outerValue.getFullYear() === item.year,
-            isDisabled = disabled || item.year > MAX_SAFE_YEAR || item.year < MIN_SAFE_YEAR;
+            isDisabled = disabled || item.year > MAX_SAFE_YEAR || item.year < MIN_SAFE_YEAR || isDisabledYear;
 
         return {
             key: item.year,
@@ -92,7 +95,7 @@ function YearPanel(props) {
             onClick: () => onItemSelect(item),
             content: item.year,
         }
-    }, [outerValue, disabled]);
+    }, [outerValue, disabled, disabledDate]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSelectContent = useMemo(() => {
@@ -123,7 +126,7 @@ function YearPanel(props) {
             }}
             headerAddon={(
                 <RenderWrapper visible={decadePanelVisible}>
-                    <DecadePanel value={innerValue} onSelect={onDecadeSelect} disabled={disabled} visible={visible} />
+                    <DecadePanel value={innerValue} onSelect={onDecadeSelect} disabled={disabled} disabledDate={disabledDecade} visible={visible} />
                 </RenderWrapper>
             )}
             cellOption={cellOption}

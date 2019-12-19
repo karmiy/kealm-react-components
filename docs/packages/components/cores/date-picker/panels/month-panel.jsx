@@ -19,6 +19,9 @@ function MonthPanel(props) {
         onChange,
         onSelect,
         visible,
+        disabledDate,
+        disabledYear,
+        disabledDecade,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -81,13 +84,22 @@ function MonthPanel(props) {
             && outerValue.getFullYear() === item.year
             && outerValue.getMonth() + 1 === item.month;
 
+        const isDisabled = disabled || disabledDate(
+            outerValue
+            ?
+            set(outerValue, {year: item.year, month: item.month - 1})
+            :
+            startOfDay(set(new Date(), {year: item.year, month: item.month - 1}))
+        );
+
         return {
             key: `${item.year} - ${item.month}`,
+            isDisabled,
             isSelected,
             onClick: () => onItemSelect(item),
             content: `${item.character}月`,
         }
-    }, [outerValue, disabled]);
+    }, [outerValue, disabled, disabledDate]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSelectContent = useMemo(() => {
@@ -118,7 +130,14 @@ function MonthPanel(props) {
             }}
             headerAddon={(
                 <RenderWrapper visible={yearPanelVisible}>
-                    <YearPanel value={innerValue} onSelect={onYearSelect} disabled={disabled} visible={visible} />
+                    <YearPanel
+                        value={innerValue}
+                        onSelect={onYearSelect}
+                        disabled={disabled}
+                        disabledDate={disabledYear}
+                        disabledDecade={disabledDecade}
+                        visible={visible}
+                    />
                 </RenderWrapper>
             )}
             cellOption={cellOption}

@@ -17,6 +17,7 @@ function DecadePanel(props) {
         onChange,
         onSelect,
         visible,
+        disabledDate,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -82,8 +83,12 @@ function DecadePanel(props) {
         });
         const selectedYear = outerValue && outerValue.getFullYear();
 
+        const isDisabledDecade = disabledDate(
+            outerValue ? set(outerValue, {year: item.from}) : startOfDay(set(new Date(), {year: item.from})),
+            outerValue ? set(outerValue, {year: item.to}) : startOfDay(set(new Date(), {year: item.to})),
+        );
         const isSelected = selectedYear && item.from <= selectedYear && item.to >= selectedYear,
-            isDisabled = disabled || item.from > MAX_SAFE_YEAR || item.to < MIN_SAFE_YEAR;
+            isDisabled = disabled || item.from > MAX_SAFE_YEAR || item.to < MIN_SAFE_YEAR || isDisabledDecade;
 
         return {
             key: `${item.from}-${item.to}`,
@@ -93,7 +98,7 @@ function DecadePanel(props) {
             onClick: () => onItemSelect(item),
             content: `${item.from}-${item.to}`,
         }
-    }, [outerValue, disabled]);
+    }, [outerValue, disabled, disabledDate]);
 
     return (
         <CreatePanel
