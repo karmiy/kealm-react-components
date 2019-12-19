@@ -4,18 +4,50 @@
 
 @include b(date-picker) {
     width: $date-picker-width;
+    transition: width $transition-duration-base;
+
+    @include m(large) {
+        width: $date-picker-width-large;
+    }
+    @include m(small) {
+        width: $date-picker-width-small;
+    }
 }
 
 @include b(month-picker) {
     width: $date-picker-width;
+    transition: width $transition-duration-base;
+
+    @include m(large) {
+        width: $date-picker-width-large;
+    }
+    @include m(small) {
+        width: $date-picker-width-small;
+    }
 }
 
 @include b(week-picker) {
     width: $date-picker-width;
+    transition: width $transition-duration-base;
+
+    @include m(large) {
+        width: $date-picker-width-large;
+    }
+    @include m(small) {
+        width: $date-picker-width-small;
+    }
 }
 
 @include b(range-picker) {
     width: $range-picker-width;
+    transition: width $transition-duration-base;
+
+    @include m(large) {
+        width: $range-picker-width-large;
+    }
+    @include m(small) {
+        width: $range-picker-width-small;
+    }
 }
 
 @include b(date-picker-panel) {

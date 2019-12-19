@@ -25,6 +25,7 @@ function DatePicker(props) {
         placeholder,
         format,
         allowClear,
+        size,
         ...others
     } = props;
 
@@ -60,6 +61,7 @@ function DatePicker(props) {
             className={className}
             pickerClassName={mergeStr({
                 [componentCls]: true,
+                [`${componentCls}--${size}`]: size,
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
@@ -70,6 +72,7 @@ function DatePicker(props) {
             placeholder={placeholder}
             allowClear={!!(allowClear && dateValue)}
             onClear={onClear}
+            size={size}
             {...others}
         >
             <Header

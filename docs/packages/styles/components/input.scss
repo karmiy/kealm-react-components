@@ -77,6 +77,8 @@
     position: relative;
     width: 100%;
     font-size: $font-size-base;
+    transition: font-size $transition-duration-base;
+
     @include scroll-bar;
     @include pseudo(hover) {
         .km-input__handle {
@@ -126,7 +128,9 @@
         font-size: inherit;
         color: $input-font-color;
         -webkit-appearance: none;
-        transition: $border-transition-base;
+        transition: $border-transition-base,
+                height $transition-duration-base,
+                line-height $transition-duration-base;
 
         &::placeholder {
             color: $input-placeholder-color;
@@ -152,7 +156,7 @@
         top: 0;
         text-align: center;
         color: $input-icon-color;
-        transition: all $transition-duration-base;
+        //transition: all $transition-duration-base;
         pointer-events: none;
         user-select: none; // Prevent double-click selection
     }
@@ -176,7 +180,8 @@
         height: 100%;
         line-height: $input-height;
         text-align: center;
-        transition: all $transition-duration-base;
+        //transition: all $transition-duration-base;
+        transition: line-height $transition-duration-base;
 
         &:after {
             content: '';
@@ -388,9 +393,12 @@
     border: $input-border;
     border-radius: $input-border-radius;
     outline: none;
-    padding: 0 15px;
+    padding: 0 10px;
     background-color: $input-background-color;
-    transition: $border-transition-base;
+    transition: $border-transition-base,
+            height $transition-duration-base,
+            line-height $transition-duration-base,
+            font-size $transition-duration-base;
     cursor: pointer;
 
     &:hover {
@@ -408,7 +416,7 @@
         padding: 0 5px;
         margin: 0;
         text-align: center;
-        font-size: 14px;
+        font-size: inherit;
         width: 5%;
         color: $input-font-color;
         @include utils-vertical-center;
@@ -429,7 +437,6 @@
         margin: 0;
         padding: 0;
         text-align: center;
-        font-size: 14px;
         color: $input-font-color;
         cursor: pointer;
 

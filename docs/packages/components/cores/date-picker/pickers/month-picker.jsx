@@ -24,6 +24,7 @@ function MonthPicker(props) {
         placeholder,
         format,
         allowClear,
+        size,
         ...others
     } = props;
 
@@ -59,6 +60,7 @@ function MonthPicker(props) {
             className={className}
             pickerClassName={mergeStr({
                 [componentCls]: true,
+                [`${componentCls}--${size}`]: size,
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
@@ -69,6 +71,7 @@ function MonthPicker(props) {
             placeholder={placeholder}
             allowClear={!!(allowClear && dateValue)}
             onClear={onClear}
+            size={size}
             {...others}
         >
             <MonthPanel

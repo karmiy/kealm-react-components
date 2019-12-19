@@ -33,6 +33,7 @@ function RangePicker(props) {
         allowClear,
         startPlaceholder,
         endPlaceholder,
+        size,
         ...others
     } = props;
 
@@ -58,7 +59,7 @@ function RangePicker(props) {
     }, [format]);
 
     const onRangeCalendarSelect = useCallback(selectedRange => {
-        // setIsVisible(false);
+        setIsVisible(false);
         if(isSameRange(rangeValue, selectedRange)) return;
 
         onRangeChange(selectedRange);
@@ -70,6 +71,7 @@ function RangePicker(props) {
             className={className}
             pickerClassName={mergeStr({
                 [componentCls]: true,
+                [`${componentCls}--${size}`]: size,
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
@@ -82,6 +84,7 @@ function RangePicker(props) {
             allowClear={!!(allowClear && rangeValue && rangeValue.length)}
             onClear={onClear}
             isRange
+            size={size}
             {...others}
         >
             <RangeCalendar

@@ -12,6 +12,7 @@ export const CommonProps = {
     placeholder: PropTypes.string,
     format: PropTypes.string,
     allowClear: PropTypes.bool,
+    size: PropTypes.oneOf(['large', 'small']),
 }
 
 export const CommonDefaultProps = {

@@ -727,9 +727,15 @@ $time-picker-item-color-selected: $color-primary !default;
 $time-picker-item-color-disabled: $color-text-placeholder !default;
 
 /* --------------------------DatePicker-------------------------- */
-$date-picker-width: 174px !default;
-$range-picker-width: 334px !default;
+$date-picker-width: 165px !default;
+$range-picker-width: 316px !default;
 $date-picker-panel-border-color: $border-color-light !default;
+
+// size
+$date-picker-width-large: 188px !default;
+$date-picker-width-small: 155px !default;
+$range-picker-width-large: 350px !default;
+$range-picker-width-small: 305px !default;
 
 // calendar
 $calendar-width: 280px !default;
