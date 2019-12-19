@@ -16,6 +16,8 @@ export const CalendarProps = {
     disabledMonth: PropTypes.func,
     disabledYear: PropTypes.func,
     disabledDecade: PropTypes.func,
+    disabledArrow: PropTypes.func,
+    hiddenDisabledArrow: PropTypes.bool,
 }
 
 export const CalendarDefaultProps = {
@@ -28,6 +30,8 @@ export const CalendarDefaultProps = {
     disabledMonth: noop,
     disabledYear: noop,
     disabledDecade: noop,
+    disabledArrow: noop,
+    hiddenDisabledArrow: false,
 }
 
 /* calendar-header-props */
@@ -42,6 +46,8 @@ export const CalendarHeaderProps = {
     disabledMonth: PropTypes.func,
     disabledYear: PropTypes.func,
     disabledDecade: PropTypes.func,
+    disabledArrow: PropTypes.func,
+    hiddenDisabledArrow: PropTypes.bool,
 }
 
 export const CalendarHeaderDefaultProps = {
@@ -50,6 +56,8 @@ export const CalendarHeaderDefaultProps = {
     disabledMonth: noop,
     disabledYear: noop,
     disabledDecade: noop,
+    disabledArrow: noop,
+    hiddenDisabledArrow: false,
 }
 
 /* calendar-body-props */

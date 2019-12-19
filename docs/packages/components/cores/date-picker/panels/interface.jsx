@@ -9,6 +9,8 @@ const panelProps = {
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
     disabledDate: PropTypes.func,
+    disabledArrow: PropTypes.func,
+    hiddenDisabledArrow: PropTypes.bool,
 }
 
 const panelDefaultProps = {
@@ -16,6 +18,8 @@ const panelDefaultProps = {
     onSelect: noop,
     disabled: false,
     disabledDate: noop,
+    disabledArrow: noop,
+    hiddenDisabledArrow: false,
 }
 
 /* year-panel-props */

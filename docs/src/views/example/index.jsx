@@ -175,17 +175,23 @@ function ExampleDoc() {
                 <Radio value={values[3]}>D</Radio>
             </Radio.Group>
             <DatePicker />*/}
-            {/*<DecadePanel
-                // defaultValue={new Date('2018-03-24 12:13:14')}
+            <DecadePanel
+                defaultValue={new Date('2018-03-24 12:13:14')}
                 onSelect={(v, u) => console.log(v, u, 'select')}
                 onChange={(v, u) => console.log(v, u, 'change')}
                 disabledDate={(v, u) => {
                     return u.getFullYear() < 2018
                 }}
-            />*/}
+                disabledArrow={(v, type) => {
+                    console.log(v, type);
+                    if(type === 'prev-century') return false;
+                    return true;
+                }}
+                hiddenDisabledArrow
+            />
             {/*<Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />*/}
             {/*<YearPanel
-                defaultValue={new Date('2018-03-02 12:11:10')}
+                // defaultValue={new Date('2018-03-02 12:11:10')}
                 onSelect={(v) => console.log(v, 'select')}
                 onChange={(v) => console.log(v, 'change')}
                 visible={visible}
@@ -193,9 +199,14 @@ function ExampleDoc() {
                 disabledDecade={(v, u) => {
                     return u.getFullYear() < 2030
                 }}
+                disabledArrow={(v, type) => {
+                    console.log(v, type);
+                    return false;
+                }}
+                hiddenDisabledArrow
             />*/}
-            <MonthPanel
-                defaultValue={new Date('2018-03-02 12:11:10')}
+            {/*<MonthPanel
+                // defaultValue={new Date('2018-03-02 12:11:10')}
                 onSelect={(v) => console.log(v, 'select')}
                 onChange={(v) => console.log(v, 'change')}
                 visible={visible}
@@ -204,8 +215,14 @@ function ExampleDoc() {
                 disabledDecade={(v, u) => {
                     return u.getFullYear() < 2030
                 }}
+                disabledArrow={(v, type) => {
+                    console.log(v, type);
+                    if(type === 'prev-year') return false;
+                    return true;
+                }}
+                hiddenDisabledArrow
                 // disabled={true}
-            />
+            />*/}
             {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>

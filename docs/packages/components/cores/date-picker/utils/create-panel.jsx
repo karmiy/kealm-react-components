@@ -51,30 +51,32 @@ function CreatePanel(props) {
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderPrevIcon = useMemo(() => {
-        const { className, isDisabled, onClick } = headerPrev;
+        const { className, isDisabled, onClick, hiddenDisabledArrow } = headerPrev;
         const classNames = mergeStr({
             [`${componentCls}__header-btn`]: true,
             'is-disabled': isDisabled,
+            'is-hidden': hiddenDisabledArrow && isDisabled,
             [isFunction(className) ? className(componentCls) : className]: className,
         });
 
         return (
-            <button className={classNames} onClick={onClick}>
+            <button className={classNames} onClick={!isDisabled ? onClick : null}>
                 <Icon type={'double-left'} />
             </button>
         )
     }, Object.values(headerPrev));
 
     const renderNextIcon = useMemo(() => {
-        const { className, isDisabled, onClick } = headerNext;
+        const { className, isDisabled, onClick, hiddenDisabledArrow } = headerNext;
         const classNames = mergeStr({
             [`${componentCls}__header-btn`]: true,
             'is-disabled': isDisabled,
+            'is-hidden': hiddenDisabledArrow && isDisabled,
             [isFunction(className) ? className(componentCls) : className]: className,
         });
 
         return (
-            <button className={classNames} onClick={onClick}>
+            <button className={classNames} onClick={!isDisabled ? onClick : null}>
                 <Icon type={'double-right'} />
             </button>
         )

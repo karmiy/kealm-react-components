@@ -23,6 +23,8 @@ function Calendar(props) {
         disabledMonth,
         disabledYear,
         disabledDecade,
+        disabledArrow,
+        hiddenDisabledArrow,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -69,6 +71,8 @@ function Calendar(props) {
                 disabledMonth={disabledMonth}
                 disabledYear={disabledYear}
                 disabledDecade={disabledDecade}
+                disabledArrow={disabledArrow}
+                hiddenDisabledArrow={hiddenDisabledArrow}
             />
             <CalendarBody
                 prefixCls={componentCls}

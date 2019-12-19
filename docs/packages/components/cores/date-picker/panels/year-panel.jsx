@@ -5,7 +5,7 @@ import CreatePanel from '../utils/create-panel';
 import { createDecadeTable, getDecades, MAX_SAFE_YEAR, MIN_SAFE_YEAR } from 'utils/common/date';
 import DecadePanel from './decade-panel';
 import { RenderWrapper } from '../../../common';
-import { mergeStr } from "utils/common/base";
+import { mergeStr } from 'utils/common/base';
 import { set, startOfDay } from 'date-fns';
 
 const { createConfig } = useController;
@@ -21,6 +21,8 @@ function YearPanel(props) {
         visible,
         disabledDate,
         disabledDecade,
+        disabledArrow,
+        hiddenDisabledArrow,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -37,6 +39,9 @@ function YearPanel(props) {
     const [decadePanelVisible, setDecadePanelVisible] = useState(false);
     const decades = getDecades(year), startYear = decades[0], endYear = decades[decades.length - 1];
     const data = useMemo(() => createDecadeTable(year), [year]);
+
+    const isDisabledPrevArrow = disabledArrow(innerValue || startOfDay(new Date()), 'prev-decade'),
+        isDisabledNextArrow = disabledArrow(innerValue || startOfDay(new Date()), 'next-decade');
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -56,15 +61,12 @@ function YearPanel(props) {
     }, []);
 
     const onPrevDecade = useCallback(() => {
-        if(disabled || isMinDecade) return;
         setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 10 }));
-    }, [disabled, year, isMinDecade]);
+    }, [year]);
 
     const onNextDecade = useCallback(() => {
-        if(disabled || isMaxDecade) return;
-
         setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 10 }));
-    }, [disabled, year, isMaxDecade]);
+    }, [year]);
 
     const onDecadeSelect = useCallback(selectedDate => {
         setDecadePanelVisible(false);
@@ -112,13 +114,15 @@ function YearPanel(props) {
             data={data}
             headerPrev={{
                 className: prefixCls => `${prefixCls}__header-prev-decade`,
-                isDisabled: disabled || isMinDecade,
+                isDisabled: disabled || isMinDecade || isDisabledPrevArrow,
                 onClick: onPrevDecade,
+                hiddenDisabledArrow,
             }}
             headerNext={{
                 className: prefixCls => `${prefixCls}__header-next-decade`,
-                isDisabled: disabled || isMaxDecade,
+                isDisabled: disabled || isMaxDecade || isDisabledNextArrow,
                 onClick: onNextDecade,
+                hiddenDisabledArrow,
             }}
             headerSelect={{
                 isDisabled: disabled,

@@ -18,6 +18,8 @@ function DecadePanel(props) {
         onSelect,
         visible,
         disabledDate,
+        disabledArrow,
+        hiddenDisabledArrow,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -32,6 +34,9 @@ function DecadePanel(props) {
         isMaxCentury = getCenturies(MAX_SAFE_YEAR).includes(year);
     const centuries = getCenturies(year), startYear = centuries[0], endYear = centuries[centuries.length - 1];
     const data = useMemo(() => createCenturyTable(year), [year]);
+
+    const isDisabledPrevArrow = disabledArrow(innerValue || startOfDay(new Date()), 'prev-century'),
+        isDisabledNextArrow = disabledArrow(innerValue || startOfDay(new Date()), 'next-century');
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -55,16 +60,12 @@ function DecadePanel(props) {
     }, []);
 
     const onPrevCentury = useCallback(() => {
-        if(disabled || isMinCentury) return;
-
         setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 100 }));
-    }, [disabled, year, isMinCentury]);
+    }, [year]);
 
     const onNextCentury = useCallback(() => {
-        if(disabled || isMaxCentury) return;
-
         setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 100 }));
-    }, [disabled, year, isMaxCentury]);
+    }, [year]);
 
     const onItemSelect = useCallback(item => {
         if(disabled) return;
@@ -109,13 +110,15 @@ function DecadePanel(props) {
             data={data}
             headerPrev={{
                 className: prefixCls => `${prefixCls}__header-prev-century`,
-                isDisabled: disabled || isMinCentury,
+                isDisabled: disabled || isMinCentury || isDisabledPrevArrow,
                 onClick: onPrevCentury,
+                hiddenDisabledArrow,
             }}
             headerNext={{
                 className: prefixCls => `${prefixCls}__header-next-century`,
-                isDisabled: disabled || isMaxCentury,
+                isDisabled: disabled || isMaxCentury || isDisabledNextArrow,
                 onClick: onNextCentury,
+                hiddenDisabledArrow,
             }}
             headerSelect={{
                 isDisabled: disabled,

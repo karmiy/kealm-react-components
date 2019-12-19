@@ -22,6 +22,8 @@ function MonthPanel(props) {
         disabledDate,
         disabledYear,
         disabledDecade,
+        disabledArrow,
+        hiddenDisabledArrow,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -37,6 +39,9 @@ function MonthPanel(props) {
         isMaxYear = MAX_SAFE_YEAR === year;
     const [yearPanelVisible, setYearPanelVisible] = useState(false);
     const data = useMemo(() => createMonthTable(year), [year]);
+
+    const isDisabledPrevArrow = disabledArrow(innerValue || startOfDay(new Date()), 'prev-year'),
+        isDisabledNextArrow = disabledArrow(innerValue || startOfDay(new Date()), 'next-year');
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -56,15 +61,12 @@ function MonthPanel(props) {
     }, []);
 
     const onPrevYear = useCallback(() => {
-        if(disabled || isMinYear) return;
         setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 1 }));
-    }, [disabled, year, isMinYear]);
+    }, [year]);
 
     const onNextYear = useCallback(() => {
-        if(disabled || isMaxYear) return;
-
         setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 1 }));
-    }, [disabled, year, isMaxYear]);
+    }, [year]);
 
     const onYearSelect = useCallback(selectedDate => {
         setYearPanelVisible(false);
@@ -116,13 +118,15 @@ function MonthPanel(props) {
             data={data}
             headerPrev={{
                 className: prefixCls => `${prefixCls}__header-prev-year`,
-                isDisabled: disabled || isMinYear,
+                isDisabled: disabled || isMinYear || isDisabledPrevArrow,
                 onClick: onPrevYear,
+                hiddenDisabledArrow,
             }}
             headerNext={{
                 className: prefixCls => `${prefixCls}__header-next-year`,
-                isDisabled: disabled || isMaxYear,
+                isDisabled: disabled || isMaxYear || isDisabledNextArrow,
                 onClick: onNextYear,
+                hiddenDisabledArrow,
             }}
             headerSelect={{
                 isDisabled: disabled,

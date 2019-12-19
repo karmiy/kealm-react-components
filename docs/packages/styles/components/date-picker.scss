@@ -53,9 +53,16 @@
         text-align: center;
         user-select: none;
 
+        @include e(header-wrap) {
+            position: relative;
+        }
+
         @include e(header-select) {
             display: inline-block;
+            position: absolute;
             line-height: $calendar-header-height;
+            left: 50%;
+            transform: translate(-50%);
             a {
                 display: inline-block;
                 padding: 0 2px;
@@ -98,6 +105,12 @@
                 &:hover {
                     color: $calendar-header-btn-color;
                 }
+            }
+
+            @include when(hidden) {
+                position: relative;
+                opacity: 0;
+                z-index: $z-index-negative;
             }
         }
         button[class*="prev"] {

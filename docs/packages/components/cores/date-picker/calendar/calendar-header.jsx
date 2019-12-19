@@ -18,6 +18,8 @@ function CalendarHeader(props) {
         disabledMonth,
         disabledYear,
         disabledDecade,
+        disabledArrow,
+        hiddenDisabledArrow,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -37,34 +39,26 @@ function CalendarHeader(props) {
 
     // ---------------------------------- event ----------------------------------
     const onPrevYear = useCallback(() => {
-        if(disabled || isMinYear) return;
-
         onChange(v => set(v || startOfDay(new Date()), { year: year - 1 }));
-    }, [disabled, year, isMinYear]);
+    }, [year]);
 
     const onPrevMonth = useCallback(() => {
-        if(disabled || isMinMonth) return;
-
         let _month = month === 1 ? 12 : month - 1,
             _year = month === 1 ? year - 1 : year;
 
         onChange(v => set(v || startOfDay(new Date()), { year: _year, month: _month -1 }));
-    }, [disabled, year, month, isMinMonth]);
+    }, [year, month]);
 
     const onNextYear = useCallback(() => {
-        if(disabled || isMaxYear) return;
-
         onChange(v => set(v || startOfDay(new Date()), { year: year + 1 }));
-    }, [disabled, year, isMaxYear]);
+    }, [year]);
 
     const onNextMonth = useCallback(() => {
-        if(disabled || isMaxMonth) return;
-
         let _month = month === 12 ? 1 : month + 1,
             _year = month === 12 ? year + 1 : year;
 
         onChange(v => set(v || startOfDay(new Date()), { year: _year, month: _month - 1 }));
-    }, [disabled, year, month, isMaxMonth]);
+    }, [year, month]);
 
     const onYearSelect = useCallback(selectedDate => {
         setYearPanelVisible(false);
@@ -79,56 +73,69 @@ function CalendarHeader(props) {
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderPrevYear = useMemo(() => {
+        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'prev-year');
+        const isDisabled = disabled || isMinYear || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
             [`${prefixCls}__header-prev-year`]: true,
-            'is-disabled': disabled || isMinYear,
+            'is-disabled': isDisabled,
+            'is-hidden': hiddenDisabledArrow && isDisabled,
         });
         return (
-            <button className={className} onClick={onPrevYear}>
+            <button className={className} onClick={!isDisabled ? onPrevYear : null}>
                 <Icon type={'double-left'} />
             </button>
         )
-    }, [prefixCls, onPrevYear, disabled, isMinYear]);
+    }, [prefixCls, onPrevYear, disabled, isMinYear, disabledArrow, value, hiddenDisabledArrow]);
 
     const renderPrevMonth = useMemo(() => {
+        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'prev-month');
+        const isDisabled = disabled || isMinMonth || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
             [`${prefixCls}__header-prev-month`]: true,
-            'is-disabled': disabled || isMinMonth,
+            'is-disabled': isDisabled,
+            'is-hidden': hiddenDisabledArrow && isDisabled,
         });
         return (
-            <button className={className} onClick={onPrevMonth}>
+            <button className={className} onClick={!isDisabled ? onPrevMonth : null}>
                 <Icon type={'left'} />
             </button>
         )
-    }, [prefixCls, onPrevMonth, disabled, isMinMonth]);
+    }, [prefixCls, onPrevMonth, disabled, isMinMonth, disabledArrow, value, hiddenDisabledArrow]);
 
     const renderNextYear = useMemo(() => {
+        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'next-year');
+        const isDisabled = disabled || isMaxYear || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
             [`${prefixCls}__header-next-year`]: true,
-            'is-disabled': disabled || isMaxYear,
+            'is-disabled': isDisabled,
+            'is-hidden': hiddenDisabledArrow && isDisabled,
         });
+
         return (
-            <button className={className} onClick={onNextYear}>
+            <button className={className} onClick={!isDisabled ? onNextYear : null}>
                 <Icon type={'double-right'} />
             </button>
         )
-    }, [prefixCls, onNextYear, disabled, isMaxYear]);
+    }, [prefixCls, onNextYear, disabled, isMaxYear, disabledArrow, value, hiddenDisabledArrow]);
 
     const renderNextMonth = useMemo(() => {
+        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'next-month');
+        const isDisabled = disabled || isMaxMonth || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
             [`${prefixCls}__header-next-month`]: true,
-            'is-disabled': disabled || isMaxMonth,
+            'is-disabled': isDisabled,
+            'is-hidden': hiddenDisabledArrow && isDisabled,
         });
         return (
-            <button className={className} onClick={onNextMonth}>
+            <button className={className} onClick={!isDisabled ? onNextMonth : null}>
                 <Icon type={'right'} />
             </button>
         )
-    }, [prefixCls, onNextMonth, disabled, isMaxMonth]);
+    }, [prefixCls, onNextMonth, disabled, isMaxMonth, disabledArrow, value, hiddenDisabledArrow]);
 
     const renderSelect = useMemo(() => {
         const className = mergeStr({

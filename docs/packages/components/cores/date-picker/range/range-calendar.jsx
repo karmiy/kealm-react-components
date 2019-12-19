@@ -2,7 +2,20 @@ import React, { useCallback, useState } from 'react';
 // import { CalendarProps, CalendarDefaultProps } from './interface';
 import { useContextConf, useClassName, useController, useDidUpdate } from 'hooks';
 import Calendar from '../calendar';
-import { addMonths, isBefore, isAfter, isSameMonth, isSameYear, isSameDay, set, startOfDay, startOfMonth } from 'date-fns';
+import {
+    addMonths,
+    addYears,
+    isBefore,
+    isAfter,
+    isSameMonth,
+    isSameYear,
+    isSameDay,
+    set,
+    startOfDay,
+    startOfMonth,
+    differenceInMonths,
+    subYears
+} from 'date-fns';
 import { mergeStr } from 'utils/common/base';
 import { sortDates } from 'utils/common/date';
 
@@ -44,7 +57,7 @@ function RangeCalendar(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [rangeValue, setRangeValue] = useController(defaultValue, value, { onChange, onSelect }, [], disabled)
-    const _rangeValue = sortDates(rangeValue.filter(v => !!v)); // Remove empty and sort asc
+    const _rangeValue = sortDates(rangeValue.filter(v => !!v)); // Remove empty and sort asc (isPlain range array)
 
     const [selectedValue, setSelectedValue] = useState(_rangeValue);
     const [hoverValue, setHoverValue] = useState(_rangeValue);
@@ -52,6 +65,7 @@ function RangeCalendar(props) {
     const [leftValue, setLeftValue] = useState(calendarControls[0]);
     const [rightValue, setRightValue] = useState(calendarControls[1]);
     const [leftPanelValue, setLeftPanelValue] = useState(leftValue); // Calendar current year and month
+    const [rightPanelValue, setRightPanelValue] = useState(rightValue);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -82,6 +96,15 @@ function RangeCalendar(props) {
         setRightValue(calendarControls[1])
     }, [rangeValue]);
 
+    useDidUpdate(() => {
+        setSelectedValue(_rangeValue);
+    }, [rangeValue]);
+
+    // Control right side is always greater than left side
+    useDidUpdate(() => {
+        differenceInMonths(startOfMonth(rightPanelValue), startOfMonth(leftPanelValue)) < 1 && setRightValue(addMonths(leftPanelValue, 1));
+    }, [leftPanelValue]);
+
     // ---------------------------------- event ----------------------------------
     const onCalendarSelect = useCallback((v, isLeft = true) => {
         isLeft ? setLeftValue(v) : setRightValue(v);
@@ -110,7 +133,8 @@ function RangeCalendar(props) {
         setHoverValue(sortDates([...selectedValue, _v]));
     }, [selectedValue]);
 
-    const onPanelChange = useCallback(v => setLeftPanelValue(v), []);
+    const onLeftPanelChange = useCallback(v => setLeftPanelValue(v), []);
+    const onRightPanelChange = useCallback(v => setRightPanelValue(v), []);
 
     // ---------------------------------- function ----------------------------------
     const cellRender = useCallback((prefixCls, item, onClick, content) => {
@@ -151,13 +175,47 @@ function RangeCalendar(props) {
         );
     }, [selectedValue, hoverValue]);
 
+    const disabledDate = useCallback(v => {
+        return isBefore(startOfMonth(v), startOfMonth(leftPanelValue));
+    }, [leftPanelValue]);
+
     const disabledMonth = useCallback(v => {
         return !isAfter(startOfMonth(v), startOfMonth(leftPanelValue));
     }, [leftPanelValue]);
 
     const disabledYear = useCallback(v => {
-        return v.getMonth() - 1 < 8;
-    }, []);
+        return v.getFullYear() < leftPanelValue.getFullYear();
+    }, [leftPanelValue]);
+
+    const disabledDecade = useCallback((v, u) => {
+        const leftYear = leftPanelValue.getFullYear(),
+            startYear = v.getFullYear(),
+            endYear = u.getFullYear();
+        return !(startYear > leftYear
+            || startYear <= leftYear && endYear >= leftYear);
+    }, [leftPanelValue]);
+
+    const disabledArrowLeft = useCallback((v, type) => {
+        switch (type) {
+            case 'next-month':
+                return differenceInMonths(startOfMonth(rightPanelValue), startOfMonth(v)) <= 1;
+            case 'next-year':
+                return differenceInMonths(startOfMonth(rightPanelValue), startOfMonth(addYears(v, 1))) < 1;
+            default:
+                return false;
+        }
+    }, [rightPanelValue]);
+
+    const disabledArrowRight = useCallback((v, type) => {
+        switch (type) {
+            case 'prev-month':
+                return differenceInMonths(startOfMonth(v), startOfMonth(leftPanelValue)) <= 1;
+            case 'prev-year':
+                return differenceInMonths(startOfMonth(subYears(v, 1)), startOfMonth(leftPanelValue)) < 1;
+            default:
+                return false;
+        }
+    }, [leftPanelValue]);
 
     return (
         <div className={classNames}>
@@ -166,9 +224,11 @@ function RangeCalendar(props) {
                     <Calendar
                         value={leftValue}
                         onSelect={onCalendarLeftSelect}
+                        onPanelChange={onLeftPanelChange}
                         cellRender={cellRender}
-                        onPanelChange={onPanelChange}
                         disabled={disabled}
+                        disabledArrow={disabledArrowLeft}
+                        hiddenDisabledArrow
                         visible={visible}
                     />
                 </div>
@@ -176,9 +236,15 @@ function RangeCalendar(props) {
                     <Calendar
                         value={rightValue}
                         onSelect={onCalendarRightSelect}
+                        onPanelChange={onRightPanelChange}
                         cellRender={cellRender}
                         disabled={disabled}
+                        disabledDate={disabledDate}
                         disabledMonth={disabledMonth}
+                        disabledYear={disabledYear}
+                        disabledDecade={disabledDecade}
+                        disabledArrow={disabledArrowRight}
+                        hiddenDisabledArrow
                         visible={visible}
                     />
                 </div>
