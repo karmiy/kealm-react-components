@@ -65,7 +65,7 @@ function TimePicker(props) {
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(e => {
-        e.stopPropagation();
+        e && e.stopPropagation();
 
         setDateValue(createConfig({
             value: null,
@@ -74,6 +74,10 @@ function TimePicker(props) {
     }, []);
 
     const onDateChange = useCallback(v => {
+        if(!v) {
+            onClear();
+            return;
+        }
         setDateValue(createConfig({
             value: v,
             event: [v, formatDate(v, format)],

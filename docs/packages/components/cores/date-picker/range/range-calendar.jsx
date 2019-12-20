@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 // import { CalendarProps, CalendarDefaultProps } from './interface';
-import { useContextConf, useClassName, useController, useDidUpdate } from 'hooks';
+import { useContextConf, useClassName, useController, useDidUpdate, useStateCallable } from 'hooks';
 import Calendar from '../calendar';
 import {
     addMonths,
@@ -59,7 +59,7 @@ function RangeCalendar(props) {
     const [rangeValue, setRangeValue] = useController(defaultValue, value, { onChange, onSelect }, [], disabled)
     const _rangeValue = sortDates(rangeValue.filter(v => !!v)); // Remove empty and sort asc (isPlain range array)
 
-    const [selectedValue, setSelectedValue] = useState(_rangeValue);
+    const [selectedValue, setSelectedValue] = useStateCallable(_rangeValue, true);
     const [hoverValue, setHoverValue] = useState(_rangeValue);
     const calendarControls = getRangeCalendarControls(_rangeValue);
     const [leftValue, setLeftValue] = useState(calendarControls[0]);
@@ -76,19 +76,6 @@ function RangeCalendar(props) {
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
         setHoverValue([...selectedValue]);
-    }, [selectedValue], true);
-
-    useDidUpdate(() => {
-        if(selectedValue.length === 2) {
-            setRangeValue(createConfig({
-                value: selectedValue,
-                event: ['onChange', 'onSelect'],
-                shouldTrigger: {
-                    onChange: (prev, next) => !isSameRange(prev, next),
-                    onSelect: true,
-                },
-            }))
-        }
     }, [selectedValue], true);
 
     useDidUpdate(() => {
@@ -117,6 +104,17 @@ function RangeCalendar(props) {
                 seconds: startV.getSeconds(),
             });
             return sortDates([startV, _v]);
+        }, (nextSelected) => {
+            // Callback is triggered when 2 dates are selected
+            if(nextSelected.length !== 2) return;
+            setRangeValue(createConfig({
+                value: nextSelected,
+                event: ['onChange', 'onSelect'],
+                shouldTrigger: {
+                    onChange: (prev, next) => !isSameRange(prev, next),
+                    onSelect: true,
+                },
+            }));
         })
     }, []);
 

@@ -41,6 +41,10 @@ function WeekPicker(props) {
     }, []);
 
     const onDateChange = useCallback(v => {
+        if(!v) {
+            onClear();
+            return;
+        }
         setDateValue(createConfig({
             value: v,
             event: [v, formatDate(v, format, { weekStartsOn: 1, useAdditionalWeekYearTokens: true })],

@@ -57,8 +57,8 @@ function  Header(props) {
             return;
         }
 
-        const prevDate = value || defaultOpenValue || startOfDay(new Date());
-        const nextDate = parseDate(v, format, prevDate);
+        const prevDate = value || defaultOpenValue || null;
+        const nextDate = parseDate(v, format, prevDate || startOfDay(new Date()));
         // is format error ?
         if(!isValid(nextDate)) return;
 

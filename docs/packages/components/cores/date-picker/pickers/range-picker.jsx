@@ -4,8 +4,10 @@ import { RangePickerProps, RangePickerDefaultProps } from './interface';
 import { formatDate, sortDates } from 'utils/common/date';
 import Picker from '../base/picker';
 import RangeCalendar from '../range';
+import RangeHeader from '../parts/range-header';
 import { mergeStr } from 'utils/common/base';
 import { isSameRange } from '../range/range-calendar';
+import Header from "./date-picker";
 
 const { createConfig } = useController;
 
@@ -52,6 +54,10 @@ function RangePicker(props) {
     }, []);
 
     const onRangeChange = useCallback(rangeV => {
+        if(!rangeV.length) {
+            onClear();
+            return;
+        }
         setRangeValue(createConfig({
             value: rangeV,
             event: [rangeV, [formatDate(rangeV[0], format), formatDate(rangeV[1], format)]],
@@ -87,6 +93,16 @@ function RangePicker(props) {
             size={size}
             {...others}
         >
+            <RangeHeader
+                value={rangeValue}
+                disabled={disabled}
+                visible={isVisible}
+                prefixCls={`${componentCls}-panel`}
+                startPlaceholder={startPlaceholder}
+                endPlaceholder={endPlaceholder}
+                format={format}
+                onChange={onRangeChange}
+            />
             <RangeCalendar
                 value={rangeValue}
                 disabled={disabled}
