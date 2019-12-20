@@ -7,7 +7,6 @@ import RangeCalendar from '../range';
 import RangeHeader from '../parts/range-header';
 import { mergeStr } from 'utils/common/base';
 import { isSameRange } from '../range/range-calendar';
-import Header from "./date-picker";
 
 const { createConfig } = useController;
 
@@ -31,7 +30,8 @@ function RangePicker(props) {
         value,
         onChange,
         disabled,
-        format,
+        showTime,
+        format = showTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         allowClear,
         startPlaceholder,
         endPlaceholder,
@@ -78,6 +78,7 @@ function RangePicker(props) {
             pickerClassName={mergeStr({
                 [componentCls]: true,
                 [`${componentCls}--${size}`]: size,
+                'is-show-time': showTime,
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}

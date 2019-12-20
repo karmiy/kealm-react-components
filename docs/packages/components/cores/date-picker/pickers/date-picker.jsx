@@ -24,7 +24,8 @@ function DatePicker(props) {
         onChange,
         disabled,
         placeholder,
-        format,
+        showTime,
+        format = showTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         allowClear,
         size,
         ...others
@@ -42,7 +43,9 @@ function DatePicker(props) {
         }));
     }, []);
 
-    const onDateChange = useCallback(v => {
+    const onDateChange = useCallback((v, toClose = false) => {
+        if(toClose) setIsVisible(false);
+
         if(!v) {
             onClear();
             return;
@@ -67,6 +70,7 @@ function DatePicker(props) {
             pickerClassName={mergeStr({
                 [componentCls]: true,
                 [`${componentCls}--${size}`]: size,
+                'is-show-time': showTime,
                 [pickerClassName]: pickerClassName,
             })}
             pickerStyle={pickerStyle}
@@ -97,6 +101,9 @@ function DatePicker(props) {
             />
             <Footer
                 prefixCls={`${componentCls}-panel`}
+                disabled={disabled}
+                showTime={showTime}
+                onChange={onDateChange}
             />
         </Picker>
     );

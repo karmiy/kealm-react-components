@@ -66,21 +66,21 @@ function meridianOptions(disabled = false) {
 }
 
 function Combobox(props) {
-    const {
+    const {//placeholder defaultValue defaultVisible allowClear pickerClassName pickerStyle size addon
         prefixCls,
-        defaultOpenValue,
-        value,
+        defaultOpenValue,//
+        value,//
         onChange,
-        disabled,
-        visible,
-        format,
-        hourStep,
-        minuteStep,
-        secondStep,
-        disabledHours,
-        disabledMinutes,
-        disabledSeconds,
-        hideDisabledOptions,
+        disabled,//
+        visible,//
+        format,//
+        hourStep,//
+        minuteStep,//
+        secondStep,//
+        disabledHours,//
+        disabledMinutes,//
+        disabledSeconds,//
+        hideDisabledOptions,//
     } = props;
 
     // ---------------------------------- variable ----------------------------------

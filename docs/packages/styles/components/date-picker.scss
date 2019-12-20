@@ -6,11 +6,21 @@
     width: $date-picker-width;
     transition: width $transition-duration-base;
 
+    @include when(show-time) {
+        width: $date-picker-time-width;
+    }
+
     @include m(large) {
         width: $date-picker-width-large;
+        @include when(show-time) {
+            width: $date-picker-time-width-large;
+        }
     }
     @include m(small) {
         width: $date-picker-width-small;
+        @include when(show-time) {
+            width: $date-picker-time-width-small;
+        }
     }
 }
 
@@ -42,11 +52,21 @@
     width: $range-picker-width;
     transition: width $transition-duration-base;
 
+    @include when(show-time) {
+        width: $range-picker-time-width;
+    }
+
     @include m(large) {
         width: $range-picker-width-large;
+        @include when(show-time) {
+            width: $range-picker-time-width-large;
+        }
     }
     @include m(small) {
         width: $range-picker-width-small;
+        @include when(show-time) {
+            width: $range-picker-time-width-small;
+        }
     }
 }
 
@@ -65,18 +85,43 @@
     }
 
     @include e(footer-wrap) {
-        line-height: 38px;
+        line-height: 40px;
         padding: 0 12px;
         border-top: 1px solid $date-picker-panel-border-color;
+        font-size: 0;
+
+        @include when(show-time) {
+            .km-date-picker-panel__footer-container {
+                text-align: right;
+            }
+        }
+
+        @include when(disabled) {
+            .km-date-picker-panel__footer-opt {
+                color: $color-text-placeholder;
+                cursor: not-allowed;
+            }
+        }
 
         @include e(footer-container) {
-            text-align: right;
+            text-align: center;
 
-            @include e(footer-btn) {
+            @include e(footer-opt) {
                 display: inline-block;
                 margin-right: 8px;
                 font-size: $font-size-base;
                 color: $color-primary;
+                cursor: pointer;
+                vertical-align: middle;
+
+                @include when(now) {
+                    float: left;
+                }
+            }
+            @include e(footer-btn) {
+                padding: 4px 9px;
+                font-size: $font-size-base;
+                vertical-align: middle;
             }
         }
     }

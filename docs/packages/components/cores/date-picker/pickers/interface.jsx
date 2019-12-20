@@ -20,17 +20,19 @@ export const CommonDefaultProps = {
     onChange: noop,
     disabled: false,
     placeholder: '请选择日期',
-    format: 'yyyy-MM-dd',
+    // format: 'yyyy-MM-dd',
     allowClear: false,
 }
 
 /* date-picker-props */
 export const DatePickerProps = {
     ...CommonProps,
+    showTime: PropTypes.bool,
 }
 
 export const DatePickerDefaultProps = {
     ...CommonDefaultProps,
+    showTime: false,
 }
 
 /* month-picker-props */
@@ -68,4 +70,5 @@ export const RangePickerDefaultProps = {
     ...omit(CommonDefaultProps, ['placeholder']),
     startPlaceholder: '开始日期',
     endPlaceholder: '结束日期',
+    // format: 'yyyy-MM-dd',
 }

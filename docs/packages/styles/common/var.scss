@@ -728,14 +728,24 @@ $time-picker-item-color-disabled: $color-text-placeholder !default;
 
 /* --------------------------DatePicker-------------------------- */
 $date-picker-width: 165px !default;
-$range-picker-width: 316px !default;
+$range-picker-width: 315px !default;
 $date-picker-panel-border-color: $border-color-light !default;
 
+// showTime
+$date-picker-time-width: 195px !default;
+$range-picker-time-width: 350px !default;
+
 // size
-$date-picker-width-large: 188px !default;
+$date-picker-width-large: 185px !default;
 $date-picker-width-small: 155px !default;
 $range-picker-width-large: 350px !default;
 $range-picker-width-small: 305px !default;
+
+$date-picker-time-width-small: 175px !default;
+$date-picker-time-width-large: 215px !default;
+$range-picker-time-width-small: 340px !default;
+$range-picker-time-width-large: 385px !default;
+
 
 // calendar
 $calendar-width: 280px !default;

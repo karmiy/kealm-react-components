@@ -162,6 +162,25 @@ function DatePickerDoc() {
                 )
             }, [size])}
 
+            {/* 日期时间选择 */}
+            <h2>日期时间选择</h2>
+            <p>配置 showTime 属性，增加选择时间功能。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row gutter={16}>
+                            <Col>
+                                <DatePicker
+                                    allowClear
+                                    showTime
+                                    onChange={(date, dateString) => console.log(date, dateString)}
+                                />
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [])}
+
             {/* API */}
             {/*<ApiTable title='TimePicker' propsList={timePickerProps} eventsList={timePickerEvents} />*/}
         </div>

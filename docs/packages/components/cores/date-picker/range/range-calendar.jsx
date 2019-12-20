@@ -92,6 +92,11 @@ function RangeCalendar(props) {
         differenceInMonths(startOfMonth(rightPanelValue), startOfMonth(leftPanelValue)) < 1 && setRightValue(addMonths(leftPanelValue, 1));
     }, [leftPanelValue]);
 
+    // Clear status when component reload
+    useDidUpdate(() => {
+        !visible && setSelectedValue(_rangeValue);
+    }, [visible], true);
+
     // ---------------------------------- event ----------------------------------
     const onCalendarSelect = useCallback((v, isLeft = true) => {
         isLeft ? setLeftValue(v) : setRightValue(v);
