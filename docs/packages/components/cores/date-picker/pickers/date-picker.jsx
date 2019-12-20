@@ -3,6 +3,7 @@ import { useContextConf, useController } from 'hooks';
 import { DatePickerProps, DatePickerDefaultProps } from './interface';
 import { formatDate } from 'utils/common/date';
 import Header from '../parts/header';
+import Footer from '../parts/footer';
 import Calendar from '../calendar';
 import Picker from '../base/picker';
 import { mergeStr } from 'utils/common/base';
@@ -93,6 +94,9 @@ function DatePicker(props) {
                 disabled={disabled}
                 visible={isVisible}
                 onSelect={onCalendarSelect}
+            />
+            <Footer
+                prefixCls={`${componentCls}-panel`}
             />
         </Picker>
     );

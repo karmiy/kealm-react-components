@@ -63,6 +63,23 @@
             padding: 0 5px;
         }
     }
+
+    @include e(footer-wrap) {
+        line-height: 38px;
+        padding: 0 12px;
+        border-top: 1px solid $date-picker-panel-border-color;
+
+        @include e(footer-container) {
+            text-align: right;
+
+            @include e(footer-btn) {
+                display: inline-block;
+                margin-right: 8px;
+                font-size: $font-size-base;
+                color: $color-primary;
+            }
+        }
+    }
 }
 
 @include b(range-picker-panel) {
