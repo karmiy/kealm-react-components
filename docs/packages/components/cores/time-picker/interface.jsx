@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { dropdownCommonProps, dropdownCommonDefaultProps } from '../select/interface';
 import { noop, emptyArr } from 'utils/common/base';
+import { omit } from 'utils/common/object';
 
 const disabledOptions = () => [];
 
@@ -46,7 +47,6 @@ const HeaderComboboxCommonProps = {
     prefixCls: PropTypes.string,
     defaultOpenValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func,
     disabled: PropTypes.bool,
     format: PropTypes.string,
     visible: PropTypes.bool,
@@ -59,7 +59,6 @@ const HeaderComboboxCommonProps = {
 }
 
 const HeaderComboboxCommonDefaultProps = {
-    onChange: noop,
     disabled: false,
     format: 'HH:mm:ss',
     hourStep: 1,
@@ -73,23 +72,50 @@ const HeaderComboboxCommonDefaultProps = {
 /* header-props */
 export const HeaderProps = {
     ...HeaderComboboxCommonProps,
+    onChange: PropTypes.func,
     placeholder: PropTypes.string,
 }
 
 export const HeaderDefaultProps = {
     ...HeaderComboboxCommonDefaultProps,
+    onChange: noop,
     placeholder: '请选择时间',
 }
 
 /* combobox-props */
 export const ComboboxProps = {
     ...HeaderComboboxCommonProps,
+    onSelect: PropTypes.func,
     hideDisabledOptions: PropTypes.bool,
+    initAsyncScroll: PropTypes.bool,
 }
 
 export const ComboboxDefaultProps = {
     ...HeaderComboboxCommonDefaultProps,
+    onSelect: noop,
     hideDisabledOptions: false,
+    initAsyncScroll: true,
+}
+
+/* time-panel-props */
+export const TimePanelProps = {
+    ...omit(HeaderComboboxCommonProps, ['prefixCls']),
+    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
+    hideDisabledOptions: PropTypes.bool,
+    header: PropTypes.func,
+    footer: PropTypes.func,
+    initAsyncScroll: PropTypes.bool,
+}
+
+export const TimePanelDefaultProps = {
+    ...HeaderComboboxCommonDefaultProps,
+    onChange: noop,
+    onSelect: noop,
+    hideDisabledOptions: false,
+    header: noop,
+    footer: noop,
+    initAsyncScroll: true,
 }
 
 /* select-props */
@@ -101,10 +127,12 @@ export const SelectProps = {
     type: PropTypes.string,
     visible: PropTypes.bool, // Prevent invalid scrolling when hidden
     hideDisabledOptions: PropTypes.bool,
+    initAsyncScroll: PropTypes.bool,
 }
 
 export const SelectDefaultProps = {
     options: emptyArr,
     onSelect: noop,
     hideDisabledOptions: false,
+    initAsyncScroll: true,
 }

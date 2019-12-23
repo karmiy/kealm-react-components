@@ -84,6 +84,31 @@
         }
     }
 
+    @include e(body) {
+        position: relative;
+
+        .km-time-panel {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: $color-white;
+            .km-time-panel__select {
+                max-height: none;
+            }
+        }
+
+        @include e(time-header) {
+            box-sizing: border-box;
+            line-height: $date-picker-panel-time-header-height - 1px;
+            border-bottom: 1px solid $date-picker-panel-border-color;
+            font-size: $font-size-base;
+            color: $calendar-header-select-color;
+            text-align: center;
+        }
+    }
+
     @include e(footer-wrap) {
         line-height: 40px;
         padding: 0 12px;
@@ -117,6 +142,11 @@
                 @include when(now) {
                     float: left;
                 }
+
+                @include when(disabled) {
+                    color: $color-text-placeholder;
+                    cursor: not-allowed;
+                }
             }
             @include e(footer-btn) {
                 padding: 4px 9px;
@@ -138,6 +168,82 @@
         .km-input__inner {
             padding: 0 20px;
             text-align: left;
+        }
+    }
+
+    @include e(body) {
+        position: relative;
+
+        @include e(range-time) {
+            display: flex;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: $color-white;
+
+            .km-time-panel {
+                flex: 1;
+                &:first-child {
+                    border-right: 1px solid $date-picker-panel-border-color;
+                }
+                .km-time-panel__select {
+                    max-height: none;
+                }
+            }
+
+            @include e(time-header) {
+                box-sizing: border-box;
+                line-height: $date-picker-panel-time-header-height - 1px;
+                border-bottom: 1px solid $date-picker-panel-border-color;
+                font-size: $font-size-base;
+                color: $calendar-header-select-color;
+                text-align: center;
+            }
+        }
+    }
+
+    @include e(footer-wrap) {
+        line-height: 40px;
+        padding: 0 12px;
+        border-top: 1px solid $date-picker-panel-border-color;
+        font-size: 0;
+
+        @include when(show-time) {
+            .km-range-picker-panel__footer-container {
+                text-align: right;
+            }
+        }
+
+        @include when(disabled) {
+            .km-range-picker-panel__footer-opt {
+                color: $color-text-placeholder;
+                cursor: not-allowed;
+            }
+        }
+
+        @include e(footer-container) {
+            text-align: center;
+
+            @include e(footer-opt) {
+                display: inline-block;
+                margin-right: 8px;
+                font-size: $font-size-base;
+                color: $color-primary;
+                cursor: pointer;
+                vertical-align: middle;
+
+                @include when(disabled) {
+                    color: $color-text-placeholder;
+                    cursor: not-allowed;
+                }
+            }
+            @include e(footer-btn) {
+                padding: 4px 9px;
+                font-size: $font-size-base;
+                vertical-align: middle;
+            }
         }
     }
 }

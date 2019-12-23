@@ -54,12 +54,24 @@ export const RangeHeaderDefaultProps = {
 export const FooterProps = {
     prefixCls: PropTypes.string,
     onChange: PropTypes.func,
-    showTime: PropTypes.bool,
+    showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     disabled: PropTypes.bool,
+    isRange: PropTypes.bool,
+    timeVisible: PropTypes.bool,
+    onTimeVisibleChange: PropTypes.func,
+    // onToday: PropTypes.func,
+    // onNow: PropTypes.func,
+    onOk: PropTypes.func,
+    disabledDate: PropTypes.func,
 }
 
 export const FooterDefaultProps = {
     onChange: noop,
     showTime: false,
     disabled: false,
+    isRange: false,
+    timeVisible: false,
+    onTimeVisibleChange: noop,
+    onOk: noop,
+    disabledDate: noop,
 }

@@ -21,7 +21,9 @@ import { isElement } from 'react-is';
 import { isValidDate, isValidFormat, createCalendar } from 'utils/common/date';
 import { YearPanel, DecadePanel, MonthPanel } from '../../../packages/components/cores/date-picker/panels';
 import Calendar from '../../../packages/components/cores/date-picker/calendar';
+import TimePanel from '../../../packages/components/cores/time-picker/time-panel';
 import { RenderWrapper } from '../../../packages/components/common';
+import RangeCalendar from '../../../packages/components/cores/date-picker/range/range-calendar';
 window.isValidDate = isValidDate;
 // console.log(useController);
 
@@ -175,7 +177,7 @@ function ExampleDoc() {
                 <Radio value={values[3]}>D</Radio>
             </Radio.Group>
             <DatePicker />*/}
-            <DecadePanel
+            {/*<DecadePanel
                 defaultValue={new Date('2018-03-24 12:13:14')}
                 onSelect={(v, u) => console.log(v, u, 'select')}
                 onChange={(v, u) => console.log(v, u, 'change')}
@@ -188,7 +190,7 @@ function ExampleDoc() {
                     return true;
                 }}
                 hiddenDisabledArrow
-            />
+            />*/}
             {/*<Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />*/}
             {/*<YearPanel
                 // defaultValue={new Date('2018-03-02 12:11:10')}
@@ -222,6 +224,11 @@ function ExampleDoc() {
                 }}
                 hiddenDisabledArrow
                 // disabled={true}
+            />*/}
+            {/*<TimePanel defaultOpenValue={new Date('2018-10-22 12:11:10')} onChange={v => console.log('change: ' +  v)} onSelect={v => console.log('select: ' +  v)} />*/}
+            {/*<RangeCalendar
+                defaultValue={[new Date('2019-12-11 13:13:13'), new Date('2019-01-01 14:14:14')]}
+                onSelect={v => console.log(v)}
             />*/}
             {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}

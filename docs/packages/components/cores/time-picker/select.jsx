@@ -14,6 +14,7 @@ function Select(props) {
         type,
         visible,
         hideDisabledOptions,
+        initAsyncScroll,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -32,7 +33,7 @@ function Select(props) {
     const onItemClick = useCallback((option, index) => {
         if(option.disabled) return;
 
-        if(index === selectedIndex) return;
+        // if(index === selectedIndex) return;
 
         onSelect(option, index, type);
     }, [onSelect, type, selectedIndex]);
@@ -40,7 +41,7 @@ function Select(props) {
     // ---------------------------------- effect ----------------------------------
     useDidMount(() => {
         scrollToSelected(0);
-    }, true);
+    }, initAsyncScroll);
 
     useDidUpdate(() => {
         scrollToSelected(120);

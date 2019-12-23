@@ -6,7 +6,7 @@ import {Icon} from "../index";
 import Trigger from '../trigger';
 // import Header from './header';
 import Header from '../date-picker/parts/header';
-import Combobox from './combobox';
+import TimePanel from './time-panel';
 import { RenderWrapper } from '../../common';
 import { formatDate } from 'utils/common/date'
 
@@ -127,7 +127,7 @@ function TimePicker(props) {
 
     const renderPanel = useMemo(() => {
         const commonProps = {
-            prefixCls: `${componentCls}-panel`,
+            // prefixCls: `${componentCls}-panel`,
             defaultOpenValue,
             value: dateValue,
             onChange: onDateChange,
@@ -145,11 +145,14 @@ function TimePicker(props) {
             <>
                 <div className={`${componentCls}-panel`}>
                     <Header
+                        prefixCls={`${componentCls}-panel`}
                         placeholder={placeholder}
+                        // onChange={onDateChange}
                         {...commonProps}
                     />
-                    <Combobox
+                    <TimePanel
                         hideDisabledOptions={hideDisabledOptions}
+                        // onSelect={onDateChange}
                         {...commonProps}
                     />
                     {renderAddon}

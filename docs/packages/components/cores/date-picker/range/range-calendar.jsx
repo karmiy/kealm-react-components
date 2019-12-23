@@ -28,7 +28,20 @@ const { createConfig } = useController;
  */
 function getRangeCalendarControls(rangeValue) {
     const leftValue = rangeValue.length === 0 ? startOfDay(new Date()) : rangeValue[0],
-        rightValue = rangeValue.length === 2 && !isSameMonth(...rangeValue) ? rangeValue[1] : addMonths(leftValue, 1);
+        rightValue = rangeValue.length === 2
+                        ?
+                        (
+                            !isSameMonth(...rangeValue)
+                                ? rangeValue[1]
+                                :
+                                set(addMonths(leftValue, 1), {
+                                    hours: rangeValue[1].getHours(),
+                                    minutes: rangeValue[1].getMinutes(),
+                                    seconds: rangeValue[1].getSeconds(),
+                                })
+                        )
+                        :
+                        addMonths(leftValue, 1);
     return [leftValue, rightValue];
 }
 
@@ -40,6 +53,28 @@ export function isSameRange(prevRange, nextRange, isSort = false) {
 
     const _prevRange = isSort ? sortDates(_filterPrev) : _filterPrev;
     return _prevRange[0].getTime() === nextRange[0].getTime() && _prevRange[1].getTime() === nextRange[1].getTime();
+}
+
+function setRangeTime(prevRange, nextRange) {
+    if(!prevRange) return [...nextRange];
+
+    const _filterPrev = prevRange.filter(v => !!v);
+    const [prevStartV, prevEndV] = _filterPrev;
+    if(_filterPrev.length === 0) return [...nextRange];
+
+    const nextEndV = _filterPrev.length === 2 ? prevEndV : prevStartV;
+    return [
+        set(nextRange[0], {
+            hours: prevStartV.getHours(),
+            minutes: prevStartV.getMinutes(),
+            seconds: prevStartV.getSeconds(),
+        }),
+        set(nextRange[1], {
+            hours: nextEndV.getHours(),
+            minutes: nextEndV.getMinutes(),
+            seconds: nextEndV.getSeconds(),
+        })
+    ];
 }
 
 function RangeCalendar(props) {
@@ -61,7 +96,7 @@ function RangeCalendar(props) {
 
     const [selectedValue, setSelectedValue] = useStateCallable(_rangeValue, true);
     const [hoverValue, setHoverValue] = useState(_rangeValue);
-    const calendarControls = getRangeCalendarControls(_rangeValue);
+    const calendarControls = getRangeCalendarControls(_rangeValue); // Control the initial display on both sides
     const [leftValue, setLeftValue] = useState(calendarControls[0]);
     const [rightValue, setRightValue] = useState(calendarControls[1]);
     const [leftPanelValue, setLeftPanelValue] = useState(leftValue); // Calendar current year and month
@@ -103,12 +138,13 @@ function RangeCalendar(props) {
         setSelectedValue(curRange => {
             if(!curRange.length || curRange.length === 2) return [v];
             const [startV] = curRange;
-            const _v = set(v, {
+            /*const _v = set(v, {
                 hours: startV.getHours(),
                 minutes: startV.getMinutes(),
                 seconds: startV.getSeconds(),
-            });
-            return sortDates([startV, _v]);
+            });*/
+            return setRangeTime(_rangeValue, sortDates([startV, v]));
+            // return sortDates([startV, _v]);
         }, (nextSelected) => {
             // Callback is triggered when 2 dates are selected
             if(nextSelected.length !== 2) return;
@@ -121,10 +157,10 @@ function RangeCalendar(props) {
                 },
             }));
         })
-    }, []);
+    }, [_rangeValue]);
 
-    const onCalendarLeftSelect = useCallback(v => onCalendarSelect(v, true), []);
-    const onCalendarRightSelect = useCallback(v => onCalendarSelect(v, false), []);
+    const onCalendarLeftSelect = useCallback(v => onCalendarSelect(v, true), [onCalendarSelect]);
+    const onCalendarRightSelect = useCallback(v => onCalendarSelect(v, false), [onCalendarSelect]);
 
     const onCellEnter = useCallback(v => {
         const [startV] = selectedValue;

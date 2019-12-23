@@ -25,6 +25,7 @@ function MonthPicker(props) {
         format,
         allowClear,
         size,
+        disabledDate,
         ...others
     } = props;
 

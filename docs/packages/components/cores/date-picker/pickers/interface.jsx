@@ -13,6 +13,7 @@ export const CommonProps = {
     format: PropTypes.string,
     allowClear: PropTypes.bool,
     size: PropTypes.oneOf(['large', 'small']),
+    disabledDate: PropTypes.func,
 }
 
 export const CommonDefaultProps = {
@@ -22,12 +23,13 @@ export const CommonDefaultProps = {
     placeholder: '请选择日期',
     // format: 'yyyy-MM-dd',
     allowClear: false,
+    disabledDate: noop,
 }
 
 /* date-picker-props */
 export const DatePickerProps = {
     ...CommonProps,
-    showTime: PropTypes.bool,
+    showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 }
 
 export const DatePickerDefaultProps = {
@@ -64,11 +66,13 @@ export const RangePickerProps = {
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     startPlaceholder: PropTypes.string,
     endPlaceholder: PropTypes.string,
+    showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 }
 
 export const RangePickerDefaultProps = {
     ...omit(CommonDefaultProps, ['placeholder']),
     startPlaceholder: '开始日期',
     endPlaceholder: '结束日期',
+    showTime: false,
     // format: 'yyyy-MM-dd',
 }

@@ -1,11 +1,14 @@
-import React, { useCallback } from 'react';
-import { useContextConf, useController } from 'hooks';
+import React, { useCallback, useState } from 'react';
+import { useContextConf, useController, useDidUpdate } from 'hooks';
 import { RangePickerProps, RangePickerDefaultProps } from './interface';
 import { formatDate, sortDates } from 'utils/common/date';
 import Picker from '../base/picker';
 import RangeCalendar from '../range';
 import RangeHeader from '../parts/range-header';
-import { mergeStr } from 'utils/common/base';
+import Footer from '../parts/footer';
+import TimePanel from '../../time-picker/time-panel';
+import { RenderWrapper } from '../../../common';
+import {mergeStr, isObject, emptyObj} from 'utils/common/base';
 import { isSameRange } from '../range/range-calendar';
 
 const { createConfig } = useController;
@@ -36,6 +39,7 @@ function RangePicker(props) {
         startPlaceholder,
         endPlaceholder,
         size,
+        disabledDate,
         ...others
     } = props;
 
@@ -44,6 +48,14 @@ function RangePicker(props) {
     const [rangeValue, setRangeValue] = useController(defaultValue, value, onChange, [], disabled);
 
     const pickerValue = sortDates(rangeValue.filter(v => !!v)).map(item => formatDate(item, format));
+
+    const [timeVisible, setTimeVisible] = useState(false);
+    const timePanelProps = isObject(showTime) ? showTime : emptyObj;
+
+    // ---------------------------------- effect ----------------------------------
+    useDidUpdate(() => {
+        isVisible && setTimeVisible(false);
+    }, [isVisible], true);
 
     // ---------------------------------- event ----------------------------------
     const onClear = useCallback(() => {
@@ -65,11 +77,30 @@ function RangePicker(props) {
     }, [format]);
 
     const onRangeCalendarSelect = useCallback(selectedRange => {
-        setIsVisible(false);
+        !showTime && setIsVisible(false);
         if(isSameRange(rangeValue, selectedRange)) return;
 
         onRangeChange(selectedRange);
+    }, [rangeValue, onRangeChange, showTime]);
+
+    const onLeftTimeValueChange = useCallback(v => {
+        onRangeChange([v, rangeValue[1]]);
     }, [rangeValue, onRangeChange]);
+
+    const onRightTimeValueChange = useCallback(v => {
+        onRangeChange([rangeValue[0], v]);
+    }, [rangeValue, onRangeChange]);
+
+    const onOk = useCallback(() => setIsVisible(false), []);
+
+    // ---------------------------------- render mini chunk ----------------------------------
+    const renderTimeHeader = useCallback(v => {
+        return (
+            <div className={`${componentCls}-panel__time-header`}>
+                {formatDate(v ? v : new Date(), 'yyyy 年 MM 月 dd 日')}
+            </div>
+        )
+    }, [componentCls]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -104,13 +135,50 @@ function RangePicker(props) {
                 format={format}
                 onChange={onRangeChange}
             />
-            <RangeCalendar
-                value={rangeValue}
-                disabled={disabled}
-                visible={isVisible}
-                onSelect={onRangeCalendarSelect}
-                // onChange={(a) => console.log('change', a)}
-            />
+            <div className={`${componentCls}-panel__body`}>
+                <RangeCalendar
+                    value={rangeValue}
+                    disabled={disabled}
+                    visible={isVisible}
+                    onSelect={onRangeCalendarSelect}
+                />
+                {/* Open only after 2 dates have been selected */}
+                <RenderWrapper visible={timeVisible} unmountOnExit>
+                    <div className={`${componentCls}-panel__range-time`}>
+                        <TimePanel
+                            header={renderTimeHeader}
+                            value={rangeValue[0] || null}
+                            onChange={onLeftTimeValueChange}
+                            disabled={disabled}
+                            visible={isVisible}
+                            format={format}
+                            initAsyncScroll={false}
+                            {...timePanelProps}
+                        />
+                        <TimePanel
+                            header={renderTimeHeader}
+                            value={rangeValue[1] || null}
+                            onChange={onRightTimeValueChange}
+                            disabled={disabled}
+                            visible={isVisible}
+                            format={format}
+                            initAsyncScroll={false}
+                            {...timePanelProps}
+                        />
+                    </div>
+                </RenderWrapper>
+            </div>
+            <RenderWrapper visible={!!showTime} unmountOnExit>
+                <Footer
+                    prefixCls={`${componentCls}-panel`}
+                    disabled={disabled || rangeValue.length !== 2}
+                    isRange
+                    showTime={showTime}
+                    timeVisible={timeVisible}
+                    onTimeVisibleChange={setTimeVisible}
+                    onOk={onOk}
+                />
+            </RenderWrapper>
         </Picker>
     );
 }

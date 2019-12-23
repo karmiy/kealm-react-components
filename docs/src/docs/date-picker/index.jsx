@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { DatePicker, Row, Col, Radio } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { endOfDay } from 'date-fns';
 
 const { MonthPicker, WeekPicker, RangePicker } = DatePicker;
 
@@ -12,6 +13,8 @@ function DatePickerDoc() {
     const onChange = useCallback(v => setValue(v), []);
     const onSizeChange = useCallback(v => setSize(v), []);
     const onVisibleChange = useCallback(v => setVisible(v), []);
+
+    const disabledDate = useCallback(v => v < endOfDay(new Date()), []);
 
     return (
         <div className='page-box'>
@@ -137,24 +140,20 @@ function DatePickerDoc() {
                         <div className="detail-box">
                             <Row gutter={16}>
                                 <Col>
-                                    <DatePicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)}
-                                    />
+                                    <DatePicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)} />
                                 </Col>
                                 <Col>
-                                    <WeekPicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)}
-                                    />
+                                    <WeekPicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)} />
                                 </Col>
                             </Row>
                         </div>
                         <div className="detail-box">
                             <Row gutter={16}>
                                 <Col>
-                                    <MonthPicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)}
-                                    />
+                                    <MonthPicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)} />
                                 </Col>
                                 <Col>
-                                    <RangePicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)}
-                                    />
+                                    <RangePicker allowClear size={size || undefined} onChange={(date, dateString) => console.log(date, dateString)} />
                                 </Col>
                             </Row>
                         </div>
@@ -165,12 +164,25 @@ function DatePickerDoc() {
             {/* 日期时间选择 */}
             <h2>日期时间选择</h2>
             <p>配置 showTime 属性，增加选择时间功能。</p>
+            <p>当 showTime 为一个对象时，其属性会传递给内建的 TimePicker</p>
             {useMemo(() => {
                 return (
                     <div className="detail-box">
                         <Row gutter={16}>
                             <Col>
                                 <DatePicker
+                                    // defaultValue={new Date('2018-12-11 13:14:15')}
+                                    allowClear
+                                    /*showTime={{
+                                        defaultOpenValue: new Date('2018-12-10 13:12:11')
+                                    }}*/
+                                    showTime
+                                    onChange={(date, dateString) => console.log(date, dateString)}
+                                />
+                            </Col>
+                            <Col>
+                                <RangePicker
+                                    defaultValue={[new Date('2018-12-11 13:14:15'), new Date('2018-12-22 17:24:31')]}
                                     allowClear
                                     showTime
                                     onChange={(date, dateString) => console.log(date, dateString)}
@@ -178,6 +190,69 @@ function DatePickerDoc() {
                             </Col>
                         </Row>
                     </div>
+                )
+            }, [])}
+
+            {/* 禁用 */}
+            <h2>禁用</h2>
+            <p>选择框的不可用状态。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col>
+                                    <DatePicker defaultValue={new Date('2020-01-01')} disabled />
+                                </Col>
+                                <Col>
+                                    <WeekPicker defaultValue={new Date('2020-01-01')} disabled />
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col>
+                                    <MonthPicker defaultValue={new Date('2020-01-01')} disabled />
+                                </Col>
+                                <Col>
+                                    <RangePicker defaultValue={[new Date('2020-01-01'), new Date('2020-02-01')]} disabled />
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
+                )
+            }, [])}
+
+            {/* 不可选择日期和时间 */}
+            <h2>不可选择日期和时间</h2>
+            <p>可用 disabledDate 和 disabledTime 分别禁止选择部分日期和时间。</p>
+            <p>其中 disabledTime 需要和 showTime 一起使用。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col>
+                                    <DatePicker
+                                        disabledDate={disabledDate}
+                                    />
+                                </Col>
+                                <Col>
+                                    <WeekPicker defaultValue={new Date('2020-01-01')} />
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col>
+                                    <MonthPicker defaultValue={new Date('2020-01-01')} />
+                                </Col>
+                                <Col>
+                                    <RangePicker defaultValue={[new Date('2020-01-01'), new Date('2020-02-01')]} />
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
                 )
             }, [])}
 

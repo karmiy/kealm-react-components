@@ -66,21 +66,22 @@ function meridianOptions(disabled = false) {
 }
 
 function Combobox(props) {
-    const {//placeholder defaultValue defaultVisible allowClear pickerClassName pickerStyle size addon
+    const {
         prefixCls,
-        defaultOpenValue,//
-        value,//
-        onChange,
-        disabled,//
-        visible,//
-        format,//
-        hourStep,//
-        minuteStep,//
-        secondStep,//
-        disabledHours,//
-        disabledMinutes,//
-        disabledSeconds,//
-        hideDisabledOptions,//
+        defaultOpenValue,
+        value,
+        onSelect,
+        disabled,
+        visible,
+        format,
+        hourStep,
+        minuteStep,
+        secondStep,
+        disabledHours,
+        disabledMinutes,
+        disabledSeconds,
+        hideDisabledOptions,
+        initAsyncScroll,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -94,15 +95,15 @@ function Combobox(props) {
     const isAM = value ? value.getHours() < 12 : (defaultOpenValue ? defaultOpenValue.getHours() < 12 : true); // am or pm for hh
 
     // ---------------------------------- event ----------------------------------
-    const onSelect = useCallback((option, index, type) => {
+    const onItemSelect = useCallback((option, index, type) => {
         const selectOptions =  { [type]: option.value };
         const emptyDate = defaultOpenValue
             ?
             new Date(defaultOpenValue)
             :
             set(startOfDay(new Date()), selectOptions);
-        onChange(set(value || emptyDate, selectOptions));
-    }, [value, onChange, defaultOpenValue, is12Hours, isAM]);
+        onSelect(set(value || emptyDate, selectOptions));
+    }, [value, onSelect, defaultOpenValue, is12Hours, isAM]);
 
     const onMeridianSelect = useCallback(option => {
         const emptyDate = defaultOpenValue
@@ -112,8 +113,8 @@ function Combobox(props) {
             startOfDay(new Date());
         const nextDate = value || emptyDate;
         const selectOptions = {'hours': option.value === 'am' ? nextDate.getHours() % 12 : (nextDate.getHours() % 12 + 12)};
-        onChange(set(nextDate, selectOptions))
-    }, [value, onChange, defaultOpenValue]);
+        onSelect(set(nextDate, selectOptions))
+    }, [value, onSelect, defaultOpenValue]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderHoursSelect = useMemo(() => {
@@ -132,11 +133,12 @@ function Combobox(props) {
                 selectedIndex={selectedIndex}
                 options={options}
                 type={'hours'}
-                onSelect={onSelect}
+                onSelect={onItemSelect}
                 hideDisabledOptions={hideDisabledOptions}
+                initAsyncScroll={initAsyncScroll}
             />
         );
-    }, [showHours, is12Hours, prefixCls, visible, hour, onSelect, disabled, isAM, hourStep, disabledHours, hideDisabledOptions]);
+    }, [showHours, is12Hours, prefixCls, visible, hour, onItemSelect, disabled, isAM, hourStep, disabledHours, hideDisabledOptions, initAsyncScroll]);
 
     const renderMinutesSelect = useMemo(() => {
         if(!showMinutes) return null;
@@ -150,11 +152,12 @@ function Combobox(props) {
                 selectedIndex={selectedIndex}
                 options={options}
                 type={'minutes'}
-                onSelect={onSelect}
+                onSelect={onItemSelect}
                 hideDisabledOptions={hideDisabledOptions}
+                initAsyncScroll={initAsyncScroll}
             />
         );
-    }, [showMinutes, prefixCls, visible, minute, onSelect, disabled, minuteStep, disabledMinutes, hideDisabledOptions]);
+    }, [showMinutes, prefixCls, visible, minute, onItemSelect, disabled, minuteStep, disabledMinutes, hideDisabledOptions, initAsyncScroll]);
 
     const renderSecondsSelect = useMemo(() => {
         if(!showSeconds) return null;
@@ -168,11 +171,12 @@ function Combobox(props) {
                 selectedIndex={selectedIndex}
                 options={options}
                 type={'seconds'}
-                onSelect={onSelect}
+                onSelect={onItemSelect}
                 hideDisabledOptions={hideDisabledOptions}
+                initAsyncScroll={initAsyncScroll}
             />
         );
-    }, [showSeconds, prefixCls, visible, second, onSelect, disabled, secondStep, disabledSeconds, hideDisabledOptions]);
+    }, [showSeconds, prefixCls, visible, second, onItemSelect, disabled, secondStep, disabledSeconds, hideDisabledOptions, initAsyncScroll]);
 
     const renderMeridianSelect = useMemo(() => {
         if(!is12Hours) return null;
@@ -187,9 +191,10 @@ function Combobox(props) {
                 options={options}
                 type={'meridian'}
                 onSelect={onMeridianSelect}
+                initAsyncScroll={initAsyncScroll}
             />
         );
-    }, [is12Hours, disabled, isAM, prefixCls, visible, onMeridianSelect]);
+    }, [is12Hours, disabled, isAM, prefixCls, visible, onMeridianSelect, initAsyncScroll]);
 
     // ---------------------------------- render ----------------------------------
     return (

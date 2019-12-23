@@ -25,6 +25,7 @@ function WeekPicker(props) {
         format,
         allowClear,
         size,
+        disabledDate,
         ...others
     } = props;
 

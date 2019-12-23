@@ -713,6 +713,7 @@ $input-number-handler-width-right: 22px !default;
 /* --------------------------TimePicker-------------------------- */
 $time-picker-width: 128px !default;
 $time-picker-font-size: $font-size-base !default;
+$time-picker-panel-width: 170px !default;
 $time-picker-panel-border-color: $border-color-light !default;
 $time-picker-panel-border: 1px solid $time-picker-panel-border-color !default;
 $time-picker-panel-background: $color-white !default;
@@ -778,3 +779,5 @@ $calendar-cell-disabled-selected-background-color: $disabled-background-active !
 $calendar-cell-disabled-today-color: $color-text-disabled !default;
 $calendar-cell-disabled-today-border-color: $disabled-border-active !default;
 $calendar-cell-disabled-today-background-color: $disabled-background-active !default;
+
+$date-picker-panel-time-header-height: 40px !default;;
