@@ -85,6 +85,7 @@ function WeekPicker(props) {
                 visible={isVisible}
                 onSelect={onCalendarSelect}
                 showWeek
+                disabledDate={disabledDate}
             />
         </Picker>
     );

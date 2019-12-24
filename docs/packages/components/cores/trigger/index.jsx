@@ -21,6 +21,7 @@ const listenerSet = new Set();
 
 // Click outside to close
 addDomEventListener(document, 'click', function (e) {
+    const toClose = [];
     for(let listenerRef of listenerSet.keys()) {
         const { isVisible, popperRef, referenceRef, setIsVisible } = listenerRef.current;
         // if(!isVisible || trigger === 'manual') continue;
@@ -28,8 +29,12 @@ addDomEventListener(document, 'click', function (e) {
 
         const popperEl = popperRef.current || {contains: () => true};
         const referenceEl = referenceRef.current ? referenceRef.current.el : {contains: () => true};
-        !popperEl.contains(e.target) && !referenceEl.contains(e.target) && setIsVisible(false);
+        !popperEl.contains(e.target) && !referenceEl.contains(e.target) && toClose.push(setIsVisible);
     }
+    // It needs to be saved first and then operated together.
+    // Otherwise, the user's opening operation in the previous window will occur, which will affect the current display state of the next window
+    // Example: DatePicker demo: Custom date range selection
+    toClose.forEach(setIsVisible => setIsVisible(false));
 }, false);
 
 // ESC to close

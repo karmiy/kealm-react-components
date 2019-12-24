@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { TimePanelProps, TimePanelDefaultProps } from './interface';
 import { useContextConf, useClassName, useController } from 'hooks';
 import Combobox from './combobox';
+import { isArray } from 'utils/common/base';
 
 const { createConfig } = useController;
 
@@ -20,9 +21,9 @@ function TimePanel(props) {
         hourStep,
         minuteStep,
         secondStep,
-        disabledHours,
-        disabledMinutes,
-        disabledSeconds,
+        disabledHours: _disabledHours,
+        disabledMinutes: _disabledMinutes,
+        disabledSeconds: _disabledSeconds,
         hideDisabledOptions,
         header,
         footer,
@@ -37,9 +38,19 @@ function TimePanel(props) {
 
     // ---------------------------------- variable ----------------------------------
     const [timeValue, setTimeValue] = useController(defaultValue, value, { onChange, onSelect }, null, disabled);
+    const selectedHour = timeValue ? timeValue.getHours() : (defaultOpenValue ? defaultOpenValue.getHours() : 0),
+        selectedMinute = timeValue ? timeValue.getMinutes() : (defaultOpenValue ? defaultOpenValue.getMinutes() : 0);
+
+    const disabledHours = useMemo(() => _disabledHours(), [_disabledHours]),
+        disabledMinutes = useMemo(() => _disabledMinutes(selectedHour), [_disabledMinutes, selectedHour]),
+        disabledSeconds = useMemo(() => _disabledSeconds(selectedHour, selectedMinute), [_disabledSeconds, selectedHour, selectedMinute]);
 
     // ---------------------------------- event ----------------------------------
     const onComboboxSelect = useCallback(v => {
+        if(isArray(disabledHours) && disabledHours.includes(v.getHours())) return;
+        if(isArray(disabledMinutes) && disabledMinutes.includes(v.getMinutes())) return;
+        if(isArray(disabledSeconds) && disabledSeconds.includes(v.getSeconds())) return;
+
         setTimeValue(createConfig({
             value: v,
             event: ['onChange', 'onSelect'],

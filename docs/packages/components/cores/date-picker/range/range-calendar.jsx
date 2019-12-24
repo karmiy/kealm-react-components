@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 // import { CalendarProps, CalendarDefaultProps } from './interface';
 import { useContextConf, useClassName, useController, useDidUpdate, useStateCallable } from 'hooks';
 import Calendar from '../calendar';
@@ -87,12 +87,12 @@ function RangeCalendar(props) {
         onSelect,
         disabled,
         visible,
-        showWeek,
+        disabledDate: _disabledDate,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
     const [rangeValue, setRangeValue] = useController(defaultValue, value, { onChange, onSelect }, [], disabled)
-    const _rangeValue = sortDates(rangeValue.filter(v => !!v)); // Remove empty and sort asc (isPlain range array)
+    const _rangeValue = useMemo(() => sortDates(rangeValue.filter(v => !!v)), [rangeValue]); // Remove empty and sort asc (isPlain range array)
 
     const [selectedValue, setSelectedValue] = useStateCallable(_rangeValue, true);
     const [hoverValue, setHoverValue] = useState(_rangeValue);
@@ -106,7 +106,7 @@ function RangeCalendar(props) {
     const classNames = useClassName({
         [componentCls]: true,
         [className]: className,
-    }, [componentCls, className, showWeek]);
+    }, [componentCls, className]);
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -215,8 +215,8 @@ function RangeCalendar(props) {
     }, [selectedValue, hoverValue]);
 
     const disabledDate = useCallback(v => {
-        return isBefore(startOfMonth(v), startOfMonth(leftPanelValue));
-    }, [leftPanelValue]);
+        return isBefore(startOfMonth(v), startOfMonth(leftPanelValue)) || _disabledDate(v);
+    }, [leftPanelValue, _disabledDate]);
 
     const disabledMonth = useCallback(v => {
         return !isAfter(startOfMonth(v), startOfMonth(leftPanelValue));
@@ -266,6 +266,7 @@ function RangeCalendar(props) {
                         onPanelChange={onLeftPanelChange}
                         cellRender={cellRender}
                         disabled={disabled}
+                        disabledDate={_disabledDate}
                         disabledArrow={disabledArrowLeft}
                         hiddenDisabledArrow
                         visible={visible}

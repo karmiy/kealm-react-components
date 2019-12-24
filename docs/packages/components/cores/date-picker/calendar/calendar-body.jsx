@@ -31,7 +31,8 @@ function CalendarBody(props) {
     const year = value ? value.getFullYear() : new Date().getFullYear(),
         month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
     const today = new Date();
-    const selectedWeek = value ? getWeek(value, { weekStartsOn: 1 }) : 0;
+    const selectedWeek = selectedDate ? getWeek(selectedDate, { weekStartsOn: 1 }) : 0;
+    console.log(selectedDate);
 
     // ---------------------------------- class ----------------------------------
     const tableClassName = mergeStr({
@@ -70,8 +71,14 @@ function CalendarBody(props) {
                 </RenderWrapper>
                 {
                     dates.map(item => {
-                        const { year: _year, month: _month, date: _date } = item,
-                            currentDate = new Date(_year, _month - 1, _date);
+                        const { year: _year, month: _month, date: _date } = item;
+                        const currentDate = selectedDate
+                            ? set(selectedDate, {
+                                year: _year,
+                                month: _month - 1,
+                                date: _date,
+                            })
+                            : new Date(_year, _month - 1, _date);
 
                         const isSelected = selectedDate
                                     && selectedDate.getFullYear() === _year

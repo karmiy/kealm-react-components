@@ -371,16 +371,17 @@
                     @include when(active-week) {
                         background-color: $calendar-row-week-hover-background-color;
                     }
-
+                }
+                .km-calendar__cell:not(.is-disabled) {
                     .km-calendar__date, .km-calendar__date:hover {
                         background-color: transparent;
                     }
+                }
 
-                    .km-calendar__cell.is-selected {
-                        .km-calendar__date, .km-calendar__date:hover {
-                            background-color: transparent;
-                            color: inherit;
-                        }
+                .km-calendar__cell.is-selected {
+                    .km-calendar__date, .km-calendar__date:hover {
+                        background-color: transparent;
+                        color: inherit;
                     }
                 }
             }

@@ -53,9 +53,9 @@ const HeaderComboboxCommonProps = {
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
-    disabledHours: PropTypes.array,
+    /*disabledHours: PropTypes.array,
     disabledMinutes: PropTypes.array,
-    disabledSeconds: PropTypes.array,
+    disabledSeconds: PropTypes.array,*/
 }
 
 const HeaderComboboxCommonDefaultProps = {
@@ -64,9 +64,9 @@ const HeaderComboboxCommonDefaultProps = {
     hourStep: 1,
     minuteStep: 1,
     secondStep: 1,
-    disabledHours: emptyArr,
+    /*disabledHours: emptyArr,
     disabledMinutes: emptyArr,
-    disabledSeconds: emptyArr,
+    disabledSeconds: emptyArr,*/
 }
 
 /* header-props */
@@ -88,6 +88,9 @@ export const ComboboxProps = {
     onSelect: PropTypes.func,
     hideDisabledOptions: PropTypes.bool,
     initAsyncScroll: PropTypes.bool,
+    disabledHours: PropTypes.array,
+    disabledMinutes: PropTypes.array,
+    disabledSeconds: PropTypes.array,
 }
 
 export const ComboboxDefaultProps = {
@@ -95,6 +98,9 @@ export const ComboboxDefaultProps = {
     onSelect: noop,
     hideDisabledOptions: false,
     initAsyncScroll: true,
+    disabledHours: emptyArr,
+    disabledMinutes: emptyArr,
+    disabledSeconds: emptyArr,
 }
 
 /* time-panel-props */
@@ -106,6 +112,9 @@ export const TimePanelProps = {
     header: PropTypes.func,
     footer: PropTypes.func,
     initAsyncScroll: PropTypes.bool,
+    disabledHours: PropTypes.func,
+    disabledMinutes: PropTypes.func,
+    disabledSeconds: PropTypes.func,
 }
 
 export const TimePanelDefaultProps = {
@@ -116,6 +125,9 @@ export const TimePanelDefaultProps = {
     header: noop,
     footer: noop,
     initAsyncScroll: true,
+    disabledHours: noop,
+    disabledMinutes: noop,
+    disabledSeconds: noop,
 }
 
 /* select-props */

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useContextConf, useController, useDidUpdate } from 'hooks';
 import { RangePickerProps, RangePickerDefaultProps } from './interface';
 import { formatDate, sortDates } from 'utils/common/date';
@@ -10,6 +10,7 @@ import TimePanel from '../../time-picker/time-panel';
 import { RenderWrapper } from '../../../common';
 import {mergeStr, isObject, emptyObj} from 'utils/common/base';
 import { isSameRange } from '../range/range-calendar';
+import Header from "./date-picker";
 
 const { createConfig } = useController;
 
@@ -40,6 +41,7 @@ function RangePicker(props) {
         endPlaceholder,
         size,
         disabledDate,
+        disabledTime,
         ...others
     } = props;
 
@@ -47,10 +49,19 @@ function RangePicker(props) {
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
     const [rangeValue, setRangeValue] = useController(defaultValue, value, onChange, [], disabled);
 
-    const pickerValue = sortDates(rangeValue.filter(v => !!v)).map(item => formatDate(item, format));
+    const _rangeValue = useMemo(() => sortDates(rangeValue.filter(v => !!v)), [rangeValue]);
+
+    const pickerValue = _rangeValue.map(item => formatDate(item, format));
 
     const [timeVisible, setTimeVisible] = useState(false);
     const timePanelProps = isObject(showTime) ? showTime : emptyObj;
+
+    const disabledLeftTimeOptions = disabledTime(rangeValue, 'start'),
+        disabledRightTimeOptions = disabledTime(rangeValue, 'end');
+    const timePanelDisabledLeftOptions = isObject(disabledLeftTimeOptions) ? disabledLeftTimeOptions : emptyObj,
+        timePanelDisabledRightOptions = isObject(disabledRightTimeOptions) ? disabledRightTimeOptions : emptyObj;
+
+    const { hourStep, minuteStep, secondStep } = timePanelProps;
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -84,12 +95,12 @@ function RangePicker(props) {
     }, [rangeValue, onRangeChange, showTime]);
 
     const onLeftTimeValueChange = useCallback(v => {
-        onRangeChange([v, rangeValue[1]]);
-    }, [rangeValue, onRangeChange]);
+        onRangeChange([v, _rangeValue[1]]);
+    }, [_rangeValue, onRangeChange]);
 
     const onRightTimeValueChange = useCallback(v => {
-        onRangeChange([rangeValue[0], v]);
-    }, [rangeValue, onRangeChange]);
+        onRangeChange([_rangeValue[0], v]);
+    }, [_rangeValue, onRangeChange]);
 
     const onOk = useCallback(() => setIsVisible(false), []);
 
@@ -134,6 +145,11 @@ function RangePicker(props) {
                 endPlaceholder={endPlaceholder}
                 format={format}
                 onChange={onRangeChange}
+                disabledDate={disabledDate}
+                disabledTime={disabledTime}
+                hourStep={hourStep}
+                minuteStep={minuteStep}
+                secondStep={secondStep}
             />
             <div className={`${componentCls}-panel__body`}>
                 <RangeCalendar
@@ -141,28 +157,31 @@ function RangePicker(props) {
                     disabled={disabled}
                     visible={isVisible}
                     onSelect={onRangeCalendarSelect}
+                    disabledDate={disabledDate}
                 />
                 {/* Open only after 2 dates have been selected */}
                 <RenderWrapper visible={timeVisible} unmountOnExit>
                     <div className={`${componentCls}-panel__range-time`}>
                         <TimePanel
                             header={renderTimeHeader}
-                            value={rangeValue[0] || null}
+                            value={_rangeValue[0] || null}
                             onChange={onLeftTimeValueChange}
                             disabled={disabled}
                             visible={isVisible}
                             format={format}
                             initAsyncScroll={false}
+                            {...timePanelDisabledLeftOptions}
                             {...timePanelProps}
                         />
                         <TimePanel
                             header={renderTimeHeader}
-                            value={rangeValue[1] || null}
+                            value={_rangeValue[1] || null}
                             onChange={onRightTimeValueChange}
                             disabled={disabled}
                             visible={isVisible}
                             format={format}
                             initAsyncScroll={false}
+                            {...timePanelDisabledRightOptions}
                             {...timePanelProps}
                         />
                     </div>

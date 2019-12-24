@@ -5,6 +5,14 @@ import { endOfDay } from 'date-fns';
 
 const { MonthPicker, WeekPicker, RangePicker } = DatePicker;
 
+function range(start, end) {
+    const result = [];
+    for (let i = start; i < end; i++) {
+        result.push(i);
+    }
+    return result;
+}
+
 function DatePickerDoc() {
     const [value, setValue] = useState(null);
     const [size, setSize] = useState('');
@@ -15,6 +23,46 @@ function DatePickerDoc() {
     const onVisibleChange = useCallback(v => setVisible(v), []);
 
     const disabledDate = useCallback(v => v < endOfDay(new Date()), []);
+
+    const disabledDateTime = useCallback(() => {
+        return {
+            disabledHours: () => range(4, 24), // 0 ~ 3
+            disabledMinutes: () => range(30, 60), // 30 ~ 59
+            disabledSeconds: () => [20, 30],
+        };
+    }, []);
+
+    const disabledRangeTime = useCallback((v, type) => {
+        if (type === 'start') {
+            return {
+                disabledHours: () => range(4, 24),
+                disabledMinutes: () => range(30, 60),
+                disabledSeconds: () => [20, 30],
+            };
+        }
+        return {
+            disabledHours: () => [8, 12],
+            disabledMinutes: () => range(5, 15),
+            disabledSeconds: () => [10],
+        };
+    }, []);
+
+    const [startValue, setStartValue] = useState(null);
+    const [endValue, setEndValue] = useState(null);
+    const [endVisible, setEndVisible] = useState(false);
+
+    const onStartChange = useCallback(v => setStartValue(v), []);
+    const onEndChange = useCallback(v => setEndValue(v), []);
+    const onStartVisibleChange = useCallback(visible => !visible && setEndVisible(true), []);
+    const onEndVisibleChange = useCallback(visible => setEndVisible(visible), []);
+    const disabledStartDate = useCallback(date => {
+        if(!date || !endValue) return false;
+        return date.valueOf() > endValue.valueOf();
+    }, [endValue]);
+    const disabledEndDate = useCallback(date => {
+        if(!date || !startValue) return false;
+        return date.valueOf() <= startValue.valueOf();
+    }, [startValue]);
 
     return (
         <div className='page-box'>
@@ -164,7 +212,7 @@ function DatePickerDoc() {
             {/* 日期时间选择 */}
             <h2>日期时间选择</h2>
             <p>配置 showTime 属性，增加选择时间功能。</p>
-            <p>当 showTime 为一个对象时，其属性会传递给内建的 TimePicker</p>
+            <p>当 showTime 为一个对象时，其属性会传递给内建的 TimePicker。</p>
             {useMemo(() => {
                 return (
                     <div className="detail-box">
@@ -182,7 +230,7 @@ function DatePickerDoc() {
                             </Col>
                             <Col>
                                 <RangePicker
-                                    defaultValue={[new Date('2018-12-11 13:14:15'), new Date('2018-12-22 17:24:31')]}
+                                    // defaultValue={[new Date('2019-12-11 13:14:15'), new Date('2018-12-22 17:24:31')]}
                                     allowClear
                                     showTime
                                     onChange={(date, dateString) => console.log(date, dateString)}
@@ -234,27 +282,90 @@ function DatePickerDoc() {
                             <Row gutter={16}>
                                 <Col>
                                     <DatePicker
+                                        allowClear
+                                        showTime={{
+                                            hourStep: 2,
+                                            minuteStep: 5,
+                                            secondStep: 10,
+                                        }}
                                         disabledDate={disabledDate}
+                                        disabledTime={disabledDateTime}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
                                     />
                                 </Col>
                                 <Col>
-                                    <WeekPicker defaultValue={new Date('2020-01-01')} />
+                                    <WeekPicker
+                                        allowClear
+                                        disabledDate={disabledDate}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
                                 </Col>
                             </Row>
                         </div>
                         <div className="detail-box">
                             <Row gutter={16}>
                                 <Col>
-                                    <MonthPicker defaultValue={new Date('2020-01-01')} />
+                                    <MonthPicker
+                                        allowClear
+                                        disabledDate={disabledDate}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
                                 </Col>
                                 <Col>
-                                    <RangePicker defaultValue={[new Date('2020-01-01'), new Date('2020-02-01')]} />
+                                    <RangePicker
+                                        allowClear
+                                        showTime={{
+                                            hourStep: 2,
+                                            minuteStep: 5,
+                                            secondStep: 10,
+                                            hideDisabledOptions: true,
+                                        }}
+                                        disabledDate={disabledDate}
+                                        disabledTime={disabledRangeTime}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                        // defaultValue={[new Date('2020-01-01'), new Date('2020-02-01')]}
+                                    />
                                 </Col>
                             </Row>
                         </div>
                     </>
                 )
             }, [])}
+
+            {/* 自定义日期范围选择 */}
+            <h2>自定义日期范围选择</h2>
+            <p>当 RangePicker 无法满足业务需求时，可以使用两个 DatePicker 实现类似的功能。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row gutter={16}>
+                            <Col>
+                                <DatePicker
+                                    value={startValue}
+                                    onChange={onStartChange}
+                                    onVisibleChange={onStartVisibleChange}
+                                    allowClear
+                                    showTime
+                                    placeholder={'开始日期'}
+                                    disabledDate={disabledStartDate}
+                                />
+                            </Col>
+                            <Col>
+                                <DatePicker
+                                    value={endValue}
+                                    onChange={onEndChange}
+                                    visible={endVisible}
+                                    onVisibleChange={onEndVisibleChange}
+                                    allowClear
+                                    showTime
+                                    placeholder={'结束日期'}
+                                    disabledDate={disabledEndDate}
+                                />
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            }, [startValue, endValue, endVisible, disabledStartDate, disabledEndDate])}
 
             {/* API */}
             {/*<ApiTable title='TimePicker' propsList={timePickerProps} eventsList={timePickerEvents} />*/}

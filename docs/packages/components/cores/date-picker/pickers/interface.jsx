@@ -30,11 +30,13 @@ export const CommonDefaultProps = {
 export const DatePickerProps = {
     ...CommonProps,
     showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    disabledTime: PropTypes.func,
 }
 
 export const DatePickerDefaultProps = {
     ...CommonDefaultProps,
     showTime: false,
+    disabledTime: noop,
 }
 
 /* month-picker-props */
@@ -67,6 +69,7 @@ export const RangePickerProps = {
     startPlaceholder: PropTypes.string,
     endPlaceholder: PropTypes.string,
     showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    disabledTime: PropTypes.func,
 }
 
 export const RangePickerDefaultProps = {
@@ -74,5 +77,6 @@ export const RangePickerDefaultProps = {
     startPlaceholder: '开始日期',
     endPlaceholder: '结束日期',
     showTime: false,
+    disabledTime: noop,
     // format: 'yyyy-MM-dd',
 }

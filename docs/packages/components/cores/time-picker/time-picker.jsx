@@ -33,9 +33,9 @@ function TimePicker(props) {
         hourStep,
         minuteStep,
         secondStep,
-        disabledHours: _disabledHours,
-        disabledMinutes: _disabledMinutes,
-        disabledSeconds: _disabledSeconds,
+        disabledHours,
+        disabledMinutes,
+        disabledSeconds,
         hideDisabledOptions,
         addon,
         ...others
@@ -44,11 +44,18 @@ function TimePicker(props) {
     // ---------------------------------- variable ----------------------------------
     const [isVisible, setIsVisible] = useController(defaultVisible, visible, onVisibleChange, false, disabled);
     const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null, disabled);
-    const selectedHour = dateValue ? dateValue.getHours() : (defaultOpenValue ? defaultOpenValue.getHours() : 0),
+    /*const selectedHour = dateValue ? dateValue.getHours() : (defaultOpenValue ? defaultOpenValue.getHours() : 0),
         selectedMinute = dateValue ? dateValue.getMinutes() : (defaultOpenValue ? defaultOpenValue.getMinutes() : 0);
     const disabledHours = useMemo(() => _disabledHours(), [_disabledHours]),
         disabledMinutes = useMemo(() => _disabledMinutes(selectedHour), [_disabledMinutes, selectedHour]),
-        disabledSeconds = useMemo(() => _disabledSeconds(selectedHour, selectedMinute), [_disabledSeconds, selectedHour, selectedMinute]);
+        disabledSeconds = useMemo(() => _disabledSeconds(selectedHour, selectedMinute), [_disabledSeconds, selectedHour, selectedMinute]);*/
+    const disabledTime = useCallback(() => {
+        return {
+            disabledHours,
+            disabledMinutes,
+            disabledSeconds,
+        }
+    }, [disabledHours, disabledMinutes, disabledSeconds]);
 
     // ---------------------------------- class ----------------------------------
     const classNames = useClassName({
@@ -109,6 +116,7 @@ function TimePicker(props) {
         hourStep,
         minuteStep,
         secondStep,
+        disabledTime,
         disabledHours,
         disabledMinutes,
         disabledSeconds,
@@ -137,9 +145,9 @@ function TimePicker(props) {
             hourStep,
             minuteStep,
             secondStep,
-            disabledHours,
+            /*disabledHours,
             disabledMinutes,
-            disabledSeconds,
+            disabledSeconds,*/
         };
         return (
             <>
@@ -147,12 +155,14 @@ function TimePicker(props) {
                     <Header
                         prefixCls={`${componentCls}-panel`}
                         placeholder={placeholder}
-                        // onChange={onDateChange}
+                        disabledTime={disabledTime}
                         {...commonProps}
                     />
                     <TimePanel
                         hideDisabledOptions={hideDisabledOptions}
-                        // onSelect={onDateChange}
+                        disabledHours={disabledHours}
+                        disabledMinutes={disabledMinutes}
+                        disabledSeconds={disabledSeconds}
                         {...commonProps}
                     />
                     {renderAddon}

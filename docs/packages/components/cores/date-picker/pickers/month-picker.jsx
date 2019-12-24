@@ -84,6 +84,7 @@ function MonthPicker(props) {
                 disabled={disabled}
                 visible={isVisible}
                 onSelect={onCalendarSelect}
+                disabledDate={disabledDate}
             />
         </Picker>
     );

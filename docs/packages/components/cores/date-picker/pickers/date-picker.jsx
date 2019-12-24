@@ -31,6 +31,7 @@ function DatePicker(props) {
         allowClear,
         size,
         disabledDate,
+        disabledTime,
         ...others
     } = props;
 
@@ -39,6 +40,11 @@ function DatePicker(props) {
     const [dateValue, setDateValue] = useController(defaultValue, value, onChange, null, disabled);
     const [timeVisible, setTimeVisible] = useState(false);
     const timePanelProps = isObject(showTime) ? showTime : emptyObj;
+
+    const disabledTimeOptions = disabledTime(dateValue),
+        timePanelDisabledOptions = isObject(disabledTimeOptions) ? disabledTimeOptions : emptyObj;
+
+    const { hourStep, minuteStep, secondStep } = timePanelProps;
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -68,10 +74,10 @@ function DatePicker(props) {
 
     const onCalendarSelect = useCallback(selectedDate => {
         !showTime && setIsVisible(false);
-        if(dateValue && dateValue.getTime() === selectedDate.getTime())
-            return;
+        if(dateValue && dateValue.getTime() === selectedDate.getTime())  return;
+
         onDateChange(selectedDate);
-    }, [dateValue, onDateChange, showTime]);
+    }, [dateValue, onDateChange, showTime, disabledTime]);
 
     const onTimeValueChange = useCallback(v => {
         onDateChange(v)
@@ -117,6 +123,11 @@ function DatePicker(props) {
                 placeholder={placeholder}
                 format={format}
                 onChange={onDateChange}
+                disabledDate={disabledDate}
+                disabledTime={disabledTime}
+                hourStep={hourStep}
+                minuteStep={minuteStep}
+                secondStep={secondStep}
             />
             <div className={`${componentCls}-panel__body`}>
                 <Calendar
@@ -135,6 +146,7 @@ function DatePicker(props) {
                         visible={isVisible}
                         format={format}
                         initAsyncScroll={false}
+                        {...timePanelDisabledOptions}
                         {...timePanelProps}
                     />
                 </RenderWrapper>

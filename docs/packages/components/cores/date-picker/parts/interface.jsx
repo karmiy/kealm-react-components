@@ -15,9 +15,11 @@ export const HeaderProps = {
     hourStep: PropTypes.number,
     minuteStep: PropTypes.number,
     secondStep: PropTypes.number,
-    disabledHours: PropTypes.array,
+    disabledDate: PropTypes.func,
+    disabledTime: PropTypes.func,
+    /*disabledHours: PropTypes.array,
     disabledMinutes: PropTypes.array,
-    disabledSeconds: PropTypes.array,
+    disabledSeconds: PropTypes.array,*/
 }
 
 export const HeaderDefaultProps = {
@@ -28,9 +30,11 @@ export const HeaderDefaultProps = {
     hourStep: 1,
     minuteStep: 1,
     secondStep: 1,
-    disabledHours: emptyArr,
+    disabledDate: noop,
+    disabledTime: noop,
+    /*disabledHours: emptyArr,
     disabledMinutes: emptyArr,
-    disabledSeconds: emptyArr,
+    disabledSeconds: emptyArr,*/
 }
 
 /* range-header-props */

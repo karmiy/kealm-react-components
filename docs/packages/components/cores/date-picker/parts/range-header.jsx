@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { RangeHeaderProps, RangeHeaderDefaultProps } from './interface';
 import { useDidUpdate } from 'hooks';
 import Input from '../../input';
 import { parseDate, formatDate, sortDates } from 'utils/common/date';
 import { isValid, isEqual, startOfDay } from 'date-fns';
+import {isFunction, isObject, noop} from "utils/common/base";
 
 const { RangeInput } = Input;
 
@@ -17,6 +18,25 @@ function verifyDisabledOptions(date, disabledHours = [], disabledMinutes = [], d
     return !disabledHours.includes(date.getHours())
         && !disabledMinutes.includes(date.getMinutes())
         && !disabledSeconds.includes(date.getSeconds());
+}
+
+function verifyDisabledDate(date, disabledDate) {
+    return !disabledDate(date);
+}
+
+function verifyDisabledTime(date, disabledTime, nextRange, type) {
+    if(!isFunction(disabledTime)) return true;
+
+    const disabledTimeOptions = disabledTime(nextRange, type);
+    if(!isObject(disabledTimeOptions)) return true;
+
+    const { disabledHours = noop, disabledMinutes = noop, disabledSeconds = noop } = disabledTimeOptions;
+    const selectedHours = date.getHours(),
+        selectedMinutes = date.getMinutes(),
+        selectedSeconds = date.getSeconds();
+    return !disabledHours().includes(selectedHours)
+        && !disabledMinutes(selectedHours).includes(selectedMinutes)
+        && !disabledSeconds(selectedHours, selectedMinutes).includes(selectedSeconds);
 }
 
 function  RangeHeader(props) {
@@ -33,25 +53,28 @@ function  RangeHeader(props) {
         hourStep,
         minuteStep,
         secondStep,
-        disabledHours,
-        disabledMinutes,
-        disabledSeconds,
+        disabledDate,
+        disabledTime,
+        // disabledHours,
+        // disabledMinutes,
+        // disabledSeconds,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    const [inputValue, setInputValue] = useState(sortDates(value.filter(v => !!v)).map(item => formatDate(item, format)));
+    const rangeValue = useMemo(() => sortDates(value.filter(v => !!v)), [value]);
+    const [inputValue, setInputValue] = useState(rangeValue.map(item => formatDate(item, format)));
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
-        setInputValue(sortDates(value.filter(v => !!v)).map(item => formatDate(item, format)));
+        setInputValue(rangeValue.map(item => formatDate(item, format)));
     }, [value], true);
 
     useDidUpdate(() => {
-        visible && setInputValue(sortDates(value.filter(v => !!v)).map(item => formatDate(item, format)));
+        visible && setInputValue(rangeValue.map(item => formatDate(item, format)));
     }, [visible], true);
 
     // ---------------------------------- function ----------------------------------
-    const isValidValue = useCallback((prevDate, nextDate) => {
+    const isValidValue = useCallback((prevDate, nextDate, nextRange, type) => {
         // is format error ?
         if(!isValid(nextDate)) return false;
 
@@ -59,13 +82,15 @@ function  RangeHeader(props) {
         if(!verifySteps(nextDate, hourStep, minuteStep, secondStep)) return false;
 
         // in disabledOptions ?
-        if(!verifyDisabledOptions(nextDate, disabledHours, disabledMinutes, disabledSeconds)) return false;
+        if(!verifyDisabledDate(nextDate, disabledDate)) return false;
+        if(!verifyDisabledTime(nextDate, disabledTime, nextRange, type)) return false;
+        // if(!verifyDisabledOptions(nextDate, disabledHours, disabledMinutes, disabledSeconds)) return false;
 
         // is value changed ?
         // if(isEqual(prevDate, nextDate)) return false;
 
         return true;
-    }, [value, defaultOpenValue, format, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
+    }, [hourStep, minuteStep, secondStep, disabledDate]);
 
     // ---------------------------------- event ----------------------------------
     const onInputChange = useCallback((e1, e2) => {
@@ -79,19 +104,20 @@ function  RangeHeader(props) {
 
         if(v1 === '' || v2 === '') return;
 
-        const prevDate1 = value[0] || defaultOpenValue[0] || null,
-            prevDate2 = value[1] || defaultOpenValue[1] || null;
+        const prevDate1 = rangeValue[0] || defaultOpenValue[0] || null,
+            prevDate2 = rangeValue[1] || defaultOpenValue[1] || null;
 
         const nextDate1 = parseDate(v1, format, prevDate1 || startOfDay(new Date())),
             nextDate2 = parseDate(v2, format, prevDate2 || startOfDay(new Date()));
 
-        if(!isValidValue(prevDate1, nextDate1) || !isValidValue(prevDate2, nextDate2)) return;
+        if(!isValidValue(prevDate1, nextDate1, [nextDate1, nextDate2], 'start')
+            || !isValidValue(prevDate2, nextDate2, [nextDate1, nextDate2], 'end')) return;
 
         // is value changed ?
         if(isEqual(prevDate1, nextDate1) && isEqual(prevDate2, nextDate2)) return false;
 
         onChange([nextDate1, nextDate2]);
-    }, [value, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
+    }, [rangeValue, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep]);
 
     // ---------------------------------- render ----------------------------------
     return (

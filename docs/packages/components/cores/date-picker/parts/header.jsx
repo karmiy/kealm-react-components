@@ -4,6 +4,7 @@ import { useDidUpdate } from 'hooks';
 import Input from '../../input';
 import { parseDate, formatDate } from 'utils/common/date';
 import { isValid, isEqual, startOfDay } from 'date-fns';
+import { isObject, noop, isFunction } from 'utils/common/base';
 
 function verifySteps(date, hourStep = 1, minuteStep = 1, secondStep = 1) {
     return date.getHours() % hourStep === 0
@@ -11,10 +12,23 @@ function verifySteps(date, hourStep = 1, minuteStep = 1, secondStep = 1) {
         && date.getSeconds() % secondStep === 0;
 }
 
-function verifyDisabledOptions(date, disabledHours = [], disabledMinutes = [], disabledSeconds = []) {
-    return !disabledHours.includes(date.getHours())
-        && !disabledMinutes.includes(date.getMinutes())
-        && !disabledSeconds.includes(date.getSeconds());
+function verifyDisabledDate(date, disabledDate) {
+    return !disabledDate(date);
+}
+
+function verifyDisabledTime(date, disabledTime) {
+    if(!isFunction(disabledTime)) return true;
+
+    const disabledTimeOptions = disabledTime(date);
+    if(!isObject(disabledTimeOptions)) return true;
+
+    const { disabledHours = noop, disabledMinutes = noop, disabledSeconds = noop } = disabledTimeOptions;
+    const selectedHours = date.getHours(),
+        selectedMinutes = date.getMinutes(),
+        selectedSeconds = date.getSeconds();
+    return !disabledHours().includes(selectedHours)
+        && !disabledMinutes(selectedHours).includes(selectedMinutes)
+        && !disabledSeconds(selectedHours, selectedMinutes).includes(selectedSeconds);
 }
 
 function  Header(props) {
@@ -30,9 +44,8 @@ function  Header(props) {
         hourStep,
         minuteStep,
         secondStep,
-        disabledHours,
-        disabledMinutes,
-        disabledSeconds,
+        disabledDate,
+        disabledTime,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -57,8 +70,8 @@ function  Header(props) {
             return;
         }
 
-        const prevDate = value || defaultOpenValue || null;
-        const nextDate = parseDate(v, format, prevDate || startOfDay(new Date()));
+        const prevDate = value || null;
+        const nextDate = parseDate(v, format, prevDate || defaultOpenValue || startOfDay(new Date()));
         // is format error ?
         if(!isValid(nextDate)) return;
 
@@ -66,13 +79,14 @@ function  Header(props) {
         if(!verifySteps(nextDate, hourStep, minuteStep, secondStep)) return;
 
         // in disabledOptions ?
-        if(!verifyDisabledOptions(nextDate, disabledHours, disabledMinutes, disabledSeconds)) return;
+        if(!verifyDisabledDate(nextDate, disabledDate)) return;
+        if(!verifyDisabledTime(nextDate, disabledTime)) return;
 
         // is value changed ?
         if(isEqual(prevDate, nextDate)) return;
 
         onChange(nextDate);
-    }, [value, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep, disabledHours, disabledMinutes, disabledSeconds]);
+    }, [value, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep, disabledDate, disabledTime]);
 
     // ---------------------------------- render ----------------------------------
     return (
