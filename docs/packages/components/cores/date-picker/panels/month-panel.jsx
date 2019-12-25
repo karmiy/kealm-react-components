@@ -14,6 +14,7 @@ function MonthPanel(props) {
     const {
         className,
         defaultValue,
+        defaultPickerValue,
         value,
         disabled,
         onChange,
@@ -34,14 +35,14 @@ function MonthPanel(props) {
         setInnerValue
     ] = usePuppet(defaultValue, value, { onChange, onSelect }, null, disabled, false);
 
-    const year = innerValue ? innerValue.getFullYear() : new Date().getFullYear();
+    const year = innerValue ? innerValue.getFullYear() : (defaultPickerValue ? defaultPickerValue.getFullYear() : new Date().getFullYear());
     const isMinYear = MIN_SAFE_YEAR === year,
         isMaxYear = MAX_SAFE_YEAR === year;
     const [yearPanelVisible, setYearPanelVisible] = useState(false);
     const data = useMemo(() => createMonthTable(year), [year]);
 
-    const isDisabledPrevArrow = disabledArrow(innerValue || startOfDay(new Date()), 'prev-year'),
-        isDisabledNextArrow = disabledArrow(innerValue || startOfDay(new Date()), 'next-year');
+    const isDisabledPrevArrow = disabledArrow(innerValue || defaultPickerValue || startOfDay(new Date()), 'prev-year'),
+        isDisabledNextArrow = disabledArrow(innerValue || defaultPickerValue || startOfDay(new Date()), 'next-year');
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -61,12 +62,12 @@ function MonthPanel(props) {
     }, []);
 
     const onPrevYear = useCallback(() => {
-        setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 1 }));
-    }, [year]);
+        setInnerValue(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: year - 1 }));
+    }, [year, defaultPickerValue]);
 
     const onNextYear = useCallback(() => {
-        setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 1 }));
-    }, [year]);
+        setInnerValue(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: year + 1 }));
+    }, [year, defaultPickerValue]);
 
     const onYearSelect = useCallback(selectedDate => {
         setYearPanelVisible(false);
@@ -76,8 +77,8 @@ function MonthPanel(props) {
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
-        onMonthSelect(v => set(v || startOfDay(new Date()), { year: item.year, month: item.month - 1 }));
-    }, [disabled]);
+        onMonthSelect(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: item.year, month: item.month - 1 }));
+    }, [disabled, defaultPickerValue]);
 
     // ---------------------------------- function ----------------------------------
     const cellOption = useCallback(item => {
@@ -87,9 +88,9 @@ function MonthPanel(props) {
             && outerValue.getMonth() + 1 === item.month;
 
         const isDisabled = disabled || disabledDate(
-            outerValue
+            outerValue || defaultPickerValue
             ?
-            set(outerValue, {year: item.year, month: item.month - 1})
+            set(outerValue || defaultPickerValue, {year: item.year, month: item.month - 1})
             :
             startOfDay(set(new Date(), {year: item.year, month: item.month - 1}))
         );
@@ -101,7 +102,7 @@ function MonthPanel(props) {
             onClick: () => onItemSelect(item),
             content: `${item.character}月`,
         }
-    }, [outerValue, disabled, disabledDate]);
+    }, [outerValue, defaultPickerValue, disabled, disabledDate]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSelectContent = useMemo(() => {
@@ -135,6 +136,7 @@ function MonthPanel(props) {
             headerAddon={(
                 <RenderWrapper visible={yearPanelVisible}>
                     <YearPanel
+                        defaultPickerValue={defaultPickerValue}
                         value={innerValue}
                         onSelect={onYearSelect}
                         disabled={disabled}

@@ -12,6 +12,7 @@ function DecadePanel(props) {
     const {
         className,
         defaultValue,
+        defaultPickerValue,
         value,
         disabled,
         onChange,
@@ -29,14 +30,14 @@ function DecadePanel(props) {
         setOuterValue,
         setInnerValue
     ] = usePuppet(defaultValue, value, { onChange, onSelect }, null, disabled, false);
-    const year = innerValue ? innerValue.getFullYear() : new Date().getFullYear();
+    const year = innerValue ? innerValue.getFullYear() : (defaultPickerValue ? defaultPickerValue.getFullYear() : new Date().getFullYear());
     const isMinCentury = getCenturies(MIN_SAFE_YEAR).includes(year),
         isMaxCentury = getCenturies(MAX_SAFE_YEAR).includes(year);
     const centuries = getCenturies(year), startYear = centuries[0], endYear = centuries[centuries.length - 1];
     const data = useMemo(() => createCenturyTable(year), [year]);
 
-    const isDisabledPrevArrow = disabledArrow(innerValue || startOfDay(new Date()), 'prev-century'),
-        isDisabledNextArrow = disabledArrow(innerValue || startOfDay(new Date()), 'next-century');
+    const isDisabledPrevArrow = disabledArrow(innerValue || defaultPickerValue || startOfDay(new Date()), 'prev-century'),
+        isDisabledNextArrow = disabledArrow(innerValue || defaultPickerValue || startOfDay(new Date()), 'next-century');
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -60,21 +61,21 @@ function DecadePanel(props) {
     }, []);
 
     const onPrevCentury = useCallback(() => {
-        setInnerValue(v => set(v || startOfDay(new Date()), { year: year - 100 }));
-    }, [year]);
+        setInnerValue(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: year - 100 }));
+    }, [year, defaultPickerValue]);
 
     const onNextCentury = useCallback(() => {
-        setInnerValue(v => set(v || startOfDay(new Date()), { year: year + 100 }));
-    }, [year]);
+        setInnerValue(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: year + 100 }));
+    }, [year, defaultPickerValue]);
 
     const onItemSelect = useCallback(item => {
         if(disabled) return;
 
         onDecadeSelect(
-            v => set(v || startOfDay(new Date()), { year: item.from }),
-            v => set(v || startOfDay(new Date()), { year: item.to })
+            v => set(v || defaultPickerValue || startOfDay(new Date()), { year: item.from }),
+            v => set(v || defaultPickerValue || startOfDay(new Date()), { year: item.to })
         );
-    }, [disabled]);
+    }, [disabled, defaultPickerValue]);
 
     // ---------------------------------- function ----------------------------------
     const cellOption = useCallback(item => {
@@ -85,8 +86,8 @@ function DecadePanel(props) {
         const selectedYear = outerValue && outerValue.getFullYear();
 
         const isDisabledDecade = disabledDate(
-            outerValue ? set(outerValue, {year: item.from}) : startOfDay(set(new Date(), {year: item.from})),
-            outerValue ? set(outerValue, {year: item.to}) : startOfDay(set(new Date(), {year: item.to})),
+            outerValue || defaultPickerValue ? set(outerValue || defaultPickerValue, {year: item.from}) : startOfDay(set(new Date(), {year: item.from})),
+            outerValue || defaultPickerValue ? set(outerValue || defaultPickerValue, {year: item.to}) : startOfDay(set(new Date(), {year: item.to})),
         );
         const isSelected = selectedYear && item.from <= selectedYear && item.to >= selectedYear,
             isDisabled = disabled || item.from > MAX_SAFE_YEAR || item.to < MIN_SAFE_YEAR || isDisabledDecade;
@@ -99,7 +100,7 @@ function DecadePanel(props) {
             onClick: () => onItemSelect(item),
             content: `${item.from}-${item.to}`,
         }
-    }, [outerValue, disabled, disabledDate]);
+    }, [outerValue, defaultPickerValue, disabled, disabledDate]);
 
     return (
         <CreatePanel

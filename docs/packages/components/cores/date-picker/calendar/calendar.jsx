@@ -11,6 +11,7 @@ function Calendar(props) {
     const {
         className,
         defaultValue,
+        defaultPickerValue,
         value,
         onChange,
         onSelect,
@@ -64,6 +65,7 @@ function Calendar(props) {
         <div className={classNames}>
             <CalendarHeader
                 prefixCls={componentCls}
+                defaultPickerValue={defaultPickerValue}
                 value={innerValue}
                 onChange={setInnerValue}
                 disabled={disabled}
@@ -76,6 +78,7 @@ function Calendar(props) {
             />
             <CalendarBody
                 prefixCls={componentCls}
+                defaultPickerValue={defaultPickerValue}
                 value={innerValue}
                 selectedDate={outerValue}
                 onSelect={onCalendarSelect}

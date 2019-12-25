@@ -4,6 +4,7 @@ import { noop, emptyArr } from 'utils/common/base';
 /* calendar-props */
 export const CalendarProps = {
     defaultValue: PropTypes.instanceOf(Date),
+    defaultPickerValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
@@ -37,11 +38,10 @@ export const CalendarDefaultProps = {
 /* calendar-header-props */
 export const CalendarHeaderProps = {
     prefixCls: PropTypes.string,
-    disabled: PropTypes.bool,
+    defaultPickerValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
-    // year: PropTypes.number,
-    // month: PropTypes.number,
     onChange: PropTypes.func,
+    disabled: PropTypes.bool,
     visible: PropTypes.bool,
     disabledMonth: PropTypes.func,
     disabledYear: PropTypes.func,

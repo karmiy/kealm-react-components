@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useMemo } from 'react';
-// import { CalendarProps, CalendarDefaultProps } from './interface';
+import { RangeCalendarProps, RangeCalendarDefaultProps } from './interface';
 import { useContextConf, useClassName, useController, useDidUpdate, useStateCallable } from 'hooks';
 import Calendar from '../calendar';
 import {
@@ -24,24 +24,38 @@ const { createConfig } = useController;
 /**
  * Used to control the display status of calendars on both sides
  * @param rangeValue
+ * @param defaultPickerValue
  * @returns {[Date, Date]}
  */
-function getRangeCalendarControls(rangeValue) {
-    const leftValue = rangeValue.length === 0 ? startOfDay(new Date()) : rangeValue[0],
-        rightValue = rangeValue.length === 2
-                        ?
-                        (
-                            !isSameMonth(...rangeValue)
-                                ? rangeValue[1]
-                                :
-                                set(addMonths(leftValue, 1), {
-                                    hours: rangeValue[1].getHours(),
-                                    minutes: rangeValue[1].getMinutes(),
-                                    seconds: rangeValue[1].getSeconds(),
-                                })
-                        )
-                        :
-                        addMonths(leftValue, 1);
+function getRangeCalendarControls(rangeValue, defaultPickerValue) {
+    const leftValue = rangeValue.length !== 0
+        ?
+        rangeValue[0]
+        :
+        (defaultPickerValue.length ? defaultPickerValue[0] : startOfDay(new Date()));
+    const rightValue =
+            rangeValue.length === 2
+            ?
+            (
+                !isSameMonth(...rangeValue)
+                    ? rangeValue[1]
+                    :
+                    set(addMonths(leftValue, 1), {
+                        hours: rangeValue[1].getHours(),
+                        minutes: rangeValue[1].getMinutes(),
+                        seconds: rangeValue[1].getSeconds(),
+                    })
+            )
+            :
+            (defaultPickerValue.length === 2
+                    ?
+                    set(addMonths(leftValue, 1), {
+                        hours: defaultPickerValue[1].getHours(),
+                        minutes: defaultPickerValue[1].getMinutes(),
+                        seconds: defaultPickerValue[1].getSeconds(),
+                    })
+                    :addMonths(leftValue, 1)
+            );
     return [leftValue, rightValue];
 }
 
@@ -55,9 +69,7 @@ export function isSameRange(prevRange, nextRange, isSort = false) {
     return _prevRange[0].getTime() === nextRange[0].getTime() && _prevRange[1].getTime() === nextRange[1].getTime();
 }
 
-function setRangeTime(prevRange, nextRange) {
-    if(!prevRange) return [...nextRange];
-
+function setRangeTime(prevRange, nextRange, defaultPickerValue) {
     const _filterPrev = prevRange.filter(v => !!v);
     const [prevStartV, prevEndV] = _filterPrev;
     if(_filterPrev.length === 0) return [...nextRange];
@@ -82,6 +94,7 @@ function RangeCalendar(props) {
     const {
         className,
         defaultValue,
+        defaultPickerValue,
         value,
         onChange,
         onSelect,
@@ -93,10 +106,11 @@ function RangeCalendar(props) {
     // ---------------------------------- variable ----------------------------------
     const [rangeValue, setRangeValue] = useController(defaultValue, value, { onChange, onSelect }, [], disabled)
     const _rangeValue = useMemo(() => sortDates(rangeValue.filter(v => !!v)), [rangeValue]); // Remove empty and sort asc (isPlain range array)
+    const _defaultPickerValue = useMemo(() => sortDates(defaultPickerValue.filter(v => !!v)), [defaultPickerValue]);
 
     const [selectedValue, setSelectedValue] = useStateCallable(_rangeValue, true);
     const [hoverValue, setHoverValue] = useState(_rangeValue);
-    const calendarControls = getRangeCalendarControls(_rangeValue); // Control the initial display on both sides
+    const calendarControls = getRangeCalendarControls(_rangeValue, _defaultPickerValue); // Control the initial display on both sides
     const [leftValue, setLeftValue] = useState(calendarControls[0]);
     const [rightValue, setRightValue] = useState(calendarControls[1]);
     const [leftPanelValue, setLeftPanelValue] = useState(leftValue); // Calendar current year and month
@@ -138,13 +152,8 @@ function RangeCalendar(props) {
         setSelectedValue(curRange => {
             if(!curRange.length || curRange.length === 2) return [v];
             const [startV] = curRange;
-            /*const _v = set(v, {
-                hours: startV.getHours(),
-                minutes: startV.getMinutes(),
-                seconds: startV.getSeconds(),
-            });*/
+
             return setRangeTime(_rangeValue, sortDates([startV, v]));
-            // return sortDates([startV, _v]);
         }, (nextSelected) => {
             // Callback is triggered when 2 dates are selected
             if(nextSelected.length !== 2) return;
@@ -261,6 +270,7 @@ function RangeCalendar(props) {
             <div className={`${componentCls}__body`}>
                 <div className={`${componentCls}__part`}>
                     <Calendar
+                        defalutPickerValue={_defaultPickerValue[0]}
                         value={leftValue}
                         onSelect={onCalendarLeftSelect}
                         onPanelChange={onLeftPanelChange}
@@ -274,6 +284,7 @@ function RangeCalendar(props) {
                 </div>
                 <div className={`${componentCls}__part`}>
                     <Calendar
+                        defalutPickerValue={_defaultPickerValue[1]}
                         value={rightValue}
                         onSelect={onCalendarRightSelect}
                         onPanelChange={onRightPanelChange}
@@ -293,7 +304,7 @@ function RangeCalendar(props) {
     )
 }
 
-// RangeCalendar.propTypes = CalendarProps;
-// RangeCalendar.defaultProps = CalendarDefaultProps;
+RangeCalendar.propTypes = RangeCalendarProps;
+RangeCalendar.defaultProps = RangeCalendarDefaultProps;
 
 export default RangeCalendar;

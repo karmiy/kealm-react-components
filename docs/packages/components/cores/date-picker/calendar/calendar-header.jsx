@@ -11,6 +11,7 @@ import { set, startOfDay } from 'date-fns';
 function CalendarHeader(props) {
     const {
         prefixCls,
+        defaultPickerValue,
         value,
         onChange,
         disabled,
@@ -23,8 +24,8 @@ function CalendarHeader(props) {
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    const year = value ? value.getFullYear() : new Date().getFullYear(),
-        month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
+    const year = value ? value.getFullYear() : (defaultPickerValue ? defaultPickerValue.getFullYear() : new Date().getFullYear()),
+        month = value ? value.getMonth() + 1 : (defaultPickerValue ? defaultPickerValue.getMonth() + 1 : new Date().getMonth() + 1);
     const isMinMonth = year === MIN_SAFE_YEAR && month === 1,
         isMaxMonth = year === MAX_SAFE_YEAR && month === 12,
         isMinYear = year === MIN_SAFE_YEAR,
@@ -39,26 +40,26 @@ function CalendarHeader(props) {
 
     // ---------------------------------- event ----------------------------------
     const onPrevYear = useCallback(() => {
-        onChange(v => set(v || startOfDay(new Date()), { year: year - 1 }));
-    }, [year]);
+        onChange(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: year - 1 }));
+    }, [year, defaultPickerValue]);
 
     const onPrevMonth = useCallback(() => {
         let _month = month === 1 ? 12 : month - 1,
             _year = month === 1 ? year - 1 : year;
 
-        onChange(v => set(v || startOfDay(new Date()), { year: _year, month: _month -1 }));
-    }, [year, month]);
+        onChange(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: _year, month: _month -1 }));
+    }, [year, month, defaultPickerValue]);
 
     const onNextYear = useCallback(() => {
-        onChange(v => set(v || startOfDay(new Date()), { year: year + 1 }));
-    }, [year]);
+        onChange(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: year + 1 }));
+    }, [year, defaultPickerValue]);
 
     const onNextMonth = useCallback(() => {
         let _month = month === 12 ? 1 : month + 1,
             _year = month === 12 ? year + 1 : year;
 
-        onChange(v => set(v || startOfDay(new Date()), { year: _year, month: _month - 1 }));
-    }, [year, month]);
+        onChange(v => set(v || defaultPickerValue || startOfDay(new Date()), { year: _year, month: _month - 1 }));
+    }, [year, month, defaultPickerValue]);
 
     const onYearSelect = useCallback(selectedDate => {
         setYearPanelVisible(false);
@@ -73,7 +74,7 @@ function CalendarHeader(props) {
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderPrevYear = useMemo(() => {
-        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'prev-year');
+        const isDisabledArrow = disabledArrow(value || defaultPickerValue || startOfDay(new Date()), 'prev-year');
         const isDisabled = disabled || isMinYear || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
@@ -86,10 +87,10 @@ function CalendarHeader(props) {
                 <Icon type={'double-left'} />
             </button>
         )
-    }, [prefixCls, onPrevYear, disabled, isMinYear, disabledArrow, value, hiddenDisabledArrow]);
+    }, [prefixCls, onPrevYear, disabled, isMinYear, disabledArrow, value, defaultPickerValue, hiddenDisabledArrow]);
 
     const renderPrevMonth = useMemo(() => {
-        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'prev-month');
+        const isDisabledArrow = disabledArrow(value || defaultPickerValue || startOfDay(new Date()), 'prev-month');
         const isDisabled = disabled || isMinMonth || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
@@ -102,10 +103,10 @@ function CalendarHeader(props) {
                 <Icon type={'left'} />
             </button>
         )
-    }, [prefixCls, onPrevMonth, disabled, isMinMonth, disabledArrow, value, hiddenDisabledArrow]);
+    }, [prefixCls, onPrevMonth, disabled, isMinMonth, disabledArrow, value, defaultPickerValue, hiddenDisabledArrow]);
 
     const renderNextYear = useMemo(() => {
-        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'next-year');
+        const isDisabledArrow = disabledArrow(value || defaultPickerValue || startOfDay(new Date()), 'next-year');
         const isDisabled = disabled || isMaxYear || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
@@ -119,10 +120,10 @@ function CalendarHeader(props) {
                 <Icon type={'double-right'} />
             </button>
         )
-    }, [prefixCls, onNextYear, disabled, isMaxYear, disabledArrow, value, hiddenDisabledArrow]);
+    }, [prefixCls, onNextYear, disabled, isMaxYear, disabledArrow, value, defaultPickerValue, hiddenDisabledArrow]);
 
     const renderNextMonth = useMemo(() => {
-        const isDisabledArrow = disabledArrow(value || startOfDay(new Date()), 'next-month');
+        const isDisabledArrow = disabledArrow(value || defaultPickerValue || startOfDay(new Date()), 'next-month');
         const isDisabled = disabled || isMaxMonth || isDisabledArrow;
         const className = mergeStr({
             [`${prefixCls}__header-btn`]: true,
@@ -135,7 +136,7 @@ function CalendarHeader(props) {
                 <Icon type={'right'} />
             </button>
         )
-    }, [prefixCls, onNextMonth, disabled, isMaxMonth, disabledArrow, value, hiddenDisabledArrow]);
+    }, [prefixCls, onNextMonth, disabled, isMaxMonth, disabledArrow, value, defaultPickerValue, hiddenDisabledArrow]);
 
     const renderSelect = useMemo(() => {
         const className = mergeStr({

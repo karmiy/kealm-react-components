@@ -182,24 +182,37 @@ function ExampleDoc() {
                 onSelect={(v, u) => console.log(v, u, 'select')}
                 onChange={(v, u) => console.log(v, u, 'change')}
                 disabledDate={(v, u) => {
+                    console.log(v, u);
                     return u.getFullYear() < 2018
                 }}
                 disabledArrow={(v, type) => {
                     console.log(v, type);
-                    if(type === 'prev-century') return false;
-                    return true;
+                    return false;
                 }}
                 hiddenDisabledArrow
             />*/}
-            {/*<Calendar defaultValue={new Date()} onSelect={(v) => console.log(v, 'select')} onChange={(v) => console.log(v, 'change')} />*/}
+            {/*<Calendar
+                // defaultValue={new Date()}
+                defaultPickerValue={new Date('2018-12-11 09:23:11')}
+                onSelect={(v) => console.log(v, 'select')}
+                onChange={(v) => console.log(v, 'change')}
+                disabledDate={v => {
+                    // console.log(v);
+                    return false;
+                }}
+            />*/}
             {/*<YearPanel
-                // defaultValue={new Date('2018-03-02 12:11:10')}
+                // defaultPickerValue={new Date('2018-03-02 12:11:10')}
                 onSelect={(v) => console.log(v, 'select')}
                 onChange={(v) => console.log(v, 'change')}
                 visible={visible}
-                disabledDate={v => v.getFullYear() < 2018}
+                disabledDate={v => {
+                    console.log(v);
+                    return false;
+                }}
                 disabledDecade={(v, u) => {
-                    return u.getFullYear() < 2030
+                    console.log(v, u, 'decade');
+                    return false;
                 }}
                 disabledArrow={(v, type) => {
                     console.log(v, type);
@@ -208,28 +221,34 @@ function ExampleDoc() {
                 hiddenDisabledArrow
             />*/}
             {/*<MonthPanel
-                // defaultValue={new Date('2018-03-02 12:11:10')}
+                defaultPickerValue={new Date('2018-03-02 12:11:10')}
                 onSelect={(v) => console.log(v, 'select')}
                 onChange={(v) => console.log(v, 'change')}
                 visible={visible}
-                disabledDate={v => v < new Date(2018, 3) }
-                disabledYear={v => v.getFullYear() < 2016}
+                disabledDate={v => {
+                    console.log(v, 'date');
+                    return false;
+                }}
+                disabledYear={v => {
+                    console.log(v, 'year');
+                    return false;
+                }}
                 disabledDecade={(v, u) => {
+                    console.log(v, u, 'decade');
                     return u.getFullYear() < 2030
                 }}
                 disabledArrow={(v, type) => {
                     console.log(v, type);
-                    if(type === 'prev-year') return false;
-                    return true;
+                    return false;
                 }}
                 hiddenDisabledArrow
                 // disabled={true}
             />*/}
             {/*<TimePanel defaultOpenValue={new Date('2018-10-22 12:11:10')} onChange={v => console.log('change: ' +  v)} onSelect={v => console.log('select: ' +  v)} />*/}
-            {/*<RangeCalendar
-                defaultValue={[new Date('2019-12-11 13:13:13'), new Date('2019-01-01 14:14:14')]}
+            <RangeCalendar
+                defaultPickerValue={[new Date('2019-12-11 13:13:13'), new Date('2019-01-01 14:14:14')]}
                 onSelect={v => console.log(v)}
-            />*/}
+            />
             {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>

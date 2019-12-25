@@ -18,6 +18,7 @@ const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '七'];
 function CalendarBody(props) {
     const {
         prefixCls,
+        defaultPickerValue,
         value,
         selectedDate,
         onSelect,
@@ -28,11 +29,10 @@ function CalendarBody(props) {
     } = props;
 
     // ---------------------------------- variable ----------------------------------
-    const year = value ? value.getFullYear() : new Date().getFullYear(),
-        month = value ? value.getMonth() + 1 : new Date().getMonth() + 1;
+    const year = value ? value.getFullYear() : (defaultPickerValue ? defaultPickerValue.getFullYear() : new Date().getFullYear()),
+        month = value ? value.getMonth() + 1 : (defaultPickerValue ? defaultPickerValue.getMonth() + 1 : new Date().getMonth() + 1);
     const today = new Date();
     const selectedWeek = selectedDate ? getWeek(selectedDate, { weekStartsOn: 1 }) : 0;
-    console.log(selectedDate);
 
     // ---------------------------------- class ----------------------------------
     const tableClassName = mergeStr({
@@ -45,14 +45,8 @@ function CalendarBody(props) {
         if(disabled) return;
 
         const { year, month, date } = item;
-
-        /*const isCurrentSelected = selectedDate
-            && selectedDate.getFullYear() === year
-            && selectedDate.getMonth() + 1 === month
-            && selectedDate.getDate() === date;
-        if(!isCurrentSelected) onChange(year, month, date);*/
-        onSelect(v => set(v || startOfDay(new Date()), { year, month: month - 1, date }));
-    }, [disabled]);
+        onSelect(v => set(v || defaultPickerValue || startOfDay(new Date()), { year, month: month - 1, date }));
+    }, [disabled, defaultPickerValue]);
 
     // ---------------------------------- function ----------------------------------
     const createRow = useCallback((dates, key) => {
@@ -72,8 +66,8 @@ function CalendarBody(props) {
                 {
                     dates.map(item => {
                         const { year: _year, month: _month, date: _date } = item;
-                        const currentDate = selectedDate
-                            ? set(selectedDate, {
+                        const currentDate = selectedDate || defaultPickerValue
+                            ? set(selectedDate || defaultPickerValue, {
                                 year: _year,
                                 month: _month - 1,
                                 date: _date,
@@ -125,7 +119,7 @@ function CalendarBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek, cellRender, disabledDate]);
+    }, [prefixCls, defaultPickerValue, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek, cellRender, disabledDate]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderThead = useMemo(() => {

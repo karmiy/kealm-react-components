@@ -3,6 +3,7 @@ import { noop } from 'utils/common/base';
 
 const panelProps = {
     defaultValue: PropTypes.instanceOf(Date),
+    defaultPickerValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
