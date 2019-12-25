@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useContextConf, useController, useDidUpdate } from 'hooks';
 import { DatePickerProps, DatePickerDefaultProps } from './interface';
 import { formatDate } from 'utils/common/date';
@@ -22,6 +22,7 @@ function DatePicker(props) {
         visible,
         onVisibleChange,
         defaultValue,
+        defaultPickerValue,
         value,
         onChange,
         disabled,
@@ -45,6 +46,11 @@ function DatePicker(props) {
         timePanelDisabledOptions = isObject(disabledTimeOptions) ? disabledTimeOptions : emptyObj;
 
     const { hourStep, minuteStep, secondStep } = timePanelProps;
+
+    // Common defaultPickerValue
+    defaultPickerValue && (timePanelProps.defaultOpenValue = defaultPickerValue); // Set defaultOpenValue for TimePanel
+
+    const _defaultPickerValue = timePanelProps.defaultOpenValue;
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -94,6 +100,10 @@ function DatePicker(props) {
         )
     }, [componentCls]);
 
+    const renderExtraFooter = useMemo(() => {
+
+    }, []);
+
     // ---------------------------------- render ----------------------------------
     return (
         <Picker
@@ -116,6 +126,7 @@ function DatePicker(props) {
             {...others}
         >
             <Header
+                defaultOpenValue={_defaultPickerValue}
                 value={dateValue}
                 disabled={disabled}
                 visible={isVisible}
@@ -131,6 +142,7 @@ function DatePicker(props) {
             />
             <div className={`${componentCls}-panel__body`}>
                 <Calendar
+                    defaultPickerValue={_defaultPickerValue}
                     value={dateValue}
                     disabled={disabled}
                     visible={isVisible}

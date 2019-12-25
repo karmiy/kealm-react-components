@@ -63,10 +63,9 @@ export const FooterProps = {
     isRange: PropTypes.bool,
     timeVisible: PropTypes.bool,
     onTimeVisibleChange: PropTypes.func,
-    // onToday: PropTypes.func,
-    // onNow: PropTypes.func,
     onOk: PropTypes.func,
     disabledDate: PropTypes.func,
+    extra: PropTypes.node,
 }
 
 export const FooterDefaultProps = {

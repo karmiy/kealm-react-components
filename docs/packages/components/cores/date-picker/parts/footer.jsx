@@ -16,6 +16,7 @@ function Footer(props) {
         onTimeVisibleChange,
         onOk,
         disabledDate,
+        extra,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -64,6 +65,7 @@ function Footer(props) {
     return (
         <div className={classNames}>
             <div className={`${prefixCls}__footer-container`}>
+                {extra}
                 <RenderWrapper visible={!showTime && !isRange} unmountOnExit>
                     <a className={todayClassNames} onClick={onTodayTrigger}>今天</a>
                 </RenderWrapper>

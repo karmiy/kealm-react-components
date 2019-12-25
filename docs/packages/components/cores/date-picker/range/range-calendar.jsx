@@ -22,7 +22,7 @@ import { sortDates } from 'utils/common/date';
 const { createConfig } = useController;
 
 /**
- * Used to control the display status of calendars on both sides
+ * Used to control the display status of calendars on both sides (params need to be an isPlain array)
  * @param rangeValue
  * @param defaultPickerValue
  * @returns {[Date, Date]}
@@ -69,12 +69,22 @@ export function isSameRange(prevRange, nextRange, isSort = false) {
     return _prevRange[0].getTime() === nextRange[0].getTime() && _prevRange[1].getTime() === nextRange[1].getTime();
 }
 
+/**
+ * Set time of config (params need to be an isPlain array)
+ * @param prevRange
+ * @param nextRange
+ * @param defaultPickerValue
+ * @returns {[Date, Date]}
+ */
 function setRangeTime(prevRange, nextRange, defaultPickerValue) {
-    const _filterPrev = prevRange.filter(v => !!v);
-    const [prevStartV, prevEndV] = _filterPrev;
-    if(_filterPrev.length === 0) return [...nextRange];
+    const _prevRange = prevRange.filter(v => !!v),
+        _defaultPickerValue = defaultPickerValue.filter(v => !!v);
+    const prevValues = [_prevRange[0] || _defaultPickerValue[0], _prevRange[1] || _defaultPickerValue[1]];
+    const _prevValues = prevValues.filter(v => !!v);
+    if(_prevValues.length === 0) return [...nextRange];
 
-    const nextEndV = _filterPrev.length === 2 ? prevEndV : prevStartV;
+    const [prevStartV, prevEndV] = _prevValues;
+    const nextEndV = _prevValues.length === 2 ? prevEndV : prevStartV;
     return [
         set(nextRange[0], {
             hours: prevStartV.getHours(),
@@ -106,7 +116,7 @@ function RangeCalendar(props) {
     // ---------------------------------- variable ----------------------------------
     const [rangeValue, setRangeValue] = useController(defaultValue, value, { onChange, onSelect }, [], disabled)
     const _rangeValue = useMemo(() => sortDates(rangeValue.filter(v => !!v)), [rangeValue]); // Remove empty and sort asc (isPlain range array)
-    const _defaultPickerValue = useMemo(() => sortDates(defaultPickerValue.filter(v => !!v)), [defaultPickerValue]);
+    const _defaultPickerValue = useMemo(() => sortDates(defaultPickerValue.filter(v => !!v)), [defaultPickerValue]); // Remove empty and sort asc (isPlain range array)
 
     const [selectedValue, setSelectedValue] = useStateCallable(_rangeValue, true);
     const [hoverValue, setHoverValue] = useState(_rangeValue);
@@ -153,7 +163,7 @@ function RangeCalendar(props) {
             if(!curRange.length || curRange.length === 2) return [v];
             const [startV] = curRange;
 
-            return setRangeTime(_rangeValue, sortDates([startV, v]));
+            return setRangeTime(_rangeValue, sortDates([startV, v]), _defaultPickerValue);
         }, (nextSelected) => {
             // Callback is triggered when 2 dates are selected
             if(nextSelected.length !== 2) return;
@@ -166,20 +176,21 @@ function RangeCalendar(props) {
                 },
             }));
         })
-    }, [_rangeValue]);
+    }, [_rangeValue, _defaultPickerValue]);
 
     const onCalendarLeftSelect = useCallback(v => onCalendarSelect(v, true), [onCalendarSelect]);
     const onCalendarRightSelect = useCallback(v => onCalendarSelect(v, false), [onCalendarSelect]);
 
     const onCellEnter = useCallback(v => {
         const [startV] = selectedValue;
-        const _v = set(v, {
+        /*const _v = set(v, {
             hours: startV.getHours(),
             minutes: startV.getMinutes(),
             seconds: startV.getSeconds(),
         });
-        setHoverValue(sortDates([...selectedValue, _v]));
-    }, [selectedValue]);
+        setHoverValue(sortDates([...selectedValue, _v]));*/
+        setHoverValue(setRangeTime(_rangeValue, sortDates([startV, v]), _defaultPickerValue));
+    }, [selectedValue, _rangeValue, _defaultPickerValue]);
 
     const onLeftPanelChange = useCallback(v => setLeftPanelValue(v), []);
     const onRightPanelChange = useCallback(v => setRightPanelValue(v), []);

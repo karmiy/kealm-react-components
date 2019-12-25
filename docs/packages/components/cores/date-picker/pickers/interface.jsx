@@ -6,6 +6,7 @@ import { omit } from 'utils/common/object';
 export const CommonProps = {
     ...dropdownCommonProps, // defaultVisible ...
     defaultValue: PropTypes.instanceOf(Date),
+    defaultPickerValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
@@ -65,6 +66,7 @@ export const WeekPickerDefaultProps = {
 export const RangePickerProps = {
     ...omit(CommonProps, ['placeholder']),
     defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+    defaultPickerValue:PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     startPlaceholder: PropTypes.string,
     endPlaceholder: PropTypes.string,

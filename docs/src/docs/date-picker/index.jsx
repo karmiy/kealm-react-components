@@ -75,7 +75,7 @@ function DatePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        {/*<DatePicker defaultValue={new Date('2009-01-02 12:11:10')} onChange={v => console.log(v)} />*/}
+                        {/*<DatePicker allowClear showTime defaultPickerValue={new Date('2009-01-02 12:11:10')} onChange={v => console.log(v)} />*/}
                         <DatePicker onChange={(date, dateString) => console.log(date, dateString)} />
                     </div>
                 )
@@ -116,7 +116,14 @@ function DatePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        {/*<RangePicker defaultValue={[new Date('2019-12-02'), new Date('2019-02-12')]} onChange={(date, dateString) => console.log(date, dateString)} />*/}
+                        {/*<RangePicker
+                            defaultPickerValue={
+                                [new Date('2019-02-02 12:11:10'), new Date('2019-11-12 13:14:15')]
+                            }
+                            showTime
+                            allowClear
+                            onChange={(date, dateString) => console.log(date, dateString)}
+                        />*/}
                         <RangePicker allowClear onChange={(date, dateString) => console.log(date, dateString)} />
                     </div>
                 )
@@ -315,6 +322,7 @@ function DatePickerDoc() {
                                     <RangePicker
                                         allowClear
                                         showTime={{
+                                            defaultOpenValue: new Date('2019-12-11 02:15:40'),
                                             hourStep: 2,
                                             minuteStep: 5,
                                             secondStep: 10,

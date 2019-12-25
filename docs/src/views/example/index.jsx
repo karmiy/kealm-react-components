@@ -137,7 +137,8 @@ function ExampleDoc() {
     }
     return (
         <div style={{
-            width: '334px',
+            display: 'inline-block',
+            // width: '334px',
             height: '300px',
             border: '1px solid #e4e7ed'
         }}>
@@ -246,8 +247,12 @@ function ExampleDoc() {
             />*/}
             {/*<TimePanel defaultOpenValue={new Date('2018-10-22 12:11:10')} onChange={v => console.log('change: ' +  v)} onSelect={v => console.log('select: ' +  v)} />*/}
             <RangeCalendar
-                defaultPickerValue={[new Date('2019-12-11 13:13:13'), new Date('2019-01-01 14:14:14')]}
-                onSelect={v => console.log(v)}
+                defaultPickerValue={[null, new Date('2019-01-01 14:14:14')]}
+                onSelect={v => console.log(v, 'select')}
+                /*disabledDate={v => {
+                    console.log(v);
+                    return false;
+                }}*/
             />
             {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}

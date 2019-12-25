@@ -18,6 +18,7 @@ function WeekPicker(props) {
         visible,
         onVisibleChange,
         defaultValue,
+        defaultPickerValue,
         value,
         onChange,
         disabled,
@@ -80,6 +81,7 @@ function WeekPicker(props) {
             {...others}
         >
             <Calendar
+                defaultPickerValue={defaultPickerValue}
                 value={dateValue}
                 disabled={disabled}
                 visible={isVisible}

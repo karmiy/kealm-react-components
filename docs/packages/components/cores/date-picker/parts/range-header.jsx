@@ -63,6 +63,7 @@ function  RangeHeader(props) {
     // ---------------------------------- variable ----------------------------------
     const rangeValue = useMemo(() => sortDates(value.filter(v => !!v)), [value]);
     const [inputValue, setInputValue] = useState(rangeValue.map(item => formatDate(item, format)));
+    const defaultPickerValue = useMemo(() => sortDates(defaultOpenValue.filter(v => !!v)), [defaultOpenValue])
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -104,8 +105,8 @@ function  RangeHeader(props) {
 
         if(v1 === '' || v2 === '') return;
 
-        const prevDate1 = rangeValue[0] || defaultOpenValue[0] || null,
-            prevDate2 = rangeValue[1] || defaultOpenValue[1] || null;
+        const prevDate1 = rangeValue[0] || defaultPickerValue[0] || null,
+            prevDate2 = rangeValue[1] || defaultPickerValue[1] || null;
 
         const nextDate1 = parseDate(v1, format, prevDate1 || startOfDay(new Date())),
             nextDate2 = parseDate(v2, format, prevDate2 || startOfDay(new Date()));
@@ -117,7 +118,7 @@ function  RangeHeader(props) {
         if(isEqual(prevDate1, nextDate1) && isEqual(prevDate2, nextDate2)) return false;
 
         onChange([nextDate1, nextDate2]);
-    }, [rangeValue, defaultOpenValue, onChange, format, hourStep, minuteStep, secondStep]);
+    }, [rangeValue, defaultPickerValue, onChange, format, hourStep, minuteStep, secondStep]);
 
     // ---------------------------------- render ----------------------------------
     return (

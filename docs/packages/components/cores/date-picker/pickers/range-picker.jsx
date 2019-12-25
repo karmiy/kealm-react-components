@@ -31,6 +31,7 @@ function RangePicker(props) {
         visible,
         onVisibleChange,
         defaultValue,
+        defaultPickerValue,
         value,
         onChange,
         disabled,
@@ -62,6 +63,17 @@ function RangePicker(props) {
         timePanelDisabledRightOptions = isObject(disabledRightTimeOptions) ? disabledRightTimeOptions : emptyObj;
 
     const { hourStep, minuteStep, secondStep } = timePanelProps;
+
+    // Common defaultPickerValue
+    const _defaultPickerValue = timePanelProps.defaultOpenValue
+                                ?
+                                [timePanelProps.defaultOpenValue, timePanelProps.defaultOpenValue]
+                                : [];
+    if(defaultPickerValue) {
+        const plainPickerValue = sortDates(defaultPickerValue.filter(v => !!v));
+        plainPickerValue[0] && (_defaultPickerValue[0] = plainPickerValue[0]);
+        plainPickerValue[1] && (_defaultPickerValue[1] = plainPickerValue[1]);
+    }
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -137,6 +149,7 @@ function RangePicker(props) {
             {...others}
         >
             <RangeHeader
+                defaultOpenValue={_defaultPickerValue}
                 value={rangeValue}
                 disabled={disabled}
                 visible={isVisible}
@@ -153,6 +166,7 @@ function RangePicker(props) {
             />
             <div className={`${componentCls}-panel__body`}>
                 <RangeCalendar
+                    defaultPickerValue={_defaultPickerValue}
                     value={rangeValue}
                     disabled={disabled}
                     visible={isVisible}
@@ -172,6 +186,7 @@ function RangePicker(props) {
                             initAsyncScroll={false}
                             {...timePanelDisabledLeftOptions}
                             {...timePanelProps}
+                            defaultOpenValue={_defaultPickerValue[0]}
                         />
                         <TimePanel
                             header={renderTimeHeader}
@@ -183,6 +198,7 @@ function RangePicker(props) {
                             initAsyncScroll={false}
                             {...timePanelDisabledRightOptions}
                             {...timePanelProps}
+                            defaultOpenValue={_defaultPickerValue[1]}
                         />
                     </div>
                 </RenderWrapper>
