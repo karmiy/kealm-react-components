@@ -83,6 +83,7 @@ export const RangePickerProps = {
     showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     disabledTime: PropTypes.func,
     onOk: PropTypes.func,
+    separator: PropTypes.node,
 }
 
 export const RangePickerDefaultProps = {
@@ -92,5 +93,6 @@ export const RangePickerDefaultProps = {
     showTime: false,
     disabledTime: noop,
     onOk: noop,
+    separator: '~',
     // format: 'yyyy-MM-dd',
 }

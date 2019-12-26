@@ -30,6 +30,7 @@ function Picker(props) {
         startPlaceholder,
         endPlaceholder,
         suffixIcon,
+        separator,
         ...others
     } = props;
     // ---------------------------------- variable ----------------------------------
@@ -126,6 +127,7 @@ function Picker(props) {
                         endPlaceholder={endPlaceholder}
                         size={size}
                         disabled={disabled}
+                        separator={separator}
                     />
                 }
             </div>

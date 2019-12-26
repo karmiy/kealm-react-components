@@ -62,7 +62,15 @@ function getRangeCalendarControls(rangeValue, defaultPickerValue) {
                 :
                 (defaultPickerValue.length === 2
                         ?
-                        defaultPickerValue[1]
+                        (
+                            !isSameMonth(...defaultPickerValue)
+                            ? defaultPickerValue[1]
+                            : set(addMonths(leftValue, 1), {
+                                hours: defaultPickerValue[1].getHours(),
+                                minutes: defaultPickerValue[1].getMinutes(),
+                                seconds: defaultPickerValue[1].getSeconds(),
+                            })
+                        )
                         :addMonths(leftValue, 1)
                 )
             );

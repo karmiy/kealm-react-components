@@ -28,6 +28,7 @@ window.isValidDate = isValidDate;
 // console.log(useController);
 
 const { RangeInput } = Input;
+const { RangePicker } = DatePicker;
 
 function T(props) {
     console.log('T');
@@ -251,7 +252,7 @@ function ExampleDoc() {
                     )
                 }}
             />*/}
-            <MonthPanel
+            {/*<MonthPanel
                 defaultPickerValue={new Date('2018-03-02 12:11:10')}
                 onSelect={(v) => console.log(v, 'select')}
                 onChange={(v) => console.log(v, 'change')}
@@ -284,10 +285,20 @@ function ExampleDoc() {
                         </span>
                     )
                 }}
+            />*/}
+            <RangePicker
+                // defaultPickerValue={[new Date('2019-11-11 13:14:15')]}
+                allowClear
+                // showTime
+                showTime={{
+                    // defaultOpenValue: new Date('2019-02-11 02:15:40'),
+                    hideDisabledOptions: true,
+                }}
+                onChange={(date, dateString) => console.log(date, dateString)}
             />
             {/*<TimePanel defaultOpenValue={new Date('2018-10-22 12:11:10')} onChange={v => console.log('change: ' +  v)} onSelect={v => console.log('select: ' +  v)} />*/}
             {/*<RangeCalendar
-                defaultPickerValue={[new Date('2018-09-02 13:13:13'), new Date('2019-01-01 14:14:14')]}
+                defaultPickerValue={[new Date('2018-09-02 13:13:13'), new Date('2018-11-01 14:14:14')]}
                 onSelect={v => console.log(v, 'select')}
                 onPanelChange={v => console.log(v, 'panelChange')}
                 disabledDate={v => {

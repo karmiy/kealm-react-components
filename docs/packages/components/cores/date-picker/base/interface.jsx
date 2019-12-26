@@ -15,6 +15,7 @@ export const PickerProps = {
     startPlaceholder: PropTypes.string,
     endPlaceholder: PropTypes.string,
     suffixIcon: PropTypes.node,
+    separator: PropTypes.node,
 }
 
 export const PickerDefaultProps = {
@@ -25,4 +26,5 @@ export const PickerDefaultProps = {
     allowClear: false,
     onClear: noop,
     isRange: false,
+    separator: '~'
 }

@@ -10,7 +10,7 @@ import TimePanel from '../../time-picker/time-panel';
 import { RenderWrapper } from '../../../common';
 import {mergeStr, isObject, emptyObj} from 'utils/common/base';
 import { isSameRange } from '../range/range-calendar';
-import Header from "./date-picker";
+import { set, addMonths } from 'date-fns';
 
 const { createConfig } = useController;
 
@@ -49,6 +49,7 @@ function RangePicker(props) {
         renderExtraFooter,
         dateRender,
         suffixIcon,
+        separator,
         ...others
     } = props;
 
@@ -70,16 +71,42 @@ function RangePicker(props) {
 
     const { hourStep, minuteStep, secondStep } = timePanelProps;
 
-    // Common defaultPickerValue
-    const _defaultPickerValue = timePanelProps.defaultOpenValue
-                                ?
-                                [timePanelProps.defaultOpenValue, timePanelProps.defaultOpenValue]
-                                : [];
-    if(defaultPickerValue) {
+     // Use to control time of TimePanel
+    const _defaultOpenValue = timePanelProps.defaultOpenValue;
+    const _defaultOpenTime = _defaultOpenValue ? [_defaultOpenValue, _defaultOpenValue] : [];
+
+    // Use to control time of Calendar
+    const _defaultPickerValue = defaultPickerValue ? sortDates(defaultPickerValue.filter(v => !!v)) : [];
+    if(_defaultOpenTime.length && !_defaultPickerValue.length) {
+        _defaultPickerValue.push(new Date(_defaultOpenValue));
+    } else if(_defaultPickerValue.length) {
+        _defaultOpenTime[0] = _defaultPickerValue[0];
+        _defaultOpenTime[1] = _defaultPickerValue[1] || addMonths(_defaultPickerValue[0], 1);
+    }
+
+    /*const _defaultOpenValue = timePanelProps.defaultOpenValue;
+    const _defaultPickerValue = _defaultOpenValue
+        ?
+        [
+            set(new Date(), {
+                hours: _defaultOpenValue.getHours(),
+                minutes: _defaultOpenValue.getMinutes(),
+                seconds: _defaultOpenValue.getSeconds(),
+            }),
+            set(addMonths(new Date(), 1), {
+                hours: _defaultOpenValue.getHours(),
+                minutes: _defaultOpenValue.getMinutes(),
+                seconds: _defaultOpenValue.getSeconds(),
+            })
+        ]
+        : [];*/
+
+
+    /*if(defaultPickerValue) {
         const plainPickerValue = sortDates(defaultPickerValue.filter(v => !!v));
         plainPickerValue[0] && (_defaultPickerValue[0] = plainPickerValue[0]);
         plainPickerValue[1] && (_defaultPickerValue[1] = plainPickerValue[1]);
-    }
+    }*/
 
     // ---------------------------------- effect ----------------------------------
     useDidUpdate(() => {
@@ -160,6 +187,7 @@ function RangePicker(props) {
             isRange
             size={size}
             suffixIcon={suffixIcon}
+            separator={separator}
             {...others}
         >
             <RangeHeader
@@ -202,7 +230,7 @@ function RangePicker(props) {
                             initAsyncScroll={false}
                             {...timePanelDisabledLeftOptions}
                             {...timePanelProps}
-                            defaultOpenValue={_defaultPickerValue[0]}
+                            defaultOpenValue={_defaultOpenTime[0]}
                         />
                         <TimePanel
                             header={renderTimeHeader}
@@ -214,7 +242,7 @@ function RangePicker(props) {
                             initAsyncScroll={false}
                             {...timePanelDisabledRightOptions}
                             {...timePanelProps}
-                            defaultOpenValue={_defaultPickerValue[1]}
+                            defaultOpenValue={_defaultOpenTime[1]}
                         />
                     </div>
                 </RenderWrapper>
