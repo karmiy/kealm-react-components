@@ -22,7 +22,8 @@ const { createConfig } = useController;
 }*/
 
 function RangePicker(props) {
-    const { componentCls } = useContextConf('range-picker');
+    const { componentCls } = useContextConf('range-picker'),
+        { componentCls: commonCls } = useContextConf('date-picker');
     const {
         className,
         pickerClassName,
@@ -43,6 +44,7 @@ function RangePicker(props) {
         size,
         disabledDate,
         disabledTime,
+        renderExtraFooter,
         ...others
     } = props;
 
@@ -88,7 +90,9 @@ function RangePicker(props) {
         }));
     }, []);
 
-    const onRangeChange = useCallback(rangeV => {
+    const onRangeChange = useCallback((rangeV, toClose = false) => {
+        if(toClose) setIsVisible(false);
+
         if(!rangeV.length) {
             onClear();
             return;
@@ -124,6 +128,8 @@ function RangePicker(props) {
             </div>
         )
     }, [componentCls]);
+
+    const renderFooter = useMemo(() => renderExtraFooter(_rangeValue, v => onRangeChange(v, true)), [renderExtraFooter, _rangeValue, onRangeChange]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -203,15 +209,18 @@ function RangePicker(props) {
                     </div>
                 </RenderWrapper>
             </div>
-            <RenderWrapper visible={!!showTime} unmountOnExit>
+            <RenderWrapper visible={!!showTime || !!renderFooter} unmountOnExit>
                 <Footer
-                    prefixCls={`${componentCls}-panel`}
+                    prefixCls={`${commonCls}-panel`}
                     disabled={disabled || rangeValue.length !== 2}
                     isRange
                     showTime={showTime}
+                    showOk={!!showTime}
+                    timePicker={!!showTime}
                     timeVisible={timeVisible}
                     onTimeVisibleChange={setTimeVisible}
                     onOk={onOk}
+                    renderFooter={renderFooter}
                 />
             </RenderWrapper>
         </Picker>

@@ -121,31 +121,34 @@
             }
         }
 
-        @include when(disabled) {
-            .km-date-picker-panel__footer-opt {
-                color: $color-text-placeholder;
-                cursor: not-allowed;
+        @include when(range) {
+            @include when(show-time) {
+                .km-date-picker-panel__footer-extra {
+                    float: left;
+                }
             }
         }
 
         @include e(footer-container) {
             text-align: center;
+            overflow: hidden;
+
+            @include e(footer-extra) {
+                font-size: $font-size-base;
+                color: $color-text-primary;
+                text-align: left;
+            }
 
             @include e(footer-opt) {
-                display: inline-block;
                 margin-right: 8px;
-                font-size: $font-size-base;
-                color: $color-primary;
-                cursor: pointer;
                 vertical-align: middle;
+
+                @include when(today) {
+                    margin-right: 0;
+                }
 
                 @include when(now) {
                     float: left;
-                }
-
-                @include when(disabled) {
-                    color: $color-text-placeholder;
-                    cursor: not-allowed;
                 }
             }
             @include e(footer-btn) {
@@ -200,49 +203,6 @@
                 font-size: $font-size-base;
                 color: $calendar-header-select-color;
                 text-align: center;
-            }
-        }
-    }
-
-    @include e(footer-wrap) {
-        line-height: 40px;
-        padding: 0 12px;
-        border-top: 1px solid $date-picker-panel-border-color;
-        font-size: 0;
-
-        @include when(show-time) {
-            .km-range-picker-panel__footer-container {
-                text-align: right;
-            }
-        }
-
-        @include when(disabled) {
-            .km-range-picker-panel__footer-opt {
-                color: $color-text-placeholder;
-                cursor: not-allowed;
-            }
-        }
-
-        @include e(footer-container) {
-            text-align: center;
-
-            @include e(footer-opt) {
-                display: inline-block;
-                margin-right: 8px;
-                font-size: $font-size-base;
-                color: $color-primary;
-                cursor: pointer;
-                vertical-align: middle;
-
-                @include when(disabled) {
-                    color: $color-text-placeholder;
-                    cursor: not-allowed;
-                }
-            }
-            @include e(footer-btn) {
-                padding: 4px 9px;
-                font-size: $font-size-base;
-                vertical-align: middle;
             }
         }
     }

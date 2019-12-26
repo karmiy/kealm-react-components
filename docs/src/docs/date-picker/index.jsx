@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { DatePicker, Row, Col, Radio } from '@kealm/react-components';
+import { DatePicker, Row, Col, Radio, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
-import { endOfDay } from 'date-fns';
+import { startOfYesterday, startOfDay, endOfDay, subDays, startOfWeek, addMonths, subMonths } from 'date-fns';
 
 const { MonthPicker, WeekPicker, RangePicker } = DatePicker;
 
@@ -374,6 +374,144 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [startValue, endValue, endVisible, disabledStartDate, disabledEndDate])}
+
+            {/* 额外的页脚 */}
+            <h2>额外的页脚</h2>
+            <p>在浮层中加入额外的页脚，以满足某些定制信息的需求。</p>
+            {useMemo(() => {
+                return (
+                    <>
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col>
+                                    <DatePicker
+                                        allowClear
+                                        renderExtraFooter={(_, setValue) => {
+                                            return (
+                                                <Row type={'flex'} justify={'center'}>
+                                                    <Col>
+                                                        <Button
+                                                            type={'text'}
+                                                            onClick={() => setValue(startOfYesterday())}
+                                                        >
+                                                            昨天
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            )
+                                        }}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <DatePicker
+                                        allowClear
+                                        showTime
+                                        renderExtraFooter={(_, setValue) => {
+                                            return (
+                                                <Button
+                                                    type={'text'}
+                                                    onClick={() => setValue(subDays(new Date(), 1))}
+                                                >
+                                                    昨日
+                                                </Button>
+                                            )
+                                        }}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <WeekPicker
+                                        allowClear
+                                        renderExtraFooter={(_, setValue) => {
+                                            return (
+                                                <Button
+                                                    type={'text'}
+                                                    onClick={() => setValue(startOfWeek(new Date(), { weekStartsOn: 1 }))}
+                                                >
+                                                    本周
+                                                </Button>
+                                            )
+                                        }}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className="detail-box">
+                            <Row gutter={16}>
+                                <Col>
+                                    <MonthPicker
+                                        allowClear
+                                        renderExtraFooter={(_, setValue) => {
+                                            return (
+                                                <Row type={'flex'} justify={'space-between'}>
+                                                    <Col>
+                                                        <Button
+                                                            type={'text'}
+                                                            onClick={() => setValue(subMonths(startOfDay(new Date), 1))}
+                                                        >
+                                                            上个月
+                                                        </Button>
+                                                    </Col>
+                                                    <Col>
+                                                        <Button
+                                                            type={'text'}
+                                                            onClick={() => setValue(addMonths(startOfDay(new Date), 1))}
+                                                        >
+                                                            下个月
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            )
+                                        }}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <RangePicker
+                                        allowClear
+                                        renderExtraFooter={(_, setValue) => {
+                                            return (
+                                                <Button
+                                                    type={'text'}
+                                                    onClick={() => setValue([
+                                                        startOfDay(subDays(new Date(), 14)),
+                                                        endOfDay(subDays(new Date(), 1))
+                                                    ])}
+                                                >
+                                                    近2周
+                                                </Button>
+                                            )
+                                        }}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
+                                </Col>
+                                <Col>
+                                    <RangePicker
+                                        allowClear
+                                        showTime
+                                        renderExtraFooter={(_, setValue) => {
+                                            return (
+                                                <Button
+                                                    type={'text'}
+                                                    onClick={() => setValue([
+                                                        startOfDay(subDays(new Date(), 7)),
+                                                        endOfDay(subDays(new Date(), 1))
+                                                    ])}
+                                                >
+                                                    近7天
+                                                </Button>
+                                            )
+                                        }}
+                                        onChange={(date, dateString) => console.log(date, dateString)}
+                                    />
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
+                )
+            }, [])}
 
             {/* API */}
             {/*<ApiTable title='TimePicker' propsList={timePickerProps} eventsList={timePickerEvents} />*/}

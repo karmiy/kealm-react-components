@@ -1,15 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useContextConf, useController } from 'hooks';
 import { WeekPickerProps, WeekPickerDefaultProps } from './interface';
 import Calendar from '../calendar';
 import Picker from '../base/picker';
+import Footer from '../parts/footer';
+import { RenderWrapper } from '../../../common';
 import { mergeStr } from 'utils/common/base';
 import { formatDate } from 'utils/common/date';
 
 const { createConfig } = useController;
 
 function WeekPicker(props) {
-    const { componentCls } = useContextConf('week-picker');
+    const { componentCls } = useContextConf('week-picker'),
+        { componentCls: commonCls } = useContextConf('date-picker');
     const {
         className,
         pickerClassName,
@@ -27,6 +30,7 @@ function WeekPicker(props) {
         allowClear,
         size,
         disabledDate,
+        renderExtraFooter,
         ...others
     } = props;
 
@@ -42,7 +46,9 @@ function WeekPicker(props) {
         }));
     }, []);
 
-    const onDateChange = useCallback(v => {
+    const onDateChange = useCallback((v, toClose = false) => {
+        if(toClose) setIsVisible(false);
+
         if(!v) {
             onClear();
             return;
@@ -59,6 +65,9 @@ function WeekPicker(props) {
             return;
         onDateChange(selectedDate);
     }, [dateValue, onDateChange]);
+
+    // ---------------------------------- render mini chunk ----------------------------------
+    const renderFooter = useMemo(() => renderExtraFooter(dateValue, v => onDateChange(v, true)), [renderExtraFooter, dateValue, onDateChange]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -89,6 +98,13 @@ function WeekPicker(props) {
                 showWeek
                 disabledDate={disabledDate}
             />
+            <RenderWrapper visible={!!renderExtraFooter} unmountOnExit>
+                <Footer
+                    prefixCls={`${commonCls}-panel`}
+                    disabled={disabled}
+                    renderFooter={renderFooter}
+                />
+            </RenderWrapper>
         </Picker>
     );
 }

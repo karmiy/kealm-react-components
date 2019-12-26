@@ -10,13 +10,18 @@ function Footer(props) {
         prefixCls,
         onChange,
         showTime,
+        showToday,
+        showNow,
+        showOk,
+        timePicker,
         disabled,
+        okDisabled,
         isRange,
         timeVisible,
         onTimeVisibleChange,
         onOk,
         disabledDate,
-        extra,
+        renderFooter,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -27,19 +32,17 @@ function Footer(props) {
     const classNames = mergeStr({
         [`${prefixCls}__footer-wrap`]: true,
         'is-show-time': showTime,
-        'is-disabled': disabled,
+        'is-range': isRange,
     });
 
     const todayClassNames = mergeStr({
         [`${prefixCls}__footer-opt`]: true,
         'is-today': true,
-        'is-disabled': isTodayDisabled,
     });
 
     const nowClassNames = mergeStr({
         [`${prefixCls}__footer-opt`]: true,
         'is-now': true,
-        'is-disabled': isNowDisabled,
     });
 
     // ---------------------------------- event ----------------------------------
@@ -65,22 +68,28 @@ function Footer(props) {
     return (
         <div className={classNames}>
             <div className={`${prefixCls}__footer-container`}>
-                {extra}
-                <RenderWrapper visible={!showTime && !isRange} unmountOnExit>
-                    <a className={todayClassNames} onClick={onTodayTrigger}>今天</a>
+                <RenderWrapper visible={!!renderFooter} unmountOnExit>
+                    <div className={`${prefixCls}__footer-extra`}>
+                        {renderFooter}
+                    </div>
                 </RenderWrapper>
-                <RenderWrapper visible={!!showTime} unmountOnExit>
-                    <RenderWrapper visible={!isRange} unmountOnExit>
-                        <a className={nowClassNames} onClick={onNowTrigger}>此刻</a>
-                    </RenderWrapper>
-                    <a className={`${prefixCls}__footer-opt`} onClick={onTimeVisibleTrigger}>
+                <RenderWrapper visible={showToday} unmountOnExit>
+                    <Button className={todayClassNames} type={'text'} disabled={isTodayDisabled} onClick={onTodayTrigger}>今天</Button>
+                </RenderWrapper>
+                <RenderWrapper visible={showNow} unmountOnExit>
+                    <Button className={nowClassNames} type={'text'} disabled={isTodayDisabled} onClick={onNowTrigger}>此刻</Button>
+                </RenderWrapper>
+                <RenderWrapper visible={timePicker} unmountOnExit>
+                    <Button className={`${prefixCls}__footer-opt`} type={'text'} disabled={disabled} onClick={onTimeVisibleTrigger}>
                         {timeVisible ? '选择日期' : '选择时间'}
-                    </a>
+                    </Button>
+                </RenderWrapper>
+                <RenderWrapper visible={showOk} unmountOnExit>
                     <Button
                         className={`${prefixCls}__footer-btn`}
                         type={'primary'}
                         size={'small'}
-                        disabled={disabled}
+                        disabled={disabled || okDisabled}
                         onClick={onOk}
                     >确定</Button>
                 </RenderWrapper>

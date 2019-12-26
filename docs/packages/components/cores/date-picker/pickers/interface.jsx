@@ -15,6 +15,7 @@ export const CommonProps = {
     allowClear: PropTypes.bool,
     size: PropTypes.oneOf(['large', 'small']),
     disabledDate: PropTypes.func,
+    renderExtraFooter: PropTypes.func,
 }
 
 export const CommonDefaultProps = {
@@ -25,6 +26,7 @@ export const CommonDefaultProps = {
     // format: 'yyyy-MM-dd',
     allowClear: false,
     disabledDate: noop,
+    renderExtraFooter: noop,
 }
 
 /* date-picker-props */

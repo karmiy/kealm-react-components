@@ -33,6 +33,7 @@ function DatePicker(props) {
         size,
         disabledDate,
         disabledTime,
+        renderExtraFooter,
         ...others
     } = props;
 
@@ -100,9 +101,7 @@ function DatePicker(props) {
         )
     }, [componentCls]);
 
-    const renderExtraFooter = useMemo(() => {
-
-    }, []);
+    const renderFooter = useMemo(() => renderExtraFooter(dateValue, v => onDateChange(v, true)), [renderExtraFooter, dateValue, onDateChange]);
 
     // ---------------------------------- render ----------------------------------
     return (
@@ -166,12 +165,18 @@ function DatePicker(props) {
             <Footer
                 prefixCls={`${componentCls}-panel`}
                 disabled={disabled}
+                okDisabled={!dateValue}
                 showTime={showTime}
+                showToday={!showTime}
+                showNow={!!showTime}
+                showOk={!!showTime}
+                timePicker={!!showTime}
                 timeVisible={timeVisible}
                 onChange={onDateChange}
                 onTimeVisibleChange={setTimeVisible}
                 onOk={onOk}
                 disabledDate={disabledDate}
+                renderFooter={renderFooter}
             />
         </Picker>
     );
