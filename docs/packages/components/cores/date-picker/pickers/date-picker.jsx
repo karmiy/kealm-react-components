@@ -25,15 +25,20 @@ function DatePicker(props) {
         defaultPickerValue,
         value,
         onChange,
+        onPanelChange,
+        onOk: _onOk,
         disabled,
         placeholder,
         showTime,
+        showToday,
         format = showTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         allowClear,
         size,
         disabledDate,
         disabledTime,
         renderExtraFooter,
+        dateRender,
+        suffixIcon,
         ...others
     } = props;
 
@@ -90,7 +95,10 @@ function DatePicker(props) {
         onDateChange(v)
     }, [onDateChange]);
 
-    const onOk = useCallback(() => setIsVisible(false), []);
+    const onOk = useCallback(() => {
+        _onOk();
+        setIsVisible(false);
+    }, [_onOk]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderTimeHeader = useCallback(v => {
@@ -122,6 +130,7 @@ function DatePicker(props) {
             allowClear={!!(allowClear && dateValue)}
             onClear={onClear}
             size={size}
+            suffixIcon={suffixIcon}
             {...others}
         >
             <Header
@@ -146,7 +155,9 @@ function DatePicker(props) {
                     disabled={disabled}
                     visible={isVisible}
                     onSelect={onCalendarSelect}
+                    onPanelChange={onPanelChange}
                     disabledDate={disabledDate}
+                    dateRender={dateRender}
                 />
                 <RenderWrapper visible={timeVisible} unmountOnExit>
                     <TimePanel
@@ -162,22 +173,24 @@ function DatePicker(props) {
                     />
                 </RenderWrapper>
             </div>
-            <Footer
-                prefixCls={`${componentCls}-panel`}
-                disabled={disabled}
-                okDisabled={!dateValue}
-                showTime={showTime}
-                showToday={!showTime}
-                showNow={!!showTime}
-                showOk={!!showTime}
-                timePicker={!!showTime}
-                timeVisible={timeVisible}
-                onChange={onDateChange}
-                onTimeVisibleChange={setTimeVisible}
-                onOk={onOk}
-                disabledDate={disabledDate}
-                renderFooter={renderFooter}
-            />
+            <RenderWrapper visible={showToday || showTime} unmountOnExit>
+                <Footer
+                    prefixCls={`${componentCls}-panel`}
+                    disabled={disabled}
+                    okDisabled={!dateValue}
+                    showTime={showTime}
+                    showToday={!showTime && showToday}
+                    showNow={!!showTime && showToday}
+                    showOk={!!showTime}
+                    timePicker={!!showTime}
+                    timeVisible={timeVisible}
+                    onChange={onDateChange}
+                    onTimeVisibleChange={setTimeVisible}
+                    onOk={onOk}
+                    disabledDate={disabledDate}
+                    renderFooter={renderFooter}
+                />
+            </RenderWrapper>
         </Picker>
     );
 }

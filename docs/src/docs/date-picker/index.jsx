@@ -64,6 +64,15 @@ function DatePickerDoc() {
         return date.valueOf() <= startValue.valueOf();
     }, [startValue]);
 
+    const dateRender = useCallback(current => {
+        const style = {};
+        if (current.getDate() === 1) {
+            style.border = '1px solid #1890ff';
+            style.borderRadius = '50%';
+        }
+        return <span className={'km-calendar__date'} style={style}>{current.getDate()}</span>
+    }, []);
+
     return (
         <div className='page-box'>
             <h1>DatePicker 日期选择器</h1>
@@ -75,7 +84,7 @@ function DatePickerDoc() {
             {useMemo(() => {
                 return (
                     <div className="detail-box">
-                        {/*<DatePicker allowClear showTime defaultPickerValue={new Date('2009-01-02 12:11:10')} onChange={v => console.log(v)} />*/}
+                        {/*<DatePicker showToday showTime onOk={() => console.log(1)} allowClear defaultPickerValue={new Date('2009-01-02 12:11:10')} onChange={v => console.log(v)} />*/}
                         <DatePicker onChange={(date, dateString) => console.log(date, dateString)} />
                     </div>
                 )
@@ -510,6 +519,32 @@ function DatePickerDoc() {
                             </Row>
                         </div>
                     </>
+                )
+            }, [])}
+
+            {/* 定值日期单元格 */}
+            <h2>定值日期单元格</h2>
+            <p>使用 dateRender 可以自定义日期单元格的内容和样式。</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Row gutter={16}>
+                            <Col>
+                                <DatePicker
+                                    allowClear
+                                    onChange={(date, dateString) => console.log(date, dateString)}
+                                    dateRender={dateRender}
+                                />
+                            </Col>
+                            <Col>
+                                <RangePicker
+                                    allowClear
+                                    onChange={(date, dateString) => console.log(date, dateString)}
+                                    dateRender={dateRender}
+                                />
+                            </Col>
+                        </Row>
+                    </div>
                 )
             }, [])}
 

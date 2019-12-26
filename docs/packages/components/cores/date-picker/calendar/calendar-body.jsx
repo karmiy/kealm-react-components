@@ -26,6 +26,7 @@ function CalendarBody(props) {
         showWeek,
         cellRender,
         disabledDate,
+        dateRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -96,11 +97,15 @@ function CalendarBody(props) {
 
                         const onClick = isDisabled ? null : () => onItemSelect(item);
 
-                        const renderDate = (
-                            <span className={`${prefixCls}__date`}>
-                                {item.date}
-                            </span>
-                        );
+                        const renderDate = dateRender
+                            ?
+                            dateRender(currentDate)
+                            :
+                            (
+                                <span className={`${prefixCls}__date`}>
+                                    {item.date}
+                                </span>
+                            );
 
                         if(cellRender && isFunction(cellRender)) {
                             return cellRender(prefixCls, {
@@ -119,7 +124,7 @@ function CalendarBody(props) {
                 }
             </tr>
         )
-    }, [prefixCls, defaultPickerValue, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek, cellRender, disabledDate]);
+    }, [prefixCls, defaultPickerValue, selectedDate, today, disabled, onItemSelect, showWeek, selectedWeek, cellRender, disabledDate, dateRender]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderThead = useMemo(() => {

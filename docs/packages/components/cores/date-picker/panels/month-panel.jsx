@@ -19,12 +19,14 @@ function MonthPanel(props) {
         disabled,
         onChange,
         onSelect,
+        onPanelChange,
         visible,
         disabledDate,
         disabledYear,
         disabledDecade,
         disabledArrow,
         hiddenDisabledArrow,
+        dateRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -48,6 +50,8 @@ function MonthPanel(props) {
     useDidUpdate(() => {
         visible && (setInnerValue(value), setYearPanelVisible(false));
     }, [visible], true);
+
+    useDidUpdate(() => onPanelChange(innerValue), [innerValue]);
 
     // ---------------------------------- event ----------------------------------
     const onMonthSelect = useCallback(v => {
@@ -87,13 +91,16 @@ function MonthPanel(props) {
             && outerValue.getFullYear() === item.year
             && outerValue.getMonth() + 1 === item.month;
 
-        const isDisabled = disabled || disabledDate(
+        const currentDate =
             outerValue || defaultPickerValue
             ?
             set(outerValue || defaultPickerValue, {year: item.year, month: item.month - 1})
             :
             startOfDay(set(new Date(), {year: item.year, month: item.month - 1}))
-        );
+
+        const isDisabled = disabled || disabledDate(currentDate);
+
+        const contentRender = dateRender ? dateRender(currentDate) : null;
 
         return {
             key: `${item.year} - ${item.month}`,
@@ -101,8 +108,9 @@ function MonthPanel(props) {
             isSelected,
             onClick: () => onItemSelect(item),
             content: `${item.character}月`,
+            contentRender,
         }
-    }, [outerValue, defaultPickerValue, disabled, disabledDate]);
+    }, [outerValue, defaultPickerValue, disabled, disabledDate, dateRender]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSelectContent = useMemo(() => {

@@ -27,7 +27,7 @@ function CreatePanel(props) {
             <tr key={key}>
                 {
                     rowData.map(item => {
-                        const { key, className, isDisabled, isSelected, onClick, content } = cellOption(item);
+                        const { key, className, isDisabled, isSelected, onClick, content, contentRender } = cellOption(item);
                         const cellClassName = mergeStr({
                             [`${componentCls}-panel__cell`]: true,
                             [`${componentCls}__cell`]: true,
@@ -38,9 +38,11 @@ function CreatePanel(props) {
 
                         return (
                             <td key={key} className={cellClassName} onClick={isDisabled ? null : onClick}>
-                                <span className={`${componentCls}-panel__date ${componentCls}__date`}>
-                                    {content}
-                                </span>
+                                {
+                                    contentRender
+                                    ||
+                                    <span className={`${componentCls}-panel__date ${componentCls}__date`}>{content}</span>
+                                }
                             </td>
                         )
                     })

@@ -7,16 +7,19 @@ const panelProps = {
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
+    onPanelChange: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
     disabledDate: PropTypes.func,
     disabledArrow: PropTypes.func,
     hiddenDisabledArrow: PropTypes.bool,
+    dateRender: PropTypes.func,
 }
 
 const panelDefaultProps = {
     onChange: noop,
     onSelect: noop,
+    onPanelChange: noop,
     disabled: false,
     disabledDate: noop,
     disabledArrow: noop,

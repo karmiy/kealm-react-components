@@ -149,6 +149,7 @@
 
                 @include when(now) {
                     float: left;
+                    margin-top: 4px;
                 }
             }
             @include e(footer-btn) {

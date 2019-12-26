@@ -5,6 +5,8 @@ import Input from '../../input';
 import Trigger from '../../trigger';
 import Icon from '../../icon';
 import { RenderWrapper } from '../../../common';
+import { cloneVElement } from 'utils/common/react-util';
+import { isString } from 'utils/common/base';
 
 const { RangeInput } = Input;
 
@@ -27,6 +29,7 @@ function Picker(props) {
         isRange,
         startPlaceholder,
         endPlaceholder,
+        suffixIcon,
         ...others
     } = props;
     // ---------------------------------- variable ----------------------------------
@@ -55,15 +58,27 @@ function Picker(props) {
     // ---------------------------------- render mini chunk ----------------------------------
 
     const renderSuffix = useMemo(() => {
+        const calendarIcon =  !suffixIcon ?
+            <Icon type={'calendar'} className={`${componentCls}__caret`} />
+            :
+            (
+                isString(suffixIcon)
+                ?
+                <Icon className={`${componentCls}__caret`} type={suffixIcon} />
+                :
+                cloneVElement(suffixIcon, {
+                    className: `${componentCls}__caret`,
+                })
+            );
         return (
             <div>
-                <Icon type={'calendar'} className={`${componentCls}__caret`} />
+                {calendarIcon}
                 <RenderWrapper visible={allowClear} unmountOnExit>
                     <Icon type={'close-circle'} className={`${componentCls}__clear`} onClick={onClear} />
                 </RenderWrapper>
             </div>
         )
-    }, [allowClear, onClear]);
+    }, [allowClear, onClear, suffixIcon]);
 
     // ---------------------------------- render chunk ----------------------------------
     const renderPanel = useMemo(() => {

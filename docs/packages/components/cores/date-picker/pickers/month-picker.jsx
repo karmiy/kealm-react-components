@@ -24,6 +24,7 @@ function MonthPicker(props) {
         defaultPickerValue,
         value,
         onChange,
+        onPanelChange,
         disabled,
         placeholder,
         format,
@@ -31,6 +32,8 @@ function MonthPicker(props) {
         size,
         disabledDate,
         renderExtraFooter,
+        dateRender,
+        suffixIcon,
         ...others
     } = props;
 
@@ -87,6 +90,7 @@ function MonthPicker(props) {
             allowClear={!!(allowClear && dateValue)}
             onClear={onClear}
             size={size}
+            suffixIcon={suffixIcon}
             {...others}
         >
             <MonthPanel
@@ -95,7 +99,9 @@ function MonthPicker(props) {
                 disabled={disabled}
                 visible={isVisible}
                 onSelect={onCalendarSelect}
+                onPanelChange={onPanelChange}
                 disabledDate={disabledDate}
+                dateRender={dateRender}
             />
             <RenderWrapper visible={!!renderExtraFooter} unmountOnExit>
                 <Footer

@@ -17,10 +17,12 @@ function DecadePanel(props) {
         disabled,
         onChange,
         onSelect,
+        onPanelChange,
         visible,
         disabledDate,
         disabledArrow,
         hiddenDisabledArrow,
+        dateRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -43,6 +45,8 @@ function DecadePanel(props) {
     useDidUpdate(() => {
         visible && setInnerValue(value);
     }, [visible], true);
+
+    useDidUpdate(() => onPanelChange(innerValue), [innerValue]);
 
     // ---------------------------------- event ----------------------------------
 
@@ -85,12 +89,14 @@ function DecadePanel(props) {
         });
         const selectedYear = outerValue && outerValue.getFullYear();
 
-        const isDisabledDecade = disabledDate(
-            outerValue || defaultPickerValue ? set(outerValue || defaultPickerValue, {year: item.from}) : startOfDay(set(new Date(), {year: item.from})),
-            outerValue || defaultPickerValue ? set(outerValue || defaultPickerValue, {year: item.to}) : startOfDay(set(new Date(), {year: item.to})),
-        );
+        const currentStartDate = outerValue || defaultPickerValue ? set(outerValue || defaultPickerValue, {year: item.from}) : startOfDay(set(new Date(), {year: item.from})),
+            currentEndDate =outerValue || defaultPickerValue ? set(outerValue || defaultPickerValue, {year: item.to}) : startOfDay(set(new Date(), {year: item.to}));
+
+        const isDisabledDecade = disabledDate(currentStartDate, currentEndDate);
         const isSelected = selectedYear && item.from <= selectedYear && item.to >= selectedYear,
             isDisabled = disabled || item.from > MAX_SAFE_YEAR || item.to < MIN_SAFE_YEAR || isDisabledDecade;
+
+        const contentRender = dateRender ? dateRender(currentStartDate, currentEndDate) : null;
 
         return {
             key: `${item.from}-${item.to}`,
@@ -99,8 +105,9 @@ function DecadePanel(props) {
             isSelected,
             onClick: () => onItemSelect(item),
             content: `${item.from}-${item.to}`,
+            contentRender,
         }
-    }, [outerValue, defaultPickerValue, disabled, disabledDate]);
+    }, [outerValue, defaultPickerValue, disabled, disabledDate, dateRender]);
 
     return (
         <CreatePanel

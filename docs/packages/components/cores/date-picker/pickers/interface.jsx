@@ -9,6 +9,7 @@ export const CommonProps = {
     defaultPickerValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     onChange: PropTypes.func,
+    onPanelChange: PropTypes.func,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     format: PropTypes.string,
@@ -16,11 +17,14 @@ export const CommonProps = {
     size: PropTypes.oneOf(['large', 'small']),
     disabledDate: PropTypes.func,
     renderExtraFooter: PropTypes.func,
+    dateRender: PropTypes.func,
+    suffixIcon: PropTypes.node,
 }
 
 export const CommonDefaultProps = {
     ...dropdownCommonDefaultProps,
     onChange: noop,
+    onPanelChange: noop,
     disabled: false,
     placeholder: '请选择日期',
     // format: 'yyyy-MM-dd',
@@ -33,13 +37,17 @@ export const CommonDefaultProps = {
 export const DatePickerProps = {
     ...CommonProps,
     showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    showToday: PropTypes.bool,
     disabledTime: PropTypes.func,
+    onOk: PropTypes.func,
 }
 
 export const DatePickerDefaultProps = {
     ...CommonDefaultProps,
     showTime: false,
+    showToday: true,
     disabledTime: noop,
+    onOk: noop,
 }
 
 /* month-picker-props */
@@ -74,6 +82,7 @@ export const RangePickerProps = {
     endPlaceholder: PropTypes.string,
     showTime: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     disabledTime: PropTypes.func,
+    onOk: PropTypes.func,
 }
 
 export const RangePickerDefaultProps = {
@@ -82,5 +91,6 @@ export const RangePickerDefaultProps = {
     endPlaceholder: '结束日期',
     showTime: false,
     disabledTime: noop,
+    onOk: noop,
     // format: 'yyyy-MM-dd',
 }

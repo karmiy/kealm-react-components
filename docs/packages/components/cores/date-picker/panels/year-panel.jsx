@@ -19,11 +19,13 @@ function YearPanel(props) {
         disabled,
         onChange,
         onSelect,
+        onPanelChange,
         visible,
         disabledDate,
         disabledDecade,
         disabledArrow,
         hiddenDisabledArrow,
+        dateRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -48,6 +50,8 @@ function YearPanel(props) {
     useDidUpdate(() => {
         visible && (setInnerValue(value), setDecadePanelVisible(false));
     }, [visible], true);
+
+    useDidUpdate(() => onPanelChange(innerValue), [innerValue]);
 
     // ---------------------------------- event ----------------------------------
     const onYearSelect = useCallback(v => {
@@ -94,6 +98,8 @@ function YearPanel(props) {
         const isSelected = outerValue && outerValue.getFullYear() === item.year,
             isDisabled = disabled || item.year > MAX_SAFE_YEAR || item.year < MIN_SAFE_YEAR || isDisabledYear;
 
+        const contentRender = dateRender ? dateRender(currentDate) : null;
+
         return {
             key: item.year,
             className,
@@ -101,8 +107,9 @@ function YearPanel(props) {
             isSelected,
             onClick: () => onItemSelect(item),
             content: item.year,
+            contentRender,
         }
-    }, [outerValue, disabled, disabledDate]);
+    }, [outerValue, disabled, disabledDate, dateRender]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderSelectContent = useMemo(() => {

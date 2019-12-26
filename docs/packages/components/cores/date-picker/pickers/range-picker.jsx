@@ -35,6 +35,8 @@ function RangePicker(props) {
         defaultPickerValue,
         value,
         onChange,
+        onPanelChange,
+        onOk: _onOk,
         disabled,
         showTime,
         format = showTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
@@ -45,6 +47,8 @@ function RangePicker(props) {
         disabledDate,
         disabledTime,
         renderExtraFooter,
+        dateRender,
+        suffixIcon,
         ...others
     } = props;
 
@@ -118,7 +122,10 @@ function RangePicker(props) {
         onRangeChange([_rangeValue[0], v]);
     }, [_rangeValue, onRangeChange]);
 
-    const onOk = useCallback(() => setIsVisible(false), []);
+    const onOk = useCallback(() => {
+        _onOk();
+        setIsVisible(false);
+    }, [_onOk]);
 
     // ---------------------------------- render mini chunk ----------------------------------
     const renderTimeHeader = useCallback(v => {
@@ -152,6 +159,7 @@ function RangePicker(props) {
             onClear={onClear}
             isRange
             size={size}
+            suffixIcon={suffixIcon}
             {...others}
         >
             <RangeHeader
@@ -177,7 +185,9 @@ function RangePicker(props) {
                     disabled={disabled}
                     visible={isVisible}
                     onSelect={onRangeCalendarSelect}
+                    onPanelChange={onPanelChange}
                     disabledDate={disabledDate}
+                    dateRender={dateRender}
                 />
                 {/* Open only after 2 dates have been selected */}
                 <RenderWrapper visible={timeVisible} unmountOnExit>

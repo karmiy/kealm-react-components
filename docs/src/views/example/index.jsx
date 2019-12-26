@@ -183,14 +183,24 @@ function ExampleDoc() {
                 onSelect={(v, u) => console.log(v, u, 'select')}
                 onChange={(v, u) => console.log(v, u, 'change')}
                 disabledDate={(v, u) => {
-                    console.log(v, u);
+                    // console.log(v, u);
                     return u.getFullYear() < 2018
                 }}
                 disabledArrow={(v, type) => {
-                    console.log(v, type);
+                    // console.log(v, type);
                     return false;
                 }}
+                onPanelChange={v => console.log(v, 'panelChange')}
                 hiddenDisabledArrow
+                dateRender={(v, u) => {
+                    return (
+                        <span className={`km-calendar-panel__date km-calendar__date`} style={{
+                            border: '1px solid rgb(24, 144, 255)',
+                        }}>
+                            {v.getFullYear()} - {u.getFullYear()}
+                        </span>
+                    )
+                }}
             />*/}
             {/*<Calendar
                 // defaultValue={new Date()}
@@ -201,59 +211,99 @@ function ExampleDoc() {
                     // console.log(v);
                     return false;
                 }}
+                dateRender={current => {
+                    return (
+                        <span className={`km-calendar__date`} style={{
+                            border: '1px solid rgb(24, 144, 255)',
+                            borderRadius: '50%',
+                        }}>
+                            {current.getDate()}
+                        </span>
+                    )
+                }}
             />*/}
             {/*<YearPanel
-                // defaultPickerValue={new Date('2018-03-02 12:11:10')}
-                onSelect={(v) => console.log(v, 'select')}
-                onChange={(v) => console.log(v, 'change')}
-                visible={visible}
-                disabledDate={v => {
-                    console.log(v);
-                    return false;
-                }}
-                disabledDecade={(v, u) => {
-                    console.log(v, u, 'decade');
-                    return false;
-                }}
-                disabledArrow={(v, type) => {
-                    console.log(v, type);
-                    return false;
-                }}
-                hiddenDisabledArrow
-            />*/}
-            {/*<MonthPanel
                 defaultPickerValue={new Date('2018-03-02 12:11:10')}
                 onSelect={(v) => console.log(v, 'select')}
                 onChange={(v) => console.log(v, 'change')}
+                onPanelChange={v => console.log(v, 'panelChange')}
                 visible={visible}
                 disabledDate={v => {
-                    console.log(v, 'date');
-                    return false;
-                }}
-                disabledYear={v => {
-                    console.log(v, 'year');
+                    // console.log(v);
                     return false;
                 }}
                 disabledDecade={(v, u) => {
-                    console.log(v, u, 'decade');
+                    // console.log(v, u, 'decade');
+                    return false;
+                }}
+                disabledArrow={(v, type) => {
+                    // console.log(v, type);
+                    return false;
+                }}
+                hiddenDisabledArrow
+                dateRender={current => {
+                    return (
+                        <span className={`km-calendar-panel__date km-calendar__date`} style={{
+                            border: '1px solid rgb(24, 144, 255)',
+                        }}>
+                            {current.getFullYear()}
+                        </span>
+                    )
+                }}
+            />*/}
+            <MonthPanel
+                defaultPickerValue={new Date('2018-03-02 12:11:10')}
+                onSelect={(v) => console.log(v, 'select')}
+                onChange={(v) => console.log(v, 'change')}
+                onPanelChange={v => console.log(v, 'panelChange')}
+                visible={visible}
+                disabledDate={v => {
+                    // console.log(v, 'date');
+                    return false;
+                }}
+                disabledYear={v => {
+                    // console.log(v, 'year');
+                    return false;
+                }}
+                disabledDecade={(v, u) => {
+                    // console.log(v, u, 'decade');
                     return u.getFullYear() < 2030
                 }}
                 disabledArrow={(v, type) => {
-                    console.log(v, type);
+                    // console.log(v, type);
                     return false;
                 }}
                 hiddenDisabledArrow
                 // disabled={true}
-            />*/}
-            {/*<TimePanel defaultOpenValue={new Date('2018-10-22 12:11:10')} onChange={v => console.log('change: ' +  v)} onSelect={v => console.log('select: ' +  v)} />*/}
-            <RangeCalendar
-                defaultPickerValue={[null, new Date('2019-01-01 14:14:14')]}
-                onSelect={v => console.log(v, 'select')}
-                /*disabledDate={v => {
-                    console.log(v);
-                    return false;
-                }}*/
+                dateRender={current => {
+                    return (
+                        <span className={`km-calendar-panel__date km-calendar__date`} style={{
+                            border: '1px solid rgb(24, 144, 255)',
+                        }}>
+                            {current.getMonth() + 1}月
+                        </span>
+                    )
+                }}
             />
+            {/*<TimePanel defaultOpenValue={new Date('2018-10-22 12:11:10')} onChange={v => console.log('change: ' +  v)} onSelect={v => console.log('select: ' +  v)} />*/}
+            {/*<RangeCalendar
+                defaultPickerValue={[new Date('2018-09-02 13:13:13'), new Date('2019-01-01 14:14:14')]}
+                onSelect={v => console.log(v, 'select')}
+                onPanelChange={v => console.log(v, 'panelChange')}
+                disabledDate={v => {
+                    return false;
+                }}
+                dateRender={current => {
+                    return (
+                        <span className={`km-calendar__date`} style={{
+                            border: '1px solid rgb(24, 144, 255)',
+                            borderRadius: '50%',
+                        }}>
+                            {current.getDate()}
+                        </span>
+                    )
+                }}
+            />*/}
             {/*<Button onClick={() => setVisible(v => !v)} >Update</Button>*/}
             {/*<Button onClick={() => setCount(c => c + 1)} >Update{count}</Button>*/}
         </div>

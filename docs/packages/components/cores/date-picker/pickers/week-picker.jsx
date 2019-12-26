@@ -24,6 +24,7 @@ function WeekPicker(props) {
         defaultPickerValue,
         value,
         onChange,
+        onPanelChange,
         disabled,
         placeholder,
         format,
@@ -31,6 +32,8 @@ function WeekPicker(props) {
         size,
         disabledDate,
         renderExtraFooter,
+        dateRender,
+        suffixIcon,
         ...others
     } = props;
 
@@ -87,6 +90,7 @@ function WeekPicker(props) {
             allowClear={!!(allowClear && dateValue)}
             onClear={onClear}
             size={size}
+            suffixIcon={suffixIcon}
             {...others}
         >
             <Calendar
@@ -95,8 +99,10 @@ function WeekPicker(props) {
                 disabled={disabled}
                 visible={isVisible}
                 onSelect={onCalendarSelect}
+                onPanelChange={onPanelChange}
                 showWeek
                 disabledDate={disabledDate}
+                dateRender={dateRender}
             />
             <RenderWrapper visible={!!renderExtraFooter} unmountOnExit>
                 <Footer

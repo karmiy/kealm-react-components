@@ -47,14 +47,24 @@ function getRangeCalendarControls(rangeValue, defaultPickerValue) {
                     })
             )
             :
-            (defaultPickerValue.length === 2
-                    ?
-                    set(addMonths(leftValue, 1), {
-                        hours: defaultPickerValue[1].getHours(),
-                        minutes: defaultPickerValue[1].getMinutes(),
-                        seconds: defaultPickerValue[1].getSeconds(),
-                    })
-                    :addMonths(leftValue, 1)
+            (
+                rangeValue.length === 1
+                ?
+                (defaultPickerValue.length === 2
+                        ?
+                        set(addMonths(leftValue, 1), {
+                            hours: defaultPickerValue[1].getHours(),
+                            minutes: defaultPickerValue[1].getMinutes(),
+                            seconds: defaultPickerValue[1].getSeconds(),
+                        })
+                        :addMonths(leftValue, 1)
+                )
+                :
+                (defaultPickerValue.length === 2
+                        ?
+                        defaultPickerValue[1]
+                        :addMonths(leftValue, 1)
+                )
             );
     return [leftValue, rightValue];
 }
@@ -71,8 +81,8 @@ export function isSameRange(prevRange, nextRange, isSort = false) {
 
 /**
  * Set time of config (params need to be an isPlain array)
- * @param prevRange
- * @param nextRange
+ * @param {[Date, Date]} prevRange
+ * @param {[Date, Date]}  nextRange
  * @param defaultPickerValue
  * @returns {[Date, Date]}
  */
@@ -108,9 +118,11 @@ function RangeCalendar(props) {
         value,
         onChange,
         onSelect,
+        onPanelChange,
         disabled,
         visible,
         disabledDate: _disabledDate,
+        dateRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -155,6 +167,8 @@ function RangeCalendar(props) {
     useDidUpdate(() => {
         !visible && setSelectedValue(_rangeValue);
     }, [visible], true);
+
+    useDidUpdate(() => onPanelChange([leftPanelValue, rightPanelValue]), [leftPanelValue, rightPanelValue]);
 
     // ---------------------------------- event ----------------------------------
     const onCalendarSelect = useCallback((v, isLeft = true) => {
@@ -291,6 +305,7 @@ function RangeCalendar(props) {
                         disabledArrow={disabledArrowLeft}
                         hiddenDisabledArrow
                         visible={visible}
+                        dateRender={dateRender}
                     />
                 </div>
                 <div className={`${componentCls}__part`}>
@@ -308,6 +323,7 @@ function RangeCalendar(props) {
                         disabledArrow={disabledArrowRight}
                         hiddenDisabledArrow
                         visible={visible}
+                        dateRender={dateRender}
                     />
                 </div>
             </div>

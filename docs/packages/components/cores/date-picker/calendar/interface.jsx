@@ -19,6 +19,7 @@ export const CalendarProps = {
     disabledDecade: PropTypes.func,
     disabledArrow: PropTypes.func,
     hiddenDisabledArrow: PropTypes.bool,
+    dateRender: PropTypes.func,
 }
 
 export const CalendarDefaultProps = {
@@ -71,6 +72,7 @@ export const CalendarBodyProps = {
     onSelect: PropTypes.func,
     cellRender: PropTypes.func,
     disabledDate: PropTypes.func,
+    dateRender: PropTypes.func,
 }
 
 export const CalendarBodyDefaultProps = {

@@ -26,6 +26,7 @@ function Calendar(props) {
         disabledDecade,
         disabledArrow,
         hiddenDisabledArrow,
+        dateRender,
     } = props;
 
     // ---------------------------------- variable ----------------------------------
@@ -44,9 +45,7 @@ function Calendar(props) {
     }, [componentCls, className, showWeek]);
 
     // ---------------------------------- effect ----------------------------------
-    useDidUpdate(() => {
-        onPanelChange(innerValue)
-    }, [innerValue]);
+    useDidUpdate(() => onPanelChange(innerValue), [innerValue]);
 
     // ---------------------------------- event ----------------------------------
     const onCalendarSelect = useCallback(v => {
@@ -86,6 +85,7 @@ function Calendar(props) {
                 showWeek={showWeek}
                 cellRender={cellRender}
                 disabledDate={disabledDate}
+                dateRender={dateRender}
             />
         </div>
     );

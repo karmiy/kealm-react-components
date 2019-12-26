@@ -14,6 +14,7 @@ export const PickerProps = {
     isRange: PropTypes.bool,
     startPlaceholder: PropTypes.string,
     endPlaceholder: PropTypes.string,
+    suffixIcon: PropTypes.node,
 }
 
 export const PickerDefaultProps = {
