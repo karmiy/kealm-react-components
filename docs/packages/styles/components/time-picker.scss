@@ -65,6 +65,7 @@
         display: flex;
         position: relative;
         height: 100%;
+        overflow: hidden;
         @include utils-clear-fix;
     }
 
