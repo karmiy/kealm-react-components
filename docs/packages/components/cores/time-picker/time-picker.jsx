@@ -1,14 +1,12 @@
 import React, { useMemo, useCallback } from 'react';
 import { useContextConf, useClassName, useController } from 'hooks';
 import { TimePickerProps, TimePickerDefaultProps } from './interface';
-import Input from '../input';
 import {Icon} from "../index";
-import Trigger from '../trigger';
-// import Header from './header';
+import Picker from '../date-picker/base/picker';
 import Header from '../date-picker/parts/header';
 import TimePanel from './time-panel';
-import { RenderWrapper } from '../../common';
 import { formatDate } from 'utils/common/date'
+import {mergeStr} from "utils/common/base";
 
 const { createConfig } = useController;
 
@@ -16,8 +14,8 @@ function TimePicker(props) {
     const { componentCls, prefix } = useContextConf('time-picker');
     const {
         className,
-        selectorClassName,
-        selectorStyle,
+        pickerClassName,
+        pickerStyle,
         defaultVisible,
         visible,
         onVisibleChange,
@@ -57,23 +55,8 @@ function TimePicker(props) {
         }
     }, [disabledHours, disabledMinutes, disabledSeconds]);
 
-    // ---------------------------------- class ----------------------------------
-    const classNames = useClassName({
-        [`${prefix}-picker-panel`]: true,
-        [className]: className,
-    }, [className]);
-
-    const inputClassNames = useClassName({
-        [componentCls]: true,
-        [selectorClassName]: selectorClassName,
-        'is-clearable': allowClear && dateValue && !disabled,
-        'is-disabled': disabled,
-    }, [componentCls, selectorClassName, allowClear, dateValue, disabled]);
-
     // ---------------------------------- event ----------------------------------
-    const onClear = useCallback(e => {
-        e && e.stopPropagation();
-
+    const onClear = useCallback(() => {
         setDateValue(createConfig({
             value: null,
             event: [null, ''],
@@ -92,16 +75,7 @@ function TimePicker(props) {
     }, [format]);
 
     // ---------------------------------- render mini chunk ----------------------------------
-    const renderSuffix = useMemo(() => {
-        return (
-            <div>
-                <Icon type={'time-circle'} className={`${componentCls}__caret`} />
-                <RenderWrapper visible={allowClear} unmountOnExit>
-                    <Icon type={'close-circle'} className={`${componentCls}__clear`} onClick={onClear} />
-                </RenderWrapper>
-            </div>
-        )
-    }, [componentCls, allowClear]);
+    const renderSuffix = useMemo(() => <Icon type={'time-circle'} />, []);
 
     // ---------------------------------- render chunk ----------------------------------
     const panelDependencies = [
@@ -150,56 +124,48 @@ function TimePicker(props) {
             disabledSeconds,*/
         };
         return (
-            <>
-                <div className={`${componentCls}-panel`}>
-                    <Header
-                        prefixCls={`${componentCls}-panel`}
-                        placeholder={placeholder}
-                        disabledTime={disabledTime}
-                        {...commonProps}
-                    />
-                    <TimePanel
-                        hideDisabledOptions={hideDisabledOptions}
-                        disabledHours={disabledHours}
-                        disabledMinutes={disabledMinutes}
-                        disabledSeconds={disabledSeconds}
-                        {...commonProps}
-                    />
-                    {renderAddon}
-                </div>
-                <div className="popper__arrow" style={{left: '35px'}} />
-            </>
+            <div className={`${componentCls}-panel`}>
+                <Header
+                    prefixCls={`${componentCls}-panel`}
+                    placeholder={placeholder}
+                    disabledTime={disabledTime}
+                    {...commonProps}
+                />
+                <TimePanel
+                    hideDisabledOptions={hideDisabledOptions}
+                    disabledHours={disabledHours}
+                    disabledMinutes={disabledMinutes}
+                    disabledSeconds={disabledSeconds}
+                    {...commonProps}
+                />
+                {renderAddon}
+            </div>
         )
     }, [...panelDependencies, renderAddon]);
 
     // ---------------------------------- render ----------------------------------
     return (
-        <Trigger
-            trigger={'manual'}
-            disabled={disabled}
-            popup={renderPanel}
-            className={classNames}
-            modifiers={{
-                computeStyle: {
-                    gpuAcceleration: false,
-                }
-            }}
+        <Picker
+            className={className}
+            pickerClassName={mergeStr({
+                [componentCls]: true,
+                [pickerClassName]: pickerClassName,
+            })}
+            pickerStyle={pickerStyle}
+            pickerValue={dateValue ? formatDate(dateValue, format) : ''}
             visible={isVisible}
             onVisibleChange={setIsVisible}
+            disabled={disabled}
+            placeholder={placeholder}
+            allowClear={!!(allowClear && dateValue)}
+            onClear={onClear}
+            size={size}
+            suffixIcon={renderSuffix}
             {...others}
         >
-            <div className={inputClassNames} style={selectorStyle}>
-                <Input
-                    value={dateValue ? formatDate(dateValue, format) : ''}
-                    readOnly
-                    suffix={renderSuffix}
-                    placeholder={placeholder}
-                    size={size}
-                    disabled={disabled}
-                />
-            </div>
-        </Trigger>
-    );
+            {renderPanel}
+        </Picker>
+    )
 }
 
 TimePicker.propTypes = TimePickerProps;

@@ -30,4 +30,3 @@
 
 ## Vaulting
 
-TimePicker use Picker

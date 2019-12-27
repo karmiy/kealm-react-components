@@ -781,3 +781,20 @@ $calendar-cell-disabled-today-border-color: $disabled-border-active !default;
 $calendar-cell-disabled-today-background-color: $disabled-background-active !default;
 
 $date-picker-panel-time-header-height: 40px !default;;
+
+/* --------------------------Alert-------------------------- */
+$alert-padding: 8px 16px !default;
+$alert-border-radius: $border-radius-base !default;
+$alert-title-font-size: $font-size-base !default;
+$alert-description-font-size: $font-size-small !default;
+
+$alert-close-font-size: $font-size-small !default;
+$alert-close-custom-font-size: $border-radius-base !default;
+
+$alert-success-color: $color-success-lighter !default;
+$alert-info-color: $color-info-lighter !default;
+$alert-warning-color: $color-warning-lighter !default;
+$alert-danger-color: $color-danger-lighter !default;
+
+$alert-icon-size: $font-size-medium !default;
+$alert-icon-large-size: $font-size-base * 2 !default;

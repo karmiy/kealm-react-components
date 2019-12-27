@@ -80,6 +80,15 @@ const sidebarList = [
         ]
     },
     {
+        title: 'Notice',
+        children: [
+            {
+                name: 'Alert 警告提示',
+                link: 'alert',
+            }
+        ]
+    },
+    {
         title: 'Navigation',
         children: [
             {
