@@ -78,7 +78,7 @@ export const timePickerProps = [
     },
     {
         param: 'format',
-        des: '展示的时间格式，可以在 HH、hh、mm、ss 4个项中自定义格式，会被用于正则匹配',
+        des: '展示的时间格式',
         type: 'string',
         option: '--',
         default: 'HH:mm:ss',

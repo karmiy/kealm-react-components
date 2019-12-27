@@ -1,7 +1,41 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { DatePicker, Row, Col, Radio, Button } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
-import { startOfYesterday, startOfDay, endOfDay, subDays, startOfWeek, addMonths, subMonths } from 'date-fns';
+import {
+    commonProps,
+    commonEvents,
+    datePickerProps,
+    datePickerEvents,
+    monthPickerProps,
+    weekPickerProps,
+    rangePickerProps,
+    rangePickerEvents,
+} from 'api/date-picker';
+
+import {
+    CodeBasic,
+    CodeAllowClear,
+    CodeOtherPicker,
+    CodeRange,
+    CodeFormat,
+    CodeSize,
+    CodeShowTime,
+    CodeDisabled,
+    CodeDisabledDate,
+    CodeCustomRange,
+    CodeExtraFooter,
+    CodeDateRender,
+} from 'demos/date-picker';
+
+import {
+    startOfYesterday,
+    startOfDay,
+    endOfDay,
+    subDays,
+    startOfWeek,
+    addMonths,
+    subMonths,
+} from 'date-fns';
 
 const { MonthPicker, WeekPicker, RangePicker } = DatePicker;
 
@@ -14,13 +48,8 @@ function range(start, end) {
 }
 
 function DatePickerDoc() {
-    const [value, setValue] = useState(null);
     const [size, setSize] = useState('');
-    const [visible, setVisible] = useState(false);
-
-    const onChange = useCallback(v => setValue(v), []);
     const onSizeChange = useCallback(v => setSize(v), []);
-    const onVisibleChange = useCallback(v => setVisible(v), []);
 
     const disabledDate = useCallback(v => v < endOfDay(new Date()), []);
 
@@ -55,6 +84,7 @@ function DatePickerDoc() {
     const onEndChange = useCallback(v => setEndValue(v), []);
     const onStartVisibleChange = useCallback(visible => !visible && setEndVisible(true), []);
     const onEndVisibleChange = useCallback(visible => setEndVisible(visible), []);
+
     const disabledStartDate = useCallback(date => {
         if(!date || !endValue) return false;
         return date.valueOf() > endValue.valueOf();
@@ -89,6 +119,7 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 可清空 */}
             <h2>可清空</h2>
@@ -100,6 +131,7 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeAllowClear} />
 
             {/* 其他单位 */}
             <h2>其他单位</h2>
@@ -118,6 +150,7 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeOtherPicker} />
 
             {/* 选择日期范围 */}
             <h2>选择日期范围</h2>
@@ -137,6 +170,7 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeRange} />
 
             {/* 日期格式 */}
             <h2>日期格式</h2>
@@ -187,6 +221,7 @@ function DatePickerDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeFormat} />
 
             {/* 三种大小 */}
             <h2>三种大小</h2>
@@ -224,6 +259,7 @@ function DatePickerDoc() {
                     </>
                 )
             }, [size])}
+            <HighLight code={CodeSize} />
 
             {/* 日期时间选择 */}
             <h2>日期时间选择</h2>
@@ -256,6 +292,7 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeShowTime} />
 
             {/* 禁用 */}
             <h2>禁用</h2>
@@ -286,6 +323,7 @@ function DatePickerDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeDisabled} />
 
             {/* 不可选择日期和时间 */}
             <h2>不可选择日期和时间</h2>
@@ -348,6 +386,7 @@ function DatePickerDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeDisabledDate} />
 
             {/* 自定义日期范围选择 */}
             <h2>自定义日期范围选择</h2>
@@ -383,6 +422,7 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [startValue, endValue, endVisible, disabledStartDate, disabledEndDate])}
+            <HighLight code={CodeCustomRange} />
 
             {/* 额外的页脚 */}
             <h2>额外的页脚</h2>
@@ -521,6 +561,7 @@ function DatePickerDoc() {
                     </>
                 )
             }, [])}
+            <HighLight code={CodeExtraFooter} />
 
             {/* 定值日期单元格 */}
             <h2>定值日期单元格</h2>
@@ -547,9 +588,14 @@ function DatePickerDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDateRender} />
 
             {/* API */}
-            {/*<ApiTable title='TimePicker' propsList={timePickerProps} eventsList={timePickerEvents} />*/}
+            <ApiTable title='Common' propsList={commonProps} eventsList={commonEvents} />
+            <ApiTable title='DatePicker' propsList={datePickerProps} eventsList={datePickerEvents} />
+            <ApiTable title='MonthPicker' propsList={monthPickerProps} />
+            <ApiTable title='WeekPicker' propsList={weekPickerProps} />
+            <ApiTable title='RangePicker' propsList={rangePickerProps} eventsList={rangePickerEvents} />
         </div>
     )
 }

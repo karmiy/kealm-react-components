@@ -11,7 +11,7 @@ export const CommonProps = {
     onChange: PropTypes.func,
     onPanelChange: PropTypes.func,
     disabled: PropTypes.bool,
-    placeholder: PropTypes.string, //
+    placeholder: PropTypes.string,
     format: PropTypes.string,
     allowClear: PropTypes.bool,
     size: PropTypes.oneOf(['large', 'small']),
