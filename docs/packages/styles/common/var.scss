@@ -783,13 +783,14 @@ $calendar-cell-disabled-today-background-color: $disabled-background-active !def
 $date-picker-panel-time-header-height: 40px !default;;
 
 /* --------------------------Alert-------------------------- */
-$alert-padding: 8px 16px !default;
+$alert-padding: 8px 15px !default;
 $alert-border-radius: $border-radius-base !default;
 $alert-title-font-size: $font-size-base !default;
-$alert-description-font-size: $font-size-small !default;
+$alert-title-with-desc-font-size: $font-size-medium !default;
+$alert-description-font-size: $font-size-base !default;
 
 $alert-close-font-size: $font-size-small !default;
-$alert-close-custom-font-size: $border-radius-base !default;
+$alert-close-custom-font-size: $font-size-base !default;
 
 $alert-success-color: $color-success-lighter !default;
 $alert-info-color: $color-info-lighter !default;
