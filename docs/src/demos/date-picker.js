@@ -496,7 +496,7 @@ export const CodeExtraFooter =
         mountNode
     );`
 
-/* 定值日期单元格 */
+/* 定制日期单元格 */
 export const CodeDateRender =
 `    import { useCallback } from 'react';
     import { DatePicker, Row, Col } from "@kealm/react-components";

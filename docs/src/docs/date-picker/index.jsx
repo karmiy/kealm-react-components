@@ -563,8 +563,8 @@ function DatePickerDoc() {
             }, [])}
             <HighLight code={CodeExtraFooter} />
 
-            {/* 定值日期单元格 */}
-            <h2>定值日期单元格</h2>
+            {/* 定制日期单元格 */}
+            <h2>定制日期单元格</h2>
             <p>使用 dateRender 可以自定义日期单元格的内容和样式。</p>
             {useMemo(() => {
                 return (
