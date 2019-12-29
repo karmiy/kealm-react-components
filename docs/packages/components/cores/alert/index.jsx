@@ -3,7 +3,7 @@ import { AlertProps, AlertDefaultProps } from './interface';
 import { useContextConf, useClassName } from 'hooks';
 import Icon from '../icon';
 import { RenderWrapper } from '../../common';
-import { CollapseTransition  } from '../transition';
+import { CollapseTransition } from '../transition';
 
 const iconType = {
     success: 'check-circle',
@@ -22,6 +22,7 @@ function Alert(props) {
         description,
         closable,
         onClose,
+        afterClose,
         closeText,
         showIcon,
         ...others
@@ -45,6 +46,8 @@ function Alert(props) {
         onClose(e);
     }, [onClose]);
 
+    const onAfterClose = useCallback(() => afterClose(), [afterClose]);
+
     // ---------------------------------- render chunk ----------------------------------
     const renderIcon = useMemo(() => {
         if(!showIcon) return null;
@@ -62,7 +65,7 @@ function Alert(props) {
 
     // ---------------------------------- render ----------------------------------
     return (
-        <CollapseTransition visible={!isClosed} unmountOnExit>
+        <CollapseTransition visible={!isClosed} unmountOnExit visibleChange={onAfterClose}>
             <div role={'alert'} className={classNames} {...others}>
                 {renderIcon}
                 <div className={`${componentCls}__content`}>

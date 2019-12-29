@@ -5,11 +5,12 @@ import { noop } from 'utils/common/base';
 export const AlertProps = {
     className: PropTypes.string,
     type: PropTypes.oneOf(['success', 'warning', 'info', 'error']), // 类型
-    effect: PropTypes.oneOf(['light', 'dark', 'info', 'error']),
+    effect: PropTypes.oneOf(['light', 'dark']),
     title: PropTypes.node,
     description: PropTypes.node,
     closable: PropTypes.bool,
     onClose: PropTypes.func,
+    afterClose: PropTypes.func,
     closeText: PropTypes.node,
     showIcon: PropTypes.bool,
 }
@@ -19,5 +20,6 @@ export const AlertDefaultProps = {
     effect: 'light',
     closable: false,
     onClose: noop,
+    afterClose: noop,
     showIcon: false,
 }

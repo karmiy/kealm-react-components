@@ -1,11 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { Alert, Row, Col, Icon } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { alertProps, alertEvents } from 'api/alert';
+import { CodeBasic, CodeEffect, CodeClosable, CodeCloseText, CodeDesc, CodeIcon } from 'demos/alert';
 
 function AlertDoc() {
-    const [size, setSize] = useState();
-    const [loading, setLoading] = useState(true);
-
     return (
         <div className='page-box'>
             <h1>Alert 警告提示</h1>
@@ -34,10 +33,11 @@ function AlertDoc() {
                     </Row>
                 )
             }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 主题 */}
             <h2>主题</h2>
-            <p>Alert 组件提供了两个不同的主题：light和dark 。</p>
+            <p>Alert 组件提供了两个不同的主题：light 和 dark 。</p>
             {useMemo(() => {
                 return (
                     <Row>
@@ -58,6 +58,7 @@ function AlertDoc() {
                     </Row>
                 )
             }, [])}
+            <HighLight code={CodeEffect} />
 
             {/* 可关闭的警告提示 */}
             <h2>可关闭的警告提示</h2>
@@ -82,6 +83,7 @@ function AlertDoc() {
                     </Row>
                 )
             }, [])}
+            <HighLight code={CodeClosable} />
 
             {/* 自定义关闭按钮 */}
             <h2>自定义关闭按钮</h2>
@@ -100,6 +102,7 @@ function AlertDoc() {
                     </Row>
                 )
             }, [])}
+            <HighLight code={CodeCloseText} />
 
             {/* 带有辅助性文字介绍 */}
             <h2>带有辅助性文字介绍</h2>
@@ -113,7 +116,6 @@ function AlertDoc() {
                                     type={'success'}
                                     title={'Success Text'}
                                     description={'Success Description Success Description Success Description'}
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -121,7 +123,6 @@ function AlertDoc() {
                                     type={'info'}
                                     title={'Info Text'}
                                     description={'Info Description Info Description Info Description Info Description'}
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -129,7 +130,6 @@ function AlertDoc() {
                                     type={'warning'}
                                     title={'Warning Text'}
                                     description={'Warning Description Warning Description Warning Description Warning Description'}
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -137,13 +137,13 @@ function AlertDoc() {
                                     type={'error'}
                                     title={'Error Text'}
                                     description={'Error Description Error Description Error Description Error Description'}
-                                    closable
                                 />
                             </div>
                         </Col>
                     </Row>
                 )
             }, [])}
+            <HighLight code={CodeDesc} />
 
             {/* 带有 icon */}
             <h2>带有 icon</h2>
@@ -157,7 +157,6 @@ function AlertDoc() {
                                     type={'success'}
                                     title={'Success Text'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -165,7 +164,6 @@ function AlertDoc() {
                                     type={'info'}
                                     title={'Info Text'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -173,7 +171,6 @@ function AlertDoc() {
                                     type={'warning'}
                                     title={'Warning Text'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -181,7 +178,6 @@ function AlertDoc() {
                                     type={'error'}
                                     title={'Error Text'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -190,7 +186,6 @@ function AlertDoc() {
                                     title={'Success Text'}
                                     description={'Success Description Success Description Success Description'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -199,7 +194,6 @@ function AlertDoc() {
                                     title={'Info Text'}
                                     description={'Info Description Info Description Info Description Info Description'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -208,7 +202,6 @@ function AlertDoc() {
                                     title={'Warning Text'}
                                     description={'Warning Description Warning Description Warning Description Warning Description'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                             <div className="detail-box">
@@ -217,16 +210,16 @@ function AlertDoc() {
                                     title={'Error Text'}
                                     description={'Error Description Error Description Error Description Error Description'}
                                     showIcon
-                                    closable
                                 />
                             </div>
                         </Col>
                     </Row>
                 )
             }, [])}
+            <HighLight code={CodeIcon} />
 
             {/* API */}
-            {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
+            <ApiTable title='Alert' propsList={alertProps} eventsList={alertEvents} />
         </div>
     )
 }
