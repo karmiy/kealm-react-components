@@ -16,7 +16,9 @@ export const tipIcons = [
     'check', 'close', 'minus', 'plus', 'question',
     'check-circle', 'close-circle', 'info-circle', 'minus-circle', 'plus-circle',
     'question-circle', 'pause-circle', 'stop-circle', 'time-circle', 'warning-circle',
-    'issues-close', 'close-square', 'minus-square', 'plus-square', 'check-square', 'error'
+    'issues-close', 'close-square', 'minus-square', 'plus-square', 'check-square', 'error',
+    'check-circle-fill', 'close-circle-fill', 'info-circle-fill', 'minus-circle-fill', 'plus-circle-fill',
+    'question-circle-fill', 'pause-circle-fill', 'stop-fill', 'time-circle-fill', 'warning-circle-fill'
 ]
 
 /* 编辑类图标 */

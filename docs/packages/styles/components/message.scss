@@ -1,0 +1,125 @@
+@import "../mixins/mixins";
+@import "../common/var";
+
+@include b(message) {
+    box-sizing: border-box;
+    display: flex;
+    position: fixed;
+    //min-width: $message-min-width;
+    padding: $message-padding;
+    top: 20px;
+    left: 50%;
+    z-index: $z-index-extremely-large + 20;
+    /*border-width: $border-width-base;
+    border-style: $border-style-base;
+    border-color: $border-color-lighter;*/
+    border-radius: $border-radius-base;
+    box-shadow: $message-box-shadow;
+    background-color: $message-background-color;
+    overflow: hidden;
+    transform: translateX(-50%);
+    transition: opacity $transition-duration-base, transform $transition-duration-slow, top $transition-duration-slow;
+    color: $message-font-color;
+    align-items: center;
+
+    @include when(center) {
+        justify-content: center;
+    }
+
+    @include when(closable) {
+        .km-message__content {
+            padding-right: 16px;
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+
+    @include m(info) {
+        color: $message-info-font-color;
+        .km-message__content {
+            color: $message-info-font-color;
+        }
+    }
+
+    @include m(success) {
+        //border-color: $color-success-light;
+        //background-color: $color-success-lighter;
+        color: $message-success-font-color;
+
+        .km-message__content {
+            color: $message-success-font-color;
+        }
+    }
+
+    @include m(warning) {
+        //border-color: $color-warning-light;
+        //background-color: $color-warning-lighter;
+        color: $message-warning-font-color;
+
+        .km-message__content {
+            color: $message-warning-font-color;
+        }
+    }
+
+    @include m(error) {
+        //border-color: $color-danger-light;
+        //background-color: $color-danger-lighter;
+        color: $message-danger-font-color;
+
+        .km-message__content {
+            color: $message-danger-font-color;
+        }
+    }
+
+    @include e(icon) {
+        margin-right: 10px;
+        font-size: $message-icon-font-size;
+    }
+
+    @include e(content) {
+        outline: none;
+        line-height: 1;
+        padding: 0;
+        font-size: $font-size-base;
+    }
+
+    @include e(close-btn) {
+        position: absolute;
+        outline: none;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: $message-close-size;
+        color: $message-close-icon-color;
+
+        &:hover {
+            color: $message-close-hover-color;
+        }
+    }
+
+    & .km-icon-success {
+        color: $message-success-font-color;
+    }
+
+    & .km-icon-error {
+        color: $message-danger-font-color;
+    }
+
+    & .km-icon-info {
+        color: $message-info-font-color;
+    }
+
+    & .km-icon-warning {
+        color: $message-warning-font-color;
+    }
+}
+
+.km-message-fade-appear,
+.km-message-fade-enter,
+.km-message-fade-leave-active {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+}

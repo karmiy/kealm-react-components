@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'kealm-icon';
-  src:  url('kealm-icon.eot?af8r1g');
-  src:  url('kealm-icon.eot?af8r1g#iefix') format('embedded-opentype'),
-    url('kealm-icon.ttf?af8r1g') format('truetype'),
-    url('kealm-icon.woff?af8r1g') format('woff'),
-    url('kealm-icon.svg?af8r1g#kealm-icon') format('svg');
+  src:  url('kealm-icon.eot?kzdmjo');
+  src:  url('kealm-icon.eot?kzdmjo#iefix') format('embedded-opentype'),
+    url('kealm-icon.ttf?kzdmjo') format('truetype'),
+    url('kealm-icon.woff?kzdmjo') format('woff'),
+    url('kealm-icon.svg?kzdmjo#kealm-icon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,11 +25,47 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.km-icon-check-circle-fill:before {
+  content: "\e844";
+}
+.km-icon-minus-circle-fill:before {
+  content: "\e845";
+}
+.km-icon-close-circle-fill:before {
+  content: "\e846";
+}
+.km-icon-info-circle-fill:before {
+  content: "\e847";
+}
+.km-icon-plus-circle-fill:before {
+  content: "\e848";
+}
+.km-icon-question-circle-fill:before {
+  content: "\e849";
+}
+.km-icon-pause-circle-fill:before {
+  content: "\e84a";
+}
+.km-icon-stop-fill:before {
+  content: "\e84b";
+}
+.km-icon-warning-circle-fill:before {
+  content: "\e84c";
+}
+.km-icon-time-circle-fill:before {
+  content: "\e84d";
+}
 .km-icon-down:before {
   content: "\e613";
 }
 .km-icon-up:before {
   content: "\e618";
+}
+.km-icon-loading:before {
+  content: "\e61c";
+}
+.km-icon-music:before {
+  content: "\e622";
 }
 .km-icon-right:before {
   content: "\e628";
@@ -42,12 +78,6 @@
 }
 .km-icon-left:before {
   content: "\e630";
-}
-.km-icon-loading:before {
-  content: "\e61c";
-}
-.km-icon-music:before {
-  content: "\e622";
 }
 .km-icon-calendar:before {
   content: "\e664";
@@ -173,10 +203,10 @@
   content: "\e842";
 }
 .km-icon-frown-fill:before {
-  content: "\e846";
+  content: "\e84e";
 }
 .km-icon-smile-fill:before {
-  content: "\e847";
+  content: "\e84f";
 }
 .km-icon-eye-fill:before {
   content: "\e869";

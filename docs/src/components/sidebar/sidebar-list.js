@@ -85,6 +85,10 @@ const sidebarList = [
             {
                 name: 'Alert 警告提示',
                 link: 'alert',
+            },
+            {
+                name: 'Message 消息提示',
+                link: 'message',
             }
         ]
     },
