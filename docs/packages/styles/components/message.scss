@@ -19,6 +19,7 @@
     overflow: hidden;
     transform: translateX(-50%);
     transition: opacity $transition-duration-base, transform $transition-duration-slow, top $transition-duration-slow;
+    transition-timing-function: $ease-out-quint;
     color: $message-font-color;
     align-items: center;
 
@@ -38,39 +39,28 @@
 
     @include m(info) {
         color: $message-info-font-color;
-        .km-message__content {
-            color: $message-info-font-color;
-        }
     }
 
     @include m(success) {
         //border-color: $color-success-light;
         //background-color: $color-success-lighter;
         color: $message-success-font-color;
-
-        .km-message__content {
-            color: $message-success-font-color;
-        }
     }
 
     @include m(warning) {
         //border-color: $color-warning-light;
         //background-color: $color-warning-lighter;
         color: $message-warning-font-color;
-
-        .km-message__content {
-            color: $message-warning-font-color;
-        }
     }
 
     @include m(error) {
         //border-color: $color-danger-light;
         //background-color: $color-danger-lighter;
         color: $message-danger-font-color;
+    }
 
-        .km-message__content {
-            color: $message-danger-font-color;
-        }
+    @include m(loading) {
+        color: $message-loading-font-color;
     }
 
     @include e(icon) {
@@ -83,6 +73,7 @@
         line-height: 1;
         padding: 0;
         font-size: $font-size-base;
+        color: $message-font-color;
     }
 
     @include e(close-btn) {

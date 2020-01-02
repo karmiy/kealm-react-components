@@ -1,10 +1,10 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useEffect } from 'react';
 
 /**
  * ComponentWillUnMount
  */
-function useWillUnMount(callback) {
-    useLayoutEffect(() => callback, []);
+function useWillUnMount(callback, async = false) {
+    (async ? useEffect : useLayoutEffect)(() => callback, []);
 }
 
 export default useWillUnMount;

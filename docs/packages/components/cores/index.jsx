@@ -22,7 +22,7 @@ import InputNumber from './input-number';
 import TimePicker from './time-picker';
 import DatePicker from './date-picker';
 import Alert from './alert';
-import message, { Message } from './message';
+import message from './message';
 
 export {
     Icon,
@@ -53,5 +53,4 @@ export {
     DatePicker,
     Alert,
     message,
-    Message,
 }

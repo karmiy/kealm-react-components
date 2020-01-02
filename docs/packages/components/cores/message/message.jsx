@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { useContextConf, useClassName } from 'hooks';
 import { MessageProps, MessageDefaultProps } from './interface';
 import Icon from '../icon';
-import { Motion, RenderWrapper } from '../../common';
+import { RenderWrapper } from '../../common';
+import {cloneVElement} from "utils/common/react-util";
 
 const iconType = {
     success: 'check-circle-fill',
     info: 'info-circle-fill',
     warning: 'warning-circle-fill',
     error: 'close-circle-fill',
+    loading: 'loading',
 }
 
 function Message(props) {
     const { componentCls } = useContextConf('message');
     const {
         className,
+        style,
         type,
+        messageRef,
+        top,
+        content,
+        icon,
         ...others
     } = props;
 
@@ -24,19 +31,33 @@ function Message(props) {
         [componentCls]: true,
         [`${componentCls}--${type}`]: type,
         [className]: className,
-    }, [className, componentCls]);
+    }, [className, componentCls, type]);
 
-    // ---------------------------------- variable ----------------------------------
-    const [isVisible, setIsVisible] = useState(false);
+    // ---------------------------------- style ----------------------------------
+    const styles = {
+        ...style,
+        top,
+    };
 
-    // ---------------------------------- render ----------------------------------
-    return (
-        <div className={classNames} {...others}>
+    // ---------------------------------- render mini chunk ----------------------------------
+    const renderIcon = useMemo(() => {
+        if(icon) return cloneVElement(icon, {
+            className: `${componentCls}__icon`,
+        });
+
+        return (
             <RenderWrapper visible={!!type} unmountOnExit>
                 <Icon type={iconType[type]} className={`${componentCls}__icon`} />
             </RenderWrapper>
+        )
+    }, [icon, type]);
+
+    // ---------------------------------- render ----------------------------------
+    return (
+        <div ref={messageRef} className={classNames} style={styles} {...others}>
+            {renderIcon}
             <div className={`${componentCls}__content`}>
-                This is a normal message
+                {content}
             </div>
         </div>
     );
