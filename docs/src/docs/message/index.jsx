@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Button, Row, Col, Icon, message } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
+import { messageMethodProps, messageMethodEvents } from 'api/message';
 
 function MessageDoc() {
     const [size, setSize] = useState();
@@ -139,8 +140,80 @@ function MessageDoc() {
                 )
             }, [])}
 
+            {/* 销毁消息提示 */}
+            <h2>销毁消息提示</h2>
+            <p>可以通过 message.destroy 销毁所有的消息提示</p>
+            {useMemo(() => {
+                return (
+                    <div className="detail-box">
+                        <Button
+                            plain
+                            onClick={() => {
+                                let count = 5;
+                                function createMessage() {
+                                    console.log(count);
+                                    if(!count) return;
+                                    count--;
+                                    message.loading({
+                                        content: 'Loading...',
+                                        onMount: createMessage,
+                                        duration: 0,
+                                    });
+                                }
+                                createMessage();
+                                setTimeout(message.destroy, 4000);
+                            }}
+                        >Destroy all messages after 4 seconds</Button>
+                    </div>
+                )
+            }, [])}
+
             {/* API */}
             {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
+            <h2>Message methods</h2>
+            <p>组件提供了一些静态方法，使用方式和参数如下：</p>
+            <ul>
+                <li>message.success(content, duration, onClose)</li>
+                <li>message.warning(content, duration, onClose)</li>
+                <li>message.info(content, duration, onClose)</li>
+                <li>message.error(content, duration, onClose)</li>
+                <li>message.loading(content, duration, onClose)</li>
+            </ul>
+            <ApiTable title='Message Method' propsList={messageMethodProps} eventsList={messageMethodEvents} />
+            {/*<table>
+                <thead>
+                <tr>
+                    <th>参数</th>
+                    <th>说明</th>
+                    <th>类型</th>
+                    <th>可选</th>
+                    <th>默认值</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>content</td>
+                        <td>提示内容</td>
+                        <td>string / ReactNode / config</td>
+                        <td>--</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>duration</td>
+                        <td>自动关闭的延时，单位秒。设为 0 时不自动关闭。</td>
+                        <td>number</td>
+                        <td>--</td>
+                        <td>3000</td>
+                    </tr>
+                    <tr>
+                        <td>onClose</td>
+                        <td>关闭时触发的回调函数</td>
+                        <td>() => void</td>
+                        <td>--</td>
+                        <td>--</td>
+                    </tr>
+                </tbody>
+            </table>*/}
         </div>
     )
 }

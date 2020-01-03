@@ -58,6 +58,15 @@ export const isObject = function(value) {
 }
 
 /**
+ * 是否为数字
+ * @param value: any
+ * @returns {boolean}
+ */
+export const isNumber = function(value) {
+    return toString.call(value) === '[object Number]';
+}
+
+/**
  * 是否为数组
  * @param value: any
  * @returns {boolean}
