@@ -1,12 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Button, Row, Col, Icon, message } from '@kealm/react-components';
 import { ApiTable, HighLight } from '@/components';
 import { messageMethodProps, messageMethodEvents } from 'api/message';
+import { CodeGlobalConfig, CodeBasic, CodeStatus, CodeIcon, CodeDuration, CodeLoading, CodePromise, CodeUpdate, CodeDestroy } from 'demos/message';
 
 function MessageDoc() {
-    const [size, setSize] = useState();
-    const [loading, setLoading] = useState(true);
-
     return (
         <div className='page-box'>
             <h1>Message 消息提示</h1>
@@ -25,6 +23,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeBasic} />
 
             {/* 不同状态 */}
             <h2>不同状态</h2>
@@ -49,6 +48,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeStatus} />
 
             {/* 自定义图标 */}
             <h2>自定义图标</h2>
@@ -65,6 +65,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeIcon} />
 
             {/* 自定义延时 */}
             <h2>自定义延时</h2>
@@ -79,6 +80,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDuration} />
 
             {/* 加载中 */}
             <h2>加载中</h2>
@@ -97,6 +99,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeLoading} />
 
             {/* Promise 接口 */}
             <h2>Promise 接口</h2>
@@ -117,6 +120,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodePromise} />
 
             {/* 更新消息内容 */}
             <h2>更新消息内容</h2>
@@ -139,6 +143,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeUpdate} />
 
             {/* 销毁消息提示 */}
             <h2>销毁消息提示</h2>
@@ -167,6 +172,7 @@ function MessageDoc() {
                     </div>
                 )
             }, [])}
+            <HighLight code={CodeDestroy} />
 
             {/* API */}
             {/*<ApiTable title='Button' propsList={buttonProps} eventsList={buttonEvents} />*/}
@@ -179,8 +185,33 @@ function MessageDoc() {
                 <li>message.error(content, duration, onClose)</li>
                 <li>message.loading(content, duration, onClose)</li>
             </ul>
+            <p>也可以对象的形式传递参数：</p>
+            <ul>
+                <li>message.success(config)</li>
+                <li>message.warning(config)</li>
+                <li>message.info(config)</li>
+                <li>message.error(config)</li>
+                <li>message.loading(config)</li>
+            </ul>
+            <p>这些方法调用后将返回 promise 接口：</p>
+            <ul>
+                <li>message[level](content, duration, onClose).then(afterClose)</li>
+                <li>message[level](config).then(afterClose)</li>
+            </ul>
+            <p>当需要更新组件的内容或状态时，组件提供了相应的更新方法：</p>
+            <ul>
+                <li>message.update(config)</li>
+            </ul>
             <ApiTable title='Message Method' propsList={messageMethodProps} eventsList={messageMethodEvents} />
-            {/*<table>
+            <h2>全局方法</h2>
+            <p>还提供了全局配置和全局销毁方法：</p>
+            <ul>
+                <li>message.config(options)</li>
+                <li>message.destroy()</li>
+            </ul>
+            <HighLight collapsible={false} code={CodeGlobalConfig} />
+            <h2>Options</h2>
+            <table>
                 <thead>
                 <tr>
                     <th>参数</th>
@@ -192,28 +223,35 @@ function MessageDoc() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>content</td>
-                        <td>提示内容</td>
-                        <td>string / ReactNode / config</td>
-                        <td>--</td>
-                        <td>--</td>
-                    </tr>
-                    <tr>
                         <td>duration</td>
-                        <td>自动关闭的延时，单位秒。设为 0 时不自动关闭。</td>
+                        <td>默认自动关闭延时，单位秒</td>
                         <td>number</td>
                         <td>--</td>
                         <td>3000</td>
                     </tr>
                     <tr>
-                        <td>onClose</td>
-                        <td>关闭时触发的回调函数</td>
-                        <td>() => void</td>
+                        <td>getContainer</td>
+                        <td>配置渲染节点的输出位置</td>
+                        <td>() => HTMLElement</td>
+                        <td>--</td>
+                        <td>() => document.body</td>
+                    </tr>
+                    <tr>
+                        <td>maxCount</td>
+                        <td>最大显示数, 超过限制时，最早的消息会被自动关闭</td>
+                        <td>number</td>
                         <td>--</td>
                         <td>--</td>
                     </tr>
+                    <tr>
+                        <td>top</td>
+                        <td>消息距离顶部的位置</td>
+                        <td>number</td>
+                        <td>--</td>
+                        <td>20</td>
+                    </tr>
                 </tbody>
-            </table>*/}
+            </table>
         </div>
     )
 }

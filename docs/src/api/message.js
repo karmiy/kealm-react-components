@@ -12,10 +12,29 @@ export const messageMethodProps = [
         type: 'number',
         option: '--',
         default: '3000',
+    },
+    {
+        param: 'icon',
+        des: '自定义图标',
+        type: 'ReactNode',
+        option: '--',
+        default: '--',
+    },
+    {
+        param: 'key',
+        des: '当前提示的唯一标志',
+        type: 'string',
+        option: '--',
+        default: '--',
     }
 ]
 
 export const messageMethodEvents = [
+    {
+        name: 'onMount',
+        des: '组件挂载时触发',
+        callback: '(el: HTMLElement) => void',
+    },
     {
         name: 'onClose',
         des: '关闭时触发的回调函数',

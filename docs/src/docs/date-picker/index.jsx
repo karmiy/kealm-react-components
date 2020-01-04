@@ -107,9 +107,11 @@ function DatePickerDoc() {
         <div className='page-box'>
             <h1>DatePicker 日期选择器</h1>
             <p>输入或选择日期的控件。</p>
+            <p>当用户需要输入一个日期，可以点击标准输入框，弹出日期面板进行选择。</p>
 
             {/* 基本用法 */}
             <h2>基本用法</h2>
+            <p>常规的日历。</p>
             <p>在浮层中可以选择或者输入日期。</p>
             {useMemo(() => {
                 return (

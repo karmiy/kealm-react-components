@@ -144,6 +144,9 @@ function Trigger(props) {
             offset: {
                 offset,
             },
+            /*flip: {
+                behavior: ['top', 'bottom']
+            },*/
             ...modifiers,
         },
         onCreate: data => {
