@@ -9,7 +9,7 @@ fs.readFile(filePath, (err, data) => {
         return;
     }
     const text = data.toString().replace(
-        '![logo](./src/assets/imgs/logo-doc.png "Kealm React Components")',
+        '![logo](./logo.png "Kealm React Components")',
         '# Kealm React Components'
     );
     fs.writeFile(targetPath, text, err => {

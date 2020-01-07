@@ -1,4 +1,4 @@
-![logo](./src/assets/imgs/logo-doc.png "Kealm React Components")
+![logo](./logo.png "Kealm React Components")
 
 ## Description
 
