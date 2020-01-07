@@ -17,7 +17,6 @@ export const CodeStyle =
 /* 按需引入 */
 export const CodeImport =
 `    import React from 'react';
-    import ReactDOM from 'react-dom';
     import { Alert, Row, Col } from '@kealm/react-components';
     
     function Demo() {

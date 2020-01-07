@@ -21,7 +21,7 @@ function QuickStartDoc() {
 
             {/* 按需引入 */}
             <h2>按需引入</h2>
-            <p>只需要根据需求，在相应的场景进入对应的组件即可使用</p>
+            <p>只需要根据需求，在相应的场景引入对应的组件即可使用</p>
             <HighLight collapsible={false} code={CodeImport} />
         </div>
     )
