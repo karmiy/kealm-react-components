@@ -1,19 +1,26 @@
 {
-  "name": "kealm-react-components",
+  "name": "@kealm/react-components",
   "version": "0.1.0",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "components of React",
+  "homepage": "https://karmiy.github.io/kealm-vue-editor/docs/dist/index.html",
+  "main": "./lib/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=prod webpack --progress --config build/webpack.prod.conf.js",
-    "build:dll": "webpack --progress --config build/webpack.dll.conf.js"
+    "build:dll": "webpack --progress --config build/webpack.dll.conf.js",
+    "build:lib": "webpack --progress --config build/webpack.lib.conf.js && node build/utils/package.conf.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["react", "components", "kealm", "kmy"],
+  "author": "karmiy",
   "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-modules-umd": "^7.7.4",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
@@ -45,6 +52,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@babel/runtime": "^7.5.5",
+    "@babel/runtime-corejs3": "^7.7.7",
     "@hot-loader/react-dom": "^16.9.0+4.12.11",
     "add-dom-event-listener": "^1.1.0",
     "core-js": "^3.2.0",

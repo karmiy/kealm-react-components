@@ -1,7 +1,7 @@
 @import "../mixins/index";
 @import "../common/var";
 @import "../common/base";
-@import "./picker";
+//@import "./picker";
 
 @include b(time-picker) {
     box-sizing: border-box;

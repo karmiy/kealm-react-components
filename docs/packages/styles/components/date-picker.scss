@@ -1,6 +1,6 @@
 @import "../mixins/index";
 @import "../common/var";
-@import "./picker";
+//@import "./picker";
 
 @include b(date-picker) {
     width: $date-picker-width;

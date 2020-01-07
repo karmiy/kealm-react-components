@@ -156,7 +156,6 @@ function MessageDoc() {
                             onClick={() => {
                                 let count = 5;
                                 function createMessage() {
-                                    console.log(count);
                                     if(!count) return;
                                     count--;
                                     message.loading({

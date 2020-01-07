@@ -1,6 +1,6 @@
 @import "../mixins/index";
 @import "../common/var";
-@import "./picker";
+//@import "./picker";
 
 @include b(select) {
     display: inline-block;
@@ -19,6 +19,7 @@
     .km-input__inner {
         cursor: pointer;
         padding-right: 35px;
+        transition: $border-transition-base;
 
         &:focus {
             border-color: $select-input-focus-border-color;
@@ -140,6 +141,7 @@
         background-color: $select-tag-background;
 
         &__close.km-icon-close {
+            top: 0;
             &:hover {
                 background-color: transparent;
                 color: $tag-info-color;

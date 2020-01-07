@@ -11,7 +11,7 @@ import React, {
     useEffect,
     useCallback
 } from 'react';
-import { Button, Row, Col, Tag, Input, Popover, Radio, DatePicker } from '@kealm/react-components';
+import { Button, Row, Col, Tag, Popover, Radio, DatePicker } from '@kealm/react-components';
 import { DomWrapper, Popper, Motion } from '@kealm/react-components-utils';
 import { handleEleOfType } from 'utils/common/react-util';
 import { useDebounce, useThrottle, useController } from 'hooks';
@@ -24,10 +24,11 @@ import Calendar from '../../../packages/components/cores/date-picker/calendar';
 import TimePanel from '../../../packages/components/cores/time-picker/time-panel';
 import { RenderWrapper } from '../../../packages/components/common';
 import RangeCalendar from '../../../packages/components/cores/date-picker/range/range-calendar';
-window.isValidDate = isValidDate;
+// import { Alert } from '../../../packages/test';
+// import { Alert, Input } from '../../../dist2/lib';
 // console.log(useController);
 
-const { RangeInput } = Input;
+// const { RangeInput } = Input;
 const { RangePicker } = DatePicker;
 
 function T(props) {
@@ -143,6 +144,8 @@ function ExampleDoc() {
             height: '300px',
             border: '1px solid #e4e7ed'
         }}>
+            {/*<Alert type={'success'} title={'Success Text'} />*/}
+            {/*<Input.TextArea placeholder={'请输入内容'} rows={4} onChange={(e ) => console.log(e.target.value)} />*/}
             {/*<PP name={'kar'} />*/}
             {/*<Input style={{marginBottom: '20px'}} suffix={'star-full'} allowClear />
             {
