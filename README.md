@@ -1,3 +1,5 @@
+![](src/assets/imgs/logo.png "Kealm React Components")
+
 # Kealm React Components
 
 ## Description
