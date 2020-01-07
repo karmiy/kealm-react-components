@@ -1,4 +1,4 @@
-![logo](./logo.png "Kealm React Components")
+![logo](https://github.com/karmiy/kealm-react-components/tree/master/src/assets/imgs/logo-doc.png "Kealm React Components")
 
 ## Description
 
