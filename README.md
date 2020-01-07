@@ -1,10 +1,10 @@
-![logo](https://github.com/karmiy/kealm-react-components/tree/master/src/assets/imgs/logo-doc.png "Kealm React Components")
+# Kealm React Components
 
 ## Description
 
 A React UI library based on React Hook
 
-## 目录
+## Link
 
 - <a href="#doc_1">Environment Support</a>
 - <a href="#doc_2">Install</a>
