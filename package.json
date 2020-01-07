@@ -1,7 +1,7 @@
 {
   "name": "@kealm/react-components",
   "version": "0.1.0",
-  "description": "components of React",
+  "description": "A React UI library based on React Hook",
   "homepage": "https://karmiy.github.io/kealm-vue-editor/docs/dist/index.html",
   "main": "./lib/index.js",
   "scripts": {

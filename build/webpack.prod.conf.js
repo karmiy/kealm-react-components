@@ -1,8 +1,8 @@
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base.conf');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
-const dllPlugins = require('./utils/dll.plugins')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // 压缩 css
+const dllPlugins = require('./utils/dll.plugins');
 
 module.exports = merge(baseConfig, {
     mode: "production",
