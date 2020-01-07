@@ -103,6 +103,12 @@ module.exports = {
                 from: path.resolve(__dirname, '..', 'README.md'),
                 to: path.resolve(__dirname, '..', 'publish', 'README.md'),
             }
+        ]),
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, '..', 'logo.png'),
+                to: path.resolve(__dirname, '..', 'publish', 'logo.png'),
+            }
         ])
     ],
 }

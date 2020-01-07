@@ -1,6 +1,4 @@
-![](./logo.png "Kealm React Components")
-
-# Kealm React Components
+![logo](./logo.png "Kealm React Components")
 
 ## Description
 
@@ -38,7 +36,7 @@ A React UI library based on React Hook
     
 <h2 id="doc_4">Document</h2>
 
-[kealm-react-components](https://karmiy.github.io/kealm-vue-editor/docs/dist/index.html)
+[kealm-react-components](https://karmiy.github.io/kealm-react-components/dist/index.html)
 
 <h2 id="doc_5">Change Log</h2>
 
