@@ -1,4 +1,4 @@
-# Kealm React Components
+![logo](./src/assets/imgs/logo-doc.png "Kealm React Components")
 
 ## Description
 
@@ -25,7 +25,7 @@ A React UI library based on React Hook
 <h2 id="doc_3">Usage</h2>
 
     Use style:
-    import '@kealm/react-components/styles/index.min.css';
+    import '@kealm/react-components/styles/index.css';
     
     Use components:
     import { Button } from '@kealm/react-components';

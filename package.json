@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=prod webpack --progress --config build/webpack.prod.conf.js",
     "build:dll": "webpack --progress --config build/webpack.dll.conf.js",
-    "build:lib": "webpack --progress --config build/webpack.lib.conf.js && node build/utils/package.conf.js",
+    "build:lib": "webpack --progress --config build/webpack.lib.conf.js && node build/utils/package.conf.js && node build/utils/read.conf.js",
     "_publish": "npm run build:lib && cd publish && npm publish"
   },
   "keywords": [

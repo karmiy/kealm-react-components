@@ -97,12 +97,6 @@ module.exports = {
             cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
             cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
             canPrint: true //布尔值，指示插件是否以将消息打印到控制台，默认为 true
-        }),
-        new CopyWebpackPlugin([
-            {
-                from: path.resolve(__dirname, '..', 'README.md'),
-                to: path.resolve(__dirname, '..', 'publish', 'README.md'),
-            }
-        ])
+        })
     ],
 }
