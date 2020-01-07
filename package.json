@@ -1,6 +1,6 @@
 {
   "name": "@kealm/react-components",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A React UI library based on React Hook",
   "homepage": "https://karmiy.github.io/kealm-react-components/dist/index.html",
   "main": "./lib/index.js",
@@ -11,12 +11,17 @@
     "build:lib": "webpack --progress --config build/webpack.lib.conf.js && node build/utils/package.conf.js",
     "_publish": "npm run build:lib && cd publish && npm publish"
   },
-  "keywords": ["react", "components", "kealm", "kmy"],
+  "keywords": [
+    "react",
+    "components",
+    "kealm",
+    "kmy"
+  ],
   "author": "karmiy",
   "license": "ISC",
   "peerDependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
