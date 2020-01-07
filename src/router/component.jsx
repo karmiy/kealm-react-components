@@ -6,7 +6,7 @@ const routes = [
     {
         path: '/',
         exact: true,
-        redirect: '/component'
+        redirect: '/component/quick-start'
     },
     {
         path: '/component',

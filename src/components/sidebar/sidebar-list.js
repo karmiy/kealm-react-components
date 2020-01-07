@@ -4,7 +4,7 @@ const sidebarList = [
         children: [
             {
                 name: '快速上手',
-                link: 'quickstart',
+                link: 'quick-start',
             }
         ]
     },

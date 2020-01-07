@@ -89,8 +89,8 @@ module.exports = {
         new webpack.BannerPlugin({banner}),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: '../styles/index.min.css',
-            // chunkFilename: '../styles/[id].min.css'
+            filename: '../styles/index.css',
+            chunkFilename: '../styles/[id].css'
         }),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,
