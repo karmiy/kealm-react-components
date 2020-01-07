@@ -42,6 +42,14 @@ A React UI library based on React Hook
 
 ### 2020-01-07
 
+#### v1.0.0
+
+- Release v1.0.0
+
+- Includes 25 components
+
+### 2020-01-07
+
 #### v0.1.0
 
 - Release testing
