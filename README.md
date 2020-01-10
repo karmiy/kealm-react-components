@@ -14,8 +14,8 @@ A React UI library based on React Hook
 
 <h2 id="doc_1">Environment Support</h2>
 
-- react ^16.9.0
-- react-dom ^16.9.0
+- react ^16.8.0
+- react-dom ^16.8.0
 - Browser：Chrome、Firefox、Safari、Opera、>= IE9
 
 <h2 id="doc_2">Install</h2>
