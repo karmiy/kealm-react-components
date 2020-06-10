@@ -1,8 +1,8 @@
 {
   "name": "@kealm/react-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A React UI library based on React Hook",
-  "homepage": "https://karmiy.github.io/kealm-react-components/dist/index.html",
+  "homepage": "http://karmiy.gitee.io/kealm-react-components",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --config build/webpack.dev.conf.js",

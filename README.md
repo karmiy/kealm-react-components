@@ -36,7 +36,9 @@ A React UI library based on React Hook
     
 <h2 id="doc_4">Document</h2>
 
-[kealm-react-components](https://karmiy.github.io/kealm-react-components/dist/index.html)
+- [github docment](https://karmiy.github.io/kealm-react-components/dist/index.html)
+
+- [gitee document](http://karmiy.gitee.io/kealm-react-components)
 
 <h2 id="doc_5">Change Log</h2>
 
