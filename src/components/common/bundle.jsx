@@ -6,7 +6,7 @@ function Bundle(props) {
     const {load, ..._props} = props;
     useEffect(() => {
         load().then((_mod) => {
-            setMod(() => _mod.default ? _mod.default : null)
+            setMod(() => _mod.default || null)
         });
     }, [])
     return Mod ? <Mod {..._props} /> : null;
