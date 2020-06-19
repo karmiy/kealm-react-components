@@ -228,15 +228,6 @@
     }
 }
 
-/**
-  @include when(disabled) {
-    ...
-  }
-  =>
-  .km-button.is-disabled{
-    ...
-  }
- */
 @mixin extend-rule($name) {
     @extend #{'%shared-' + $name};
 }
