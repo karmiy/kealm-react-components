@@ -207,7 +207,7 @@ export const throttle = function (func, wait, options = {}) {
 
 /**
  * 防抖
- * @param func 节流函数
+ * @param func 防抖函数
  * @param wait 等待时长
  * @param options 配置:
  *              leading(true: 立即执行; false: 第一次执行也wait)
