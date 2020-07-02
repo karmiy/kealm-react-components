@@ -11,8 +11,7 @@ const plugins = [
           'corejs': 3
         }
     ],
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-transform-modules-umd'
+    '@babel/plugin-proposal-class-properties'
 ];
 
 env === 'dev' && plugins.push('react-hot-loader/babel');
