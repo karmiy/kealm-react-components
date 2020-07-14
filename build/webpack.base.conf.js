@@ -80,6 +80,7 @@ module.exports = {
                 collapseWhitespace: true, // 删除空白符与换行符
                 minifyCSS: true // 压缩内联 css
             },
+            staticPath: process.env.NODE_ENV === 'dev' ? '/' : './',
             favicon: path.resolve(__dirname, '..', 'favicon.ico'),
             filename: 'index.html', // 生成后的文件名
             template: path.resolve(__dirname, '..', 'index.html'), // 根据此模版生成 HTML 文件
@@ -88,6 +89,12 @@ module.exports = {
             {
                 from: path.resolve(__dirname, '..', 'favicon.ico'),
                 to: path.resolve(__dirname, '..', 'dist', 'favicon.ico'),
+            }
+        ]),
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, '..', 'static-lib'),
+                to: path.resolve(__dirname, '..', 'dist', 'static-lib'),
             }
         ]),
         new HappyPack({
